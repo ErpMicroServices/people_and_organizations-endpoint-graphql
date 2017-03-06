@@ -3,7 +3,7 @@ import config from "../config";
 import db from "../database";
 import {
     user_login
-} from '../schema';
+} from '../validation-schema';
 import jwt from "jsonwebtoken";
 
 export function authenticate_user(req, res) {

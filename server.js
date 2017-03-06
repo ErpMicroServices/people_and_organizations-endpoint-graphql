@@ -1,22 +1,26 @@
-import restify from 'restify';
+var express = require('express');
+import jwt from "jsonwebtoken";
+import graphqlHttp from "express-graphql";
+
 import config from "./config";
 import db from "./database";
-import {user_login} from './schema';
-import jwt from "jsonwebtoken";
+import {
+    user_login
+} from './validation-schema';
 import {} from "./handlers";
+import {
+    schema,
+    root
+} from "./graph-schema";
 
-var server = restify.createServer();
+const app = express();
 
-server.name = config.server.name;
-server.version = config.server.version;
+app.use('/', graphqlHttp({
+    schema: schema,
+    rootValue: root,
+    graphiql: true,
+}));
 
-server.use(restify.requestLogger());
-server.use(restify.acceptParser(server.acceptable));
-server.use(restify.queryParser());
-server.use(restify.bodyParser());
+app.listen(config.server.port);
 
-server.get('/', function(req, res){res.send(200, "hello");});
-
-server.listen(config.server.port, function() {
-    console.log('%s listening at %s', config.server.name, config.server.url);
-});
+console.log('%s listening at %s', config.server.name, config.server.url);
