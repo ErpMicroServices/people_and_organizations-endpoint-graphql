@@ -1,0 +1,27 @@
+version: '3'
+services:
+  party-db:
+    image: erpmicroservices/party-database
+    container_name: party-db
+    ports:
+      - "5432:5432"
+
+  party-party-service:
+    image: erpmicroservices/party-party-service
+    build: .
+    container_name: party
+    links:
+      - party-db
+    volumes:
+      - "./:/usr/src/app"
+
+  traefik:
+    image: traefik
+    container_name: traefik
+    command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/traefik.toml
