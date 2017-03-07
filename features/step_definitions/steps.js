@@ -106,7 +106,39 @@ defineSupportCode(function({
         expect(data.last_name).to.be.equal(this.person.last_name);
         expect(data.title).to.be.equal(this.person.title);
         expect(data.nickname).to.be.equal(this.person.nickname);
-        let formattedDate = moment(data.date_of_birth,"ddd MMM DD YYYY HH:mm:ss GMTZ (UTC)");
+        let formattedDate = moment(data.date_of_birth, "ddd MMM DD YYYY HH:mm:ss GMTZ (UTC)");
+        expect(formattedDate.toJSON()).to.be.equal(this.person.date_of_birth.toJSON());
+        expect(data.comment).to.be.equal(this.person.comment);
+        callback();
+    });
+
+    When('I search for all people', function() {
+        return this.axios.post('/', {
+                "query": `
+                    {
+                      people {
+                        first_name,
+                        last_name,
+                        title,
+                        nickname,
+                        date_of_birth,
+                        comment
+                    }
+                  }`
+            })
+            .then((response) => this.result = response);
+    });
+
+    Then('I find the person in the list', function(callback) {
+        expect(this.result.status).to.be.equal(200);
+        expect(this.result.data.errors).to.be.falsy;
+        expect(this.result.data.data).to.exist;
+        let data = this.result.data.data.people[0];
+        expect(data.first_name).to.be.equal(this.person.first_name);
+        expect(data.last_name).to.be.equal(this.person.last_name);
+        expect(data.title).to.be.equal(this.person.title);
+        expect(data.nickname).to.be.equal(this.person.nickname);
+        let formattedDate = moment(data.date_of_birth, "ddd MMM DD YYYY HH:mm:ss GMTZ (UTC)");
         expect(formattedDate.toJSON()).to.be.equal(this.person.date_of_birth.toJSON());
         expect(data.comment).to.be.equal(this.person.comment);
         callback();

@@ -33,6 +33,7 @@ var schema = buildSchema(`
     contactMechanisms: ContactMechanisms
   }
   type Query {
+    people : [Person]
     person(id: ID!) : Person
     organization(id: ID!) : Organization
   }
@@ -43,6 +44,9 @@ var schema = buildSchema(`
 `);
 
 var root = {
+    people: () => {
+        return database.any('select id, first_name, last_name, title, nickname, date_of_birth, comment from person');
+    },
     person: function({
         id
     }) {
