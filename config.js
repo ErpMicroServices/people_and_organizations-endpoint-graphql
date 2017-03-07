@@ -8,20 +8,23 @@ class Config {
             this._config = {
                 server: {
                     port: process.env.SERVER_PORT || 80,
-                    name:process.env.SERVER_NAME || "party-party-api",
+                    name: process.env.SERVER_NAME || "party-party-api",
                     version: process.env.SERVER_VERSION || "0.1.0",
                     url: process.env.SERVER_URL || "http://localhost/api/party"
                 },
                 database: {
                     host: process.env.DATABASE_HOST || 'party-db',
                     port: process.env.DATABASE_PORT || 5432,
-                    database: process.env.DATABASE_DATABSE || 'ems_party_party',
-                    user: process.env.DATABASE_USER || 'ems_party_party',
-                    password: process.env.DATABASE_PASSWORD || 'ems_party_party'
+                    database: process.env.DATABASE_DATABSE || 'party_database',
+                    user: process.env.DATABASE_USER || 'party_database',
+                    password: process.env.DATABASE_PASSWORD || 'party_database'
                 },
                 jwt: {
                     secret: process.env.JWT_SECRET || "this is an incredible secret.  the best secret in the world",
                     header: process.env.JWT_HEADER || "authorization"
+                },
+                graphql: {
+                    graphiql: true
                 }
             };
         } else {
@@ -33,12 +36,16 @@ class Config {
         return this._currentEnvironment;
     }
 
-    get jwt() {
-        return this._config.jwt;
-    }
-
     get database() {
         return this._config.database;
+    }
+
+    get graphql() {
+        return this._config.graphql;
+    }
+
+    get jwt() {
+        return this._config.jwt;
     }
 
     get server() {

@@ -2,28 +2,7 @@ import {
     buildSchema
 } from 'graphql';
 
-// Maps id to User object
-const personDatabase = [{
-        id: 'a',
-        first_name: 'alice',
-        last_name: 'alice',
-    },
-    {
-        id: 'b',
-        first_name: 'bob',
-        last_name: 'bob',
-        contactMechanisms: {
-            email_address_list: [{
-                id: 'a',
-                address: "chester@tester.com"
-            }],
-            phone_numbers: [{
-                id: 'a',
-                phone_number: "666-666-7777"
-            }]
-        }
-    }
-];
+import database from "../database";
 
 const organizationDatabase = [{
         id: 'a',
@@ -58,6 +37,10 @@ var schema = buildSchema(`
     id: ID!,
     first_name: String,
     last_name: String,
+    title: String,
+    nickname: String,
+    date_of_birth: String,
+    comment: String,
     contactMechanisms: ContactMechanisms
   }
 
@@ -76,12 +59,12 @@ var root = {
     person: function({
         id
     }) {
-        return personDatabase.find((item) => item.id === id);
+        return database.one('select id, first_name, last_name, title, nickname, date_of_birth, comment from person where id=$1',[id]);
     },
     organization: function({
         id
     }) {
-        return organizationDatabase.find((item) => item.id === id);
+        return database.one('select id, name from organization where id=$1',[id]);
     }
 };
 
