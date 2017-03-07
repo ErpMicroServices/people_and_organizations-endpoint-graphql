@@ -143,4 +143,54 @@ defineSupportCode(function({
         expect(data.comment).to.be.equal(this.person.comment);
         callback();
     });
+
+    When('I update the first name to {first_name:stringInDoubleQuotes}', function(first_name) {
+        return this.axios.post('/', {
+                "query": "mutation update_person($id: ID!, $first_name: String, $last_name: String, $title: String, $nickname: String, $date_of_birth: String, $comment: String) {update_person(id: $id, first_name: $first_name, last_name: $last_name, title: $title, nickname: $nickname, date_of_birth: $date_of_birth, comment: $comment) {id, first_name, last_name, title, nickname, date_of_birth, comment}}",
+                "variables": {
+                    "id": this.person.id,
+                    "first_name": first_name,
+                    "last_name": this.person.last_name,
+                    "title": this.person.title,
+                    "nickname": this.person.nickname,
+                    "date_of_birth": this.person.date_of_birth.toJSON(),
+                    "comment": this.person.comment
+                },
+                "operationName": "update_person"
+            })
+            .then((response) => this.result = response);
+    });
+
+    Then('the first name is {first_name:stringInDoubleQuotes}', function(first_name, callback) {
+        expect(this.result.data.data.update_person.first_name).to.be.equal(first_name);
+        callback();
+    });
+
+    Then('the last name is {last_name:stringInDoubleQuotes}', function(last_name, callback) {
+        expect(this.result.data.data.update_person.last_name).to.be.equal(last_name);
+        callback();
+    });
+
+    Then('the title is {title:stringInDoubleQuotes}', function(title, callback) {
+        expect(this.result.data.data.update_person.title).to.be.equal(title);
+        callback();
+    });
+
+    Then('the nickname is {nickname:stringInDoubleQuotes}', function(nickname, callback) {
+        expect(this.result.data.data.update_person.nickname).to.be.equal(nickname);
+        callback();
+    });
+
+    Then('the date of birth is {date_of_birth:stringInDoubleQuotes}', function(date_of_birth, callback) {
+        let formattedDate = moment(this.result.data.data.update_person.date_of_birth, "ddd MMM DD YYYY HH:mm:ss GMTZ (UTC)");
+        expect(formattedDate.toJSON()).to.be.equal(moment( this.person.date_of_birth).toJSON());
+        callback();
+    });
+
+    Then('the comment is {comment:stringInDoubleQuotes}', function(comment, callback) {
+        expect(this.result.data.data.update_person.comment).to.be.equal(comment);
+        callback();
+    });
+
+
 });
