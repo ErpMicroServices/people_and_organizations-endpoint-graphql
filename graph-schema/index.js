@@ -2,33 +2,16 @@ import {
     buildSchema
 } from 'graphql';
 
-import database from "../database";
+import moment from "moment";
 
-const organizationDatabase = [{
-        id: 'a',
-        name: 'alice'
-    },
-    {
-        id: 'b',
-        name: 'bob',
-        contactMechanisms: {
-            email_address_list: [{
-                id: 'a',
-                address: "chester@tester.com"
-            }],
-            phone_numbers: [{
-                id: 'a',
-                phone_number: "666-666-7777"
-            }]
-        }
-    }
-];
+import database from "../database";
 
 var schema = buildSchema(`
   type Email {
     id: ID!,
     address: String
   }
+
   type ContactMechanisms {
     email_address_list: [Email]
   }
@@ -53,18 +36,32 @@ var schema = buildSchema(`
     person(id: ID!) : Person
     organization(id: ID!) : Organization
   }
+
+  type Mutation {
+    create_person(first_name: String, last_name: String, title: String, nickname: String, date_of_birth: String, comment: String): Person
+  }
 `);
 
 var root = {
     person: function({
         id
     }) {
-        return database.one('select id, first_name, last_name, title, nickname, date_of_birth, comment from person where id=$1',[id]);
+        return database.one('select id, first_name, last_name, title, nickname, date_of_birth, comment from person where id=$1', [id]);
     },
     organization: function({
         id
     }) {
-        return database.one('select id, name from organization where id=$1',[id]);
+        return database.one('select id, name from organization where id=$1', [id]);
+    },
+    create_person: function({
+        first_name,
+        last_name,
+        title,
+        nickname,
+        date_of_birth,
+        comment
+    }) {
+        return database.one("insert into person (first_name, last_name, title, nickname, date_of_birth, comment) values($1, $2, $3, $4, $5, $6) returning id", [first_name, last_name, title, nickname, date_of_birth, comment])
     }
 };
 

@@ -6,22 +6,16 @@ class Config {
         this._currentEnvironment = process.env.NODE_ENV || defaultEnvironment();
         if (this._currentEnvironment == defaultEnvironment()) {
             this._config = {
-                server: {
-                    port: process.env.SERVER_PORT || 80,
-                    name:process.env.SERVER_NAME || "e-commerce-user-api",
-                    version: process.env.SERVER_VERSION || "0.1.0",
-                    url: process.env.SERVER_URL || "http://localhost/api/user"
-                },
                 database: {
                     host: process.env.DATABASE_HOST || 'localhost',
                     port: process.env.DATABASE_PORT || 5432,
-                    database: process.env.DATABASE_DATABASE || 'party',
-                    user: process.env.DATABASE_USER || 'party',
-                    password: process.env.DATABASE_PASSWORD || 'party'
+                    database: process.env.DATABASE_DATABASE || 'party_database',
+                    user: process.env.DATABASE_USER || 'party_database',
+                    password: process.env.DATABASE_PASSWORD || 'party_database'
                 },
-                jwt: {
-                    secret: process.env.JWT_SECRET || "this is an incredible secret.  the best secret in the world",
-                    header: process.env.JWT_HEADER || "authorization"
+                api: {
+                  url: "http://localhost/api/party",
+                  timeout: 30000,
                 }
             };
         } else {
@@ -33,16 +27,12 @@ class Config {
         return this._currentEnvironment;
     }
 
-    get jwt() {
-        return this._config.jwt;
-    }
-
     get database() {
         return this._config.database;
     }
 
-    get server() {
-        return this._config.server;
+    get api() {
+        return this._config.api;
     }
 
 }
