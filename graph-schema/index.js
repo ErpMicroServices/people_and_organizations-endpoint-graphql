@@ -41,6 +41,7 @@ var schema = buildSchema(`
   type Mutation {
     create_person(first_name: String, last_name: String, title: String, nickname: String, date_of_birth: String, comment: String): Person
     update_person(id: ID!,first_name: String, last_name: String, title: String, nickname: String, date_of_birth: String, comment: String): Person
+    delete_person(id: ID!): String
   }
 `);
 
@@ -54,6 +55,11 @@ var root = {
         comment
     }) {
         return database.one("insert into person (first_name, last_name, title, nickname, date_of_birth, comment) values($1, $2, $3, $4, $5, $6) returning id", [first_name, last_name, title, nickname, date_of_birth, comment])
+    },
+    delete_person: function({
+      id
+    }){
+      return database.none("delete from person where id = $1", [id]);
     },
     organization: function({
         id

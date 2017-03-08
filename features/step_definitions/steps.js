@@ -183,7 +183,7 @@ defineSupportCode(function({
 
     Then('the date of birth is {date_of_birth:stringInDoubleQuotes}', function(date_of_birth, callback) {
         let formattedDate = moment(this.result.data.data.update_person.date_of_birth, "ddd MMM DD YYYY HH:mm:ss GMTZ (UTC)");
-        expect(formattedDate.toJSON()).to.be.equal(moment( this.person.date_of_birth).toJSON());
+        expect(formattedDate.toJSON()).to.be.equal(moment(this.person.date_of_birth).toJSON());
         callback();
     });
 
@@ -192,5 +192,23 @@ defineSupportCode(function({
         callback();
     });
 
+    When('I delete the person', function() {
+        return this.axios.post('/', {
+            "query": "mutation delete_person($id: ID!) {delete_person(id: $id)}",
+            "variables": {
+                "id": this.person.id
+            },
+            "operationName": "delete_person"
+        })
+        .then((response)=>this.result = response);
+    });
 
+    Then('the person is no longer in the databse', function () {
+         expect(this.result.status).to.be.equal(200);
+         expect(this.result.data.errors).to.be.falsy;
+         expect(this.result.data.data).to.exist;
+         return this.db.one("select id from person where id=$1", [this.person.id])
+         .then((data) => expect(data).to.not.exist)
+         .catch((error)=>expect(error.message).to.be.equal("No data returned from the query."));
+       });
 });
