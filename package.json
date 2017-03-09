@@ -1,6 +1,6 @@
 {
   "name": "party-party-service",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Service for party",
   "main": "index.js",
   "scripts": {
