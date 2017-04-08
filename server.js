@@ -7,7 +7,7 @@ import db from "./database";
 import {
     user_login
 } from './validation-schema';
-import {} from "./handlers";
+
 import {
     schema,
     root
