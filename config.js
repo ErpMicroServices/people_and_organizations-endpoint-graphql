@@ -19,10 +19,6 @@ class Config {
                     user: process.env.DATABASE_USER || 'party_database',
                     password: process.env.DATABASE_PASSWORD || 'party_database'
                 },
-                jwt: {
-                    secret: process.env.JWT_SECRET || "this is an incredible secret.  the best secret in the world",
-                    header: process.env.JWT_HEADER || "authorization"
-                },
                 graphql: {
                     graphiql: true
                 }
@@ -42,10 +38,6 @@ class Config {
 
     get graphql() {
         return this._config.graphql;
-    }
-
-    get jwt() {
-        return this._config.jwt;
     }
 
     get server() {

@@ -1,26 +1,39 @@
-var express = require('express');
-import jwt from "jsonwebtoken";
-import graphqlHttp from "express-graphql";
+import {graphiqlExpress, graphqlExpress} from 'apollo-server-express';
+import bodyParser from 'body-parser';
+import express from 'express';
+import {makeExecutableSchema} from 'graphql-tools';
 
 import config from "./config";
-import db from "./database";
-import {
-    user_login
-} from './validation-schema';
+import {e_commerce_db, party_db} from "./database";
+import resolvers from "./resolvers";
 
-import {
-    schema,
-    root
-} from "./graph-schema";
+import typeDefs from "./type_defs";
+
+
+const schema = makeExecutableSchema({typeDefs, resolvers});
 
 const app = express();
 
+app.use(bodyParser.json());
 app.use('/', graphqlHttp({
-    schema: schema,
-    rootValue: root,
-    graphiql: config.graphql,
+	schema   : schema,
+	rootValue: root,
+	graphiql : config.graphql,
 }));
 
-app.listen(config.server.port);
+app.use('/graphql', graphqlExpress({
+	schema,
+	context: {
+		party_db,
+		e_commerce_db,
+		contact_mechanism_types,
+		united_states: united_states_result
+	}
+}));
 
-console.log('%s listening at %s', config.server.name, config.server.url);
+if (config.graphql.graphiql) {
+	app.use("/graphiql", graphiqlExpress({endpointURL: config.graphql.endpointURL}));
+}
+
+app.listen(config.server.port, () => console.log('%s listening at %s', config.server.name, config.server.url));
+
