@@ -228,4 +228,19 @@ defineSupportCode(function ({
 				.then((data) => expect(data).to.not.exist)
 				.catch((error) => expect(error.message).to.be.equal("No data returned from the query."));
 	});
+
+	Given('no last name', function (callback) {
+		this.person.last_name = '';
+		callback();
+	});
+
+	Given('No first name', function (callback) {
+		this.person.first_name = '';
+		callback();
+	});
+
+	Then('I get an error indicating that either a first name or a last name must be provided', function (callback) {
+		console.log("this.result: ", this.result);
+		callback(null, 'pending');
+	});
 });
