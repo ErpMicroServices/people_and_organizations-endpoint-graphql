@@ -1,7 +1,5 @@
 import database from "../database";
 
-export default function ({
-	                         id
-                         }) {
-	return database.none("delete from party where id = $1", [id]);
+export default function (obj, args, context, graphql) {
+	return database.none("delete from party where id = ${id}", args);
 };

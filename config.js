@@ -10,7 +10,7 @@ class Config {
 					port   : process.env.SERVER_PORT || 80,
 					name   : process.env.SERVER_NAME || "party-party-api",
 					version: process.env.SERVER_VERSION || "0.1.0",
-					url    : process.env.SERVER_URL || "http://localhost/api/party"
+					url    : process.env.SERVER_URL || "http://localhost/api/party/graphql"
 				},
 				database: {
 					host    : process.env.DATABASE_HOST || 'party-db',

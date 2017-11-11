@@ -29,12 +29,15 @@
   },
   "homepage": "https://github.com/ErpMicroServices/party-party-service#readme",
   "dependencies": {
+    "apollo-client-preset" : "^1.0.2",
     "apollo-server-express" : "^1.2.0",
     "bluebird" : "^3.5.1",
     "body-parser" : "^1.18.2",
     "express": "^4.15.2",
+    "fetch" : "^1.1.0",
     "graphql" : "^0.11.7",
     "graphql-tools" : "^2.7.2",
+    "node-fetch" : "^1.7.3",
     "pg-promise" : "^7.3.1"
   },
   "devDependencies": {
