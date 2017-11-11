@@ -1,4 +1,3 @@
-import moment from "moment";
 var {
     defineSupportCode
 } = require('cucumber');
@@ -9,8 +8,8 @@ defineSupportCode(function({
     Then
 }) {
 
-    Given('I have an email {email:stringInDoubleQuotes}', function(email, callback) {
-        this.person.email = email
+	Given('I have an email {string}', function (email, callback) {
+		this.person.email = email;
         callback();
     });
 
