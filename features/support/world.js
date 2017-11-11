@@ -28,6 +28,12 @@ function CustomWorld() {
 		email_address: ''
 	};
 
+	this.party_type = {
+		id         : '',
+		description: '',
+		parent_id  : ''
+	};
+
 	this.contact_mechanism_types = [];
 	this.party_types             = [];
 

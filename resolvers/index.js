@@ -1,3 +1,4 @@
+import add_party_type_child from "./add_party_type_child";
 import create_person from "./create_person";
 import delete_person from "./delete_person";
 import organization_by_id from "./organization_by_id";
@@ -7,6 +8,7 @@ import update_person from "./update_person";
 
 export default {
 	Mutation: {
+		add_party_type_child,
 		create_person,
 		delete_person,
 		update_person
