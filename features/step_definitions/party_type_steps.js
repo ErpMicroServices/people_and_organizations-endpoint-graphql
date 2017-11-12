@@ -43,4 +43,42 @@ defineSupportCode(function ({
 				});
 	});
 
+	When('I delete the party type', function () {
+		return this.client
+				.mutate({
+					mutation : gql `mutation delete_party_type( $id: ID!) { delete_party_type(id: $id) }`,
+					variables: {
+						id: this.party_type.id
+					}
+				})
+				.then(results => this.result.data = results)
+				.catch(error => this.result.error = error);
+	});
+
+	Then('the party type is not in the database', function (callback) {
+		expect(this.result.error).to.be.null;
+		expect(this.result.data).to.not.be.null;
+		expect(this.result.data.data).to.not.be.null;
+		expect(this.result.data.data.result).to.not.be.equal("success");
+		callback();
+	});
+
+	When('I update the description to {string}', function (string) {
+		this.party_type.description = string;
+		return this.client
+				.mutate({
+					mutation : gql `mutation update_party_type( $id: ID!, $description: String!) { update_party_type(id: $id, description: $description) {id description parent_id}}`,
+					variables: {
+						id         : this.party_type.id,
+						description: this.party_type.description
+					}
+				})
+				.then(results => this.result.data = results)
+				.catch(error => this.result.error = error);
+	});
+
+	Then('the organization description has been updated', function () {
+		return this.db.one("select id, description, parent_id from party_type where id = ${id}", this.party_type)
+				.then(data => expect(data.description).to.be.equal(this.party_type.description));
+	});
 });
