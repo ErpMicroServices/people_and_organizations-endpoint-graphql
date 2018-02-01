@@ -1,11 +1,11 @@
-import ContactMechanisms from "./ContactMechanisms";
-import Email from "./Email";
-import Mutation from "./Mutation";
-import Organization from "./Organization";
-import Party_Type from "./Party_Type";
-import Person from "./Person";
-import Query from "./Query";
-import SchemaDefinition from "./SchemaDefinition";
+import ContactMechanisms from "./ContactMechanisms"
+import Email from "./Email"
+import Mutation from "./Mutation"
+import Organization from "./Organization"
+import Party_Type from "./PartyType"
+import Person from "./Person"
+import Query from "./Query"
+import SchemaDefinition from "./SchemaDefinition"
 
 
 export default [

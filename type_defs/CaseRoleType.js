@@ -1,7 +1,7 @@
 export default `
-type Party_Type {
+type CaseRoleType {
     id: ID!,
     description: String!,
     parent_id: ID
  }
-`;
+`

@@ -1,7 +1,5 @@
 export default `
- type Organization {
-    id: ID!,
-    name: String,
-    contactMechanisms: ContactMechanisms
+ type Organization implements Party{
+    name: String!
   }
 `;
