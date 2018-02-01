@@ -1,4 +1,4 @@
-import ContactMechanisms from "./ContactMechanisms"
+import ContactMechanisms from "./ContactMechanism"
 import Email from "./Email"
 import Mutation from "./Mutation"
 import Organization from "./Organization"
