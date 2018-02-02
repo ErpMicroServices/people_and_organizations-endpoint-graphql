@@ -1,5 +1,5 @@
 export default `
-type CaseStatusType {
+type FacilityRoleType {
     id: ID!,
     description: String!,
     parent_id: ID

@@ -4,5 +4,8 @@ type PostalAddress implements ContactMechanism {
     directions: String!
     locationFor: [PartyPostalAddress]!
     within: [GeographicBoundary]!
+    id: ID!
+    usedByFacilities: [FacilityContactMechanism]!
+    usedByParties: [PartyContactMechanism]!
  }
 `

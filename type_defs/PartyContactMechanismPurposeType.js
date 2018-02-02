@@ -1,3 +1,7 @@
-/**
- * Created by JimBarrows on 1/31/18.
- */
+export default `
+type PartyContactMechanismPurposeType {
+    id: ID!,
+    description: String!,
+    parent_id: ID
+ }
+`

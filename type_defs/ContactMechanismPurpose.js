@@ -1,9 +1,7 @@
 export default `
-type InstantMessaging implements ContactMechanism {
-    protocol: String!
-    service: String!
-    username: String!
+interface ContactMechanismPurpose {
     id: ID!
+    purposes: [ContactMechanismPurpose]!
     usedByFacilities: [FacilityContactMechanism]!
     usedByParties: [PartyContactMechanism]!
  }

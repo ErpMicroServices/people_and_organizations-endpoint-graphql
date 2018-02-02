@@ -7,5 +7,8 @@ type TelecommunicationsNumber implements ContactMechanism {
     areaCode: String!
     contactNumber: String!
     extension: String!
+    id: ID!
+    usedByFacilities: [FacilityContactMechanism]!
+    usedByParties: [PartyContactMechanism]!
  }
 `
