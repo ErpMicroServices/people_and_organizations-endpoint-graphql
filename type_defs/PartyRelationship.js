@@ -1,6 +1,11 @@
 export default `
-type Party_Type {
+type PartyRelationship {
     id: ID!,
-    description: String!
+    comment: String
+    priority: PriorityType!
+    relationshipFrom: PartyRole!
+    relationshipTo: PartyRole!
+    status: StatusType!
+    dateTimeRange: DateTimeRange!
  }
 `
