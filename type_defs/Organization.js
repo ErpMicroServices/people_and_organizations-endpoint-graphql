@@ -1,12 +1,12 @@
 export default `
  type Organization implements Party{
-    name: String!
     id: ID!
-    partyRoles: [PartyRole]!
+    name: String!
     casesInvolvedInAs: [CaseRole]!
     classifications: [PartyClassification]!
     contactMechanisms: [PartyContactMechanism]!
     communicationEventsInvolvedInAs: [CommunicationEventRole]!
-    facilitiesInvolvedWithAs: [FacilityRole]! 
+    facilitiesInvolvedWithAs: [FacilityRole]!
+    partyRoles: [PartyRole]!
   }
 `;

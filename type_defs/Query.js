@@ -1,5 +1,7 @@
 export default `
 type Query {
-	people : [Person]
+	
+	organizations( start: Int!, records: Int!) : [Organization]!
+	people(start: Int!, records: Int!) : [Person]!
 }
 `;
