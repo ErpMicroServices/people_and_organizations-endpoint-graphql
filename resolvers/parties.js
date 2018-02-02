@@ -1,10 +1,9 @@
 import database from "../database"
 
 export default function (obj, args, context, graphql) {
-  return database.any('select id, name ' +
+  return database.any('select id, government_id, first_name, last_name, name, title, nickname, date_of_birth, comment, party_type_id ' +
     'from party ' +
-    'where party_type_id=${party_type_id} ' +
-    'order by name ' +
+    'order by last_name, first_name, name ' +
     'limit ${limit} ' +
     'offset ${offset}',
     {
