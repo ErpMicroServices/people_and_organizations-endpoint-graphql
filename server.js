@@ -11,6 +11,7 @@ const schema = makeExecutableSchema({typeDefs, resolvers})
 const party_types = new Map()
 const contact_mechanism_types = new Map()
 const person_type_id = () => party_types.get('Person').id
+const organization_type_id = () => party_types.get('Organization').id
 
 
 database.task(t => t.any("select id, description from contact_mechanism_type order by description")
@@ -23,6 +24,7 @@ database.task(t => t.any("select id, description from contact_mechanism_type ord
                                      context: {
                                        contact_mechanism_types,
                                        database,
+                                       organization_type_id,
                                        party_types,
                                        person_type_id
                                      }
