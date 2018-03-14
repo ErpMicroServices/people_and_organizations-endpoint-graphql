@@ -6,6 +6,7 @@ import database from "./database"
 import resolvers from "./resolvers"
 import typeDefs from "./type_defs"
 
+console.log('typeDefs: ', typeDefs)
 const schema = makeExecutableSchema({typeDefs, resolvers})
 
 const party_types = new Map()
