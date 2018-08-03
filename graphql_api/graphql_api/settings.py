@@ -27,11 +27,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+GRAPHENE = {
+    'SCHEMA': 'models.schema.schema' # Where your Graphene schema lives
+}
 
 # Application definition
 
 INSTALLED_APPS = [
     'models.apps.ModelsConfig',
+    'graphene_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
