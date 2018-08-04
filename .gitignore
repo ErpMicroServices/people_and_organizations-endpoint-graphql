@@ -40,3 +40,6 @@ jspm_packages
 *.sqlite3
 
 *.pyc
+/people_and_organizations-endpoint-graphql.iml
+features/
+people_and_organizations-endpoint-graphql.iml
