@@ -1,5 +1,5 @@
 from django.contrib import admin
-from mptt.admin import MPTTModelAdmin
+
 from .models import *
 
 
@@ -23,7 +23,7 @@ class PartyRelationshipAdmin(admin.ModelAdmin):
 admin.site.register(ClassificationType)
 admin.site.register(Party, PartyAdmin)
 admin.site.register(PartyRelationship, PartyRelationshipAdmin)
-admin.site.register(PartyType, MPTTModelAdmin)
+admin.site.register(PartyType)
 admin.site.register(PriorityType)
 admin.site.register(RelationshipStatusType)
 admin.site.register(RelationshipType)

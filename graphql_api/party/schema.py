@@ -1,9 +1,9 @@
 import graphene
-from graphene import Schema, relay, resolve_only_args
+from graphene import relay, resolve_only_args
 from graphene_django import DjangoConnectionField, DjangoObjectType
 
-from .models import *
 from .data_access import create_organization, create_person, find_classification_type_by_id, find_party_by_id
+from .models import *
 
 
 class ClassificationTypeType(DjangoObjectType):

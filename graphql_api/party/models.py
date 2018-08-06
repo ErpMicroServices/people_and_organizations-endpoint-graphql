@@ -1,6 +1,8 @@
-from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
 import uuid
+
+from django.db import models
+from mptt.models import MPTTModel
+
 
 class ClassificationType(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
