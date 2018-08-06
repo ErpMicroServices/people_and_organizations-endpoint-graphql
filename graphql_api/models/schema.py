@@ -2,8 +2,8 @@ import graphene
 from graphene import Schema, relay, resolve_only_args
 from graphene_django import DjangoConnectionField, DjangoObjectType
 
-# from .models import *
-from .data_access import *
+from .models import *
+from .data_access import create_organization, create_person, find_classification_type_by_id, find_party_by_id
 
 
 class ClassificationTypeType(DjangoObjectType):
@@ -27,8 +27,8 @@ class PartyModelType(DjangoObjectType):
         node = find_party_by_id(id)
         return node
 
-class CreateOrganization(relay.ClientIDMutation):
 
+class CreateOrganization(relay.ClientIDMutation):
     class Input:
         government_id = graphene.String()
         name = graphene.String()
@@ -38,12 +38,13 @@ class CreateOrganization(relay.ClientIDMutation):
     organization = graphene.Field(PartyModelType)
 
     @classmethod
-    def mutate_and_get_payload(cls, root, info, government_id=None, name=None, nickname=None, comment=None, client_mutation_id=None):
+    def mutate_and_get_payload(cls, root, info, government_id=None, name=None, nickname=None, comment=None,
+                               client_mutation_id=None):
         organization = create_organization(government_id, name, nickname, comment)
         return CreateOrganization(organization)
 
-class CreatePerson(relay.ClientIDMutation):
 
+class CreatePerson(relay.ClientIDMutation):
     class Input:
         government_id = graphene.String()
         first_name = graphene.String()
@@ -56,11 +57,13 @@ class CreatePerson(relay.ClientIDMutation):
     person = graphene.Field(PartyModelType)
 
     @classmethod
-    def mutate_and_get_payload(cls, root, info, government_id=None, first_name=None, last_name=None, title=None, nickname=None, date_of_birth=None, comment=None, client_mutation_id=None):
+    def mutate_and_get_payload(cls, root, info, government_id=None, first_name=None, last_name=None, title=None,
+                               nickname=None, date_of_birth=None, comment=None, client_mutation_id=None):
         print("mutate_and_get_payload start")
-        person = create_person(government_id, first_name,last_name,title,nickname, date_of_birth, comment)
+        person = create_person(government_id, first_name, last_name, title, nickname, date_of_birth, comment)
         print("mutate_and_get_payload end")
         return CreatePerson(person)
+
 
 class PartyRoleType(DjangoObjectType):
     class Meta:
@@ -72,8 +75,10 @@ class PartyRoleType(DjangoObjectType):
         node = PartyRole.objects.get(id=id)
         return node
 
+
 class PartyRelationshipType(DjangoObjectType):
     from_party = graphene.Field(PartyRoleType)
+
     class Meta:
         model = PartyRelationship
         interfaces = (relay.Node,)
@@ -83,6 +88,7 @@ class PartyRelationshipType(DjangoObjectType):
         node = PartyRelationship.objects.get(id=id)
         return node
 
+
 class PartyTypeType(DjangoObjectType):
     class Meta:
         model = PartyType
@@ -90,7 +96,7 @@ class PartyTypeType(DjangoObjectType):
 
     @classmethod
     def get_node(cls, id):
-        node = PartyType.objects.get(id=id)
+        node = PartyType.objects.get(pk=id)
         return node
 
 
@@ -115,9 +121,11 @@ class RelationshipStatusTypeType(DjangoObjectType):
         node = RelationshipStatusType.objects.get(id=id)
         return node
 
+
 class Mutation(graphene.ObjectType):
     create_person = CreatePerson.Field()
     create_organization = CreateOrganization.Field()
+
 
 class Query(graphene.ObjectType):
     classification_types = graphene.Field(ClassificationTypeType)
@@ -156,5 +164,7 @@ class Query(graphene.ObjectType):
     def resolve_party_role_types(self):
         return PartyRole.objects.all()
 
+
 schema = graphene.Schema(mutation=Mutation, query=Query, types=[ClassificationTypeType, PartyModelType,
-                                             PartyRelationshipType, PartyTypeType, PriorityTypeType, RelationshipStatusTypeType])
+                                                                PartyRelationshipType, PartyTypeType, PriorityTypeType,
+                                                                RelationshipStatusTypeType])

@@ -35,6 +35,7 @@ GRAPHENE = {
 
 INSTALLED_APPS = [
     'models.apps.ModelsConfig',
+    'mptt',
     'graphene_django',
     'django.contrib.admin',
     'django.contrib.auth',
