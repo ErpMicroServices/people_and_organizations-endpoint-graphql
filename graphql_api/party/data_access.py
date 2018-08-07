@@ -1,8 +1,8 @@
-from .models import *
+from .models.party import Party
+from .models.types import ClassificationType, PartyType
 
-party_types = PartyType.objects.all()
-person_type = party_types.get(description='Person')
-organization_type = party_types.get(description='Organization')
+person_type = PartyType.objects.get(description='Person').get_family()
+organization_type = PartyType.objects.get(description='Organization').get_family()
 
 
 def find_classification_type_by_id(id):
@@ -15,10 +15,10 @@ def find_party_by_id(id):
 
 def create_organization(government_id, name, nickname, comment):
     return Party.objects.create(government_id=government_id, name=name, nickname=nickname,
-                                party_type=organization_type)
+                                party_type=organization_type, comment=comment)
 
 
 def create_person(government_id, first_name, last_name, title, nickname, date_of_birth, comment):
     return Party.objects.create(government_id=government_id, first_name=first_name, last_name=last_name, title=title,
                                 nickname=nickname,
-                                date_of_birth=date_of_birth, party_type=person_type)
+                                date_of_birth=date_of_birth, party_type=person_type, comment=comment)

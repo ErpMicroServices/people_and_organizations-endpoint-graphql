@@ -1,63 +1,13 @@
-import uuid
-
-from django.db import models
-from mptt.models import MPTTModel
+from .geographic_boundary import GeographicBoundary
+from .types import *
 
 
-class ClassificationType(models.Model):
+class ContactMechanism(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    description = models.CharField(blank=False, null=False, unique=True, max_length=255)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
-
-    def __str__(self):
-        return self.description
-
-class PartyType(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    description = models.CharField(blank=False, null=False, unique=True, max_length=255)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
-
-    def __str__(self):
-        return self.description
-
-
-class PriorityType(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    description = models.CharField(blank=False, null=False, unique=True, max_length=255)
-    parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.description
-
-
-class RelationshipStatusType(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    description = models.CharField(blank=False, null=False, unique=True, max_length=255)
-    parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.description
-
-
-class RoleType(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    description = models.CharField(blank=False, null=False, unique=True, max_length=255)
-    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.description
-
-
-class RelationshipType(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    description = models.CharField(blank=False, null=False, unique=True, max_length=255)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-    required_from_role_type = models.ForeignKey(RoleType, on_delete=models.PROTECT,
-                                                related_name='required_from_role_type')
-    required_to_role_type = models.ForeignKey(RoleType, on_delete=models.PROTECT, related_name='required_to_role_type')
-
-    def __str__(self):
-        return self.description
+    end_point = models.TextField()
+    directions = models.TextField(blank=True)
+    type = models.ForeignKey(ContactMechanismType, on_delete=models.PROTECT)
+    geographic_boundary = models.ManyToManyField(GeographicBoundary, through='ContactMechanismToGeographicBoundary')
 
 
 class Party(models.Model):
@@ -73,6 +23,7 @@ class Party(models.Model):
     party_type = models.ForeignKey(PartyType, on_delete=models.PROTECT)
     classifications = models.ManyToManyField(ClassificationType, through='PartyClassification')
     roles = models.ManyToManyField(RoleType, through='PartyRole')
+    contact_mechanisms = models.ManyToManyField(ContactMechanism, through='PartyToContactMechanism')
 
     def full_name(self):
         if (self.first_name is not None) or (self.last_name is not None):
@@ -112,3 +63,17 @@ class PartyRelationship(models.Model):
     type = models.ForeignKey(RelationshipType, on_delete=models.PROTECT)
     status = models.ForeignKey(RelationshipStatusType, on_delete=models.PROTECT)
     priority = models.ForeignKey(PriorityType, on_delete=models.PROTECT)
+
+
+class ContactMechanismToGeographicBoundary(models.Model):
+    contact_mechanism = models.ForeignKey(ContactMechanism, on_delete=models.PROTECT)
+    geographic_boundary = models.ForeignKey(GeographicBoundary, on_delete=models.PROTECT)
+
+
+class PartyToContactMechanism(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    from_date = models.DateTimeField(auto_now_add=True, blank=False, null=False)
+    thru_date = models.DateTimeField(blank=True, null=True)
+    comment = models.TextField(blank=True, null=True)
+    party = models.ForeignKey(Party, on_delete=models.PROTECT)
+    contact_mechanism = models.ForeignKey(ContactMechanism, on_delete=models.PROTECT)
