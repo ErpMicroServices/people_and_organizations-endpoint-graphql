@@ -19,10 +19,10 @@ class GeographicBoundary(MPTTModel):
     name = models.CharField(max_length=200)
     abbreviation = models.CharField(max_length=100, blank=True)
     type = models.ForeignKey(GeographicBoundaryType, on_delete=models.PROTECT)
-    contains = models.ManyToManyField('self', through='GeographicBoundaryAssociation')
+    contains = models.ManyToManyField('self', through='GeographicBoundaryAssociation', symmetrical=False)
 
 
 class GeographicBoundaryAssociation(MPTTModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    containing = models.ForeignKey(GeographicBoundary, on_delete=models.CASCADE)
-    contained_by = models.ForeignKey(GeographicBoundary, on_delete=models.CASCADE)
+    containing = models.ForeignKey(GeographicBoundary, on_delete=models.CASCADE, related_name="holds")
+    contained_by = models.ForeignKey(GeographicBoundary, on_delete=models.CASCADE, related_name="inside")

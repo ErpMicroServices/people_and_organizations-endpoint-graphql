@@ -1,7 +1,7 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 
-from .models.party import Party, PartyClassification, PartyRelationship
+from .models.party import Party, PartyClassification, PartyRelationship, PartyRole
 from .models.types import ClassificationType, PartyType, PriorityType, RelationshipStatusType, RelationshipType, \
     RoleType
 
