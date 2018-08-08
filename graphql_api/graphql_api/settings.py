@@ -27,14 +27,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-GRAPHENE = {
-    'SCHEMA': 'party.schema.schema'  # Where your Graphene schema lives
-}
+# GRAPHENE = {
+#     'SCHEMA': 'party.schema.schema'  # Where your Graphene schema lives
+# }
 
 # Application definition
 
 INSTALLED_APPS = [
-    'party.apps.ModelsConfig',
+    'party.apps.PartyConfig',
+    'communication.apps.CommunicationConfig',
     'mptt',
     'graphene_django',
     'django.contrib.admin',

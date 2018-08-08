@@ -3,7 +3,7 @@ from graphene import relay, resolve_only_args
 from graphene_django import DjangoConnectionField, DjangoObjectType
 
 from .data_access import create_organization, create_person, find_classification_type_by_id, find_party_by_id
-from .models import *
+from .models.party import *
 
 
 class ClassificationTypeType(DjangoObjectType):
