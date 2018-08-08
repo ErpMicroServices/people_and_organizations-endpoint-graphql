@@ -34,8 +34,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'party.apps.PartyConfig',
     'communication.apps.CommunicationConfig',
+    'facility.apps.FacilityConfig',
+    'party.apps.PartyConfig',
     'mptt',
     'graphene_django',
     'django.contrib.admin',
