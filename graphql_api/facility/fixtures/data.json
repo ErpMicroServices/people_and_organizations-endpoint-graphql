@@ -1,0 +1,74 @@
+[
+ {
+	"model" : "facility.facilitytype",
+	"pk" : "12dea163-9b8d-4cf4-91b0-f5be36e4bf0b",
+	"fields" : {
+	 "description" : "Building",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 2,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "facility.facilitytype",
+	"pk" : "342d4144-5e33-4ccd-9531-9189c437eff1",
+	"fields" : {
+	 "description" : "Room",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 6,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "facility.facilitytype",
+	"pk" : "83a5ba3d-bc18-4242-b4fb-5f95feeb359a",
+	"fields" : {
+	 "description" : "Floor",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 5,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "facility.facilitytype",
+	"pk" : "9c065ce4-b610-4d36-a497-1cf118746423",
+	"fields" : {
+	 "description" : "Warehouse",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 1,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "facility.facilitytype",
+	"pk" : "a60d75bf-3263-4a4e-9787-73436ccae816",
+	"fields" : {
+	 "description" : "Plant",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 4,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "facility.facilitytype",
+	"pk" : "d9f76a9e-6382-4f71-8f78-44ed5c74caba",
+	"fields" : {
+	 "description" : "Office",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 3,
+	 "level" : 0
+	}
+ }
+]

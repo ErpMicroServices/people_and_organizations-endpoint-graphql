@@ -1,9 +1,9 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 
+from .models.geographic_boundary import *
 from .models.party import Party, PartyClassification, PartyRelationship, PartyRole
-from .models.types import ClassificationType, PartyType, PriorityType, RelationshipStatusType, RelationshipType, \
-    RoleType
+from .models.types import *
 
 
 class PartyClassificationInline(admin.TabularInline):
@@ -24,6 +24,10 @@ class PartyRelationshipAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ClassificationType)
+admin.site.register(ContactMechanismType, MPTTModelAdmin)
+admin.site.register(GeographicBoundary, MPTTModelAdmin)
+admin.site.register(GeographicBoundaryAssociation, MPTTModelAdmin)
+admin.site.register(GeographicBoundaryType, MPTTModelAdmin)
 admin.site.register(Party, PartyAdmin)
 admin.site.register(PartyRelationship, PartyRelationshipAdmin)
 admin.site.register(PartyType, MPTTModelAdmin)

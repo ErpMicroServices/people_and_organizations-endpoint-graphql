@@ -12,6 +12,9 @@ class ClassificationType(models.Model):
     def __str__(self):
         return self.description
 
+    class Meta:
+        ordering = ["description"]
+
 
 class ContactMechanismType(MPTTModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -20,6 +23,9 @@ class ContactMechanismType(MPTTModel):
 
     def __str__(self):
         return self.description
+
+    class Meta:
+        ordering = ["description"]
 
 
 class PartyType(MPTTModel):
@@ -30,6 +36,9 @@ class PartyType(MPTTModel):
     def __str__(self):
         return self.description
 
+    class Meta:
+        ordering = ["description"]
+
 
 class PriorityType(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -38,6 +47,9 @@ class PriorityType(models.Model):
 
     def __str__(self):
         return self.description
+
+    class Meta:
+        ordering = ["description"]
 
 
 class RelationshipStatusType(models.Model):
@@ -48,6 +60,9 @@ class RelationshipStatusType(models.Model):
     def __str__(self):
         return self.description
 
+    class Meta:
+        ordering = ["description"]
+
 
 class RoleType(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -56,6 +71,9 @@ class RoleType(models.Model):
 
     def __str__(self):
         return self.description
+
+    class Meta:
+        ordering = ["description"]
 
 
 class RelationshipType(models.Model):
@@ -68,3 +86,6 @@ class RelationshipType(models.Model):
 
     def __str__(self):
         return self.description
+
+    class Meta:
+        ordering = ["description"]
