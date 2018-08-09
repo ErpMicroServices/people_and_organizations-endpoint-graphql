@@ -15,7 +15,7 @@
 	"model" : "communication.communicationeventpurposetype",
 	"pk" : "25324803-1c24-4e16-ae49-b3f7e55a8116",
 	"fields" : {
-	 "description" : "Support CAll",
+	 "description" : "Support Call",
 	 "parent" : null,
 	 "lft" : 1,
 	 "rght" : 2,

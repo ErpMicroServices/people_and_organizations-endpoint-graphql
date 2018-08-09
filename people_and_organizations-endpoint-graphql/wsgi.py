@@ -1,5 +1,5 @@
 """
-WSGI config for graphql_api project.
+WSGI config for people_and_organizations-endpoint-graphql project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'graphql_api.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'people_and_organizations-endpoint-graphql.settings')
 
 application = get_wsgi_application()
