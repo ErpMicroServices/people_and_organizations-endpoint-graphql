@@ -1,5 +1,6 @@
 from .models.party import Party
-from .models.types import ClassificationType, PartyType
+from .models.types import PartyType, ClassificationType
+
 
 person_type = PartyType.objects.get(description='Person').get_family()
 organization_type = PartyType.objects.get(description='Organization').get_family()

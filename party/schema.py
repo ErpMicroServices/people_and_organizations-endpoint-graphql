@@ -165,6 +165,8 @@ class Query(graphene.ObjectType):
         return PartyRole.objects.all()
 
 
-schema = graphene.Schema(mutation=Mutation, query=Query, types=[ClassificationTypeType, PartyModelType,
-                                                                PartyRelationshipType, PartyTypeType, PriorityTypeType,
-                                                                RelationshipStatusTypeType])
+schema = graphene.Schema(mutation=Mutation,
+                         query=Query,
+                         types=[ClassificationTypeType, PartyModelType,
+                                PartyRelationshipType, PartyTypeType, PriorityTypeType,
+                                RelationshipStatusTypeType])

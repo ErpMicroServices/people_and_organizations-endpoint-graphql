@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+
 from party.models.party import ContactMechanism, Party
 
 
