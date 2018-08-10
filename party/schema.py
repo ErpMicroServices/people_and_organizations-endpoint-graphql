@@ -1,125 +1,9 @@
-import graphene
-from graphene import relay, resolve_only_args
-from graphene_django import DjangoConnectionField, DjangoObjectType
+from graphene_django import DjangoConnectionField
 
-from .data_access import create_organization, create_person, find_classification_type_by_id, find_party_by_id
-from .models.party import *
-
-
-class ClassificationTypeType(DjangoObjectType):
-    class Meta:
-        model = ClassificationType
-        interfaces = (relay.Node,)
-
-    @classmethod
-    def get_node(cls, id):
-        node = find_classification_type_by_id(id)
-        return node
-
-
-class PartyModelType(DjangoObjectType):
-    class Meta:
-        model = Party
-        interfaces = (relay.Node,)
-
-    @classmethod
-    def get_node(cls, id):
-        node = find_party_by_id(id)
-        return node
-
-
-class CreateOrganization(relay.ClientIDMutation):
-    class Input:
-        government_id = graphene.String()
-        name = graphene.String()
-        nickname = graphene.String()
-        comment = graphene.String()
-
-    organization = graphene.Field(PartyModelType)
-
-    @classmethod
-    def mutate_and_get_payload(cls, root, info, government_id=None, name=None, nickname=None, comment=None,
-                               client_mutation_id=None):
-        organization = create_organization(government_id, name, nickname, comment)
-        return CreateOrganization(organization)
-
-
-class CreatePerson(relay.ClientIDMutation):
-    class Input:
-        government_id = graphene.String()
-        first_name = graphene.String()
-        last_name = graphene.String()
-        title = graphene.String()
-        nickname = graphene.String()
-        date_of_birth = graphene.String()
-        comment = graphene.String()
-
-    person = graphene.Field(PartyModelType)
-
-    @classmethod
-    def mutate_and_get_payload(cls, root, info, government_id=None, first_name=None, last_name=None, title=None,
-                               nickname=None, date_of_birth=None, comment=None, client_mutation_id=None):
-        print("mutate_and_get_payload start")
-        person = create_person(government_id, first_name, last_name, title, nickname, date_of_birth, comment)
-        print("mutate_and_get_payload end")
-        return CreatePerson(person)
-
-
-class PartyRoleType(DjangoObjectType):
-    class Meta:
-        model = PartyRole
-        interfaces = (relay.Node,)
-
-    @classmethod
-    def get_node(cls, id):
-        node = PartyRole.objects.get(id=id)
-        return node
-
-
-class PartyRelationshipType(DjangoObjectType):
-    from_party = graphene.Field(PartyRoleType)
-
-    class Meta:
-        model = PartyRelationship
-        interfaces = (relay.Node,)
-
-    @classmethod
-    def get_node(cls, id):
-        node = PartyRelationship.objects.get(id=id)
-        return node
-
-
-class PartyTypeType(DjangoObjectType):
-    class Meta:
-        model = PartyType
-        interfaces = (relay.Node,)
-
-    @classmethod
-    def get_node(cls, id):
-        node = PartyType.objects.get(pk=id)
-        return node
-
-
-class PriorityTypeType(DjangoObjectType):
-    class Meta:
-        model = PriorityType
-        interfaces = (relay.Node,)
-
-    @classmethod
-    def get_node(cls, id):
-        node = PriorityType.objects.get(id=id)
-        return node
-
-
-class RelationshipStatusTypeType(DjangoObjectType):
-    class Meta:
-        model = RelationshipStatusType
-        interfaces = (relay.Node,)
-
-    @classmethod
-    def get_node(cls, id):
-        node = RelationshipStatusType.objects.get(id=id)
-        return node
+from .data_access import classification_types, parties_all, party_relationships, relationship_types, \
+    party_role_types, party_types, priority_types
+from .graphql_types.mutation_types import *
+from .graphql_types.query_types import *
 
 
 class Mutation(graphene.ObjectType):
@@ -128,41 +12,38 @@ class Mutation(graphene.ObjectType):
 
 
 class Query(graphene.ObjectType):
-    classification_types = graphene.Field(ClassificationTypeType)
+    classification_types = DjangoConnectionField(ClassificationTypeType)
+    contact_mechanism_types = DjangoConnectionField(ContactMechanismTypeType)
     node = relay.Node.Field()
     parties = DjangoConnectionField(PartyModelType)
-    party_types = graphene.Field(PartyTypeType)
-    priority_types = graphene.Field(PriorityTypeType)
-    relationship_types = graphene.Field(RelationshipStatusTypeType)
-    relationships = DjangoConnectionField(PartyRelationshipType)
+    party_roles = DjangoConnectionField(PartyRoleType)
+    party_relationships = DjangoConnectionField(PartyRelationshipType)
+    party_types = DjangoConnectionField(PartyTypeType)
+    priority_types = DjangoConnectionField(PriorityTypeType)
+    relationship_status_types = DjangoConnectionField(RelationshipStatusTypeType)
+    role_types = DjangoConnectionField(RoleTypeType)
+    relationship_types = DjangoConnectionField(RelationshipTypeType)
 
-    @resolve_only_args
     def resolve_classification_types(self):
-        return ClassificationType.objects.all()
+        return classification_types()
 
-    @resolve_only_args
     def resolve_parties(self):
-        return Party.objects.all()
+        return parties_all()
 
-    @resolve_only_args
     def resolve_party_types(self):
-        return PartyType.objects.all()
+        return party_types()
 
-    @resolve_only_args
     def resolve_priority_types(self):
-        return PriorityType.objects.all()
+        return priority_types()
 
-    @resolve_only_args
     def resolve_relationships(self):
-        return PartyRelationship.objects.all()
+        return party_relationships()
 
-    @resolve_only_args
     def resolve_relationship_types(self):
-        return RelationshipStatusType.objects.all()
+        return relationship_types()
 
-    @resolve_only_args
     def resolve_party_role_types(self):
-        return PartyRole.objects.all()
+        return party_role_types()
 
 
 schema = graphene.Schema(mutation=Mutation,
