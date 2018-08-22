@@ -1,4 +1,3 @@
-# Create your tests here.
 import collections
 from datetime import date
 

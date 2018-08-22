@@ -57,8 +57,12 @@ def find_party_by_id(id):
 
 
 def organization_party_types():
+	"""
+	Return the root of the oranization party types, 'Organization'
+	:return: A tree QuerySet with organization as the root
+	"""
 	if cache.get('organization_party_types') is None:
-		cache.set('organization_party_types', PartyType.objects.get(description='Organization').get_family(),
+		cache.set('organization_party_types', PartyType.objects.root_nodes().get(description='Organization'),
 							default_cache_timeout)
 	return cache.get('organization_party_types')
 
