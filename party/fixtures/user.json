@@ -1,0 +1,20 @@
+[
+ {
+	"model" : "auth.user",
+	"pk" : 1,
+	"fields" : {
+	 "password" : "pbkdf2_sha256$120000$TDobg0N76vZQ$CdcHFQWedCFKS4A/G2HShjjgeunkBLmlw1BCEcqKG2s=",
+	 "last_login" : "2018-08-22T03:48:12.642Z",
+	 "is_superuser" : true,
+	 "username" : "chester",
+	 "first_name" : "",
+	 "last_name" : "",
+	 "email" : "jim.barrows@gmail.com",
+	 "is_staff" : true,
+	 "is_active" : true,
+	 "date_joined" : "2018-08-09T13:51:20.892Z",
+	 "groups" : [ ],
+	 "user_permissions" : [ ]
+	}
+ }
+]

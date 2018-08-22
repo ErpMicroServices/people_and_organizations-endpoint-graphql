@@ -36,7 +36,5 @@ class CreatePerson(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, government_id=None, first_name=None, last_name=None, title=None,
                                nickname=None, date_of_birth=None, comment=None, client_mutation_id=None):
-        print("mutate_and_get_payload start")
         person = create_person(government_id, first_name, last_name, title, nickname, date_of_birth, comment)
-        print("mutate_and_get_payload end")
         return CreatePerson(person)
