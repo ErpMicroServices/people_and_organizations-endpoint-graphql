@@ -13,7 +13,7 @@ class GeographicBoundaryType(MPTTModel):
         return self.description
 
 
-class GeographicBoundary(MPTTModel):
+class GeographicBoundary(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     geo_code = models.CharField(max_length=100, blank=True)
     name = models.CharField(max_length=200)
