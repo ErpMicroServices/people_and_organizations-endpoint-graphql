@@ -1,0 +1,146 @@
+[
+ {
+	"model" : "communication.communicationeventpurposetype",
+	"pk" : "0be997ac-ecb5-4bfd-8f56-63f189fc440c",
+	"fields" : {
+	 "description" : "Inquiry",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 2,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "communication.communicationeventpurposetype",
+	"pk" : "25324803-1c24-4e16-ae49-b3f7e55a8116",
+	"fields" : {
+	 "description" : "Support Call",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 1,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "communication.communicationeventpurposetype",
+	"pk" : "5757dc85-cc7b-4667-ae60-0617ede849b1",
+	"fields" : {
+	 "description" : "Sales Follow Up",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 4,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "communication.communicationeventpurposetype",
+	"pk" : "609a9a06-36b7-4cf3-a108-495393387ab7",
+	"fields" : {
+	 "description" : "Meeting",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 5,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "communication.communicationeventpurposetype",
+	"pk" : "a4cb0f6a-99b1-469e-9f56-bca94af343c4",
+	"fields" : {
+	 "description" : "Customer Service Call",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 3,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "communication.communicationeventpurposetype",
+	"pk" : "ad8d6d9a-61e4-4e12-bba8-695886f034c6",
+	"fields" : {
+	 "description" : "Activity Request",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 7,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "communication.communicationeventpurposetype",
+	"pk" : "f8278d8f-9a83-47c6-a1f0-d265664bdc20",
+	"fields" : {
+	 "description" : "Conference",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 6,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "communication.communicationeventtype",
+	"pk" : "1613c4b1-7b36-436d-90f8-3372a812b97f",
+	"fields" : {
+	 "description" : "Email Communication",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 4,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "communication.communicationeventtype",
+	"pk" : "35d8d8e7-051d-4d80-bf89-46dd09ff352f",
+	"fields" : {
+	 "description" : "Letter Correspondence",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 3,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "communication.communicationeventtype",
+	"pk" : "9cbb0536-8b4e-4c3c-8b8a-ae1eae74ab80",
+	"fields" : {
+	 "description" : "Face-to-Face Communication",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 2,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "communication.communicationeventtype",
+	"pk" : "d619d260-a7f6-4360-bc1a-2e0bf8eb6e10",
+	"fields" : {
+	 "description" : "Web Site Correspondence",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 5,
+	 "level" : 0
+	}
+ },
+ {
+	"model" : "communication.communicationeventtype",
+	"pk" : "f8bf96ff-4d1c-4a1c-a879-b3d5272a0469",
+	"fields" : {
+	 "description" : "Fax Communication",
+	 "parent" : null,
+	 "lft" : 1,
+	 "rght" : 2,
+	 "tree_id" : 1,
+	 "level" : 0
+	}
+ }
+]

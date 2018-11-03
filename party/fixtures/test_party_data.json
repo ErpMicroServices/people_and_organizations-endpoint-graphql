@@ -1,0 +1,26 @@
+[
+ {
+	"model" : "party.party",
+	"pk" : "2460edfd-d72e-4d7c-b163-9e0d289f84f4",
+	"fields" : {
+	 "government_id" : null,
+	 "first_name" : "Chester",
+	 "last_name" : "Tester",
+	 "name" : null,
+	 "title" : null,
+	 "nickname" : null,
+	 "date_of_birth" : null,
+	 "comment" : null,
+	 "party_type" : "068096b1-3312-4193-9473-15cae8e3aaf0"
+	}
+ },
+ {
+	"model" : "party.geographicboundary",
+	"pk" : "ed4c7ca6-af95-11e8-a653-53c2fd59a3df",
+	"fields" : {
+	 "geo_code" : "AZ",
+	 "name" : "Arizona",
+	 "type" : "3a8bcc3c-b444-4589-a619-4d381eb553f0"
+	}
+ }
+]
