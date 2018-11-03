@@ -24,10 +24,6 @@ class Config {
 	        database: process.env.DATABASE_DATABSE || 'people_and_organizations',
 	        user    : process.env.DATABASE_USER || 'people_and_organizations',
 	        password: process.env.DATABASE_PASSWORD || 'people_and_organizations'
-        },
-        graphql: {
-          graphiql   : true,
-	        endpointURL: process.env.ENDPOINT_URL || '/api/people_and_organizations/graphql'
         }
       }
     } else {
