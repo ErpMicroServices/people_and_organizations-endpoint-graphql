@@ -1,10 +1,10 @@
-import {InMemoryCache} from 'apollo-cache-inmemory';
-import ApolloClient from 'apollo-client-preset';
-import {HttpLink} from 'apollo-link-http';
+import {InMemoryCache} from 'apollo-cache-inmemory'
+import ApolloClient from 'apollo-client-preset'
+import {HttpLink} from 'apollo-link-http'
 // features/support/world.js
-import fetch from 'node-fetch';
-import config from "./config";
-import database from "./database";
+import fetch from 'node-fetch'
+import config from "./config"
+import database from "./database"
 
 var {
 	    defineSupportCode
@@ -14,7 +14,7 @@ function CustomWorld() {
 	this.config = config;
 	this.db     = database;
 	this.client = new ApolloClient({
-		link : new HttpLink({uri: config.server.url, fetch}),
+		link : new HttpLink({uri: config.url, fetch}),
 		cache: new InMemoryCache()
 	});
 	this.person = {
