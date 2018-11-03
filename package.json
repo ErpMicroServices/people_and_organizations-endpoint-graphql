@@ -4,7 +4,7 @@
   "description": "Service for party",
   "main": "index.js",
   "scripts": {
-    "build": "docker build --tag erpmicroservices/party-party-service --rm .",
+    "build" : "docker build --tag erpmicroservices/people_and_organizations-endpoint-graphql --rm .",
     "start": "docker-compose up",
     "start:local": "node ./index.js",
     "test": "cucumber-js --compiler es6:babel-core/register  -r ./features ../party-features",
