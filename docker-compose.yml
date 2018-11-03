@@ -4,6 +4,8 @@ services:
     image: erpmicroservices/people_and_organizations-database:latest
     ports:
     - "5432:5432"
+    volumes:
+    - "dbdata:/var/lib/postgresql/data"
 
   endpoint-graphql:
     image: erpmicroservices/people_and_organizations-endpoint-graphql
@@ -33,3 +35,6 @@ services:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /dev/null:/traefik.toml
+
+volumes:
+  dbdata:
