@@ -1,5 +1,3 @@
-import gql from 'graphql-tag';
-
 var {
 	    defineSupportCode
     } = require('cucumber');
@@ -17,19 +15,19 @@ defineSupportCode(function ({
 	});
 
 
-	When('I add a child party type with a description of {string}', function (string) {
-		this.child_party_type_description = string;
-		return this.client
-				.mutate({
-					mutation : gql `mutation add_party_type_child( $description: String!, $parent_id: ID!) { add_party_type_child(description: $description, parent_id: $parent_id) }`,
-					variables: {
-						description: string,
-						parent_id  : this.party_type.id
-					}
-				})
-				.then(results => this.result.data = results)
-				.catch(error => this.result.error = error);
-	});
+	// When('I add a child party type with a description of {string}', function (string) {
+	// 	this.child_party_type_description = string;
+	// 	return this.client
+	// 			.mutate({
+	// 				mutation : gql `mutation add_party_type_child( $description: String!, $parent_id: ID!) { add_party_type_child(description: $description, parent_id: $parent_id) }`,
+	// 				variables: {
+	// 					description: string,
+	// 					parent_id  : this.party_type.id
+	// 				}
+	// 			})
+	// 			.then(results => this.result.data = results)
+	// 			.catch(error => this.result.error = error);
+	// });
 
 	Then('I can find the parent of the child', function () {
 		expect(this.result.error).to.be.null;
@@ -43,17 +41,17 @@ defineSupportCode(function ({
 				});
 	});
 
-	When('I delete the party type', function () {
-		return this.client
-				.mutate({
-					mutation : gql `mutation delete_party_type( $id: ID!) { delete_party_type(id: $id) }`,
-					variables: {
-						id: this.party_type.id
-					}
-				})
-				.then(results => this.result.data = results)
-				.catch(error => this.result.error = error);
-	});
+	// When('I delete the party type', function () {
+	// 	return this.client
+	// 			.mutate({
+	// 				mutation : gql `mutation delete_party_type( $id: ID!) { delete_party_type(id: $id) }`,
+	// 				variables: {
+	// 					id: this.party_type.id
+	// 				}
+	// 			})
+	// 			.then(results => this.result.data = results)
+	// 			.catch(error => this.result.error = error);
+	// });
 
 	Then('the party type is not in the database', function (callback) {
 		expect(this.result.error).to.be.null;
@@ -63,19 +61,19 @@ defineSupportCode(function ({
 		callback();
 	});
 
-	When('I update the description to {string}', function (string) {
-		this.party_type.description = string;
-		return this.client
-				.mutate({
-					mutation : gql `mutation update_party_type( $id: ID!, $description: String!) { update_party_type(id: $id, description: $description) {id description parent_id}}`,
-					variables: {
-						id         : this.party_type.id,
-						description: this.party_type.description
-					}
-				})
-				.then(results => this.result.data = results)
-				.catch(error => this.result.error = error);
-	});
+	// When('I update the description to {string}', function (string) {
+	// 	this.party_type.description = string;
+	// 	return this.client
+	// 			.mutate({
+	// 				mutation : gql `mutation update_party_type( $id: ID!, $description: String!) { update_party_type(id: $id, description: $description) {id description parent_id}}`,
+	// 				variables: {
+	// 					id         : this.party_type.id,
+	// 					description: this.party_type.description
+	// 				}
+	// 			})
+	// 			.then(results => this.result.data = results)
+	// 			.catch(error => this.result.error = error);
+	// });
 
 	Then('the organization description has been updated', function () {
 		return this.db.one("select id, description, parent_id from party_type where id = ${id}", this.party_type)
