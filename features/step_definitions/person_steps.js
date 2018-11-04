@@ -238,17 +238,17 @@ defineSupportCode(function ({
 		callback()
 	})
 
-	// When('I delete the person', function () {
-	// 	return this.client
-	// 		.mutate({
-	// 			mutation : gql`mutation delete_person($id: ID!) {delete_person(id: $id)}`,
-	// 			variables: {
-	// 				"id": this.person.id
-	// 			}
-	// 		})
-	// 		.then(results => this.result.data = results)
-	// 		.catch(error => this.result.error = error)
-	// })
+	When('I delete the person', function () {
+		return this.client
+		.mutate({
+			mutation : gql`mutation delete_person($id: ID!) {delete_person(id: $id)}`,
+			variables: {
+				"id": this.person.id
+			}
+		})
+		.then(results => this.result.data = results)
+		.catch(error => this.result.error = error)
+	})
 
 	Then('the person is no longer in the database', function () {
 		expect(this.result.error).to.be.null

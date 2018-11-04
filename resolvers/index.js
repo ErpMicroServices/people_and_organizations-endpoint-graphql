@@ -1,4 +1,5 @@
 import create_person from './create_person'
+import delete_person from './delete_person'
 import organizations from './organizations'
 import parties from './parties'
 import people from "./people"
@@ -21,6 +22,7 @@ export default {
 		people
 	},
 	Mutation: {
-		create_person
+		create_person,
+		delete_person
 	}
 }
