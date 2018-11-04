@@ -8,11 +8,11 @@ defineSupportCode(function ({
 	                            Then
                             }) {
 
-	Given('a party type with a description of {string} has been saved to the database', function (string) {
-		return this.db.one("insert into party_type (description) values ($1) returning id", [string])
-				.then(data => this.party_type.id = data.id);
-
-	});
+	// Given('a party type with a description of {string} has been saved to the database', function (string) {
+	// 	return this.db.one("insert into party_type (description) values ($1) returning id", [string])
+	// 			.then(data => this.party_type.id = data.id);
+	//
+	// });
 
 
 	// When('I add a child party type with a description of {string}', function (string) {

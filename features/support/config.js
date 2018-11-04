@@ -28,8 +28,8 @@ class Config {
 		return this._config.database
 	}
 
-	get server() {
-		return this._config.server
+	get url() {
+		return this._config.url
 	}
 
 }

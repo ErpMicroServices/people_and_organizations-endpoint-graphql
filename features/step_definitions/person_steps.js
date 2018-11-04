@@ -42,24 +42,55 @@ defineSupportCode(function ({
 		callback()
 	})
 
-	// When('I save the person', function () {
-	// 	return this.client
-	// 		.mutate({
-	// 			mutation : gql`mutation create_person( $first_name: String, $last_name:String, $title:String, $nickname:String, $date_of_birth:String, $comment: String, $email: String) { create_person(first_name: $first_name, last_name: $last_name, title: $title, nickname: $nickname, date_of_birth: $date_of_birth, comment: $comment, email: $email){ id } }`,
-	// 			variables: {
-	// 				"first_name"   : this.person.first_name,
-	// 				"last_name"    : this.person.last_name,
-	// 				"title"        : this.person.title,
-	// 				"nickname"     : this.person.nickname,
-	// 				"date_of_birth": this.person.date_of_birth ? this.person.date_of_birth.toJSON() : null,
-	// 				"comment"      : this.person.comment,
-	// 				"email"        : this.person.email
-	// 			}
-	// 		})
-	// 		.then(results => this.result.data = results)
-	// 		.catch(error => this.result.error = error)
-	//
-	// })
+	Given('I have provided a party type of {string}', function (party_type, callback) {
+		this.party.type = party_type
+		callback()
+	})
+
+	Given('I have provided a comment of {string}', function (comment, callback) {
+		this.party.comment = comment
+		callback()
+	})
+
+
+	When('I save the person', function () {
+		return this.client
+		.mutate({
+			mutation : gql`mutation create_person(
+      $first_name: String
+      $last_name: String
+      $title: String
+      $nickname: String
+      $date_of_birth: String
+      $comment: String
+      $email: String
+      ) {
+        create_person(
+          first_name: $first_name
+          last_name: $last_name
+          title: $title
+          nickname: $nickname
+          date_of_birth: $date_of_birth
+          comment: $comment
+          email: $email
+        ) {
+          id
+        }
+      }`,
+			variables: {
+				"first_name"   : this.person.first_name,
+				"last_name"    : this.person.last_name,
+				"title"        : this.person.title,
+				"nickname"     : this.person.nickname,
+				"date_of_birth": this.person.date_of_birth ? this.person.date_of_birth.toJSON() : null,
+				"comment"      : this.person.comment,
+				"email"        : this.person.email
+			}
+		})
+		.then(results => this.result.data = results)
+		.catch(error => this.result.error = error)
+
+	})
 
 	Then('the person data will be in the database', function () {
 		expect(this.result.error).to.be.null
@@ -81,11 +112,11 @@ defineSupportCode(function ({
 
 	})
 
-	// Given('the person is in the database', function () {
-	// 	return this.db.one("insert into party (first_name, last_name, title, nickname, date_of_birth, comment, party_type_id) values($1, $2, $3, $4, $5, $6, $7) returning id",
-	// 		[this.person.first_name, this.person.last_name, this.person.title, this.person.nickname, this.person.date_of_birth, this.person.comment, this.party_type_id("Person")])
-	// 		.then((data) => this.person.id = data.id)
-	// })
+	Given('the person is in the database', function () {
+		return this.db.one("insert into party (first_name, last_name, title, nickname, date_of_birth, comment, party_type_id) values($1, $2, $3, $4, $5, $6, $7) returning id",
+			[this.person.first_name, this.person.last_name, this.person.title, this.person.nickname, this.person.date_of_birth, this.person.comment, this.party_type_id("Person")])
+			.then((data) => this.person.id = data.id)
+	})
 
 	// When('I search by the person\'s id', function () {
 	// 	return this.client
@@ -124,24 +155,24 @@ defineSupportCode(function ({
 		callback()
 	})
 
-	When('I search for all people', function () {
-		return this.client
-		.query({
-			query: gql`{
-        people {
-          first_name,
-          last_name,
-          title,
-          nickname,
-          date_of_birth,
-          comment
-        }
-      }`
-		})
-
-		.then((response) => this.result.data = response)
-		.catch(error => this.result.error = error)
-	})
+	// When('I search for all people', function () {
+	// 	return this.client
+	// 	.query({
+	// 		query: gql`{
+	//       people {
+	//         first_name,
+	//         last_name,
+	//         title,
+	//         nickname,
+	//         date_of_birth,
+	//         comment
+	//       }
+	//     }`
+	// 	})
+	//
+	// 	.then((response) => this.result.data = response)
+	// 	.catch(error => this.result.error = error)
+	// })
 
 	Then('I find the person in the list', function (callback) {
 		expect(this.result.error).to.be.null

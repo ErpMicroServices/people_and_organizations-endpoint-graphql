@@ -16,6 +16,10 @@ function CustomWorld() {
 		link : new HttpLink({uri: config.url, fetch}),
 		cache: new InMemoryCache()
 	})
+
+	this.party  = {
+		party_type: ''
+	}
 	this.person = {
 		id           : '',
 		first_name   : '',
