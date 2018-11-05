@@ -156,24 +156,24 @@ defineSupportCode(function ({
 		callback()
 	})
 
-	// When('I search for all people', function () {
-	// 	return this.client
-	// 	.query({
-	// 		query: gql`{
-	//       people {
-	//         first_name,
-	//         last_name,
-	//         title,
-	//         nickname,
-	//         date_of_birth,
-	//         comment
-	//       }
-	//     }`
-	// 	})
-	//
-	// 	.then((response) => this.result.data = response)
-	// 	.catch(error => this.result.error = error)
-	// })
+	When('I search for all people', function () {
+		return this.client
+		.query({
+			query: gql`{
+        people {
+          first_name,
+          last_name,
+          title,
+          nickname,
+          date_of_birth,
+          comment
+        }
+      }`
+		})
+
+		.then((response) => this.result.data = response)
+		.catch(error => this.result.error = error)
+	})
 
 	Then('I find the person in the list', function (callback) {
 		expect(this.result.error).to.be.null
