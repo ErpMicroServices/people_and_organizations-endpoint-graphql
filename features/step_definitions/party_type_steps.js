@@ -43,17 +43,17 @@ defineSupportCode(function ({
 			})
 	})
 
-	// When('I delete the party type', function () {
-	// 	return this.client
-	// 			.mutate({
-	// 				mutation : gql `mutation delete_party_type( $id: ID!) { delete_party_type(id: $id) }`,
-	// 				variables: {
-	// 					id: this.party_type.id
-	// 				}
-	// 			})
-	// 			.then(results => this.result.data = results)
-	// 			.catch(error => this.result.error = error);
-	// });
+	When('I delete the party type', function () {
+		return this.client
+		.mutate({
+			mutation : gql`mutation delete_party_type( $id: ID!) { delete_party_type(id: $id) }`,
+			variables: {
+				id: this.party_type.id
+			}
+		})
+		.then(results => this.result.data = results)
+		.catch(error => this.result.error = error)
+	})
 
 	Then('the party type is not in the database', function (callback) {
 		expect(this.result.error).to.be.null
