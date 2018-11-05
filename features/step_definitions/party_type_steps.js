@@ -63,19 +63,19 @@ defineSupportCode(function ({
 		callback()
 	})
 
-	// When('I update the description to {string}', function (string) {
-	// 	this.party_type.description = string;
-	// 	return this.client
-	// 			.mutate({
-	// 				mutation : gql `mutation update_party_type( $id: ID!, $description: String!) { update_party_type(id: $id, description: $description) {id description parent_id}}`,
-	// 				variables: {
-	// 					id         : this.party_type.id,
-	// 					description: this.party_type.description
-	// 				}
-	// 			})
-	// 			.then(results => this.result.data = results)
-	// 			.catch(error => this.result.error = error);
-	// });
+	When('I update the description to {string}', function (string) {
+		this.party_type.description = string
+		return this.client
+		.mutate({
+			mutation : gql`mutation update_party_type( $id: ID!, $description: String!) { update_party_type(id: $id, description: $description) {id description parent_id}}`,
+			variables: {
+				id         : this.party_type.id,
+				description: this.party_type.description
+			}
+		})
+		.then(results => this.result.data = results)
+		.catch(error => this.result.error = error)
+	})
 
 	Then('the organization description has been updated', function () {
 		return this.db.one("select id, description, parent_id from party_type where id = ${id}", this.party_type)
