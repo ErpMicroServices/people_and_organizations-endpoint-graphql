@@ -32,7 +32,6 @@ defineSupportCode(function ({
 	})
 
 	Then('I can find the parent of the child', function () {
-		console.log("this.result: ", this.result.data)
 		expect(this.result.error).to.be.null
 		expect(this.result.data).to.not.be.null
 		expect(this.result.data.data.add_party_type_child).to.not.be.null
