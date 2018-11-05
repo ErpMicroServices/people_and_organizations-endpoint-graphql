@@ -77,8 +77,21 @@ defineSupportCode(function ({
 		.catch(error => this.result.error = error)
 	})
 
-	Then('the organization description has been updated', function () {
-		return this.db.one("select id, description, parent_id from party_type where id = ${id}", this.party_type)
-			.then(data => expect(data.description).to.be.equal(this.party_type.description))
+
+	When('I search by the description {string}', function (description) {
+		return this.db.one("select id, description, parent_id from party_type where description = ${description}", {description})
+			.then(data => this.result.data = data)
+			.catch(error => this.result.error = error)
+	})
+
+	Then('I find the party type', function (callback) {
+		expect(this.result.error).to.be.null
+		expect(this.result.data).to.not.be.null
+		if (this.result.data.data.update_party_type) {
+			expect(this.result.data.data.update_party_type.description).to.be.equal(this.party_type.description)
+		} else {
+			expect(this.result.data.description).to.be.equal(this.party_type.description)
+		}
+		callback()
 	})
 })
