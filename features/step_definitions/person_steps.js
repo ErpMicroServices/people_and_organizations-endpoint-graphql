@@ -30,10 +30,11 @@ defineSupportCode(function ({
 	})
 	Given('I have provided a date of birth of {string}', function (date_of_birth, callback) {
 		if (date_of_birth) {
-			this.person.date_of_birth = moment(date_of_birth + "00:00 -0700", "MM-DD-YYYY HH:mm Z")
+			this.person.date_of_birth = moment(date_of_birth, "MM-DD-YYYY").toDate()
 		} else {
 			this.person.date_of_birth = null
 		}
+
 		callback()
 	})
 
@@ -188,24 +189,24 @@ defineSupportCode(function ({
 		callback()
 	})
 
-	// When('I update the first name to {string}', function (first_name) {
-	// 	return this.client
-	// 		.mutate({
-	// 			mutation : gql`mutation update_person($id: ID!, $first_name: String, $last_name: String, $title: String, $nickname: String, $date_of_birth: String, $comment: String) {update_person(id: $id, first_name: $first_name, last_name: $last_name, title: $title, nickname: $nickname, date_of_birth: $date_of_birth, comment: $comment) {id, first_name, last_name, title, nickname, date_of_birth, comment}}`,
-	// 			variables: {
-	// 				"id"           : this.person.id,
-	// 				"first_name"   : first_name,
-	// 				"last_name"    : this.person.last_name,
-	// 				"title"        : this.person.title,
-	// 				"nickname"     : this.person.nickname,
-	// 				"date_of_birth": this.person.date_of_birth.toJSON(),
-	// 				"comment"      : this.person.comment
-	// 			}
-	// 		})
-	//
-	// 		.then((response) => this.result.data = response)
-	// 		.catch(error => this.result.error = error)
-	// })
+	When('I update the first name to {string}', function (first_name) {
+		return this.client
+		.mutate({
+			mutation : gql`mutation update_person($id: ID!, $first_name: String, $last_name: String, $title: String, $nickname: String, $date_of_birth: String, $comment: String) {update_person(id: $id, first_name: $first_name, last_name: $last_name, title: $title, nickname: $nickname, date_of_birth: $date_of_birth, comment: $comment) {id, first_name, last_name, title, nickname, date_of_birth, comment}}`,
+			variables: {
+				"id"           : this.person.id,
+				"first_name"   : first_name,
+				"last_name"    : this.person.last_name,
+				"title"        : this.person.title,
+				"nickname"     : this.person.nickname,
+				"date_of_birth": this.person.date_of_birth.toJSON(),
+				"comment"      : this.person.comment
+			}
+		})
+
+		.then((response) => this.result.data = response)
+		.catch(error => this.result.error = error)
+	})
 
 	Then('the first name is {string}', function (first_name, callback) {
 		expect(this.result.data.data.update_person.first_name).to.be.equal(first_name)
@@ -228,8 +229,9 @@ defineSupportCode(function ({
 	})
 
 	Then('the date of birth is {string}', function (date_of_birth, callback) {
-		let formattedDate = moment(this.result.data.data.update_person.date_of_birth, "ddd MMM DD YYYY HH:mm:ss GMTZ (UTC)")
-		expect(formattedDate.toJSON()).to.be.equal(moment(this.person.date_of_birth).toJSON())
+		let expected_date = moment(date_of_birth, "MM/DD/YYYY")
+		let actual_date   = moment(this.result.data.data.update_person.date_of_birth, "YYYY-MM-DD")
+		expect(actual_date.toJSON()).to.be.equal(expected_date.toJSON())
 		callback()
 	})
 
@@ -269,7 +271,6 @@ defineSupportCode(function ({
 	})
 
 	Then('I get an error indicating that either a first name or a last name must be provided', function (callback) {
-		console.log("this.result: ", this.result)
 		callback(null, 'pending')
 	})
 })

@@ -44,6 +44,7 @@ import StatusType from './StatusType'
 import TelecommunicationsNumber from './TelecommunicationsNumber'
 import WebAddress from './WebAddress'
 
+const scalars = `scalar Date`
 
 export default [
 	Case,
@@ -87,6 +88,7 @@ export default [
 	PostalAddress,
 	PriorityType,
 	Query,
+	scalars,
 	SchemaDefinition,
 	StatusType,
 	TelecommunicationsNumber,

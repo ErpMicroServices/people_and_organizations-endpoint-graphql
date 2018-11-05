@@ -1,5 +1,5 @@
-import database from "../database";
+import select_person_by_id from '../data_access/select_person_by_id'
 
 export default function (obj, args, context, graphql) {
-	return database.one('select id, first_name, last_name, title, nickname, date_of_birth, comment from party where id=${id}', args);
+	return select_person_by_id(context.database, args.id)
 }

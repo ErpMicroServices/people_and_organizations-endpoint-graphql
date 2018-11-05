@@ -4,7 +4,7 @@ type Person implements Party {
     last_name: String
     title: String
     nickname: String
-    date_of_birth: String
+    date_of_birth: Date
     comment: String
     id: ID!
     partyRoles: [PartyRole]!

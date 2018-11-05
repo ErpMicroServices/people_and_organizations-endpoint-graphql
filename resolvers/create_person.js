@@ -1,9 +1,5 @@
 export default function (obj, args, context, graphql) {
 	let person = args
-	console.log("obj: ", obj)
-	console.log("args: ", args)
-	// console.log("context: ", context)
-	// console.log("graphql: ", graphql)
 	person.party_type_id = context.party_types.get('Person').id
 	person.date_of_birth = person.date_of_birth || null
 	return context.database
