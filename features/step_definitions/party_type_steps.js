@@ -10,8 +10,9 @@ defineSupportCode(function ({
 	                            Then
                             }) {
 
-	Given('a party type with a description of {string} has been saved to the database', function (string) {
-		return this.db.one("insert into party_type (description) values ($1) returning id", [string])
+	Given('a party type with a description of {string} has been saved to the database', function (description) {
+		this.party_type.description = description
+		return this.db.one("insert into party_type (description) values ($1) returning id", [description])
 			.then(data => this.party_type.id = data.id)
 
 	})
@@ -78,8 +79,8 @@ defineSupportCode(function ({
 	})
 
 
-	When('I search by the description {string}', function (description) {
-		return this.db.one("select id, description, parent_id from party_type where description = ${description}", {description})
+	When('I search by the description', function () {
+		return this.db.one("select id, description, parent_id from party_type where description = ${description}", this.party_type)
 			.then(data => this.result.data = data)
 			.catch(error => this.result.error = error)
 	})
@@ -87,7 +88,7 @@ defineSupportCode(function ({
 	Then('I find the party type', function (callback) {
 		expect(this.result.error).to.be.null
 		expect(this.result.data).to.not.be.null
-		if (this.result.data.data.update_party_type) {
+		if ((this.result.data.data) && (this.result.data.data.update_party_type)) {
 			expect(this.result.data.data.update_party_type.description).to.be.equal(this.party_type.description)
 		} else {
 			expect(this.result.data.description).to.be.equal(this.party_type.description)
