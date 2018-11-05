@@ -4,6 +4,7 @@ import delete_person from './delete_person'
 import organizations from './organizations'
 import parties from './parties'
 import people from "./people"
+import person_by_id from './person_by_id'
 import update_person from "./update_person"
 
 export default {
@@ -22,7 +23,8 @@ export default {
 	Query   : {
 		organizations,
 		parties,
-		people
+		people,
+		person_by_id
 	},
 	Mutation: {
 		create_person,

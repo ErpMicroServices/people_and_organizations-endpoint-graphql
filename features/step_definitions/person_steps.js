@@ -119,27 +119,27 @@ defineSupportCode(function ({
 			.then((data) => this.person.id = data.id)
 	})
 
-	// When('I search by the person\'s id', function () {
-	// 	return this.client
-	// 		.query({
-	// 			query    : gql`query person_by_id( $id: ID!) {
-	// 									        person_by_id(id: $id) {
-	// 									          first_name,
-	// 									          last_name,
-	// 									          title,
-	// 									          nickname,
-	// 									          date_of_birth,
-	// 									          comment
-	// 									        }
-	// 									     }`,
-	// 			variables: {
-	// 				"id": this.person.id
-	// 			}
-	// 		})
-	//
-	// 		.then((response) => this.result.data = response)
-	// 		.catch(error => this.result.error = error)
-	// })
+	When('I search by the person\'s id', function () {
+		return this.client
+		.query({
+			query    : gql`query person_by_id( $id: ID!) {
+        person_by_id(id: $id) {
+          first_name,
+          last_name,
+          title,
+          nickname,
+          date_of_birth,
+          comment
+        }
+      }`,
+			variables: {
+				"id": this.person.id
+			}
+		})
+
+		.then((response) => this.result.data = response)
+		.catch(error => this.result.error = error)
+	})
 
 	Then('I find the person', function (callback) {
 		expect(this.result.error).to.be.null
@@ -150,8 +150,9 @@ defineSupportCode(function ({
 		expect(data.last_name).to.be.equal(this.person.last_name)
 		expect(data.title).to.be.equal(this.person.title)
 		expect(data.nickname).to.be.equal(this.person.nickname)
-		let formattedDate = moment(data.date_of_birth, "ddd MMM DD YYYY HH:mm:ss GMTZ (UTC)")
-		expect(formattedDate.toJSON()).to.be.equal(this.person.date_of_birth.toJSON())
+		let expected_date = moment(this.person.date_of_birth, "MM/DD/YYYY")
+		let actual_date   = moment(data.date_of_birth, "YYYY-MM-DD")
+		expect(actual_date.toJSON()).to.be.equal(expected_date.toJSON())
 		expect(data.comment).to.be.equal(this.person.comment)
 		callback()
 	})
@@ -159,16 +160,21 @@ defineSupportCode(function ({
 	When('I search for all people', function () {
 		return this.client
 		.query({
-			query: gql`{
-        people {
-          first_name,
-          last_name,
-          title,
-          nickname,
-          date_of_birth,
+			query    : gql`query people( $start: Int! $records: Int!) {
+        people(start: $start records: $records) {
+          id
+          first_name
+          last_name
+          title
+          nickname
+          date_of_birth
           comment
         }
-      }`
+      }`,
+			variables: {
+				"start"  : 0,
+				"records": 100
+			}
 		})
 
 		.then((response) => this.result.data = response)
@@ -183,8 +189,9 @@ defineSupportCode(function ({
 		expect(data.last_name).to.be.equal(this.person.last_name)
 		expect(data.title).to.be.equal(this.person.title)
 		expect(data.nickname).to.be.equal(this.person.nickname)
-		let formattedDate = moment(data.date_of_birth, "ddd MMM DD YYYY HH:mm:ss GMTZ (UTC)")
-		expect(formattedDate.toJSON()).to.be.equal(this.person.date_of_birth.toJSON())
+		let expected_date = moment(this.person.date_of_birth, "MM/DD/YYYY")
+		let actual_date   = moment(data.date_of_birth, "YYYY-MM-DD")
+		expect(actual_date.toJSON()).to.be.equal(expected_date.toJSON())
 		expect(data.comment).to.be.equal(this.person.comment)
 		callback()
 	})
