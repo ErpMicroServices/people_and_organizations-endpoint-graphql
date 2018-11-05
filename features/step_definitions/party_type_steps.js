@@ -1,3 +1,5 @@
+import gql from 'graphql-tag'
+
 var {
 	    defineSupportCode
     } = require('cucumber')
@@ -8,20 +10,20 @@ defineSupportCode(function ({
 	                            Then
                             }) {
 
-	// Given('a party type with a description of {string} has been saved to the database', function (string) {
-	// 	return this.db.one("insert into party_type (description) values ($1) returning id", [string])
-	// 			.then(data => this.party_type.id = data.id);
-	//
-	// });
+	Given('a party type with a description of {string} has been saved to the database', function (string) {
+		return this.db.one("insert into party_type (description) values ($1) returning id", [string])
+			.then(data => this.party_type.id = data.id)
+
+	})
 
 
-	When('I add a child party type with a description of {string}', function (string) {
-		this.child_party_type_description = string
+	When('I add a child party type with a description of {string}', function (description) {
+		this.child_party_type_description = description
 		return this.client
 		.mutate({
-			mutation : gql`mutation add_party_type_child( $description: String!, $parent_id: ID!) { add_party_type_child(description: $description, parent_id: $parent_id) }`,
+			mutation : gql`mutation add_party_type_child($description: String!, $parent_id: ID!) {add_party_type_child(description: $description, parent_id: $parent_id) {id}}`,
 			variables: {
-				description: string,
+				description: description,
 				parent_id  : this.party_type.id
 			}
 		})
@@ -30,11 +32,12 @@ defineSupportCode(function ({
 	})
 
 	Then('I can find the parent of the child', function () {
+		console.log("this.result: ", this.result.data)
 		expect(this.result.error).to.be.null
 		expect(this.result.data).to.not.be.null
-		expect(this.result.data.data).to.not.be.null
-		expect(this.result.data.data.id).to.not.be.null
-		return this.db.one("select id, description, parent_id from party_type where id = ${add_party_type_child}", this.result.data.data)
+		expect(this.result.data.data.add_party_type_child).to.not.be.null
+		expect(this.result.data.data.add_party_type_child.id).to.not.be.null
+		return this.db.one("select id, description, parent_id from party_type where id = ${id}", this.result.data.data.add_party_type_child)
 			.then(data => {
 				expect(data.parent_id).to.be.equal(this.party_type.id)
 				expect(data.description).to.be.equal(this.child_party_type_description)
