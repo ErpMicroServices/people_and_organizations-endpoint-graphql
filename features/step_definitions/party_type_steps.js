@@ -115,9 +115,11 @@ defineSupportCode(function ({
 	})
 
 	Then('The party type is in the database', function () {
-		console.log("This result: ", this.result)
 		return this.db.one("select id, description, parent_id from party_type where description = ${description}", this.result.data.data.create_party_type)
-			.then(data => console.log("data: ", data))
+			.then(data => {
+				expect(data.id).to.not.be.empty
+				expect(data.description).to.be.equal(this.party_type.description)
+			})
 			.catch(error => fail(error))
 	})
 })
