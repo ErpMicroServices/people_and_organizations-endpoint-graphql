@@ -1,3 +1,4 @@
+import {fail} from 'assert'
 import gql from 'graphql-tag'
 
 var {
@@ -94,5 +95,29 @@ defineSupportCode(function ({
 			expect(this.result.data.description).to.be.equal(this.party_type.description)
 		}
 		callback()
+	})
+
+	Given('a party type description of {string}', function (description, callback) {
+		this.party_type.description = description
+		callback()
+	})
+
+	When('I save the party type', function () {
+		return this.client
+		.mutate({
+			mutation : gql`mutation create_party_type( $description: String!) { create_party_type( description: $description) {id description }}`,
+			variables: {
+				description: this.party_type.description
+			}
+		})
+		.then(results => this.result.data = results)
+		.catch(error => this.result.error = error)
+	})
+
+	Then('The party type is in the database', function () {
+		console.log("This result: ", this.result)
+		return this.db.one("select id, description, parent_id from party_type where description = ${description}", this.result.data.data.create_party_type)
+			.then(data => console.log("data: ", data))
+			.catch(error => fail(error))
 	})
 })
