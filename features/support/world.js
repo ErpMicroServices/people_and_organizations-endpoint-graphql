@@ -17,10 +17,15 @@ function CustomWorld() {
 		cache: new InMemoryCache()
 	})
 
-	this.party  = {
+	this.party = {
 		party_type: ''
 	}
-	this.person = {
+
+	this.party_role_type = {
+		id         : '',
+		description: ''
+	}
+	this.person          = {
 		id           : '',
 		first_name   : '',
 		last_name    : '',

@@ -1,5 +1,6 @@
 import {GraphQLDate} from 'graphql-iso-date'
 import add_party_type_child from './add_party_type_child'
+import create_party_role_type from './create_party_role_type'
 import create_party_type from './create_party_type'
 import create_person from './create_person'
 import delete_party_type from './delete_party_type'
@@ -32,6 +33,7 @@ export default {
 	},
 	Mutation: {
 		add_party_type_child,
+		create_party_role_type,
 		create_party_type,
 		create_person,
 		delete_party_type,

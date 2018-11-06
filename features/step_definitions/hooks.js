@@ -13,6 +13,7 @@ defineSupportCode(function ({
 		this.db.any("delete from party_contact_mechanism")
 			.then(() => this.db.any("delete from contact_mechanism"))
 			.then(() => this.db.any("delete from party_type where description not in ('Person', 'Organization', 'Legal Organization', 'Informal Organization', 'Corporation', 'Government Agency', 'Team')"))
+			.then(() => this.db.any("delete from party_role_type"))
 			.then(() => this.db.any("delete from party"))
 			.then(() => this.db.any("select id, description from contact_mechanism_type order by description"))
 			.then((data) => this.contact_mechanism_types = data)
