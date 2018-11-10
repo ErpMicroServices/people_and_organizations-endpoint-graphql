@@ -11,6 +11,7 @@ type Mutation {
 	delete_person(id: ID!) :Boolean
 	update_person(id:ID!, first_name: String, last_name: String, title: String, nickname: String, date_of_birth: String, 
 								comment: String, email: String) :Person
+	update_party_role_type(id: ID!, description: String!): PartyRoleType
 	update_party_type(id: ID!, description: String!): PartyType
 }
 `

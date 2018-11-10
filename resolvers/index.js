@@ -11,6 +11,7 @@ import organizations from './organizations'
 import parties from './parties'
 import people from "./people"
 import person_by_id from './person_by_id'
+import update_party_role_type from './update_party_role_type'
 import update_party_type from './update_party_type'
 import update_person from "./update_person"
 
@@ -42,6 +43,7 @@ export default {
 		delete_party_role_type,
 		delete_party_type,
 		delete_person,
+		update_party_role_type,
 		update_party_type,
 		update_person
 	}

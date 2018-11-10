@@ -96,4 +96,33 @@ defineSupportCode(function ({
 			})
 			.catch(error => expect(error).to.not.be.null)
 	})
+
+	When('I update the description of the party role type to {string}', function (new_description) {
+		this.update_party_role_type_description = new_description
+		return this.client.mutate({
+			mutation : gql`mutation update_party_role_type($id: ID!, $description: String!) {update_party_role_type(id: $id, description: $description){ id description parent_id}}`,
+			variables: {
+				id         : this.party_role_type.id,
+				description: new_description
+			}
+		})
+		.then(results => this.result.data = results)
+		.catch(error => this.result.error = error)
+	})
+
+	Then('the party role type description has been updated', function () {
+		console.log("this.result: ", this.result)
+		expect(this.result.error).to.be.null
+		expect(this.result.data).to.not.be.null
+		expect(this.result.data.data.update_party_role_type).to.not.be.null
+		expect(this.result.data.data.update_party_role_type.id).to.not.be.null
+		expect(this.result.data.data.update_party_role_type.description).to.not.be.null
+		expect(this.result.data.data.update_party_role_type.description).to.be.equal(this.update_party_role_type_description)
+		return this.db.one("select id, description, parent_id from party_role_type where id = ${id}", this.party_role_type)
+			.then(data => {
+				console.log("data: ", data)
+				expect(data.description).to.be.equal(this.update_party_role_type_description)
+			})
+			.catch(error => fail(error))
+	})
 })
