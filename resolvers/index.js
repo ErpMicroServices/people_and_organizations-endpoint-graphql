@@ -4,6 +4,7 @@ import add_party_type_child from './add_party_type_child'
 import create_party_role_type from './create_party_role_type'
 import create_party_type from './create_party_type'
 import create_person from './create_person'
+import delete_party_role_type from './delete_party_role_type'
 import delete_party_type from './delete_party_type'
 import delete_person from './delete_person'
 import organizations from './organizations'
@@ -38,6 +39,7 @@ export default {
 		create_party_role_type,
 		create_party_type,
 		create_person,
+		delete_party_role_type,
 		delete_party_type,
 		delete_person,
 		update_party_type,

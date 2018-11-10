@@ -63,7 +63,6 @@ defineSupportCode(function ({
 	})
 
 	Then('I can find the parent of the child  of the party role type', function () {
-		console.log("this.result: ", this.result)
 		expect(this.result.error).to.be.null
 		expect(this.result.data).to.not.be.null
 		expect(this.result.data.data.add_party_role_type_child).to.not.be.null
@@ -73,5 +72,28 @@ defineSupportCode(function ({
 				expect(data.parent_id).to.be.equal(this.party_role_type.id)
 				expect(data.description).to.be.equal(this.child_party_role_type_description)
 			})
+	})
+
+	When('I delete the party role type', function () {
+		return this.client.mutate({
+			mutation : gql`mutation delete_party_role_type($id: ID!) {delete_party_role_type(id: $id)}`,
+			variables: {
+				id: this.party_role_type.id
+			}
+		})
+		.then(results => this.result.data = results)
+		.catch(error => this.result.error = error)
+	})
+
+	Then('the party role type is not in the database', function () {
+		expect(this.result.error).to.be.null
+		expect(this.result.data).to.not.be.null
+		expect(this.result.data.data.delete_party_role_type).to.not.be.null
+		expect(this.result.data.data.delete_party_role_type.id).to.not.be.null
+		return this.db.one("select id, description, parent_id from party_role_type where id = ${id}", this.party_role_type)
+			.then(data => {
+				fail(data, null, "No data should be left")
+			})
+			.catch(error => expect(error).to.not.be.null)
 	})
 })
