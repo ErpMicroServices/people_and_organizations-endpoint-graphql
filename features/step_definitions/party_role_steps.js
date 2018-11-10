@@ -44,4 +44,33 @@ defineSupportCode(function ({
 			})
 			.catch(error => fail(error))
 	})
+
+	When('I add a child party role type with a description of {string}', function (description) {
+		this.child_party_role_type_description = description
+		this.party_role_type_child             = {
+			parent_id: this.party_role_type.id,
+			description
+		}
+		return this.client.mutate({
+			mutation : gql`mutation add_party_role_type_child( $description: String!, $parent_id: ID!) { add_party_role_type_child( description: $description, parent_id: $parent_id) {id description parent_id}}`,
+			variables: {
+				description: this.party_role_type_child.description,
+				parent_id  : this.party_role_type_child.parent_id
+			}
+		})
+		.then(results => this.result.data = results)
+		.catch(error => this.result.error = error)
+	})
+
+	Then('I can find the parent of the child  of the party role type', function (callback) {
+		expect(this.result.error).to.be.null
+		expect(this.result.data).to.not.be.null
+		expect(this.result.data.data.add_party_role_type_child).to.not.be.null
+		expect(this.result.data.data.add_party_role_type_child.id).to.not.be.null
+		return this.db.one("select id, description, parent_id from party_type where id = ${id}", this.result.data.data.add_party_role_type_child)
+			.then(data => {
+				expect(data.parent_id).to.be.equal(this.party_role_type.id)
+				expect(data.description).to.be.equal(this.child_party_role_type_description)
+			})
+	})
 })
