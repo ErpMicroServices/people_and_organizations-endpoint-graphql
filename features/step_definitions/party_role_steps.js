@@ -62,12 +62,13 @@ defineSupportCode(function ({
 		.catch(error => this.result.error = error)
 	})
 
-	Then('I can find the parent of the child  of the party role type', function (callback) {
+	Then('I can find the parent of the child  of the party role type', function () {
+		console.log("this.result: ", this.result)
 		expect(this.result.error).to.be.null
 		expect(this.result.data).to.not.be.null
 		expect(this.result.data.data.add_party_role_type_child).to.not.be.null
 		expect(this.result.data.data.add_party_role_type_child.id).to.not.be.null
-		return this.db.one("select id, description, parent_id from party_type where id = ${id}", this.result.data.data.add_party_role_type_child)
+		return this.db.one("select id, description, parent_id from party_role_type where id = ${id}", this.result.data.data.add_party_role_type_child)
 			.then(data => {
 				expect(data.parent_id).to.be.equal(this.party_role_type.id)
 				expect(data.description).to.be.equal(this.child_party_role_type_description)

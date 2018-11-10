@@ -13,3 +13,4 @@ type Mutation {
 	update_party_type(id: ID!, description: String!): PartyType
 }
 `
+
