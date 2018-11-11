@@ -54,7 +54,6 @@ defineSupportCode(function ({
 	})
 
 
-
 	When('I search for all people', function () {
 		return this.client
 		.query({
@@ -183,5 +182,21 @@ defineSupportCode(function ({
 		return this.db.one("select id from party where id=$1", [this.party.id])
 			.then((data) => expect(data).to.not.exist)
 			.catch((error) => expect(error.message).to.be.equal("No data returned from the query."))
+	})
+
+	Then('I find the person in the list', function (callback) {
+		expect(this.result.error).to.be.null
+		expect(this.result.data.data).to.exist
+		expect(this.result.data.data.people).to.exist
+		let person = this.result.data.data.people[0]
+		expect(person.first_name).to.be.equal(this.party.first_name)
+		expect(person.last_name).to.be.equal(this.party.last_name)
+		expect(person.title).to.be.equal(this.party.title)
+		expect(person.nickname).to.be.equal(this.party.nickname)
+		let expected_date = moment(this.party.date_of_birth, "MM/DD/YYYY")
+		let actual_date   = moment(person.date_of_birth, "YYYY-MM-DD")
+		expect(actual_date.toJSON()).to.be.equal(expected_date.toJSON())
+		expect(person.comment).to.be.equal(this.party.comment)
+		callback()
 	})
 })
