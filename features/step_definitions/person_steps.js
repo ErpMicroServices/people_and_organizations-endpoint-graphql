@@ -145,8 +145,6 @@ defineSupportCode(function ({
 		callback()
 	})
 
-
-
 	Given('no last name', function (callback) {
 		this.party.last_name = ''
 		callback()
@@ -159,5 +157,31 @@ defineSupportCode(function ({
 
 	Then('I get an error indicating that either a first name or a last name must be provided', function (callback) {
 		callback(null, 'pending')
+	})
+
+	Given('the person is in the database', function () {
+		return this.db.one("insert into party (first_name, last_name, title, nickname, date_of_birth, comment, party_type_id) values($1, $2, $3, $4, $5, $6, $7) returning id",
+			[this.party.first_name, this.party.last_name, this.party.title, this.party.nickname, this.party.date_of_birth, this.party.comment, this.party_type_id("Person")])
+			.then((data) => this.party.id = data.id)
+	})
+
+	When('I delete the person', function () {
+		return this.client
+		.mutate({
+			mutation : gql`mutation delete_person($id: ID!) {delete_person(id: $id)}`,
+			variables: {
+				"id": this.party.id
+			}
+		})
+		.then(results => this.result.data = results)
+		.catch(error => this.result.error = error)
+	})
+
+	Then('the person is no longer in the database', function () {
+		expect(this.result.error).to.be.null
+		expect(this.result.data.data).to.exist
+		return this.db.one("select id from party where id=$1", [this.party.id])
+			.then((data) => expect(data).to.not.exist)
+			.catch((error) => expect(error.message).to.be.equal("No data returned from the query."))
 	})
 })
