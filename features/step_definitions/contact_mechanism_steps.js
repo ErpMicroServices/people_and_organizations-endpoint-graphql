@@ -9,7 +9,7 @@ defineSupportCode(function({
 }) {
 
 	Given('I have an email {string}', function (email, callback) {
-		this.person.email = email;
+		this.party.email = email
         callback();
     });
 
@@ -33,7 +33,7 @@ defineSupportCode(function({
         `, [ this.result.data.data.create_person.id])
             .then((data) => {
                 expect(data.length).to.be.equal(1);
-                expect(data[0].end_point).to.be.equal(this.person.email)
+	            expect(data[0].end_point).to.be.equal(this.party.email)
             })
     });
 

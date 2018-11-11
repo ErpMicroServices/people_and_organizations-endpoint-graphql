@@ -25,7 +25,7 @@ function CustomWorld() {
 		id         : '',
 		description: ''
 	}
-	this.person          = {
+	this.party           = {
 		id           : '',
 		first_name   : '',
 		last_name    : '',
@@ -33,7 +33,9 @@ function CustomWorld() {
 		nickname     : '',
 		date_of_birth: '',
 		comment      : '',
-		email_address: ''
+		email_address: '',
+		name         : '',
+		government_id: ''
 	}
 
 	this.party_type = {

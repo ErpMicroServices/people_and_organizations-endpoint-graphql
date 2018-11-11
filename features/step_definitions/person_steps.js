@@ -13,33 +13,33 @@ defineSupportCode(function ({
                             }) {
 
 	Given('I have provided a first name as {string}', function (first_name, callback) {
-		this.person.first_name = first_name
+		this.party.first_name = first_name
 		callback()
 	})
 	Given('I have provided a last name as {string}', function (last_name, callback) {
-		this.person.last_name = last_name
+		this.party.last_name = last_name
 		callback()
 	})
 	Given('I have provided a title of {string}', function (title, callback) {
-		this.person.title = title
+		this.party.title = title
 		callback()
 	})
 	Given('I have provided a nickname of {string}', function (nickname, callback) {
-		this.person.nickname = nickname
+		this.party.nickname = nickname
 		callback()
 	})
 	Given('I have provided a date of birth of {string}', function (date_of_birth, callback) {
 		if (date_of_birth) {
-			this.person.date_of_birth = moment(date_of_birth, "MM-DD-YYYY").toDate()
+			this.party.date_of_birth = moment(date_of_birth, "MM-DD-YYYY").toDate()
 		} else {
-			this.person.date_of_birth = null
+			this.party.date_of_birth = null
 		}
 
 		callback()
 	})
 
 	Given('I have made the comment that {string}', function (comment, callback) {
-		this.person.comment = comment
+		this.party.comment = comment
 		callback()
 	})
 
@@ -54,7 +54,7 @@ defineSupportCode(function ({
 	})
 
 
-	When('I save the person', function () {
+	When('I save the party', function () {
 		return this.client
 		.mutate({
 			mutation : gql`mutation create_person(
@@ -79,13 +79,13 @@ defineSupportCode(function ({
         }
       }`,
 			variables: {
-				"first_name"   : this.person.first_name,
-				"last_name"    : this.person.last_name,
-				"title"        : this.person.title,
-				"nickname"     : this.person.nickname,
-				"date_of_birth": this.person.date_of_birth ? this.person.date_of_birth.toJSON() : null,
-				"comment"      : this.person.comment,
-				"email"        : this.person.email
+				"first_name"   : this.party.first_name,
+				"last_name"    : this.party.last_name,
+				"title"        : this.party.title,
+				"nickname"     : this.party.nickname,
+				"date_of_birth": this.party.date_of_birth ? this.party.date_of_birth.toJSON() : null,
+				"comment"      : this.party.comment,
+				"email"        : this.party.email
 			}
 		})
 		.then(results => this.result.data = results)
@@ -93,7 +93,7 @@ defineSupportCode(function ({
 
 	})
 
-	Then('the person data will be in the database', function () {
+	Then('the party data will be in the database', function () {
 		expect(this.result.error).to.be.null
 		expect(this.result.data.data).to.exist
 		expect(this.result.data.data.create_person).to.exist
@@ -101,25 +101,25 @@ defineSupportCode(function ({
 		return this.db.one("select id, first_name, last_name, title, nickname, date_of_birth, comment from party where id=$1", [this.result.data.data.create_person.id])
 			.then(data => {
 				expect(data.id).to.be.equal(this.result.data.data.create_person.id)
-				expect(data.first_name).to.be.equal(this.person.first_name)
-				expect(data.last_name).to.be.equal(this.person.last_name)
-				expect(data.title).to.be.equal(this.person.title)
-				expect(data.nickname).to.be.equal(this.person.nickname)
-				if (data.date_of_birth && this.person.date_of_birth) {
-					expect(data.date_of_birth.toJSON()).to.be.equal(this.person.date_of_birth.toJSON())
+				expect(data.first_name).to.be.equal(this.party.first_name)
+				expect(data.last_name).to.be.equal(this.party.last_name)
+				expect(data.title).to.be.equal(this.party.title)
+				expect(data.nickname).to.be.equal(this.party.nickname)
+				if (data.date_of_birth && this.party.date_of_birth) {
+					expect(data.date_of_birth.toJSON()).to.be.equal(this.party.date_of_birth.toJSON())
 				}
-				expect(data.comment).to.be.equal(this.person.comment)
+				expect(data.comment).to.be.equal(this.party.comment)
 			})
 
 	})
 
-	Given('the person is in the database', function () {
+	Given('the party is in the database', function () {
 		return this.db.one("insert into party (first_name, last_name, title, nickname, date_of_birth, comment, party_type_id) values($1, $2, $3, $4, $5, $6, $7) returning id",
-			[this.person.first_name, this.person.last_name, this.person.title, this.person.nickname, this.person.date_of_birth, this.person.comment, this.party_type_id("Person")])
-			.then((data) => this.person.id = data.id)
+			[this.party.first_name, this.party.last_name, this.party.title, this.party.nickname, this.party.date_of_birth, this.party.comment, this.party_type_id("Person")])
+			.then((data) => this.party.id = data.id)
 	})
 
-	When('I search by the person\'s id', function () {
+	When('I search by the party\'s id', function () {
 		return this.client
 		.query({
 			query    : gql`query person_by_id( $id: ID!) {
@@ -133,7 +133,7 @@ defineSupportCode(function ({
         }
       }`,
 			variables: {
-				"id": this.person.id
+				"id": this.party.id
 			}
 		})
 
@@ -141,19 +141,19 @@ defineSupportCode(function ({
 		.catch(error => this.result.error = error)
 	})
 
-	Then('I find the person', function (callback) {
+	Then('I find the party', function (callback) {
 		expect(this.result.error).to.be.null
 		expect(this.result.data.data).to.exist
 		expect(this.result.data.data.person_by_id).to.exist
 		let data = this.result.data.data.person_by_id
-		expect(data.first_name).to.be.equal(this.person.first_name)
-		expect(data.last_name).to.be.equal(this.person.last_name)
-		expect(data.title).to.be.equal(this.person.title)
-		expect(data.nickname).to.be.equal(this.person.nickname)
-		let expected_date = moment(this.person.date_of_birth, "MM/DD/YYYY")
+		expect(data.first_name).to.be.equal(this.party.first_name)
+		expect(data.last_name).to.be.equal(this.party.last_name)
+		expect(data.title).to.be.equal(this.party.title)
+		expect(data.nickname).to.be.equal(this.party.nickname)
+		let expected_date = moment(this.party.date_of_birth, "MM/DD/YYYY")
 		let actual_date   = moment(data.date_of_birth, "YYYY-MM-DD")
 		expect(actual_date.toJSON()).to.be.equal(expected_date.toJSON())
-		expect(data.comment).to.be.equal(this.person.comment)
+		expect(data.comment).to.be.equal(this.party.comment)
 		callback()
 	})
 
@@ -181,18 +181,18 @@ defineSupportCode(function ({
 		.catch(error => this.result.error = error)
 	})
 
-	Then('I find the person in the list', function (callback) {
+	Then('I find the party in the list', function (callback) {
 		expect(this.result.error).to.be.null
 		expect(this.result.data.data).to.exist
 		let data = this.result.data.data.people[0]
-		expect(data.first_name).to.be.equal(this.person.first_name)
-		expect(data.last_name).to.be.equal(this.person.last_name)
-		expect(data.title).to.be.equal(this.person.title)
-		expect(data.nickname).to.be.equal(this.person.nickname)
-		let expected_date = moment(this.person.date_of_birth, "MM/DD/YYYY")
+		expect(data.first_name).to.be.equal(this.party.first_name)
+		expect(data.last_name).to.be.equal(this.party.last_name)
+		expect(data.title).to.be.equal(this.party.title)
+		expect(data.nickname).to.be.equal(this.party.nickname)
+		let expected_date = moment(this.party.date_of_birth, "MM/DD/YYYY")
 		let actual_date   = moment(data.date_of_birth, "YYYY-MM-DD")
 		expect(actual_date.toJSON()).to.be.equal(expected_date.toJSON())
-		expect(data.comment).to.be.equal(this.person.comment)
+		expect(data.comment).to.be.equal(this.party.comment)
 		callback()
 	})
 
@@ -201,13 +201,13 @@ defineSupportCode(function ({
 		.mutate({
 			mutation : gql`mutation update_person($id: ID!, $first_name: String, $last_name: String, $title: String, $nickname: String, $date_of_birth: String, $comment: String) {update_person(id: $id, first_name: $first_name, last_name: $last_name, title: $title, nickname: $nickname, date_of_birth: $date_of_birth, comment: $comment) {id, first_name, last_name, title, nickname, date_of_birth, comment}}`,
 			variables: {
-				"id"           : this.person.id,
+				"id"           : this.party.id,
 				"first_name"   : first_name,
-				"last_name"    : this.person.last_name,
-				"title"        : this.person.title,
-				"nickname"     : this.person.nickname,
-				"date_of_birth": this.person.date_of_birth.toJSON(),
-				"comment"      : this.person.comment
+				"last_name"    : this.party.last_name,
+				"title"        : this.party.title,
+				"nickname"     : this.party.nickname,
+				"date_of_birth": this.party.date_of_birth.toJSON(),
+				"comment"      : this.party.comment
 			}
 		})
 
@@ -247,33 +247,33 @@ defineSupportCode(function ({
 		callback()
 	})
 
-	When('I delete the person', function () {
+	When('I delete the party', function () {
 		return this.client
 		.mutate({
 			mutation : gql`mutation delete_person($id: ID!) {delete_person(id: $id)}`,
 			variables: {
-				"id": this.person.id
+				"id": this.party.id
 			}
 		})
 		.then(results => this.result.data = results)
 		.catch(error => this.result.error = error)
 	})
 
-	Then('the person is no longer in the database', function () {
+	Then('the party is no longer in the database', function () {
 		expect(this.result.error).to.be.null
 		expect(this.result.data.data).to.exist
-		return this.db.one("select id from party where id=$1", [this.person.id])
+		return this.db.one("select id from party where id=$1", [this.party.id])
 			.then((data) => expect(data).to.not.exist)
 			.catch((error) => expect(error.message).to.be.equal("No data returned from the query."))
 	})
 
 	Given('no last name', function (callback) {
-		this.person.last_name = ''
+		this.party.last_name = ''
 		callback()
 	})
 
 	Given('No first name', function (callback) {
-		this.person.first_name = ''
+		this.party.first_name = ''
 		callback()
 	})
 

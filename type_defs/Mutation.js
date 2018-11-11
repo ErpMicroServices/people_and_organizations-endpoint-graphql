@@ -6,6 +6,7 @@ type Mutation {
 	create_party_type( description: String!): PartyType
 	create_person(first_name: String, last_name: String, title: String, nickname: String, date_of_birth: String, 
 								comment: String, email: String) : Person
+	delete_organization(id: ID!): Boolean
 	delete_party_role_type( id: ID!): Boolean
 	delete_party_type( id: ID!): Boolean
 	delete_person(id: ID!) :Boolean
