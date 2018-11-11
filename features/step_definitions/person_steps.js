@@ -199,4 +199,42 @@ defineSupportCode(function ({
 		expect(person.comment).to.be.equal(this.party.comment)
 		callback()
 	})
+
+	When('I search by the person\'s id', function () {
+		return this.client
+		.query({
+			query    : gql`query person_by_id( $id: ID!) {
+        person_by_id(id: $id) {
+          first_name,
+          last_name,
+          title,
+          nickname,
+          date_of_birth,
+          comment
+        }
+      }`,
+			variables: {
+				"id": this.party.id
+			}
+		})
+
+		.then((response) => this.result.data = response)
+		.catch(error => this.result.error = error)
+	})
+
+	Then('I find the person', function (callback) {
+		expect(this.result.error).to.be.null
+		expect(this.result.data.data).to.exist
+		expect(this.result.data.data.person_by_id).to.exist
+		let data = this.result.data.data.person_by_id
+		expect(data.first_name).to.be.equal(this.party.first_name)
+		expect(data.last_name).to.be.equal(this.party.last_name)
+		expect(data.title).to.be.equal(this.party.title)
+		expect(data.nickname).to.be.equal(this.party.nickname)
+		let expected_date = moment(this.party.date_of_birth, "MM/DD/YYYY")
+		let actual_date   = moment(data.date_of_birth, "YYYY-MM-DD")
+		expect(actual_date.toJSON()).to.be.equal(expected_date.toJSON())
+		expect(data.comment).to.be.equal(this.party.comment)
+		callback()
+	})
 })
