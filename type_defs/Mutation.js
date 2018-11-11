@@ -10,6 +10,7 @@ type Mutation {
 	delete_party_role_type( id: ID!): Boolean
 	delete_party_type( id: ID!): Boolean
 	delete_person(id: ID!) :Boolean
+	update_organization(id: ID!, name: String, government_id: String, comment: String): Organization
 	update_person(id:ID!, first_name: String, last_name: String, title: String, nickname: String, date_of_birth: String, 
 								comment: String, email: String) :Person
 	update_party_role_type(id: ID!, description: String!): PartyRoleType
