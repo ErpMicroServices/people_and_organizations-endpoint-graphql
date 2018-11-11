@@ -111,7 +111,6 @@ defineSupportCode(function ({
 	})
 
 	Then('the party role type description has been updated', function () {
-		console.log("this.result: ", this.result)
 		expect(this.result.error).to.be.null
 		expect(this.result.data).to.not.be.null
 		expect(this.result.data.data.update_party_role_type).to.not.be.null
@@ -120,9 +119,29 @@ defineSupportCode(function ({
 		expect(this.result.data.data.update_party_role_type.description).to.be.equal(this.update_party_role_type_description)
 		return this.db.one("select id, description, parent_id from party_role_type where id = ${id}", this.party_role_type)
 			.then(data => {
-				console.log("data: ", data)
 				expect(data.description).to.be.equal(this.update_party_role_type_description)
 			})
 			.catch(error => fail(error))
+	})
+
+	When('I search for a party role type by the description {string}', function (description) {
+		return this.client.query({
+			query    : gql`query party_role_type($description: String!) {party_role_type( description: $description){ id description parent_id}}`,
+			variables: {
+				description: this.party_role_type.description
+			}
+		})
+		.then(results => this.result.data = results)
+		.catch(error => this.result.error = error)
+	})
+
+	Then('I find the party role type', function (callback) {
+		expect(this.result.error).to.be.null
+		expect(this.result.data).to.not.be.null
+		expect(this.result.data.data.party_role_type).to.not.be.null
+		expect(this.result.data.data.party_role_type.id).to.not.be.null
+		expect(this.result.data.data.party_role_type.description).to.not.be.null
+		expect(this.result.data.data.party_role_type.description).to.be.equal(this.party_role_type.description)
+		callback()
 	})
 })

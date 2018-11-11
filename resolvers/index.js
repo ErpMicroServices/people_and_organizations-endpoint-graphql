@@ -9,6 +9,7 @@ import delete_party_type from './delete_party_type'
 import delete_person from './delete_person'
 import organizations from './organizations'
 import parties from './parties'
+import party_role_type from './party_role_type'
 import people from "./people"
 import person_by_id from './person_by_id'
 import update_party_role_type from './update_party_role_type'
@@ -31,6 +32,7 @@ export default {
 	Query   : {
 		organizations,
 		parties,
+		party_role_type,
 		people,
 		person_by_id
 	},
