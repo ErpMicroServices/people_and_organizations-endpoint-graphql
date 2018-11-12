@@ -97,13 +97,71 @@ defineSupportCode(function ({
 	})
 
 	Then('I find the organization in the list', function (callback) {
-		console.log("this.result: ", this.result)
 		expect(this.result.error).to.be.null
 		expect(this.result.data.data).to.exist
 		let data = this.result.data.data.organizations[0]
 		expect(data.name).to.be.equal(this.party.name)
 		expect(data.government_id).to.be.equal(this.party.government_id)
 		expect(data.comment).to.be.equal(this.party.comment)
+		callback()
+	})
+
+	When('I search by the organizations id', function () {
+		return this.client
+		.query({
+			query    : gql`query organziation_by_id( $id: ID!) {
+        organization_by_id(id: $id) {
+          id
+          name
+          government_id
+          comment
+        }
+      }`,
+			variables: {
+				"id": this.party.id
+			}
+		})
+		.then((response) => this.result.data = response)
+		.catch(error => this.result.error = error)
+	})
+
+	Then('I find the organization', function (callback) {
+		expect(this.result.error).to.be.null
+		expect(this.result.data.data).to.exist
+		expect(this.result.data.data.organization_by_id).to.exist
+		let data = this.result.data.data.organization_by_id
+		expect(data.name).to.be.equal(this.party.name)
+		expect(data.government_id).to.be.equal(this.party.government_id)
+		expect(data.comment).to.be.equal(this.party.comment)
+		callback()
+	})
+
+	When('I save the organization', function () {
+		return this.client.mutate({
+			mutation : gql`mutation create_organization($name: String, $government_id: String, $comment: String) {create_organization(name: $name, government_id: $government_id, comment: $comment) {id name government_id comment}}`,
+			variables: {
+				"name"         : this.party.name,
+				"government_id": this.party.government_id,
+				"comment"      : this.party.comment
+			}
+		})
+		.then((response) => this.result.data = response)
+		.catch(error => this.result.error = error)
+	})
+
+	Given('I have not provided an organization name', function (callback) {
+		this.party.name = ''
+		callback()
+	})
+
+	Then('I get an error indicating that a name is required', function (callback) {
+		console.log("this.result.error: ", this.result.error)
+		console.log("this.result.error.networkError.result.errors: ", this.result.error.networkError.result.errors)
+		expect(this.result.data).to.be.null
+		expect(this.result.error).to.exist
+		expect(this.result.error.networkError.statusCode).to.be.equal(400)
+		expect(this.result.error.networkError.result.errors.length).to.be.equal(1)
+		expect(this.result.error.networkError.result.errors[0].message).to.be.equal('Variable "$name" of type "String" used in position expecting type "String!".')
 		callback()
 	})
 })

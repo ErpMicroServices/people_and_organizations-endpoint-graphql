@@ -1,5 +1,4 @@
-import database from "../database";
-
-export default function (id) {
-	return database.one('select id, name from party where id=$1', [id]);
+export default function (obj, args, context, graphql) {
+	console.log("args: ", args)
+	return context.database.one('select id, name, government_id, comment from party where id=${id}', args)
 };

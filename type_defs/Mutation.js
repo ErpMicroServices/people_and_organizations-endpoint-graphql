@@ -2,6 +2,7 @@ export default `
 type Mutation {
 	add_party_type_child( description: String, parent_id: ID!): PartyType
 	add_party_role_type_child( description: String!, parent_id: ID!): PartyRoleType
+	create_organization(name: String!, government_id: String, comment: String): Organization
 	create_party_role_type( description: String!): PartyRoleType
 	create_party_type( description: String!): PartyType
 	create_person(first_name: String, last_name: String, title: String, nickname: String, date_of_birth: String, 

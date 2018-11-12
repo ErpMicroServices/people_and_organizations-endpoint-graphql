@@ -8,6 +8,7 @@ import delete_organization from './delete_organization'
 import delete_party_role_type from './delete_party_role_type'
 import delete_party_type from './delete_party_type'
 import delete_person from './delete_person'
+import organization_by_id from './organization_by_id'
 import organizations from './organizations'
 import parties from './parties'
 import party_role_type from './party_role_type'
@@ -32,6 +33,7 @@ export default {
 		}
 	},
 	Query   : {
+		organization_by_id,
 		organizations,
 		parties,
 		party_role_type,
