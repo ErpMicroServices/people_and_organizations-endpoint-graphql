@@ -73,7 +73,6 @@ defineSupportCode(function ({
 				"records": 100
 			}
 		})
-
 		.then((response) => this.result.data = response)
 		.catch(error => this.result.error = error)
 	})

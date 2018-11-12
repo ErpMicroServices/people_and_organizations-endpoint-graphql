@@ -22,7 +22,7 @@ defineSupportCode(function ({
 	})
 
 	Given('the organization is in the database', function () {
-		this.party.party_type_id = this.party_type_id("Person")
+		this.party.party_type_id = this.party_type_id("Organization")
 		return this.db.one("insert into party (name, government_id, comment, party_type_id) values(${name}, ${government_id}, ${comment}, ${party_type_id}) returning id", this.party)
 			.then((data) => this.party.id = data.id)
 	})
@@ -63,7 +63,6 @@ defineSupportCode(function ({
 	})
 
 	Then('the organization name has been updated', function () {
-		console.log("data: ", this.result.data)
 		expect(this.result.error).to.be.null
 		expect(this.result.data).to.not.be.null
 		expect(this.result.data.data.update_organization).to.not.be.null
@@ -75,5 +74,36 @@ defineSupportCode(function ({
 				expect(data.name).to.be.equal(this.organization_new_name)
 			})
 			.catch(error => fail(error))
+	})
+
+	When('I search for all the organizations', function () {
+		return this.client
+		.query({
+			query    : gql`query organizations( $start: Int!, $records: Int!) {
+        organizations(start: $start, records: $records) {
+          id
+          name
+          government_id
+          comment
+        }
+      }`,
+			variables: {
+				"start"  : 0,
+				"records": 100
+			}
+		})
+		.then((response) => this.result.data = response)
+		.catch(error => this.result.error = error)
+	})
+
+	Then('I find the organization in the list', function (callback) {
+		console.log("this.result: ", this.result)
+		expect(this.result.error).to.be.null
+		expect(this.result.data.data).to.exist
+		let data = this.result.data.data.organizations[0]
+		expect(data.name).to.be.equal(this.party.name)
+		expect(data.government_id).to.be.equal(this.party.government_id)
+		expect(data.comment).to.be.equal(this.party.comment)
+		callback()
 	})
 })
