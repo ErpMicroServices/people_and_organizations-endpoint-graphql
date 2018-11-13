@@ -35,7 +35,8 @@ function CustomWorld() {
 		comment      : '',
 		email_address: '',
 		name         : '',
-		government_id: ''
+		government_id: '',
+		party_roles  : []
 	}
 
 	this.party_type = {

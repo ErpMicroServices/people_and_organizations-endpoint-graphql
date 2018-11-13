@@ -8,7 +8,6 @@ services:
     - "dbdata:/var/lib/postgresql/data"
 
   endpoint-graphql:
-    image: erpmicroservices/people_and_organizations-endpoint-graphql
     build: .
     environment:
     - DATABASE_HOST=database
@@ -19,7 +18,6 @@ services:
     - "traefik.frontend.rule=Host:localhost;PathPrefixStrip:/api/people_and_organizations"
     - "traefik.port=80"
     - "traefik.frontend.entryPoints=http"
-
     links:
     - database
     volumes:

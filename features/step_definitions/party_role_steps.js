@@ -13,7 +13,7 @@ defineSupportCode(function ({
 
 	Given('a party role type with a description of {string} is in the database', function (description) {
 		this.party_role_type.description = description
-		return this.db.one("insert into party_role_type (description) values (${description}) returning id", this.party_role_type)
+		return this.db.one('insert into party_role_type (description) values (${description}) returning id', this.party_role_type)
 			.then(data => this.party_role_type.id = data.id)
 	})
 
@@ -37,7 +37,7 @@ defineSupportCode(function ({
 
 	Then('the party role type is in the database', function () {
 		expect(this.result.error).to.be.null
-		return this.db.one("select id, description, parent_id from party_role_type where description = ${description}", this.result.data.data.create_party_role_type)
+		return this.db.one('select id, description, parent_id from party_role_type where description = ${description}', this.result.data.data.create_party_role_type)
 			.then(data => {
 				expect(data.id).to.not.be.empty
 				expect(data.description).to.be.equal(this.party_role_type.description)
@@ -67,7 +67,7 @@ defineSupportCode(function ({
 		expect(this.result.data).to.not.be.null
 		expect(this.result.data.data.add_party_role_type_child).to.not.be.null
 		expect(this.result.data.data.add_party_role_type_child.id).to.not.be.null
-		return this.db.one("select id, description, parent_id from party_role_type where id = ${id}", this.result.data.data.add_party_role_type_child)
+		return this.db.one('select id, description, parent_id from party_role_type where id = ${id}', this.result.data.data.add_party_role_type_child)
 			.then(data => {
 				expect(data.parent_id).to.be.equal(this.party_role_type.id)
 				expect(data.description).to.be.equal(this.child_party_role_type_description)
@@ -90,9 +90,9 @@ defineSupportCode(function ({
 		expect(this.result.data).to.not.be.null
 		expect(this.result.data.data.delete_party_role_type).to.not.be.null
 		expect(this.result.data.data.delete_party_role_type.id).to.not.be.null
-		return this.db.one("select id, description, parent_id from party_role_type where id = ${id}", this.party_role_type)
+		return this.db.one('select id, description, parent_id from party_role_type where id = ${id}', this.party_role_type)
 			.then(data => {
-				fail(data, null, "No data should be left")
+				fail(data, null, 'No data should be left')
 			})
 			.catch(error => expect(error).to.not.be.null)
 	})
@@ -117,7 +117,7 @@ defineSupportCode(function ({
 		expect(this.result.data.data.update_party_role_type.id).to.not.be.null
 		expect(this.result.data.data.update_party_role_type.description).to.not.be.null
 		expect(this.result.data.data.update_party_role_type.description).to.be.equal(this.update_party_role_type_description)
-		return this.db.one("select id, description, parent_id from party_role_type where id = ${id}", this.party_role_type)
+		return this.db.one('select id, description, parent_id from party_role_type where id = ${id}', this.party_role_type)
 			.then(data => {
 				expect(data.description).to.be.equal(this.update_party_role_type_description)
 			})
@@ -143,5 +143,30 @@ defineSupportCode(function ({
 		expect(this.result.data.data.party_role_type.description).to.not.be.null
 		expect(this.result.data.data.party_role_type.description).to.be.equal(this.party_role_type.description)
 		callback()
+	})
+
+	Given('a person with a first name of {string}, a last name of {string} is in the database', function (first_name, last_name) {
+		this.party.first_name    = first_name
+		this.party.last_name     = last_name
+		this.party.party_type_id = this.party_type_id('Person')
+		return this.db.one('insert into party (first_name, last_name, party_type_id) values(${first_name}, ${last_name}, ${party_type_id}) returning id', this.party)
+			.then((data) => this.party.id = data.id)
+	})
+
+	Given('the person has a party role of {string}', function (party_role_type) {
+
+		return this.db.one('select id, description from party_role_type where description = ${party_role_type}', {party_role_type})
+			.then(data => this.party_role_type = data)
+			.then(() => this.db.one('insert into party_role (party_role_type_id, party_id) values (${party_role_type_id}, ${party_id}) returning id', {
+				party_role_type_id: this.party_role_type.id,
+				party_id          : this.party.id
+			}))
+			.then(data =>
+				this.party.party_roles.push({
+					id         : data.id,
+					description: this.party_role_type.description
+				})
+			)
+
 	})
 })
