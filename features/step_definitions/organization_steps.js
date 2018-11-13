@@ -155,13 +155,17 @@ defineSupportCode(function ({
 	})
 
 	Then('I get an error indicating that a name is required', function (callback) {
-		console.log("this.result.error: ", this.result.error)
-		console.log("this.result.error.networkError.result.errors: ", this.result.error.networkError.result.errors)
 		expect(this.result.data).to.be.null
 		expect(this.result.error).to.exist
 		expect(this.result.error.networkError.statusCode).to.be.equal(400)
 		expect(this.result.error.networkError.result.errors.length).to.be.equal(1)
 		expect(this.result.error.networkError.result.errors[0].message).to.be.equal('Variable "$name" of type "String" used in position expecting type "String!".')
 		callback()
+	})
+
+	Then('the organization data will be in the database', function () {
+		return this.db.one("insert into party (name, government_id, comment, party_type_id) values($1, $2, $3, $4) returning id",
+			[this.party.name, this.party.government_id, this.party.comment, this.party_type_id("Organization")])
+			.then((data) => this.party.id = data.id)
 	})
 })
