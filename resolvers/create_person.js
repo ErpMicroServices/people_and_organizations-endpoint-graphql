@@ -1,5 +1,5 @@
 export default function (obj, args, context, graphql) {
-	let person           = args
+	let person = args
 	person.party_type_id = context.party_types.get('Person').id
 	person.date_of_birth = person.date_of_birth || null
 	return context.database

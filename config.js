@@ -2,34 +2,34 @@ import fs from "fs"
 
 class Config {
 
-	constructor() {
-		this._currentEnvironment = process.env.NODE_ENV || defaultEnvironment()
-		if (this._currentEnvironment == defaultEnvironment()) {
-			this._config = {
-				server  : {
-					cors         : process.env.SERVER_CORS || {},
-					endpoint     : process.env.SERVER_ENDPOINT || '/',
-					name         : process.env.SERVER_NAME || "people_and_organizations-endpoint-graphql",
-					playground   : process.env.SERVER_PLAYGROUND || '/',
-					port         : process.env.SERVER_PORT || 3000,
-					subscriptions: process.env.SERVER_SUBSCRIPTIONS || '/',
-					tracing      : process.env.SERVER_TRACING || true,
-					uploads      : process.env.SERVER_UPLOADS || {maxFieldSize: 1024, maxFileSize: 1024, maxFiles: 1},
-					version      : process.env.SERVER_VERSION || "0.1.0",
-					url          : process.env.SERVER_URL || "http://localhost"
-				},
-				database: {
-					host    : process.env.DATABASE_HOST || 'localhost',
-					port    : process.env.DATABASE_PORT || 5432,
-					database: process.env.DATABASE_DATABSE || 'people_and_organizations',
-					user    : process.env.DATABASE_USER || 'people_and_organizations',
-					password: process.env.DATABASE_PASSWORD || 'people_and_organizations'
-				}
-			}
-		} else {
-			this._config = JSON.parse(fs.readFileSync(`config.${this.currentEnvironment}.json`, "utf8"))
-		}
-	}
+  constructor () {
+    this._currentEnvironment = process.env.NODE_ENV || defaultEnvironment()
+    if (this._currentEnvironment == defaultEnvironment()) {
+      this._config = {
+        server: {
+          cors         : process.env.SERVER_CORS || {},
+          endpoint     : process.env.SERVER_ENDPOINT || '/',
+	        name         : process.env.SERVER_NAME || "people_and_organizations-endpoint-graphql",
+          playground   : process.env.SERVER_PLAYGROUND || '/',
+          port         : process.env.SERVER_PORT || 3000,
+          subscriptions: process.env.SERVER_SUBSCRIPTIONS || '/',
+          tracing      : process.env.SERVER_TRACING || true,
+          uploads      : process.env.SERVER_UPLOADS || {maxFieldSize: 1024, maxFileSize: 1024, maxFiles: 1},
+          version      : process.env.SERVER_VERSION || "0.1.0",
+          url          : process.env.SERVER_URL || "http://localhost"
+        },
+        database: {
+          host    : process.env.DATABASE_HOST || 'localhost',
+          port    : process.env.DATABASE_PORT || 5432,
+	        database: process.env.DATABASE_DATABSE || 'people_and_organizations',
+	        user    : process.env.DATABASE_USER || 'people_and_organizations',
+	        password: process.env.DATABASE_PASSWORD || 'people_and_organizations'
+        }
+      }
+    } else {
+      this._config = JSON.parse(fs.readFileSync(`config.${this.currentEnvironment}.json`, "utf8"))
+    }
+  }
 
 	get currentEnvironment() {
 		return this._currentEnvironment
