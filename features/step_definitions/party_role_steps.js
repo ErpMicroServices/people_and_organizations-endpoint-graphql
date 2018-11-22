@@ -1,5 +1,6 @@
 import {fail} from 'assert'
 import gql from 'graphql-tag'
+import moment from "moment"
 
 var {
 	    defineSupportCode
@@ -153,20 +154,50 @@ defineSupportCode(function ({
 			.then((data) => this.party.id = data.id)
 	})
 
-	Given('the person has a party role of {string}', function (party_role_type) {
+	Given('the person has a party role of {string}', function (description) {
 
-		return this.db.one('select id, description from party_role_type where description = ${party_role_type}', {party_role_type})
+		return this.db.one('select id, description from party_role_type where description = ${description}', {description})
 			.then(data => this.party_role_type = data)
 			.then(() => this.db.one('insert into party_role (party_role_type_id, party_id) values (${party_role_type_id}, ${party_id}) returning id', {
 				party_role_type_id: this.party_role_type.id,
 				party_id          : this.party.id
 			}))
 			.then(data =>
-				this.party.party_roles.push({
+				this.party.roles.push({
 					id         : data.id,
 					description: this.party_role_type.description
-				})
-			)
+				}))
+	})
 
+	When('I expire the party role {string}', function (description) {
+		let role       = this.party.roles.find(role => role.description === description)
+		role.thru_date = moment().subtract(1, 'd')
+		return this.client.mutate({
+			mutation : gql`mutation update_party_role($id: ID!, $from_date: Date, $thru_date: Date){update_party_role(id: $id, from_date: $from_date, thru_date: $thru_date) {id type fromDate thruDate}}`,
+			variables: {
+				id       : role.id,
+				from_date: role.from_date,
+				thru_date: role.thru_date
+			}
+		})
+		.then(results => this.result.data = results)
+		.catch(error => this.result.error = error)
+	})
+
+	Then('the party role {string} is in the database', function (string, callback) {
+		// Write code here that turns the phrase above into concrete actions
+		callback(null, 'pending')
+	})
+
+	Then('the party role does not show up for the person', function (callback) {
+		// Write code here that turns the phrase above into concrete actions
+		callback(null, 'pending')
+	})
+
+	Then('the the thru date for party role {string} is set to today', function (description, callback) {
+		return this.db.one('select id, description, thru_date from party_role where party_role_type_id = ( select id from party_role_type where description = ${description})', {description})
+			.then(data => {
+				expect(data.thru_date).to.be.equal(this.party.party_roles[0].thru_date)
+			})
 	})
 })

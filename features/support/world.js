@@ -17,10 +17,6 @@ function CustomWorld() {
 		cache: new InMemoryCache()
 	})
 
-	this.party = {
-		party_type: ''
-	}
-
 	this.party_role_type = {
 		id         : '',
 		description: ''
@@ -36,7 +32,8 @@ function CustomWorld() {
 		email_address: '',
 		name         : '',
 		government_id: '',
-		party_roles  : []
+		roles        : [],
+		type         : {}
 	}
 
 	this.party_type = {
