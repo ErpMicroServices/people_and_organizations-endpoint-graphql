@@ -2,21 +2,63 @@ export default `
 type Mutation {
 	add_party_type_child( description: String, parent_id: ID!): PartyType
 	add_party_role_type_child( description: String!, parent_id: ID!): PartyRoleType
+	create_case_role_type( description: String!): CaseRoleType
+	create_case_status_type( description: String!): CaseStatusType
+	create_communication_event_purpose_type( description: String!): CommunicationEventPurposeType
+	create_communication_event_role_type( description: String!): CommunicationEventRoleType
+	create_communication_event_status_type( description: String!): CommunicationEventStatusType
+	create_communication_event_type( description: String!): CommunicationEventType
+	create_contact_mechanism_type( description: String!): ContactMechanismType
+	create_facility_role_type( description: String!): FacilityRoleType
+	create_facility_type( description: String!): FacilityType
+	create_geographic_boundary_type( description: String!): GeographicBoundaryType
 	create_organization(name: String!, government_id: String, comment: String): Organization
+	create_party_classification_type( description: String!): PartyClassificationType
+	create_party_relationship_status_type( description: String!): PartyRelationshipStatusType
+	create_party_relationship_type( description: String!): PartyRelationshipType
 	create_party_role_type( description: String!): PartyRoleType
 	create_party_type( description: String!): PartyType
 	create_person(first_name: String, last_name: String, title: String, nickname: String, date_of_birth: String, 
 								comment: String, email: String) : Person
+	create_priority_type( description: String!): PriorityType
+	delete_case_role_type(id: ID!): Boolean
+	delete_case_status_type(id: ID!): Boolean
+	delete_communication_event_type(id: ID!): Boolean
+	delete_communication_event_purpose_type(id: ID!): Boolean
+	delete_communication_event_role_type(id: ID!): Boolean
+	delete_communication_event_status_type(id: ID!): Boolean
+	delete_contact_mechanism_type(id: ID!): Boolean
+	delete_facility_role_type(id: ID!): Boolean
+	delete_facility_type(id: ID!): Boolean
+	delete_geographic_boundary_type(id: ID!): Boolean
 	delete_organization(id: ID!): Boolean
+	delete_party_classification_type(id: ID!): Boolean
+	delete_party_relationship_status_type(id: ID!): Boolean
+	delete_priority_type(id: ID!): Boolean
+	delete_party_relationship_type(id: ID!): Boolean
 	delete_party_role_type( id: ID!): Boolean
 	delete_party_type( id: ID!): Boolean
 	delete_person(id: ID!) :Boolean
+	update_case_status_type(id: ID!, description: String!): CaseStatusType
+	update_case_role_type(id: ID!, description: String!): CaseRoleType
+	update_communication_event_purpose_type(id: ID!, description: String!): CommunicationEventType
+	update_communication_event_type(id: ID!, description: String!): CommunicationEventType
+	update_communication_event_role_type(id: ID!, description: String!): CommunicationEventRoleType
+	update_communication_event_status_type(id: ID!, description: String!): CommunicationEventStatusType
+	update_contact_mechanism_type(id: ID!, description: String!): ContactMechanismType
+	update_facility_type(id: ID!, description: String!): FacilityType
+	update_facility_role_type(id: ID!, description: String!): FacilityRoleType
+	update_geographic_boundary_type(id: ID!, description: String!): GeographicBoundaryType
 	update_organization(id: ID!, name: String, government_id: String, comment: String): Organization
 	update_person(id:ID!, first_name: String, last_name: String, title: String, nickname: String, date_of_birth: String, 
 								comment: String, email: String) :Person
+	update_party_classification_type(id: ID!, description: String!): PartyClassificationType
+	update_party_relationship_status_type(id: ID!, description: String!): PartyRelationshipStatusType
+	update_party_relationship_type(id: ID!, description: String!): PartyRelationshipType
 	update_party_role_type(id: ID!, description: String!): PartyRoleType
 	update_party_role(id: ID!, from_date: Date, thru_date: Date): PartyRole
 	update_party_type(id: ID!, description: String!): PartyType
+	update_priority_type(id: ID!, description: String!): PriorityType
 }
 `
 

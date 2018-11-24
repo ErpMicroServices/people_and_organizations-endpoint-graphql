@@ -17,11 +17,12 @@ function CustomWorld() {
 		cache: new InMemoryCache()
 	})
 
-	this.party_role_type = {
+	this.party_role_type  = {
 		id         : '',
 		description: ''
 	}
-	this.party           = {
+	this.graphql_function = ''
+	this.party            = {
 		id           : '',
 		first_name   : '',
 		last_name    : '',
@@ -38,6 +39,7 @@ function CustomWorld() {
 
 	this.party_type = {
 		id         : '',
+		type       : '',
 		description: '',
 		parent_id  : ''
 	}

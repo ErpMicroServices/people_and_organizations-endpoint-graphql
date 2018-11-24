@@ -41,7 +41,6 @@ jspm_packages
 
 *.pyc
 /people_and_organizations-endpoint-graphql.iml
-features/
 people_and_organizations-endpoint-graphql.iml
 
 *.iml

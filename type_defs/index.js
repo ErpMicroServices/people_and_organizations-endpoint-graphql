@@ -8,9 +8,11 @@ import CommunicationEventPurposeType from './CommunicationEventPurposeType'
 import CommunicationEventRole from './CommunicationEventRole'
 import CommunicationEventRoleType from './CommunicationEventRoleType'
 import CommunicationEventStatusType from './CommunicationEventStatusType'
+import CommunicationEventType from './CommunicationEventType'
 import CommunicationEventWorkEffort from './CommunicationEventWorkEffort'
 import ContactMechanism from './ContactMechanism'
 import ContactMechanismPurposeType from './ContactMechanismPurposeType'
+import ContactMechanismType from './ContactMechanismType'
 import DateTimeRange from './DateTimeRange'
 import EmailAddress from './EmailAddress'
 import Facility from './Facility'
@@ -32,6 +34,8 @@ import PartyContactMechanismPurpose from './PartyContactMechanismPurpose'
 import PartyContactMechanismPurposeType from './PartyContactMechanismPurposeType'
 import PartyPostalAddress from './PartyPostalAddress'
 import PartyRelationship from './PartyRelationship'
+import PartyRelationshipStatusType from './PartyRelationshipStatusType'
+import PartyRelationshipType from './PartyRelationshipType'
 import PartyRole from './PartyRole'
 import PartyRoleType from './PartyRoleType'
 import PartyType from './PartyType'
@@ -51,7 +55,9 @@ export default [
 	CaseRole,
 	CaseRoleType,
 	CaseStatusType,
+	ContactMechanismType,
 	CommunicationEvent,
+	CommunicationEventType,
 	CommunicationEventPurpose,
 	CommunicationEventPurposeType,
 	CommunicationEventRole,
@@ -81,6 +87,8 @@ export default [
 	PartyContactMechanismPurposeType,
 	PartyPostalAddress,
 	PartyRelationship,
+	PartyRelationshipStatusType,
+	PartyRelationshipType,
 	PartyRole,
 	PartyRoleType,
 	PartyType,
