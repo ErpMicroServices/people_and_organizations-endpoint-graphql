@@ -10,16 +10,12 @@ type Query {
 	facility_role_type_by_description(description: String!): [FacilityRoleType]
 	facility_type_by_description(description: String!): [FacilityType]
 	geographic_boundary_type_by_description(description: String!): [GeographicBoundaryType]
-	organization_by_id(id: ID!): Organization
-	organizations( start: Int!, records: Int!) : [Organization]!
 	parties( start: Int!, records: Int!) : [Party]!
 	party_classification_type_by_description(description: String!): [PartyClassificationType]
 	party_relationship_status_type_by_description(description: String!): [PartyRelationshipStatusType]
 	party_relationship_type_by_description(description: String!): [PartyRelationshipType]
 	party_type_by_description(description: String!): [PartyType]
 	party_role_type_by_description( description: String!): [PartyRoleType]
-	people(start: Int!, records: Int!) : [Person]!
-	person_by_id(id: ID!) : Person
 	priority_type_by_description(description: String!): [PriorityType]
 }
 `

@@ -26,14 +26,11 @@ type Mutation {
 	create_facility_role_type( description: String!): FacilityRoleType
 	create_facility_type( description: String!): FacilityType
 	create_geographic_boundary_type( description: String!): GeographicBoundaryType
-	create_organization(name: String!, government_id: String, comment: String): Organization
 	create_party_classification_type( description: String!): PartyClassificationType
 	create_party_relationship_status_type( description: String!): PartyRelationshipStatusType
 	create_party_relationship_type( description: String!): PartyRelationshipType
 	create_party_role_type( description: String!): PartyRoleType
 	create_party_type( description: String!): PartyType
-	create_person(first_name: String, last_name: String, title: String, nickname: String, date_of_birth: String, 
-								comment: String, email: String) : Person
 	create_priority_type( description: String!): PriorityType
 	delete_case_role_type(id: ID!): Boolean
 	delete_case_status_type(id: ID!): Boolean
@@ -45,14 +42,12 @@ type Mutation {
 	delete_facility_role_type(id: ID!): Boolean
 	delete_facility_type(id: ID!): Boolean
 	delete_geographic_boundary_type(id: ID!): Boolean
-	delete_organization(id: ID!): Boolean
 	delete_party_classification_type(id: ID!): Boolean
 	delete_party_relationship_status_type(id: ID!): Boolean
 	delete_priority_type(id: ID!): Boolean
 	delete_party_relationship_type(id: ID!): Boolean
 	delete_party_role_type( id: ID!): Boolean
 	delete_party_type( id: ID!): Boolean
-	delete_person(id: ID!) :Boolean
 	update_case_status_type(id: ID!, description: String!): CaseStatusType
 	update_case_role_type(id: ID!, description: String!): CaseRoleType
 	update_communication_event_purpose_type(id: ID!, description: String!): CommunicationEventType
@@ -63,9 +58,6 @@ type Mutation {
 	update_facility_type(id: ID!, description: String!): FacilityType
 	update_facility_role_type(id: ID!, description: String!): FacilityRoleType
 	update_geographic_boundary_type(id: ID!, description: String!): GeographicBoundaryType
-	update_organization(id: ID!, name: String, government_id: String, comment: String): Organization
-	update_person(id:ID!, first_name: String, last_name: String, title: String, nickname: String, date_of_birth: String, 
-								comment: String, email: String) :Person
 	update_party_classification_type(id: ID!, description: String!): PartyClassificationType
 	update_party_relationship_status_type(id: ID!, description: String!): PartyRelationshipStatusType
 	update_party_relationship_type(id: ID!, description: String!): PartyRelationshipType

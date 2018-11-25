@@ -8,37 +8,17 @@ import typeDefs from "./type_defs"
 
 const schema = makeExecutableSchema({typeDefs, resolvers})
 
-const party_types             = new Map()
-const contact_mechanism_types = new Map()
-const person_type_id          = () => party_types.get('Person').id
-const organization_type_id    = () => party_types.get('Organization').id
+const server = new GraphQLServer({
+	schema : schema,
+	context: {
+		database
+	}
+})
+
+console.log("Starting server with config: ", config.server)
+server.start(config.server)
+	.then(data => console.log('%s is running at url: %s on port %d and the following end points: api: %s, subscriptions: %s, playground: %s, data: %s', config.server.name, config.server.url, config.server.port, config.server.endpoint, config.server.subscriptions, config.server.playground, data))
+	.catch(error => console.log('Couldn\'t start server: ', error))
 
 
-database.task(t => t.any("select id, description from contact_mechanism_type order by description")
-	.then(data => data.forEach(cmt => contact_mechanism_types.set(cmt.description, cmt)))
-	.then(() => t.any("select id, description, parent_id from party_type order by description"))
-	.then(data => data.forEach(party_type => party_types.set(party_type.description, party_type))))
-	.then(() => {
-		const server  = new GraphQLServer({
-			schema : schema,
-			context: {
-				contact_mechanism_types,
-				database,
-				organization_type_id,
-				party_types,
-				person_type_id
-			}
-		})
-		const options = {
-			cors         : config.server.cors,
-			tracing      : config.server.tracing,
-			port         : config.server.port,
-			endpoint     : config.server.endpoint,
-			subscriptions: config.server.subscriptions,
-			playground   : config.server.playground,
-			uploads      : config.server.uploads
-		}
-		return server.start(options)
-	})
-	.then(() => console.log('%s is running at url: %s on port %d and the following end points: api: %s, subscriptions: %s, playground: %s', config.server.name, config.server.url, config.server.port, config.server.endpoint, config.server.subscriptions, config.server.playground))
-	.catch(error => console.log("Error: ", error))
+

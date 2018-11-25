@@ -17,39 +17,18 @@ function CustomWorld() {
 		cache: new InMemoryCache()
 	})
 
-	this.party_role_type  = {
-		id         : '',
-		description: ''
-	}
+
 	this.graphql_function = ''
-	this.party            = {
-		id           : '',
-		first_name   : '',
-		last_name    : '',
-		title        : '',
-		nickname     : '',
-		date_of_birth: '',
-		comment      : '',
-		email_address: '',
-		name         : '',
-		government_id: '',
-		roles        : [],
-		type         : {}
-	}
+
+	this.parties = []
 
 	this.party_type = {
 		id         : '',
 		type       : '',
 		description: '',
-		parent_id  : ''
+		parent_id  : '',
+		children   : []
 	}
-
-	this.contact_mechanism_types = []
-	this.party_types             = []
-
-	this.email_id = () => this.contact_mechanism_types.find((cm) => cm.description === 'Email Address').id
-
-	this.party_type_id = (party_type) => this.party_types.find(pt => pt.description === party_type).id
 
 	this.result = {
 		error: null,

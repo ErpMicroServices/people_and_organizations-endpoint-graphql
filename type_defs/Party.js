@@ -1,11 +1,7 @@
 export default `
-interface Party {
+type Party {
     id: ID!,
-    partyRoles: [PartyRole]!
-    casesInvolvedInAs: [CaseRole]!
-    classifications: [PartyClassification]!
-    contactMechanisms: [PartyContactMechanism]!
-    communicationEventsInvolvedInAs: [CommunicationEventRole]!
-    facilitiesInvolvedWithAs: [FacilityRole]!  
+    comment: String,
+    party_type_id: ID!
  }
 `

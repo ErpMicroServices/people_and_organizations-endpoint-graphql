@@ -25,7 +25,6 @@ import GeographicBoundaryType from './GeographicBoundaryType'
 import InstantMessaging from './InstantMessaging'
 import IpAddress from './IpAddress'
 import Mutation from './Mutation'
-import Organization from './Organization'
 import Party from './Party'
 import PartyClassification from './PartyClassification'
 import PartyClassificationType from './PartyClassificationType'
@@ -39,7 +38,6 @@ import PartyRelationshipType from './PartyRelationshipType'
 import PartyRole from './PartyRole'
 import PartyRoleType from './PartyRoleType'
 import PartyType from './PartyType'
-import Person from './Person'
 import PostalAddress from './PostalAddress'
 import PriorityType from './PriorityType'
 import Query from './Query'
@@ -78,7 +76,6 @@ export default [
 	InstantMessaging,
 	IpAddress,
 	Mutation,
-	Organization,
 	Party,
 	PartyClassification,
 	PartyClassificationType,
@@ -92,7 +89,6 @@ export default [
 	PartyRole,
 	PartyRoleType,
 	PartyType,
-	Person,
 	PostalAddress,
 	PriorityType,
 	Query,

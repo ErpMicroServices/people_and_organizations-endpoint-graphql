@@ -37,7 +37,6 @@ import create_party_relationship_status_type from './create_party_relationship_s
 import create_party_relationship_type from './create_party_relationship_type'
 import create_party_role_type from './create_party_role_type'
 import create_party_type from './create_party_type'
-import create_person from './create_person'
 import create_priority_type from './create_priority_type'
 import delete_case_role_type from './delete_case_role_type'
 import delete_case_status_type from './delete_case_status_type'
@@ -49,27 +48,21 @@ import delete_contact_mechanism_type from './delete_contact_mechanism_type'
 import delete_facility_role_type from './delete_facility_role_type'
 import delete_facility_type from './delete_facility_type'
 import delete_geographic_boundary_type from './delete_geographic_boundary_type'
-import delete_organization from './delete_organization'
 import delete_party_classification_type from './delete_party_classification_type'
 import delete_party_relationship_status_type from './delete_party_relationship_status_type'
 import delete_party_relationship_type from './delete_party_relationship_type'
 import delete_party_role_type from './delete_party_role_type'
 import delete_party_type from './delete_party_type'
-import delete_person from './delete_person'
 import delete_priority_type from './delete_priority_type'
 import facility_role_type_by_description from './facility_role_type_by_description'
 import facility_type_by_description from './facility_type_by_description'
 import geographic_boundary_type_by_description from './geographic_boundary_type_by_description'
-import organization_by_id from './organization_by_id'
-import organizations from './organizations'
 import parties from './parties'
 import party_classification_type_by_description from './party_classification_type_by_description'
 import party_relationship_status_type_by_description from './party_relationship_status_type_by_description'
 import party_relationship_type_by_description from './party_relationship_type_by_description'
 import party_role_type_by_description from './party_role_type_by_description'
 import party_type_by_description from './party_type_by_description'
-import people from "./people"
-import person_by_id from './person_by_id'
 import priority_type_by_description from './priority_type_by_description'
 import update_case_role_type from './update_case_role_type'
 import update_case_status_type from './update_case_status_type'
@@ -81,13 +74,11 @@ import update_contact_mechanism_type from './update_contact_mechanism_type'
 import update_facility_role_type from './update_facility_role_type'
 import update_facility_type from './update_facility_type'
 import update_geographic_boundary_type from './update_geographic_boundary_type'
-import update_organization from './update_organization'
 import update_party_classification_type from './update_party_classification_type'
 import update_party_relationship_status_type from './update_party_relationship_status_type'
 import update_party_relationship_type from './update_party_relationship_type'
 import update_party_role_type from './update_party_role_type'
 import update_party_type from './update_party_type'
-import update_person from "./update_person"
 import update_priority_type from './update_priority_type'
 
 export default {
@@ -106,69 +97,59 @@ export default {
 			return context.database.any('select id, description, parent_id from communication_event_role_type where parent_id=${id}', parent)
 		}
 	},
-	CommunicationEventStatusType : {
+	CommunicationEventStatusType: {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from communication_event_status_type where parent_id=${id}', parent)
 		}
 	},
-	CommunicationEventType       : {
+	CommunicationEventType      : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from communication_event_type where parent_id=${id}', parent)
 		}
 	},
-	ContactMechanismType         : {
+	ContactMechanismType        : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from contact_mechanism_type where parent_id=${id}', parent)
 		}
 	},
-	Date                         : GraphQLDate,
-	FacilityRoleType             : {
+	Date                        : GraphQLDate,
+	FacilityRoleType            : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from facility_role_type where parent_id=${id}', parent)
 		}
 	},
-	FacilityType                 : {
+	FacilityType                : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from facility_type where parent_id=${id}', parent)
 		}
 	},
-	GeographicBoundaryType       : {
+	GeographicBoundaryType      : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from geographic_boundary_type where parent_id=${id}', parent)
 		}
 	},
-	Party                        : {
-		__resolveType(obj, context, info) {
-			if (obj.party_type_id === context.person_type_id()) {
-				return 'Person'
-			} else if (obj.party_type_id == context.organization_type_id()) {
-				return 'Organization'
-			} else {
-				return null
-			}
-		}
-	},
-	PartyClassificationType      : {
+	Party                       : {},
+	PartyClassificationType     : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_classification_type where parent_id=${id}', parent)
 		}
 	},
-	PartyRelationshipStatusType  : {
+	PartyRelationshipStatusType : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_relationship_status_type where parent_id=${id}', parent)
 		}
 	},
-	PartyRelationshipType        : {
+	PartyRelationshipType       : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_relationship_type where parent_id=${id}', parent)
 		}
 	},
-	PartyRoleType                : {
+	PartyRoleType               : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_role_type where parent_id=${id}', parent)
 		}
 	},
-	PartyType                    : {
+	PartyType                   : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_type where parent_id=${id}', parent)
 		}
@@ -194,16 +175,12 @@ export default {
 		facility_role_type_by_description,
 		facility_type_by_description,
 		geographic_boundary_type_by_description,
-		organization_by_id,
-		organizations,
 		parties,
 		party_classification_type_by_description,
 		party_relationship_status_type_by_description,
 		party_relationship_type_by_description,
 		party_role_type_by_description,
 		party_type_by_description,
-		people,
-		person_by_id,
 		priority_type_by_description
 	}
 	,
@@ -239,7 +216,6 @@ export default {
 		create_party_relationship_type,
 		create_party_role_type,
 		create_party_type,
-		create_person,
 		create_priority_type,
 		delete_case_role_type,
 		delete_case_status_type,
@@ -256,9 +232,7 @@ export default {
 		delete_party_relationship_type,
 		delete_party_role_type,
 		delete_priority_type,
-		delete_organization,
 		delete_party_type,
-		delete_person,
 		update_case_status_type,
 		update_case_role_type,
 		update_contact_mechanism_type,
@@ -269,13 +243,11 @@ export default {
 		update_facility_role_type,
 		update_facility_type,
 		update_geographic_boundary_type,
-		update_organization,
 		update_party_classification_type,
 		update_party_relationship_type,
 		update_party_relationship_status_type,
 		update_party_role_type,
 		update_party_type,
-		update_person,
 		update_priority_type,
 	}
 }
