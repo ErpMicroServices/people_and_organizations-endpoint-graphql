@@ -46,7 +46,7 @@ defineSupportCode(function ({
 	When('I search for all parties', function () {
 		return this.client
 		.query({
-			query    : gql`query parties($start: Int!, $records: Int!) {parties(start: $start, records: $records){id comment party_type_id}}`,
+			query    : gql`query parties($start: Int!, $records: Int!) {parties(start: $start, records: $records){id comment party_type{id}}}`,
 			variables: {
 				"start"  : 0,
 				"records": this.parties.length + 10
@@ -66,6 +66,6 @@ defineSupportCode(function ({
 
 	Then('{int} of them are type {string}', function (count, type) {
 		return this.db.one('select id, description, parent_id from party_type where description = ${type}', {type})
-			.then(data => expect(this.result.data.data.parties.filter(p => p.party_type_id === data.id).length).to.be.equal(count))
+			.then(data => expect(this.result.data.data.parties.filter(p => p.party_type.id === data.id).length).to.be.equal(count))
 	})
 })

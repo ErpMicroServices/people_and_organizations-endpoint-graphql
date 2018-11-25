@@ -113,33 +113,38 @@ export default {
 		}
 	},
 	Date                        : GraphQLDate,
-	FacilityRoleType            : {
+	FacilityRoleType           : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from facility_role_type where parent_id=${id}', parent)
 		}
 	},
-	FacilityType                : {
+	FacilityType               : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from facility_type where parent_id=${id}', parent)
 		}
 	},
-	GeographicBoundaryType      : {
+	GeographicBoundaryType     : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from geographic_boundary_type where parent_id=${id}', parent)
 		}
 	},
-	Party                       : {},
-	PartyClassificationType     : {
+	Party                      : {
+		party_type(parent, args, context, info) {
+			console.log("parent: ", parent)
+			return context.database.one('select id, description, parent_id from party_type where id = ${party_type_id}', parent)
+		}
+	},
+	PartyClassificationType    : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_classification_type where parent_id=${id}', parent)
 		}
 	},
-	PartyRelationshipStatusType : {
+	PartyRelationshipStatusType: {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_relationship_status_type where parent_id=${id}', parent)
 		}
 	},
-	PartyRelationshipType       : {
+	PartyRelationshipType      : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_relationship_type where parent_id=${id}', parent)
 		}

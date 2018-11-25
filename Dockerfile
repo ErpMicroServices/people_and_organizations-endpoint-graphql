@@ -1,4 +1,4 @@
-FROM node:7.5
+FROM node:8.12-alpine
 
 EXPOSE 80
 
