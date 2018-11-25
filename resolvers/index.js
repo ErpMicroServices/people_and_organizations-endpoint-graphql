@@ -1,6 +1,20 @@
 import {GraphQLDate} from 'graphql-iso-date'
+import add_case_role_type_child from './add_case_role_type_child'
+import add_case_status_type_child from './add_case_status_type_child'
+import add_communication_event_purpose_type_child from './add_communication_event_purpose_type_child'
+import add_communication_event_role_type_child from './add_communication_event_role_type_child'
+import add_communication_event_status_type_child from './add_communication_event_status_type_child'
+import add_communication_event_type_child from './add_communication_event_type_child'
+import add_contact_mechanism_type_child from './add_contact_mechanism_type_child'
+import add_facility_role_type_child from './add_facility_role_type_child'
+import add_facility_type_child from './add_facility_type_child'
+import add_geographic_boundary_type_child from './add_geographic_boundary_type_child'
+import add_party_classification_type_child from './add_party_classification_type_child'
+import add_party_relationship_status_type_child from './add_party_relationship_status_type_child'
+import add_party_relationship_type_child from './add_party_relationship_type_child'
 import add_party_role_type_child from './add_party_role_type_child'
 import add_party_type_child from './add_party_type_child'
+import add_priority_type_child from './add_priority_type_child'
 import case_role_type_by_description from './case_role_type_by_description'
 import case_status_type_by_description from './case_status_type_by_description'
 import communication_event_purpose_type_by_description from './communication_event_purpose_type_by_description'
@@ -77,8 +91,53 @@ import update_person from "./update_person"
 import update_priority_type from './update_priority_type'
 
 export default {
-	Date    : GraphQLDate,
-	Party   : {
+	CaseStatusType               : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from case_status_type where parent_id=${id}', parent)
+		}
+	},
+	CommunicationEventPurposeType: {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from communication_event_purpose_type where parent_id=${id}', parent)
+		}
+	},
+	CommunicationEventRoleType   : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from communication_event_role_type where parent_id=${id}', parent)
+		}
+	},
+	CommunicationEventStatusType : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from communication_event_status_type where parent_id=${id}', parent)
+		}
+	},
+	CommunicationEventType       : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from communication_event_type where parent_id=${id}', parent)
+		}
+	},
+	ContactMechanismType         : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from contact_mechanism_type where parent_id=${id}', parent)
+		}
+	},
+	Date                         : GraphQLDate,
+	FacilityRoleType             : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from facility_role_type where parent_id=${id}', parent)
+		}
+	},
+	FacilityType                 : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from facility_type where parent_id=${id}', parent)
+		}
+	},
+	GeographicBoundaryType       : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from geographic_boundary_type where parent_id=${id}', parent)
+		}
+	},
+	Party                        : {
 		__resolveType(obj, context, info) {
 			if (obj.party_type_id === context.person_type_id()) {
 				return 'Person'
@@ -89,7 +148,42 @@ export default {
 			}
 		}
 	},
-	Query   : {
+	PartyClassificationType      : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from party_classification_type where parent_id=${id}', parent)
+		}
+	},
+	PartyRelationshipStatusType  : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from party_relationship_status_type where parent_id=${id}', parent)
+		}
+	},
+	PartyRelationshipType        : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from party_relationship_type where parent_id=${id}', parent)
+		}
+	},
+	PartyRoleType                : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from party_role_type where parent_id=${id}', parent)
+		}
+	},
+	PartyType                    : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from party_type where parent_id=${id}', parent)
+		}
+	},
+	PriorityType                 : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from priority_type where parent_id=${id}', parent)
+		}
+	},
+	CaseRoleType                 : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from case_role_type where parent_id=${id}', parent)
+		}
+	},
+	Query                        : {
 		case_status_type_by_description,
 		case_role_type_by_description,
 		communication_event_purpose_type_by_description,
@@ -111,10 +205,25 @@ export default {
 		people,
 		person_by_id,
 		priority_type_by_description
-	},
-	Mutation: {
+	}
+	,
+	Mutation                     : {
+		add_case_status_type_child,
+		add_case_role_type_child,
+		add_communication_event_purpose_type_child,
+		add_communication_event_role_type_child,
+		add_communication_event_status_type_child,
+		add_communication_event_type_child,
+		add_contact_mechanism_type_child,
+		add_facility_role_type_child,
+		add_facility_type_child,
+		add_geographic_boundary_type_child,
+		add_party_classification_type_child,
+		add_party_relationship_type_child,
+		add_party_relationship_status_type_child,
 		add_party_role_type_child,
 		add_party_type_child,
+		add_priority_type_child,
 		create_facility_role_type,
 		create_facility_type,
 		create_case_role_type,

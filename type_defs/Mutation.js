@@ -1,7 +1,21 @@
 export default `
 type Mutation {
-	add_party_type_child( description: String, parent_id: ID!): PartyType
+	add_case_status_type_child( description: String, parent_id: ID!): CaseStatusType
+	add_case_role_type_child( description: String, parent_id: ID!): CaseRoleType
+	add_communication_event_purpose_type_child( description: String, parent_id: ID!): CommunicationEventPurposeType
+	add_communication_event_role_type_child( description: String, parent_id: ID!): CommunicationEventRoleType
+	add_communication_event_status_type_child( description: String, parent_id: ID!): CommunicationEventStatusType
+	add_communication_event_type_child( description: String, parent_id: ID!): CommunicationEventType
+	add_contact_mechanism_type_child( description: String, parent_id: ID!): ContactMechanismType
+	add_facility_role_type_child( description: String, parent_id: ID!): FacilityRoleType
+	add_facility_type_child( description: String, parent_id: ID!): FacilityType
+	add_geographic_boundary_type_child( description: String, parent_id: ID!): GeographicBoundaryType
+	add_party_classification_type_child( description: String, parent_id: ID!): PartyClassificationType
+	add_party_relationship_status_type_child( description: String!, parent_id: ID!): PartyRelationshipStatusType
+	add_party_relationship_type_child( description: String!, parent_id: ID!): PartyRelationshipType
 	add_party_role_type_child( description: String!, parent_id: ID!): PartyRoleType
+	add_party_type_child( description: String, parent_id: ID!): PartyType
+	add_priority_type_child( description: String, parent_id: ID!): PriorityType
 	create_case_role_type( description: String!): CaseRoleType
 	create_case_status_type( description: String!): CaseStatusType
 	create_communication_event_purpose_type( description: String!): CommunicationEventPurposeType

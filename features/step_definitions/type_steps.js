@@ -32,11 +32,12 @@ defineSupportCode(function ({
 		callback()
 	})
 
-	Given('I add a child type with a description of {string}', function (description) {
+	When('I add a child type with a description of {string}', function (description) {
 		this.child_party_type_description = description
+		this.graphql_function             = `add_${this.party_type.type}_type_child`
 		return this.client
 		.mutate({
-			mutation : gql`mutation add_type_child($description: String!, $parent_id: ID!) {add_${this.party_type.type}_type_child(description: $description, parent_id: $parent_id) {id}}`,
+			mutation : gql`mutation add_type_child($description: String!, $parent_id: ID!) {${this.graphql_function}(description: $description, parent_id: $parent_id) {id description parent_id}}`,
 			variables: {
 				description: description,
 				parent_id  : this.party_type.id
@@ -49,7 +50,7 @@ defineSupportCode(function ({
 	When('I save the type', function () {
 		this.graphql_function = `create_${this.party_type.type}_type`
 		return this.client.mutate({
-			mutation : gql`mutation create_type( $description: String!) { ${this.graphql_function}( description: $description) {id description }}`,
+			mutation : gql`mutation create_type( $description: String!) { ${this.graphql_function}( description: $description) {id description parent_id}}`,
 			variables: {
 				description: this.party_type.description
 			}
@@ -88,7 +89,7 @@ defineSupportCode(function ({
 
 	When('I search for the type by the description {string}', function (description) {
 		this.graphql_function = `${this.party_type.type}_type_by_description`
-		let query             = `query type_by_description( $description: String!) { ${this.graphql_function}(description: $description) {id description}}`
+		let query             = `query type_by_description( $description: String!) { ${this.graphql_function}(description: $description) {id description parent_id}}`
 		return this.client
 			.query({
 				query    : gql(query),
@@ -101,17 +102,23 @@ defineSupportCode(function ({
 			.catch(error => this.result.error = error)
 	})
 
-	When('I search for the parent type', function (callback) {
-		// Write code here that turns the phrase above into concrete actions
-		callback(null, 'pending')
+	When('I search for the parent type', function () {
+		this.graphql_function = `${this.party_type.type}_type_by_description`
+		let query             = `query type_by_description( $description: String!) { ${this.graphql_function}(description: $description) {id description parent_id children {id description}}}`
+		return this.client
+			.query({
+				query    : gql(query),
+				variables: {
+					"description": this.party_type.description
+				}
+			})
+
+			.then((response) => this.result.data = response)
+			.catch(error => this.result.error = error)
 	})
 
-
 	Then('the type description has been updated', function (callback) {
-		if (this.result.error) {
-			console.log("this.result.error.networkError.result: ", this.result.error.networkError.result)
-		}
-		expect(this.result.error).to.be.null
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 
 		let result = this.result.data.data[this.graphql_function]
@@ -120,10 +127,7 @@ defineSupportCode(function ({
 	})
 
 	Then('I find the type', function (callback) {
-		if (this.result.error) {
-			console.log("this.result.error.networkError.result: ", this.result.error.networkError.result)
-		}
-		expect(this.result.error).to.be.null
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 		let result = this.result.data.data[this.graphql_function]
 		if (this.graphql_function.endsWith('_type_by_description')) {
@@ -136,10 +140,7 @@ defineSupportCode(function ({
 	})
 
 	Then('the type is in the database', function (callback) {
-		if (this.result.error) {
-			console.log("this.result.error.networkError.result: ", this.result.error.networkError.result)
-		}
-		expect(this.result.error).to.be.null
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 		let result = this.result.data.data[this.graphql_function]
 		if (this.graphql_function.startsWith('query')) {
@@ -153,22 +154,33 @@ defineSupportCode(function ({
 	})
 
 	Then('the type is not in the database', function (callback) {
-		if (this.result.error) {
-			console.log("this.result.error.networkError.result: ", this.result.error.networkError.result)
-		}
-		expect(this.result.error).to.be.null
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 		let result = this.result.data.data[this.graphql_function]
 		expect(result).to.be.true
 		callback()
 	})
 
-	Then('I can find the parent of the child  of the type', function (callback) {
-		callback(null, 'pending')
+	Then('I can find the parent of the child  of the type', function () {
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
+		expect(this.result.data).to.not.be.null
+		let sql    = `select id, description from ${this.party_type.type}_type where id =` + '${parent_id}'
+		let result = this.result.data.data[this.graphql_function]
+		return this.db.one(sql, {
+				parent_id: result.parent_id
+			})
+			.then(parent => {
+				expect(parent).to.not.be.empty
+				expect(result.parent_id).to.be.equal(parent.id)
+			})
 	})
 
 	Then('I find the child type', function (callback) {
-		// Write code here that turns the phrase above into concrete actions
-		callback(null, 'pending')
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
+		expect(this.result.data).to.not.be.null
+		let result = this.result.data.data[this.graphql_function][0]
+		expect(result.children.length).to.be.equal(1)
+		expect(result.children[0].description).to.be.equal(this.child_party_type_description)
+		callback()
 	})
 })
