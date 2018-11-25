@@ -22,6 +22,7 @@ services:
     - database
     volumes:
     - "./:/usr/src/app"
+    command: "nodemon -L --ignore /usr/src/app/features --watch /usr/src/app index.js --exec babel-node"
 
   traefik:
     image: traefik

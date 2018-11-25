@@ -6,6 +6,7 @@
  "scripts" : {
 	"build" : "docker build --tag erpmicroservices/people_and_organizations-endpoint-graphql --rm .",
 	"start" : "docker-compose up",
+	"stop" : "docker-compose down",
 	"start:local" : "node ./index.js",
 	"test" : "cucumber-js --compiler es6:babel-core/register  -r ./features ../people_and_organizations-features",
 	"db_admin" : "docker run --detach --publish 5050:5050 --name pgadmin --link party-db:party-db thajeztah/pgadmin4"

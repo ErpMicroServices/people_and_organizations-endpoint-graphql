@@ -18,4 +18,4 @@ COPY type_defs/ /usr/src/app/type_defs/
 RUN npm install --global nodemon babel-core babel-cli
 RUN npm install
 
-CMD [ "nodemon", "index.js", "--exec", "babel-node"]
+CMD [ "nodemon", "-L", "--watch", "/usr/src/app", "index.js", "--exec", "babel-node"]
