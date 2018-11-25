@@ -108,10 +108,7 @@ defineSupportCode(function ({
 
 
 	Then('the type description has been updated', function (callback) {
-		if (this.result.error) {
-			console.log("this.result.error.networkError.result: ", this.result.error.networkError.result)
-		}
-		expect(this.result.error).to.be.null
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 
 		let result = this.result.data.data[this.graphql_function]
@@ -120,10 +117,7 @@ defineSupportCode(function ({
 	})
 
 	Then('I find the type', function (callback) {
-		if (this.result.error) {
-			console.log("this.result.error.networkError.result: ", this.result.error.networkError.result)
-		}
-		expect(this.result.error).to.be.null
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 		let result = this.result.data.data[this.graphql_function]
 		if (this.graphql_function.endsWith('_type_by_description')) {
@@ -136,10 +130,7 @@ defineSupportCode(function ({
 	})
 
 	Then('the type is in the database', function (callback) {
-		if (this.result.error) {
-			console.log("this.result.error.networkError.result: ", this.result.error.networkError.result)
-		}
-		expect(this.result.error).to.be.null
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 		let result = this.result.data.data[this.graphql_function]
 		if (this.graphql_function.startsWith('query')) {
@@ -153,10 +144,7 @@ defineSupportCode(function ({
 	})
 
 	Then('the type is not in the database', function (callback) {
-		if (this.result.error) {
-			console.log("this.result.error.networkError.result: ", this.result.error.networkError.result)
-		}
-		expect(this.result.error).to.be.null
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 		let result = this.result.data.data[this.graphql_function]
 		expect(result).to.be.true
@@ -164,11 +152,16 @@ defineSupportCode(function ({
 	})
 
 	Then('I can find the parent of the child  of the type', function (callback) {
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
+		expect(this.result.data).to.not.be.null
+		let result = this.result.data.data[this.graphql_function]
 		callback(null, 'pending')
 	})
 
 	Then('I find the child type', function (callback) {
-		// Write code here that turns the phrase above into concrete actions
+		expect(this.result.error, JSON.stringify(this.result.error.networkError.result)).to.be.null
+		expect(this.result.data).to.not.be.null
+		let result = this.result.data.data[this.graphql_function]
 		callback(null, 'pending')
 	})
 })

@@ -1,6 +1,20 @@
 import {GraphQLDate} from 'graphql-iso-date'
+import add_case_role_type_child from './add_case_role_type_child'
+import add_case_status_type_child from './add_case_status_type_child'
+import add_communication_event_purpose_type_child from './add_communication_event_purpose_type_child'
+import add_communication_event_role_type_child from './add_communication_event_role_type_child'
+import add_communication_event_status_type_child from './add_communication_event_status_type_child'
+import add_communication_event_type_child from './add_communication_event_type_child'
+import add_contact_mechanism_type_child from './add_contact_mechanism_type_child'
+import add_facility_role_type_child from './add_facility_role_type_child'
+import add_facility_type_child from './add_facility_type_child'
+import add_geographic_boundary_type_child from './add_geographic_boundary_type_child'
+import add_party_classification_type_child from './add_party_classification_type_child'
+import add_party_relationship_status_type_child from './add_party_relationship_status_type_child'
+import add_party_relationship_type_child from './add_party_relationship_type_child'
 import add_party_role_type_child from './add_party_role_type_child'
 import add_party_type_child from './add_party_type_child'
+import add_priority_type_child from './add_priority_type_child'
 import case_role_type_by_description from './case_role_type_by_description'
 import case_status_type_by_description from './case_status_type_by_description'
 import communication_event_purpose_type_by_description from './communication_event_purpose_type_by_description'
@@ -113,8 +127,22 @@ export default {
 		priority_type_by_description
 	},
 	Mutation: {
+		add_case_status_type_child,
+		add_case_role_type_child,
+		add_communication_event_purpose_type_child,
+		add_communication_event_role_type_child,
+		add_communication_event_status_type_child,
+		add_communication_event_type_child,
+		add_contact_mechanism_type_child,
+		add_facility_role_type_child,
+		add_facility_type_child,
+		add_geographic_boundary_type_child,
+		add_party_classification_type_child,
+		add_party_relationship_type_child,
+		add_party_relationship_status_type_child,
 		add_party_role_type_child,
 		add_party_type_child,
+		add_priority_type_child,
 		create_facility_role_type,
 		create_facility_type,
 		create_case_role_type,
