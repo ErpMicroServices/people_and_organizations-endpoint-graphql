@@ -26,6 +26,7 @@ type Mutation {
 	create_facility_role_type( description: String!): FacilityRoleType
 	create_facility_type( description: String!): FacilityType
 	create_geographic_boundary_type( description: String!): GeographicBoundaryType
+	create_party( comment: String, party_type_id: ID!): Party!
 	create_party_classification_type( description: String!): PartyClassificationType
 	create_party_relationship_status_type( description: String!): PartyRelationshipStatusType
 	create_party_relationship_type( description: String!): PartyRelationshipType

@@ -32,6 +32,7 @@ import create_contact_mechanism_type from './create_contact_mechanism_type'
 import create_facility_role_type from './create_facility_role_type'
 import create_facility_type from './create_facility_type'
 import create_geographic_boundary_type from './create_geographic_boundary_type'
+import create_party from './create_party'
 import create_party_classification_type from './create_party_classification_type'
 import create_party_relationship_status_type from './create_party_relationship_status_type'
 import create_party_relationship_type from './create_party_relationship_type'
@@ -58,6 +59,7 @@ import facility_role_type_by_description from './facility_role_type_by_descripti
 import facility_type_by_description from './facility_type_by_description'
 import geographic_boundary_type_by_description from './geographic_boundary_type_by_description'
 import parties from './parties'
+import parties_by_type from './parties_by_type'
 import party_classification_type_by_description from './party_classification_type_by_description'
 import party_relationship_status_type_by_description from './party_relationship_status_type_by_description'
 import party_relationship_type_by_description from './party_relationship_type_by_description'
@@ -97,64 +99,63 @@ export default {
 			return context.database.any('select id, description, parent_id from communication_event_role_type where parent_id=${id}', parent)
 		}
 	},
-	CommunicationEventStatusType: {
+	CommunicationEventStatusType : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from communication_event_status_type where parent_id=${id}', parent)
 		}
 	},
-	CommunicationEventType      : {
+	CommunicationEventType       : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from communication_event_type where parent_id=${id}', parent)
 		}
 	},
-	ContactMechanismType        : {
+	ContactMechanismType         : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from contact_mechanism_type where parent_id=${id}', parent)
 		}
 	},
-	Date                        : GraphQLDate,
-	FacilityRoleType           : {
+	Date                         : GraphQLDate,
+	FacilityRoleType             : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from facility_role_type where parent_id=${id}', parent)
 		}
 	},
-	FacilityType               : {
+	FacilityType                 : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from facility_type where parent_id=${id}', parent)
 		}
 	},
-	GeographicBoundaryType     : {
+	GeographicBoundaryType       : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from geographic_boundary_type where parent_id=${id}', parent)
 		}
 	},
-	Party                      : {
+	Party                        : {
 		party_type(parent, args, context, info) {
-			console.log("parent: ", parent)
 			return context.database.one('select id, description, parent_id from party_type where id = ${party_type_id}', parent)
 		}
 	},
-	PartyClassificationType    : {
+	PartyClassificationType      : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_classification_type where parent_id=${id}', parent)
 		}
 	},
-	PartyRelationshipStatusType: {
+	PartyRelationshipStatusType  : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_relationship_status_type where parent_id=${id}', parent)
 		}
 	},
-	PartyRelationshipType      : {
+	PartyRelationshipType        : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_relationship_type where parent_id=${id}', parent)
 		}
 	},
-	PartyRoleType               : {
+	PartyRoleType                : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_role_type where parent_id=${id}', parent)
 		}
 	},
-	PartyType                   : {
+	PartyType                    : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_type where parent_id=${id}', parent)
 		}
@@ -181,6 +182,7 @@ export default {
 		facility_type_by_description,
 		geographic_boundary_type_by_description,
 		parties,
+		parties_by_type,
 		party_classification_type_by_description,
 		party_relationship_status_type_by_description,
 		party_relationship_type_by_description,
@@ -216,6 +218,7 @@ export default {
 		create_communication_event_type,
 		create_contact_mechanism_type,
 		create_geographic_boundary_type,
+		create_party,
 		create_party_classification_type,
 		create_party_relationship_status_type,
 		create_party_relationship_type,
