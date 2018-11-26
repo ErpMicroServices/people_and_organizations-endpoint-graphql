@@ -48,12 +48,36 @@ defineSupportCode(function ({
 		callback()
 	})
 
+	Given('a party with a comment of {string} is in the database', function (comment) {
+		this.party.comment = comment
+		return this.db.one('insert into party (comment, party_type_id) values(${comment}, ${party_type_id}) returning id', {
+				comment      : comment,
+				party_type_id: this.party_type.id
+			})
+			.then(data => this.party.id = data.id)
+	})
+
 	When('I save the party', function () {
 		this.graphql_function = 'create_party'
 		return this.client
 		.mutate({
 			mutation : gql`mutation create_party($comment: String, $party_type_id: ID!) {create_party(comment: $comment, party_type_id: $party_type_id){id comment party_type{id}}}`,
 			variables: {
+				"comment"      : this.party.comment,
+				"party_type_id": this.party_type.id
+			}
+		})
+		.then((response) => this.result.data = response)
+		.catch(error => this.result.error = error)
+	})
+
+	When('I update the party', function () {
+		this.graphql_function = 'update_party'
+		return this.client
+		.mutate({
+			mutation : gql`mutation update_party($id: ID!, $comment: String, $party_type_id: ID!) {update_party(id: $id, comment: $comment, party_type_id: $party_type_id){id comment party_type{id}}}`,
+			variables: {
+				"id"           : this.party.id,
 				"comment"      : this.party.comment,
 				"party_type_id": this.party_type.id
 			}
@@ -93,6 +117,24 @@ defineSupportCode(function ({
 		.catch(error => this.result.error = error)
 	})
 
+	Given('I change the comment to {string}', function (new_comment, callback) {
+		this.party.comment = new_comment
+		callback()
+	})
+
+	When('I search for the party by id', function () {
+		this.graphql_function = 'party'
+		return this.client
+		.query({
+			query    : gql`query party($id: ID!) { party(id: $id){id comment party_type{id description}}}`,
+			variables: {
+				"id": this.party.id
+			}
+		})
+		.then((response) => this.result.data = response)
+		.catch(error => this.result.error = error)
+	})
+
 	Then('I get {int} parties', function (number_of_parties, callback) {
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
@@ -115,10 +157,19 @@ defineSupportCode(function ({
 	})
 
 	Then('the party is in the database', function () {
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
+		expect(this.result.data).to.not.be.null
 		return this.db.one('select id, comment, party_type_id from party where id = ${id}', this.result.data.data[`${this.graphql_function}`])
 			.then(data => {
 				expect(data.comment).to.be.equal(this.party.comment)
 				expect(data.party_type_id).to.be.equal(this.party_type.id)
+			})
+	})
+
+	Then('there is {int} party in the database', function (party_count) {
+		return this.db.one('select count(id) from party')
+			.then(data => {
+				expect(parseInt(data.count)).to.be.equal(party_count)
 			})
 	})
 })

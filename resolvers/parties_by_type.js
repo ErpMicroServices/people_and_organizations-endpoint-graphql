@@ -5,8 +5,4 @@ export default function (obj, args, context, graphql) {
 			offset     : args.start,
 			description: args.party_type
 		})
-		.then(data => {
-			console.log("data: ", data)
-			return data
-		})
 }

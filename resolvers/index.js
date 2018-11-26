@@ -60,6 +60,7 @@ import facility_type_by_description from './facility_type_by_description'
 import geographic_boundary_type_by_description from './geographic_boundary_type_by_description'
 import parties from './parties'
 import parties_by_type from './parties_by_type'
+import party from './party'
 import party_classification_type_by_description from './party_classification_type_by_description'
 import party_relationship_status_type_by_description from './party_relationship_status_type_by_description'
 import party_relationship_type_by_description from './party_relationship_type_by_description'
@@ -76,6 +77,7 @@ import update_contact_mechanism_type from './update_contact_mechanism_type'
 import update_facility_role_type from './update_facility_role_type'
 import update_facility_type from './update_facility_type'
 import update_geographic_boundary_type from './update_geographic_boundary_type'
+import update_party from './update_party'
 import update_party_classification_type from './update_party_classification_type'
 import update_party_relationship_status_type from './update_party_relationship_status_type'
 import update_party_relationship_type from './update_party_relationship_type'
@@ -181,6 +183,7 @@ export default {
 		facility_role_type_by_description,
 		facility_type_by_description,
 		geographic_boundary_type_by_description,
+		party,
 		parties,
 		parties_by_type,
 		party_classification_type_by_description,
@@ -251,6 +254,7 @@ export default {
 		update_facility_role_type,
 		update_facility_type,
 		update_geographic_boundary_type,
+		update_party,
 		update_party_classification_type,
 		update_party_relationship_type,
 		update_party_relationship_status_type,

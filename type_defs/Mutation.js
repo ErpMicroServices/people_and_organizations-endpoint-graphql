@@ -59,6 +59,7 @@ type Mutation {
 	update_facility_type(id: ID!, description: String!): FacilityType
 	update_facility_role_type(id: ID!, description: String!): FacilityRoleType
 	update_geographic_boundary_type(id: ID!, description: String!): GeographicBoundaryType
+	update_party(id: ID!, comment: String, party_type_id:ID!): Party
 	update_party_classification_type(id: ID!, description: String!): PartyClassificationType
 	update_party_relationship_status_type(id: ID!, description: String!): PartyRelationshipStatusType
 	update_party_relationship_type(id: ID!, description: String!): PartyRelationshipType

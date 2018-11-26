@@ -11,6 +11,7 @@ type Query {
 	facility_type_by_description(description: String!): [FacilityType]
 	geographic_boundary_type_by_description(description: String!): [GeographicBoundaryType]
 	parties( start: Int!, records: Int!) : [Party]!
+	party( id: ID!): Party
 	parties_by_type( party_type: String!, start: Int!, records: Int!) : [Party]!
 	party_classification_type_by_description(description: String!): [PartyClassificationType]
 	party_relationship_status_type_by_description(description: String!): [PartyRelationshipStatusType]
