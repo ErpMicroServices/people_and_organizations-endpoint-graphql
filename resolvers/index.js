@@ -49,6 +49,7 @@ import delete_contact_mechanism_type from './delete_contact_mechanism_type'
 import delete_facility_role_type from './delete_facility_role_type'
 import delete_facility_type from './delete_facility_type'
 import delete_geographic_boundary_type from './delete_geographic_boundary_type'
+import delete_party from './delete_party'
 import delete_party_classification_type from './delete_party_classification_type'
 import delete_party_relationship_status_type from './delete_party_relationship_status_type'
 import delete_party_relationship_type from './delete_party_relationship_type'
@@ -238,6 +239,7 @@ export default {
 		delete_facility_role_type,
 		delete_facility_type,
 		delete_geographic_boundary_type,
+		delete_party,
 		delete_party_classification_type,
 		delete_party_relationship_status_type,
 		delete_party_relationship_type,

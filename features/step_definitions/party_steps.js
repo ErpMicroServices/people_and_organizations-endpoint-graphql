@@ -135,6 +135,19 @@ defineSupportCode(function ({
 		.catch(error => this.result.error = error)
 	})
 
+	When('I delete the party', function () {
+		this.graphql_function = 'delete_party'
+		return this.client
+		.mutate({
+			mutation : gql`mutation delete_party($id: ID!) {delete_party(id: $id)}`,
+			variables: {
+				"id": this.party.id
+			}
+		})
+		.then((response) => this.result.data = response)
+		.catch(error => this.result.error = error)
+	})
+
 	Then('I get {int} parties', function (number_of_parties, callback) {
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
@@ -171,5 +184,22 @@ defineSupportCode(function ({
 			.then(data => {
 				expect(parseInt(data.count)).to.be.equal(party_count)
 			})
+	})
+
+	Then('I get {string} back', function (string, callback) {
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
+		expect(this.result.data).to.not.be.null
+		expect(this.result.data.data[`${this.graphql_function}`]).to.be.true
+		callback()
+	})
+
+	Then('the party is not in the database', function () {
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
+		expect(this.result.data).to.not.be.null
+		return this.db.one('select id, comment, party_type_id from party where id = ${id}', this.party)
+			.then(data => {
+				fail("Party should be deleted: ", data)
+			})
+			.catch(error => expect(error.message).to.be.equal('No data returned from the query.'))
 	})
 })

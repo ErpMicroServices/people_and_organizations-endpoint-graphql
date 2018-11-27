@@ -20,6 +20,11 @@ function CustomWorld() {
 
 	this.graphql_function = ''
 
+	this.party_role_type = {
+		id         : '',
+		description: ''
+	}
+
 	this.party   = {
 		comment      : '',
 		party_type_id: ''

@@ -43,6 +43,8 @@ type Mutation {
 	delete_facility_role_type(id: ID!): Boolean
 	delete_facility_type(id: ID!): Boolean
 	delete_geographic_boundary_type(id: ID!): Boolean
+	delete_party(id: ID!): Boolean
+	
 	delete_party_classification_type(id: ID!): Boolean
 	delete_party_relationship_status_type(id: ID!): Boolean
 	delete_priority_type(id: ID!): Boolean
