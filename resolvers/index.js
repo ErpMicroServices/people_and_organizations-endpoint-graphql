@@ -9,6 +9,7 @@ import add_contact_mechanism_type_child from './add_contact_mechanism_type_child
 import add_facility_role_type_child from './add_facility_role_type_child'
 import add_facility_type_child from './add_facility_type_child'
 import add_geographic_boundary_type_child from './add_geographic_boundary_type_child'
+import add_name_type_child from './add_name_type_child'
 import add_party_classification_type_child from './add_party_classification_type_child'
 import add_party_relationship_status_type_child from './add_party_relationship_status_type_child'
 import add_party_relationship_type_child from './add_party_relationship_type_child'
@@ -32,6 +33,7 @@ import create_contact_mechanism_type from './create_contact_mechanism_type'
 import create_facility_role_type from './create_facility_role_type'
 import create_facility_type from './create_facility_type'
 import create_geographic_boundary_type from './create_geographic_boundary_type'
+import create_name_type from './create_name_type'
 import create_party from './create_party'
 import create_party_classification_type from './create_party_classification_type'
 import create_party_relationship_status_type from './create_party_relationship_status_type'
@@ -49,6 +51,7 @@ import delete_contact_mechanism_type from './delete_contact_mechanism_type'
 import delete_facility_role_type from './delete_facility_role_type'
 import delete_facility_type from './delete_facility_type'
 import delete_geographic_boundary_type from './delete_geographic_boundary_type'
+import delete_name_type from './delete_name_type'
 import delete_party from './delete_party'
 import delete_party_classification_type from './delete_party_classification_type'
 import delete_party_relationship_status_type from './delete_party_relationship_status_type'
@@ -59,6 +62,7 @@ import delete_priority_type from './delete_priority_type'
 import facility_role_type_by_description from './facility_role_type_by_description'
 import facility_type_by_description from './facility_type_by_description'
 import geographic_boundary_type_by_description from './geographic_boundary_type_by_description'
+import name_type_by_description from './name_type_by_description'
 import parties from './parties'
 import parties_by_type from './parties_by_type'
 import party from './party'
@@ -78,6 +82,7 @@ import update_contact_mechanism_type from './update_contact_mechanism_type'
 import update_facility_role_type from './update_facility_role_type'
 import update_facility_type from './update_facility_type'
 import update_geographic_boundary_type from './update_geographic_boundary_type'
+import update_name_type from './update_name_type'
 import update_party from './update_party'
 import update_party_classification_type from './update_party_classification_type'
 import update_party_relationship_status_type from './update_party_relationship_status_type'
@@ -87,7 +92,7 @@ import update_party_type from './update_party_type'
 import update_priority_type from './update_priority_type'
 
 export default {
-	CaseStatusType               : {
+	CaseStatusType             : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from case_status_type where parent_id=${id}', parent)
 		}
@@ -118,32 +123,37 @@ export default {
 		}
 	},
 	Date                         : GraphQLDate,
-	FacilityRoleType             : {
+	FacilityRoleType           : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from facility_role_type where parent_id=${id}', parent)
 		}
 	},
-	FacilityType                 : {
+	FacilityType               : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from facility_type where parent_id=${id}', parent)
 		}
 	},
-	GeographicBoundaryType       : {
+	GeographicBoundaryType     : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from geographic_boundary_type where parent_id=${id}', parent)
 		}
 	},
-	Party                        : {
+	NameType                   : {
+		children(parent, args, context, info) {
+			return context.database.any('select id, description, parent_id from name_type where parent_id=${id}', parent)
+		}
+	},
+	Party                      : {
 		party_type(parent, args, context, info) {
 			return context.database.one('select id, description, parent_id from party_type where id = ${party_type_id}', parent)
 		}
 	},
-	PartyClassificationType      : {
+	PartyClassificationType    : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_classification_type where parent_id=${id}', parent)
 		}
 	},
-	PartyRelationshipStatusType  : {
+	PartyRelationshipStatusType: {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_relationship_status_type where parent_id=${id}', parent)
 		}
@@ -168,12 +178,12 @@ export default {
 			return context.database.any('select id, description, parent_id from priority_type where parent_id=${id}', parent)
 		}
 	},
-	CaseRoleType                 : {
+	CaseRoleType               : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from case_role_type where parent_id=${id}', parent)
 		}
 	},
-	Query                        : {
+	Query                      : {
 		case_status_type_by_description,
 		case_role_type_by_description,
 		communication_event_purpose_type_by_description,
@@ -184,6 +194,7 @@ export default {
 		facility_role_type_by_description,
 		facility_type_by_description,
 		geographic_boundary_type_by_description,
+		name_type_by_description,
 		party,
 		parties,
 		parties_by_type,
@@ -195,7 +206,7 @@ export default {
 		priority_type_by_description
 	}
 	,
-	Mutation                     : {
+	Mutation                   : {
 		add_case_status_type_child,
 		add_case_role_type_child,
 		add_communication_event_purpose_type_child,
@@ -206,6 +217,7 @@ export default {
 		add_facility_role_type_child,
 		add_facility_type_child,
 		add_geographic_boundary_type_child,
+		add_name_type_child,
 		add_party_classification_type_child,
 		add_party_relationship_type_child,
 		add_party_relationship_status_type_child,
@@ -222,6 +234,7 @@ export default {
 		create_communication_event_type,
 		create_contact_mechanism_type,
 		create_geographic_boundary_type,
+		create_name_type,
 		create_party,
 		create_party_classification_type,
 		create_party_relationship_status_type,
@@ -239,6 +252,7 @@ export default {
 		delete_facility_role_type,
 		delete_facility_type,
 		delete_geographic_boundary_type,
+		delete_name_type,
 		delete_party,
 		delete_party_classification_type,
 		delete_party_relationship_status_type,
@@ -256,6 +270,7 @@ export default {
 		update_facility_role_type,
 		update_facility_type,
 		update_geographic_boundary_type,
+		update_name_type,
 		update_party,
 		update_party_classification_type,
 		update_party_relationship_type,

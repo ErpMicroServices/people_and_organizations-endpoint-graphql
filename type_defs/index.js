@@ -25,6 +25,7 @@ import GeographicBoundaryType from './GeographicBoundaryType'
 import InstantMessaging from './InstantMessaging'
 import IpAddress from './IpAddress'
 import Mutation from './Mutation'
+import NameType from './NameType'
 import Party from './Party'
 import PartyClassification from './PartyClassification'
 import PartyClassificationType from './PartyClassificationType'
@@ -76,6 +77,7 @@ export default [
 	InstantMessaging,
 	IpAddress,
 	Mutation,
+	NameType,
 	Party,
 	PartyClassification,
 	PartyClassificationType,

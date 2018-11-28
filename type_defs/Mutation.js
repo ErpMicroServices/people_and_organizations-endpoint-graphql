@@ -10,6 +10,7 @@ type Mutation {
 	add_facility_role_type_child( description: String, parent_id: ID!): FacilityRoleType
 	add_facility_type_child( description: String, parent_id: ID!): FacilityType
 	add_geographic_boundary_type_child( description: String, parent_id: ID!): GeographicBoundaryType
+	add_name_type_child( description: String, parent_id: ID!): NameType
 	add_party_classification_type_child( description: String, parent_id: ID!): PartyClassificationType
 	add_party_relationship_status_type_child( description: String!, parent_id: ID!): PartyRelationshipStatusType
 	add_party_relationship_type_child( description: String!, parent_id: ID!): PartyRelationshipType
@@ -26,6 +27,7 @@ type Mutation {
 	create_facility_role_type( description: String!): FacilityRoleType
 	create_facility_type( description: String!): FacilityType
 	create_geographic_boundary_type( description: String!): GeographicBoundaryType
+	create_name_type( description: String!): NameType
 	create_party( comment: String, party_type_id: ID!): Party!
 	create_party_classification_type( description: String!): PartyClassificationType
 	create_party_relationship_status_type( description: String!): PartyRelationshipStatusType
@@ -43,8 +45,8 @@ type Mutation {
 	delete_facility_role_type(id: ID!): Boolean
 	delete_facility_type(id: ID!): Boolean
 	delete_geographic_boundary_type(id: ID!): Boolean
+	delete_name_type(id: ID!): Boolean
 	delete_party(id: ID!): Boolean
-	
 	delete_party_classification_type(id: ID!): Boolean
 	delete_party_relationship_status_type(id: ID!): Boolean
 	delete_priority_type(id: ID!): Boolean
@@ -61,6 +63,7 @@ type Mutation {
 	update_facility_type(id: ID!, description: String!): FacilityType
 	update_facility_role_type(id: ID!, description: String!): FacilityRoleType
 	update_geographic_boundary_type(id: ID!, description: String!): GeographicBoundaryType
+	update_name_type(id: ID!, description: String!): NameType
 	update_party(id: ID!, comment: String, party_type_id:ID!): Party
 	update_party_classification_type(id: ID!, description: String!): PartyClassificationType
 	update_party_relationship_status_type(id: ID!, description: String!): PartyRelationshipStatusType

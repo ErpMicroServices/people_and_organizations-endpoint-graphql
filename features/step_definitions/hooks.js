@@ -24,6 +24,7 @@ defineSupportCode(function ({
 			.then(() => this.db.any('delete from geographic_boundary_association'))
 			.then(() => this.db.any('delete from geographic_boundary'))
 			.then(() => this.db.any('delete from geographic_boundary_type'))
+			.then(() => this.db.any('delete from name_type'))
 			.then(() => this.db.any('delete from party_classification_type'))
 			.then(() => this.db.any('delete from party_relationship_status_type'))
 			.then(() => this.db.any('delete from party_relationship_type'))

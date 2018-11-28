@@ -131,6 +131,7 @@ defineSupportCode(function ({
 		expect(this.result.data).to.not.be.null
 		let result = this.result.data.data[this.graphql_function]
 		if (this.graphql_function.endsWith('_type_by_description')) {
+
 			expect(result.length).to.be.equal(1)
 			expect(result[0].description).to.be.equal(this.party_type.description)
 		} else {
