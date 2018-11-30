@@ -2,8 +2,8 @@ import {InMemoryCache} from 'apollo-cache-inmemory'
 import {ApolloClient} from 'apollo-client'
 import {HttpLink} from 'apollo-link-http'
 import fetch from 'node-fetch'
-import config from "./config"
-import database from "./database"
+import config from './config'
+import database from './database'
 
 var {
 	    defineSupportCode
@@ -25,11 +25,21 @@ function CustomWorld() {
 		description: ''
 	}
 
-	this.party   = {
+	this.party = {
 		comment      : '',
-		party_type_id: ''
+		party_type_id: '',
+		names        : []
 	}
-	this.parties = []
+
+	this.party_name = {
+		id  : '',
+		name: '',
+		type: {
+			description: '',
+			id         : ''
+		}
+	}
+	this.parties    = []
 
 	this.party_type = {
 		id         : '',

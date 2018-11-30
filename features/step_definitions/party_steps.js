@@ -39,7 +39,7 @@ defineSupportCode(function ({
 			})
 			.then(data => this.parties = this.parties.concat(data))
 			.catch(error => {
-				console.log("Couldn't create parties: ", error)
+				console.log('Couldn\'t create parties: ', error)
 			})
 	})
 
@@ -59,62 +59,68 @@ defineSupportCode(function ({
 
 	When('I save the party', function () {
 		this.graphql_function = 'create_party'
-		return this.client
-		.mutate({
-			mutation : gql`mutation create_party($comment: String, $party_type_id: ID!) {create_party(comment: $comment, party_type_id: $party_type_id){id comment party_type{id}}}`,
-			variables: {
-				"comment"      : this.party.comment,
-				"party_type_id": this.party_type.id
+		let inputParty        = {
+			"inputParty": {
+				'comment'      : this.party.comment,
+				'party_type_id': this.party_type.id
 			}
-		})
-		.then((response) => this.result.data = response)
-		.catch(error => this.result.error = error)
+		}
+		if (this.party.names && this.party.names.length > 0) {
+			inputParty.inputParty.names = this.party.names
+		}
+		return this.client
+			.mutate({
+				mutation : gql`mutation create_party($inputParty: InputParty!) { create_party(new_party: $inputParty) { id comment party_type { id } names { id name name_type { id description}}}}`,
+				variables: inputParty
+			})
+			.then((response) => this.result.data = response)
+			.catch(error => this.result.error = error)
 	})
 
 	When('I update the party', function () {
 		this.graphql_function = 'update_party'
 		return this.client
-		.mutate({
-			mutation : gql`mutation update_party($id: ID!, $comment: String, $party_type_id: ID!) {update_party(id: $id, comment: $comment, party_type_id: $party_type_id){id comment party_type{id}}}`,
-			variables: {
-				"id"           : this.party.id,
-				"comment"      : this.party.comment,
-				"party_type_id": this.party_type.id
-			}
-		})
-		.then((response) => this.result.data = response)
-		.catch(error => this.result.error = error)
+			.mutate({
+				mutation : gql`mutation update_party($id: ID!, $comment: String, $party_type_id: ID!) {update_party(id: $id, comment: $comment, party_type_id: $party_type_id){id comment party_type{id}}}`,
+				variables: {
+					'id'           : this.party.id,
+					'comment'      : this.party.comment,
+					'party_type_id': this.party_type.id
+				}
+			})
+			.then((response) => this.result.data = response)
+			.catch(error => this.result.error = error)
 	})
 
 	When('I search for all parties', function () {
 		this.graphql_function = 'parties'
 		return this.client
-		.query({
-			query    : gql`query parties($start: Int!, $records: Int!) {parties(start: $start, records: $records){id comment party_type{id}}}`,
-			variables: {
-				"start"  : 0,
-				"records": this.parties.length + 10
-			}
-		})
+			.query({
+				query    : gql`query parties($start: Int!, $records: Int!) {parties(start: $start, records: $records){id comment party_type{id}}}`,
+				variables: {
+					'start'  : 0,
+					'records': this.parties.length + 10
+				}
+			})
 
-		.then((response) => this.result.data = response)
-		.catch(error => this.result.error = error)
+			.then((response) => this.result.data = response)
+			.catch(error => this.result.error = error)
 	})
 
 	When('I search for parties of type {string}', function (party_type) {
 		this.graphql_function = 'parties_by_type'
 		return this.client
-		.query({
-			query    : gql`query parties_by_type($party_type: String!, $start: Int!, $records: Int!) {parties_by_type(party_type: $party_type, start: $start, records: $records){id comment party_type{id description}}}`,
-			variables: {
-				"start"     : 0,
-				"records"   : this.parties.length + 10,
-				"party_type": party_type
-			}
-		})
+			.query({
+				query    : gql`query parties_by_type($party_type: String!, $start: Int!, $records: Int!) {parties_by_type(party_type: $party_type, start: $start, records: $records){id comment party_type{id description}}}`,
+				variables: {
+					'start'     : 0,
+					'records'   : this.parties.length + 10,
+					'party_type': party_type
+				}
+			})
 
-		.then((response) => this.result.data = response)
-		.catch(error => this.result.error = error)
+			.then((response) => this.result.data = response)
+			.catch(error => this.result.error = error)
 	})
 
 	Given('I change the comment to {string}', function (new_comment, callback) {
@@ -125,27 +131,27 @@ defineSupportCode(function ({
 	When('I search for the party by id', function () {
 		this.graphql_function = 'party'
 		return this.client
-		.query({
-			query    : gql`query party($id: ID!) { party(id: $id){id comment party_type{id description}}}`,
-			variables: {
-				"id": this.party.id
-			}
-		})
-		.then((response) => this.result.data = response)
-		.catch(error => this.result.error = error)
+			.query({
+				query    : gql`query party($id: ID!) { party(id: $id){id comment party_type{id description}}}`,
+				variables: {
+					'id': this.party.id
+				}
+			})
+			.then((response) => this.result.data = response)
+			.catch(error => this.result.error = error)
 	})
 
 	When('I delete the party', function () {
 		this.graphql_function = 'delete_party'
 		return this.client
-		.mutate({
-			mutation : gql`mutation delete_party($id: ID!) {delete_party(id: $id)}`,
-			variables: {
-				"id": this.party.id
-			}
-		})
-		.then((response) => this.result.data = response)
-		.catch(error => this.result.error = error)
+			.mutate({
+				mutation : gql`mutation delete_party($id: ID!) {delete_party(id: $id)}`,
+				variables: {
+					'id': this.party.id
+				}
+			})
+			.then((response) => this.result.data = response)
+			.catch(error => this.result.error = error)
 	})
 
 	Then('I get {int} parties', function (number_of_parties, callback) {
@@ -198,7 +204,7 @@ defineSupportCode(function ({
 		expect(this.result.data).to.not.be.null
 		return this.db.one('select id, comment, party_type_id from party where id = ${id}', this.party)
 			.then(data => {
-				fail("Party should be deleted: ", data)
+				fail('Party should be deleted: ', data)
 			})
 			.catch(error => expect(error.message).to.be.equal('No data returned from the query.'))
 	})

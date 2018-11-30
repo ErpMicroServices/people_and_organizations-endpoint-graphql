@@ -19,7 +19,7 @@ defineSupportCode(function ({
 		let sql                     = `insert into ${this.party_type.type}_type (description) values ($1) returning id`
 		return this.db.one(sql, [description])
 			.then(data => this.party_type.id = data.id)
-			.catch(error => console.log("Error: ", error))
+			.catch(error => console.log('Error: ', error))
 	})
 
 	Given('a type of {string}', function (type, callback) {
@@ -94,7 +94,7 @@ defineSupportCode(function ({
 			.query({
 				query    : gql(query),
 				variables: {
-					"description": description
+					'description': description
 				}
 			})
 
@@ -109,7 +109,7 @@ defineSupportCode(function ({
 			.query({
 				query    : gql(query),
 				variables: {
-					"description": this.party_type.description
+					'description': this.party_type.description
 				}
 			})
 

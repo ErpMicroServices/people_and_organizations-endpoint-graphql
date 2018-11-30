@@ -92,7 +92,7 @@ import update_party_type from './update_party_type'
 import update_priority_type from './update_priority_type'
 
 export default {
-	CaseStatusType             : {
+	CaseStatusType               : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from case_status_type where parent_id=${id}', parent)
 		}
@@ -123,37 +123,51 @@ export default {
 		}
 	},
 	Date                         : GraphQLDate,
-	FacilityRoleType           : {
+	FacilityRoleType             : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from facility_role_type where parent_id=${id}', parent)
 		}
 	},
-	FacilityType               : {
+	FacilityType                 : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from facility_type where parent_id=${id}', parent)
 		}
 	},
-	GeographicBoundaryType     : {
+	GeographicBoundaryType       : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from geographic_boundary_type where parent_id=${id}', parent)
 		}
 	},
-	NameType                   : {
+	NameType                     : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from name_type where parent_id=${id}', parent)
 		}
 	},
-	Party                      : {
+	Party                        : {
+		names(parent, args, context, info) {
+
+			return context.database.any('select id, name, from_date, thru_date, name_type_id from party_name where party_id = ${id}', parent)
+				.then(data => {
+					console.log('party.names: ', data)
+					return data
+				})
+				.catch(error => console.log('party.name: ', error))
+		},
 		party_type(parent, args, context, info) {
 			return context.database.one('select id, description, parent_id from party_type where id = ${party_type_id}', parent)
 		}
 	},
-	PartyClassificationType    : {
+	PartyClassificationType      : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_classification_type where parent_id=${id}', parent)
 		}
 	},
-	PartyRelationshipStatusType: {
+	PartyName                    : {
+		name_type(parent, args, context, info) {
+			return context.database.one('select id, description, parent_id from name_type where id=${name_type_id} order by description', parent)
+		}
+	},
+	PartyRelationshipStatusType  : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from party_relationship_status_type where parent_id=${id}', parent)
 		}
@@ -178,12 +192,12 @@ export default {
 			return context.database.any('select id, description, parent_id from priority_type where parent_id=${id}', parent)
 		}
 	},
-	CaseRoleType               : {
+	CaseRoleType                 : {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from case_role_type where parent_id=${id}', parent)
 		}
 	},
-	Query                      : {
+	Query                        : {
 		case_status_type_by_description,
 		case_role_type_by_description,
 		communication_event_purpose_type_by_description,
@@ -206,7 +220,7 @@ export default {
 		priority_type_by_description
 	}
 	,
-	Mutation                   : {
+	Mutation                     : {
 		add_case_status_type_child,
 		add_case_role_type_child,
 		add_communication_event_purpose_type_child,
