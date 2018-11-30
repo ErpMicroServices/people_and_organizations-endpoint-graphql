@@ -12,13 +12,8 @@ defineSupportCode(function ({
 	                            Then
                             }) {
 	Given('a name type of {string} with a name of {string}', function (name_type, name, table) {
-		console.log("name_type: ", name_type)
-		console.log("name: ", name)
-		console.log("table: ", table.rawTable.length)
-
 		let promises = []
 		for (let row in table.rawTable) {
-			console.log("row: ", table.rawTable[row])
 			promises.push(this.db.one('insert into name_type (description) values (${name}) returning id', {name: table.rawTable[row][0]})
 				.then(data => {
 					let new_name = {
