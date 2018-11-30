@@ -48,6 +48,11 @@ defineSupportCode(function ({
 		callback()
 	})
 
+	Given('no comment field', function (callback) {
+		delete this.party.comment
+		callback()
+	})
+
 	Given('a party with a comment of {string} is in the database', function (comment) {
 		this.party.comment = comment
 		return this.db.one('insert into party (comment, party_type_id) values(${comment}, ${party_type_id}) returning id', {
@@ -170,7 +175,11 @@ defineSupportCode(function ({
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 		expect(this.result.data.data[`${this.graphql_function}`].id).to.not.be.null
-		expect(this.result.data.data[`${this.graphql_function}`].comment).to.be.equal(this.party.comment)
+		if (this.party.comment) {
+			expect(this.result.data.data[`${this.graphql_function}`].comment).to.be.equal(this.party.comment)
+		} else {
+			expect(this.result.data.data[`${this.graphql_function}`].comment).to.be.equal('')
+		}
 		expect(this.result.data.data[`${this.graphql_function}`].party_type.id).to.be.equal(this.party_type.id)
 		callback()
 	})
@@ -180,7 +189,12 @@ defineSupportCode(function ({
 		expect(this.result.data).to.not.be.null
 		return this.db.one('select id, comment, party_type_id from party where id = ${id}', this.result.data.data[`${this.graphql_function}`])
 			.then(data => {
-				expect(data.comment).to.be.equal(this.party.comment)
+				if (this.party.comment) {
+					expect(data.comment).to.be.equal(this.party.comment)
+				} else {
+					expect(data.comment).to.be.equal('')
+				}
+
 				expect(data.party_type_id).to.be.equal(this.party_type.id)
 			})
 	})
