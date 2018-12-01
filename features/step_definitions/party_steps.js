@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import gql from 'graphql-tag'
 
 const PQ = require('pg-promise').ParameterizedQuery
@@ -60,6 +61,14 @@ defineSupportCode(function ({
 				party_type_id: this.party_type.id
 			})
 			.then(data => this.party.id = data.id)
+	})
+
+	Given('a party of type {string} is in the database', async function (party_type) {
+		let party_type_id = await this.db.one('select id from party_type where description = ${party_type}', {party_type})
+		let party_id      = await this.db.one('insert into party (party_type_id) values( ${party_type_id}) returning id', {
+			party_type_id: party_type_id.id
+		})
+		this.party.id     = party_id.id
 	})
 
 	When('I save the party', function () {

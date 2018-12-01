@@ -1,3 +1,5 @@
+import 'babel-polyfill'
+
 var {
 	    defineSupportCode
     } = require('cucumber')
@@ -11,20 +13,15 @@ defineSupportCode(function ({
 	                            When,
 	                            Then
                             }) {
-	Given('a name type of {string} with a name of {string}', function (name_type, name, table) {
-		let promises = []
-		for (let row in table.rawTable) {
-			promises.push(this.db.one('insert into name_type (description) values (${name}) returning id', {name: table.rawTable[row][0]})
-				.then(data => {
-					let new_name = {
-						name        : table.rawTable[row][1],
-						name_type_id: data.id
-					}
-					this.party.names.push(new_name)
-				}))
-		}
-		return Promise.all(promises)
 
+	Given('party names of', async function (dataTable) {
+		let table = dataTable.rawTable
+		for (let row_index in dataTable.rawTable[0]) {
+			let row  = table[row_index]
+			let sql  = 'select id, description from name_type where description = ${description} '
+			let data = await this.db.one(sql, {description: row[0]})
+			this.party.names.push({name: row[1], name_type_id: data.id})
+		}
 	})
 
 	Then('the party name is present', function (callback) {
