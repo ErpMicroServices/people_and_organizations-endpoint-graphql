@@ -9,6 +9,7 @@ import add_contact_mechanism_type_child from './add_contact_mechanism_type_child
 import add_facility_role_type_child from './add_facility_role_type_child'
 import add_facility_type_child from './add_facility_type_child'
 import add_geographic_boundary_type_child from './add_geographic_boundary_type_child'
+import add_name_to_party from './add_name_to_party'
 import add_name_type_child from './add_name_type_child'
 import add_party_classification_type_child from './add_party_classification_type_child'
 import add_party_relationship_status_type_child from './add_party_relationship_status_type_child'
@@ -231,6 +232,7 @@ export default {
 		add_facility_role_type_child,
 		add_facility_type_child,
 		add_geographic_boundary_type_child,
+		add_name_to_party,
 		add_name_type_child,
 		add_party_classification_type_child,
 		add_party_relationship_type_child,

@@ -10,6 +10,7 @@ type Mutation {
 	add_facility_role_type_child( description: String, parent_id: ID!): FacilityRoleType
 	add_facility_type_child( description: String, parent_id: ID!): FacilityType
 	add_geographic_boundary_type_child( description: String, parent_id: ID!): GeographicBoundaryType
+	add_name_to_party(party_id: ID!, name:String!, name_type_id: ID!) : PartyName
 	add_name_type_child( description: String, parent_id: ID!): NameType
 	add_party_classification_type_child( description: String, parent_id: ID!): PartyClassificationType
 	add_party_relationship_status_type_child( description: String!, parent_id: ID!): PartyRelationshipStatusType
