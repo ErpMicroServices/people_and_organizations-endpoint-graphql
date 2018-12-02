@@ -16,6 +16,7 @@ import add_case_status_type_child from './types/case/status/add_child'
 import case_status_type_by_description from './types/case/status/by_description'
 import create_case_status_type from './types/case/status/create'
 import delete_case_status_type from './types/case/status/delete'
+import CaseStatusType from './types/case/status/type'
 import update_case_status_type from './types/case/status/update'
 import add_communication_event_type_child from './types/communication_event/add_child'
 import communication_event_type_by_description from './types/communication_event/by_description'
@@ -93,11 +94,7 @@ import delete_priority_type from './types/priority/delete'
 import update_priority_type from './types/priority/update'
 
 export default {
-	CaseStatusType               : {
-		children(parent, args, context, info) {
-			return context.database.any('select id, description, parent_id from case_status_type where parent_id=${id}', parent)
-		}
-	},
+	CaseStatusType,
 	CommunicationEventPurposeType: {
 		children(parent, args, context, info) {
 			return context.database.any('select id, description, parent_id from communication_event_purpose_type where parent_id=${id}', parent)
