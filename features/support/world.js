@@ -26,9 +26,10 @@ function CustomWorld() {
 	}
 
 	this.party = {
-		comment      : '',
-		party_type_id: '',
-		names        : []
+		comment        : '',
+		identifications: [],
+		party_type_id  : '',
+		names          : []
 	}
 
 	this.party_name = {
@@ -39,7 +40,17 @@ function CustomWorld() {
 			id         : ''
 		}
 	}
-	this.parties    = []
+
+	this.party_id = {
+		id   : '',
+		ident: '',
+		type : {
+			description: '',
+			id         : ''
+		}
+	}
+
+	this.parties = []
 
 	this.party_type = {
 		id         : '',

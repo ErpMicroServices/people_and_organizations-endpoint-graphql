@@ -1,12 +1,9 @@
 import gql from 'graphql-tag'
+import {convert_to_table_name} from '../util'
 
 var {
 	    defineSupportCode
     } = require('cucumber')
-
-function convert_to_table_name(type) {
-	return type.replace(/\s+/g, '_').toLowerCase()
-}
 
 defineSupportCode(function ({
 	                            Given,

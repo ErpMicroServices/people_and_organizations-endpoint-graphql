@@ -5,6 +5,7 @@ import parties_by_type from './party/by_type'
 import create_party from './party/create'
 import delete_party from './party/delete'
 import add_id_to_party from './party/id/add_to_party'
+import PartyId from './party/id/type'
 import parties from './party/list'
 import add_name_to_party from './party/name/add_to_party'
 import PartyName from './party/name/type'
@@ -118,7 +119,6 @@ import delete_priority_type from './types/priority/delete'
 import PriorityType from './types/priority/type'
 import update_priority_type from './types/priority/update'
 
-
 export default {
 	CaseStatusType,
 	CommunicationEventPurposeType,
@@ -134,6 +134,7 @@ export default {
 	NameType,
 	Party,
 	PartyClassificationType,
+	PartyId,
 	PartyName,
 	PartyRelationshipStatusType,
 	PartyRelationshipType,

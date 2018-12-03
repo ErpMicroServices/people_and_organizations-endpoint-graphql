@@ -5,10 +5,6 @@ var {
 	    defineSupportCode
     } = require('cucumber')
 
-function convert_to_table_name(type) {
-	return type.replace(/\s+/g, '_').toLowerCase()
-}
-
 defineSupportCode(function ({
 	                            Given,
 	                            When,

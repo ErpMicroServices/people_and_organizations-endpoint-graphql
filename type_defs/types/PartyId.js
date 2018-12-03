@@ -1,7 +1,7 @@
 export default `
 type PartyId {
     id: ID!,
-    name: String!,
+    ident: String!,
     id_type: IdType!
  }
 `

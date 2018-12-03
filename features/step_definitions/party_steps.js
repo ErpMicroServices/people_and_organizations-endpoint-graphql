@@ -7,10 +7,6 @@ var {
 	    defineSupportCode
     } = require('cucumber')
 
-function convert_to_table_name(type) {
-	return type.replace(/\s+/g, '_').toLowerCase()
-}
-
 defineSupportCode(function ({
 	                            Given,
 	                            When,
@@ -82,9 +78,12 @@ defineSupportCode(function ({
 		if (this.party.names && this.party.names.length > 0) {
 			inputParty.inputParty.names = this.party.names
 		}
+		if (this.party.identifications && this.party.identifications.length > 0) {
+			inputParty.inputParty.identifications = this.party.identifications
+		}
 		return this.client
 			.mutate({
-				mutation : gql`mutation create_party($inputParty: InputParty!) { create_party(new_party: $inputParty) { id comment party_type { id } names { id name name_type { id description}}}}`,
+				mutation : gql`mutation create_party($inputParty: InputParty!) { create_party(new_party: $inputParty) { id comment identifications { id ident id_type { id description}} names { id name name_type { id description}} party_type { id description} }}`,
 				variables: inputParty
 			})
 			.then((response) => this.result.data = response)

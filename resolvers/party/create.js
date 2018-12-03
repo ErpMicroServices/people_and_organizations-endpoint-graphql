@@ -13,6 +13,15 @@ export default async function (obj, args, context, graphql) {
 			})
 		}
 	}
+	if (new_party.identifications && new_party.identifications.length > 0) {
+		for (const id of new_party.identifications) {
+			await context.database.none('insert into party_id (ident, party_id, id_type_id) values(${ident}, ${party_id}, ${id_type_id})', {
+				ident     : id.ident,
+				party_id  : party_id.id,
+				id_type_id: id.id_type_id
+			})
+		}
+	}
 	let party = await context.database.one("select id, comment, party_type_id from party where id = ${id}", party_id)
 	return party
 }

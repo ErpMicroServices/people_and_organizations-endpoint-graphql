@@ -2,7 +2,9 @@ export default `
 input InputParty {
     id: ID,
     comment: String
-    party_type_id: ID!
+    identifications: [InputPartyId]
     names: [InputPartyName]
+    party_type_id: ID!
+    
  }
 `

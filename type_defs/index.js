@@ -1,4 +1,5 @@
 import InputParty from './inputs/InputParty'
+import InputPartyId from './inputs/InputPartyId'
 import InputPartyName from './inputs/InputPartyName'
 import Mutation from './Mutation'
 import Query from './Query'
@@ -81,6 +82,7 @@ export default [
 	GeographicBoundaryType,
 	IdType,
 	InputParty,
+	InputPartyId,
 	InputPartyName,
 	InstantMessaging,
 	IpAddress,
