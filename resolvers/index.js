@@ -4,6 +4,7 @@ import party from './party/by_id'
 import parties_by_type from './party/by_type'
 import create_party from './party/create'
 import delete_party from './party/delete'
+import add_id_to_party from './party/id/add_to_party'
 import parties from './party/list'
 import add_name_to_party from './party/name/add_to_party'
 import PartyName from './party/name/type'
@@ -78,6 +79,12 @@ import PartyClassificationType from './types/party/classification/type'
 import update_party_classification_type from './types/party/classification/update'
 import create_party_type from './types/party/create'
 import delete_party_type from './types/party/delete'
+import add_id_type_child from './types/party/id/add_child'
+import id_type_by_description from './types/party/id/by_description'
+import create_id_type from './types/party/id/create'
+import delete_id_type from './types/party/id/delete'
+import IdType from './types/party/id/type'
+import update_id_type from './types/party/id/update'
 import add_name_type_child from './types/party/name/add_child'
 import name_type_by_description from './types/party/name/by_description'
 import create_name_type from './types/party/name/create'
@@ -111,6 +118,7 @@ import delete_priority_type from './types/priority/delete'
 import PriorityType from './types/priority/type'
 import update_priority_type from './types/priority/update'
 
+
 export default {
 	CaseStatusType,
 	CommunicationEventPurposeType,
@@ -122,6 +130,7 @@ export default {
 	FacilityRoleType,
 	FacilityType,
 	GeographicBoundaryType,
+	IdType,
 	NameType,
 	Party,
 	PartyClassificationType,
@@ -143,6 +152,7 @@ export default {
 		facility_role_type_by_description,
 		facility_type_by_description,
 		geographic_boundary_type_by_description,
+		id_type_by_description,
 		name_type_by_description,
 		party,
 		parties,
@@ -166,6 +176,8 @@ export default {
 		add_facility_role_type_child,
 		add_facility_type_child,
 		add_geographic_boundary_type_child,
+		add_id_to_party,
+		add_id_type_child,
 		add_name_to_party,
 		add_name_type_child,
 		add_party_classification_type_child,
@@ -184,6 +196,7 @@ export default {
 		create_communication_event_type,
 		create_contact_mechanism_type,
 		create_geographic_boundary_type,
+		create_id_type,
 		create_name_type,
 		create_party,
 		create_party_classification_type,
@@ -202,6 +215,7 @@ export default {
 		delete_facility_role_type,
 		delete_facility_type,
 		delete_geographic_boundary_type,
+		delete_id_type,
 		delete_name_type,
 		delete_party,
 		delete_party_classification_type,
@@ -220,6 +234,7 @@ export default {
 		update_facility_role_type,
 		update_facility_type,
 		update_geographic_boundary_type,
+		update_id_type,
 		update_name_type,
 		update_party,
 		update_party_classification_type,

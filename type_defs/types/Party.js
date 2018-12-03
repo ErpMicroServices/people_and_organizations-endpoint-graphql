@@ -4,5 +4,6 @@ type Party {
     comment: String,
     party_type: PartyType!
     names: [PartyName]
+    identifications: [PartyId]
  }
 `

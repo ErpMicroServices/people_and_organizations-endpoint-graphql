@@ -153,6 +153,7 @@ defineSupportCode(function ({
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 		let result = this.result.data.data[this.graphql_function]
+
 		if (this.graphql_function.startsWith('query')) {
 			expect(result.length).to.be.equal(1)
 			expect(result[0].description).to.be.equal(this.party_type.description)

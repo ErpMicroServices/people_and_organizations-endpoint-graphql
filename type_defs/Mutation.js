@@ -9,6 +9,8 @@ type Mutation {
 	add_contact_mechanism_type_child( description: String, parent_id: ID!): ContactMechanismType
 	add_facility_role_type_child( description: String, parent_id: ID!): FacilityRoleType
 	add_facility_type_child( description: String, parent_id: ID!): FacilityType
+	add_id_to_party(party_id: ID!, name:String!, id_type_id: ID!) : PartyId
+	add_id_type_child( description: String, parent_id: ID!): IdType
 	add_geographic_boundary_type_child( description: String, parent_id: ID!): GeographicBoundaryType
 	add_name_to_party(party_id: ID!, name:String!, name_type_id: ID!) : PartyName
 	add_name_type_child( description: String, parent_id: ID!): NameType
@@ -28,6 +30,7 @@ type Mutation {
 	create_facility_role_type( description: String!): FacilityRoleType
 	create_facility_type( description: String!): FacilityType
 	create_geographic_boundary_type( description: String!): GeographicBoundaryType
+	create_id_type( description: String!): IdType
 	create_name_type( description: String!): NameType
 	create_party( new_party: InputParty!): Party!
 	create_party_classification_type( description: String!): PartyClassificationType
@@ -46,6 +49,7 @@ type Mutation {
 	delete_facility_role_type(id: ID!): Boolean
 	delete_facility_type(id: ID!): Boolean
 	delete_geographic_boundary_type(id: ID!): Boolean
+	delete_id_type(id: ID!): Boolean
 	delete_name_type(id: ID!): Boolean
 	delete_party(id: ID!): Boolean
 	delete_party_classification_type(id: ID!): Boolean
@@ -64,6 +68,7 @@ type Mutation {
 	update_facility_type(id: ID!, description: String!): FacilityType
 	update_facility_role_type(id: ID!, description: String!): FacilityRoleType
 	update_geographic_boundary_type(id: ID!, description: String!): GeographicBoundaryType
+	update_id_type(id: ID!, description: String!): IdType
 	update_name_type(id: ID!, description: String!): NameType
 	update_party(id: ID!, comment: String, party_type_id:ID!): Party
 	update_party_classification_type(id: ID!, description: String!): PartyClassificationType

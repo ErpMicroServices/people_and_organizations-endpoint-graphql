@@ -10,6 +10,7 @@ type Query {
 	facility_role_type_by_description(description: String!): [FacilityRoleType]
 	facility_type_by_description(description: String!): [FacilityType]
 	geographic_boundary_type_by_description(description: String!): [GeographicBoundaryType]
+	id_type_by_description(description: String!): [IdType]
 	name_type_by_description(description: String!): [NameType]
 	parties( start: Int!, records: Int!) : [Party]!
 	party( id: ID!): Party

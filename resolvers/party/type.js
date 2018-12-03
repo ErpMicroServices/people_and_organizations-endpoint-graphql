@@ -2,10 +2,7 @@ export default {
 	names(parent, args, context, info) {
 
 		return context.database.any('select id, name, from_date, thru_date, name_type_id from party_name where party_id = ${id}', parent)
-			.then(data => {
-				console.log('party.names: ', data)
-				return data
-			})
+			.then(data => data)
 			.catch(error => console.log('party.name: ', error))
 	},
 	party_type(parent, args, context, info) {

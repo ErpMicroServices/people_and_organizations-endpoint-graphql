@@ -27,6 +27,7 @@ import FacilityRoleType from './types/FacilityRoleType'
 import FacilityType from './types/FacilityType'
 import GeographicBoundary from './types/GeographicBoundary'
 import GeographicBoundaryType from './types/GeographicBoundaryType'
+import IdType from './types/IdType'
 import InstantMessaging from './types/InstantMessaging'
 import IpAddress from './types/IpAddress'
 import NameType from './types/NameType'
@@ -36,6 +37,7 @@ import PartyClassificationType from './types/PartyClassificationType'
 import PartyContactMechanism from './types/PartyContactMechanism'
 import PartyContactMechanismPurpose from './types/PartyContactMechanismPurpose'
 import PartyContactMechanismPurposeType from './types/PartyContactMechanismPurposeType'
+import PartyId from './types/PartyId'
 import PartyName from './types/PartyName'
 import PartyPostalAddress from './types/PartyPostalAddress'
 import PartyRelationship from './types/PartyRelationship'
@@ -77,6 +79,7 @@ export default [
 	FacilityType,
 	GeographicBoundary,
 	GeographicBoundaryType,
+	IdType,
 	InputParty,
 	InputPartyName,
 	InstantMessaging,
@@ -89,6 +92,7 @@ export default [
 	PartyContactMechanism,
 	PartyContactMechanismPurpose,
 	PartyContactMechanismPurposeType,
+	PartyId,
 	PartyName,
 	PartyPostalAddress,
 	PartyRelationship,
