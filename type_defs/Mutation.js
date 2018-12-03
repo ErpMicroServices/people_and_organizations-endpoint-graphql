@@ -9,7 +9,7 @@ type Mutation {
 	add_contact_mechanism_type_child( description: String, parent_id: ID!): ContactMechanismType
 	add_facility_role_type_child( description: String, parent_id: ID!): FacilityRoleType
 	add_facility_type_child( description: String, parent_id: ID!): FacilityType
-	add_id_to_party(party_id: ID!, name:String!, id_type_id: ID!) : PartyId
+	add_id_to_party(party_id: ID!, ident:String!, id_type_id: ID!) : PartyId
 	add_id_type_child( description: String, parent_id: ID!): IdType
 	add_geographic_boundary_type_child( description: String, parent_id: ID!): GeographicBoundaryType
 	add_name_to_party(party_id: ID!, name:String!, name_type_id: ID!) : PartyName

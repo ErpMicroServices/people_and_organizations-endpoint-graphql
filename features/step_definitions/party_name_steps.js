@@ -21,7 +21,7 @@ defineSupportCode(function ({
 		}
 	})
 
-	When('I add the {string} of {string} to the party', async function (name_type, name) {
+	When('I add the {string} name of {string} to the party', async function (name_type, name) {
 		try {
 			let name_type_id                 = await this.db.one('select id from name_type where description = ${name_type}', {name_type})
 			this.party_name.name             = name
