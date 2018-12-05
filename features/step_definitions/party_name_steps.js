@@ -42,8 +42,8 @@ defineSupportCode(function ({
 			this.party_name.type.description = name_type
 			let response                     = await this.client
 			.mutate({
-				mutation : gql`mutation add_name_to_party($party_id: ID!, $name:String!, $name_type_id: ID!)
-        { add_name_to_party(party_id: $party_id, name: $name, name_type_id: $name_type_id) { id name name_type {id description}}}`,
+				mutation : gql`mutation party_name_add_to_party($party_id: ID!, $name:String!, $name_type_id: ID!)
+        { party_name_add_to_party(party_id: $party_id, name: $name, name_type_id: $name_type_id) { id name name_type {id description}}}`,
 				variables: {
 					party_id    : this.party.id,
 					name,
@@ -51,7 +51,7 @@ defineSupportCode(function ({
 				}
 			})
 			this.result.data                 = response
-			this.graphql_function            = 'add_name_to_party'
+			this.graphql_function            = 'party_name_add_to_party'
 		} catch (error) {
 			this.result.error = error
 		}
@@ -61,14 +61,14 @@ defineSupportCode(function ({
 		try {
 			this.party_name.name  = new_name
 			let response          = await this.client.mutate({
-				mutation : gql`mutation update_party_name($name_id: ID!, $name: String!) { update_party_name(name_id: $name_id, name: $name){ id name name_type {id description}}}`,
+				mutation : gql`mutation party_name_update($name_id: ID!, $name: String!) { party_name_update(name_id: $name_id, name: $name){ id name name_type {id description}}}`,
 				variables: {
 					name_id: this.party_name.id,
 					name   : new_name
 				}
 			})
 			this.result.data      = response
-			this.graphql_function = 'update_party_name'
+			this.graphql_function = 'party_name_update'
 		} catch (error) {
 			this.result.error = error
 		}
@@ -77,13 +77,13 @@ defineSupportCode(function ({
 	When('I delete the name', async function () {
 		try {
 			let response          = await this.client.mutate({
-				mutation : gql`mutation delete_party_name($name_id: ID!) { delete_party_name(name_id: $name_id) }`,
+				mutation : gql`mutation party_name_delete($name_id: ID!) { party_name_delete(name_id: $name_id) }`,
 				variables: {
 					name_id: this.party_name.id
 				}
 			})
 			this.result.data      = response
-			this.graphql_function = 'delete_party_name'
+			this.graphql_function = 'party_name_delete'
 		} catch (error) {
 			this.result.error = error
 		}
@@ -132,7 +132,7 @@ defineSupportCode(function ({
 	Then('the party name is not in the database', function (callback) {
 		expect(this.result.error, `error is: ${this.result.error}`).to.be.null
 		expect(this.result.data).to.not.be.null
-		expect(this.result.data.data.delete_party_name).to.be.true
+		expect(this.result.data.data.party_name_delete).to.be.true
 		callback()
 	})
 })

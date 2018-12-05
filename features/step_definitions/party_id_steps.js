@@ -1,5 +1,6 @@
 import 'babel-polyfill'
 import gql from 'graphql-tag'
+import party_id_add_to_party from '../../resolvers/party/id/add_to_party'
 
 var {
 	    defineSupportCode
@@ -42,15 +43,15 @@ defineSupportCode(function ({
 			this.party_id.type.description = id_type
 			let response                   = await this.client
 			.mutate({
-				mutation : gql`mutation add_id_to_party($party_id: ID!, $ident:String!, $id_type_id: ID!)
-        { add_id_to_party(party_id: $party_id, ident: $ident, id_type_id: $id_type_id) { id ident id_type {id description}}}`,
+				mutation : gql`mutation party_id_add_to_party($party_id: ID!, $ident:String!, $id_type_id: ID!)
+        { party_id_add_to_party(party_id: $party_id, ident: $ident, id_type_id: $id_type_id) { id ident id_type {id description}}}`,
 				variables: {
 					party_id  : this.party.id,
 					ident,
 					id_type_id: id_type_id.id
 				}
 			})
-			this.graphql_function          = 'add_id_to_party'
+			this.graphql_function          = 'party_id_add_to_party'
 			this.result.data               = response
 		} catch (error) {
 			this.result.error = error
@@ -61,14 +62,14 @@ defineSupportCode(function ({
 		try {
 			this.party_id.ident   = new_id
 			let response          = await this.client.mutate({
-				mutation : gql`mutation update_party_id($identity_id: ID!, $ident:String!) { update_party_id(identity_id: $identity_id, ident: $ident) { id ident id_type {id description}}}`,
+				mutation : gql`mutation party_id_update($identity_id: ID!, $ident:String!) { party_id_update(identity_id: $identity_id, ident: $ident) { id ident id_type {id description}}}`,
 				variables: {
 					identity_id: this.party_id.id,
 					ident      : new_id
 				}
 			})
 			this.result.data      = response
-			this.graphql_function = 'update_party_id'
+			this.graphql_function = 'party_id_update'
 		} catch (error) {
 			this.result.error = error
 		}
@@ -77,13 +78,13 @@ defineSupportCode(function ({
 	When('I delete the id', async function () {
 		try {
 			let response          = await this.client.mutate({
-				mutation : gql`mutation delete_party_id($identity_id: ID!) { delete_party_id(identity_id: $identity_id) }`,
+				mutation : gql`mutation party_id_delete($identity_id: ID!) { party_id_delete(identity_id: $identity_id) }`,
 				variables: {
 					identity_id: this.party_id.id
 				}
 			})
 			this.result.data      = response
-			this.graphql_function = 'delete_party_id'
+			this.graphql_function = 'party_id_delete'
 		} catch (error) {
 			this.result.error = error
 		}
@@ -92,7 +93,7 @@ defineSupportCode(function ({
 	Then('I get the party id back', function (callback) {
 		expect(this.result.error, `error is: ${this.result.error}`).to.be.null
 		expect(this.result.data).to.not.be.null
-		let actual_id = this.result.data.data.add_id_to_party
+		let actual_id = this.result.data.data.party_id_add_to_party
 		expect(actual_id.id).to.be.ok
 		expect(actual_id.ident).to.be.equal(this.party_id.ident)
 		expect(actual_id.id_type.description).to.be.equal(this.party_id.type.description)
@@ -127,7 +128,7 @@ defineSupportCode(function ({
 	Then('the party id is not in the database', function (callback) {
 		expect(this.result.error, `error is: ${this.result.error}`).to.be.null
 		expect(this.result.data).to.not.be.null
-		expect(this.result.data.data.delete_party_id).to.be.true
+		expect(this.result.data.data.party_id_delete).to.be.true
 		callback()
 	})
 })

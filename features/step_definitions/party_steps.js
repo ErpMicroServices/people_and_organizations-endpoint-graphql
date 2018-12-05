@@ -69,7 +69,7 @@ defineSupportCode(function ({
 	})
 
 	When('I save the party', function () {
-		this.graphql_function = 'create_party'
+		this.graphql_function = 'party_create'
 		let inputParty        = {
 			"inputParty": {
 				'comment'      : this.party.comment,
@@ -84,7 +84,7 @@ defineSupportCode(function ({
 		}
 		return this.client
 		.mutate({
-			mutation : gql`mutation create_party($inputParty: InputParty!) { create_party(new_party: $inputParty) { id comment identifications { id ident id_type { id description}} names { id name name_type { id description}} party_type { id description} }}`,
+			mutation : gql`mutation party_create($inputParty: InputParty!) { party_create(new_party: $inputParty) { id comment identifications { id ident id_type { id description}} names { id name name_type { id description}} party_type { id description} }}`,
 			variables: inputParty
 		})
 		.then((response) => this.result.data = response)
@@ -92,10 +92,10 @@ defineSupportCode(function ({
 	})
 
 	When('I update the party', function () {
-		this.graphql_function = 'update_party'
+		this.graphql_function = 'party_update'
 		return this.client
 		.mutate({
-			mutation : gql`mutation update_party($id: ID!, $comment: String, $party_type_id: ID!) {update_party(id: $id, comment: $comment, party_type_id: $party_type_id){id comment party_type{id}}}`,
+			mutation : gql`mutation party_update($id: ID!, $comment: String, $party_type_id: ID!) {party_update(id: $id, comment: $comment, party_type_id: $party_type_id){id comment party_type{id}}}`,
 			variables: {
 				'id'           : this.party.id,
 				'comment'      : this.party.comment,
@@ -156,10 +156,10 @@ defineSupportCode(function ({
 	})
 
 	When('I delete the party', function () {
-		this.graphql_function = 'delete_party'
+		this.graphql_function = 'party_delete'
 		return this.client
 		.mutate({
-			mutation : gql`mutation delete_party($id: ID!) {delete_party(id: $id)}`,
+			mutation : gql`mutation party_delete($id: ID!) {party_delete(id: $id)}`,
 			variables: {
 				'id': this.party.id
 			}
@@ -198,10 +198,10 @@ defineSupportCode(function ({
 		expect(this.result.data).to.not.be.null
 		let party_id = ''
 		switch (this.graphql_function) {
-			case 'update_party_id':
-			case 'delete_party_id':
-			case 'update_party_name':
-			case 'delete_party_name':
+			case 'party_id_update':
+			case 'party_id_delete':
+			case 'party_name_update':
+			case 'party_name_delete':
 				party_id = this.party.id
 				break
 			default:

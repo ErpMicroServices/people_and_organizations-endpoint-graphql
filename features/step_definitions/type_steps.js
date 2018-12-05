@@ -40,7 +40,7 @@ defineSupportCode(function ({
 
 	When('I add a child type with a description of {string}', function (description) {
 		this.child_party_type_description = description
-		this.graphql_function             = `add_${this.party_type.type}_type_child`
+		this.graphql_function             = `${this.party_type.type}_type_add_child`
 		return this.client
 			.mutate({
 				mutation : gql`mutation add_type_child($description: String!, $parent_id: ID!) {${this.graphql_function}(description: $description, parent_id: $parent_id) {id description parent_id}}`,
@@ -54,7 +54,7 @@ defineSupportCode(function ({
 	})
 
 	When('I save the type', function () {
-		this.graphql_function = `create_${this.party_type.type}_type`
+		this.graphql_function = `${this.party_type.type}_type_create`
 		return this.client.mutate({
 				mutation : gql`mutation create_type( $description: String!) { ${this.graphql_function}( description: $description) {id description parent_id}}`,
 				variables: {
@@ -66,7 +66,7 @@ defineSupportCode(function ({
 	})
 
 	When('I delete the type', function () {
-		this.graphql_function = `delete_${this.party_type.type}_type`
+		this.graphql_function = `${this.party_type.type}_type_delete`
 		return this.client
 			.mutate({
 				mutation : gql`mutation delete_type( $id: ID!) { ${this.graphql_function}(id: $id) }`,
@@ -80,7 +80,7 @@ defineSupportCode(function ({
 
 	When('I update the description of the type to {string}', function (updated_description) {
 		this.party_type.description = updated_description
-		this.graphql_function       = `update_${this.party_type.type}_type`
+		this.graphql_function       = `${this.party_type.type}_type_update`
 		return this.client
 			.mutate({
 				mutation : gql`mutation update_type( $id: ID!, $description: String!) { ${this.graphql_function}(id: $id, description: $description) {id description parent_id}}`,

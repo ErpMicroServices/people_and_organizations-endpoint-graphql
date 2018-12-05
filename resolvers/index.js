@@ -80,6 +80,7 @@ import party_classification_type_add_child from './types/party/classification/ad
 import party_classification_type_by_description from './types/party/classification/by_description'
 import party_classification_type_create from './types/party/classification/create'
 import party_classification_type_delete from './types/party/classification/delete'
+
 import PartyClassificationType from './types/party/classification/type'
 import party_classification_type_update from './types/party/classification/update'
 import party_type_create from './types/party/create'
@@ -89,7 +90,7 @@ import id_type_by_description from './types/party/id/by_description'
 import id_type_create from './types/party/id/create'
 import id_type_delete from './types/party/id/delete'
 import IdType from './types/party/id/type'
-import id_type_update_delete from './types/party/id/update'
+import id_type_update from './types/party/id/update'
 import name_type_add_child from './types/party/name/add_child'
 import name_type_by_description from './types/party/name/by_description'
 import name_type_create from './types/party/name/create'
@@ -214,7 +215,7 @@ export default {
 		id_type_add_child,
 		id_type_create,
 		id_type_delete,
-		id_type_update_delete,
+		id_type_update,
 		name_type_add_child,
 		name_type_create,
 		name_type_delete,
