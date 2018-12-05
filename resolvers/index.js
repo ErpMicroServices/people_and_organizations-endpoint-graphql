@@ -5,10 +5,14 @@ import parties_by_type from './party/by_type'
 import create_party from './party/create'
 import delete_party from './party/delete'
 import add_id_to_party from './party/id/add_to_party'
+import delete_party_id from './party/id/delete'
 import PartyId from './party/id/type'
+import update_party_id from './party/id/update_id'
 import parties from './party/list'
 import add_name_to_party from './party/name/add_to_party'
+import delete_party_name from './party/name/delete'
 import PartyName from './party/name/type'
+import update_party_name from './party/name/update'
 import Party from './party/type'
 import update_party from './party/update'
 import add_case_role_type_child from './types/case/role/add_child'
@@ -220,6 +224,8 @@ export default {
 		delete_name_type,
 		delete_party,
 		delete_party_classification_type,
+		delete_party_id,
+		delete_party_name,
 		delete_party_relationship_status_type,
 		delete_party_relationship_type,
 		delete_party_role_type,
@@ -239,6 +245,8 @@ export default {
 		update_name_type,
 		update_party,
 		update_party_classification_type,
+		update_party_id,
+		update_party_name,
 		update_party_relationship_type,
 		update_party_relationship_status_type,
 		update_party_role_type,

@@ -53,6 +53,8 @@ type Mutation {
 	delete_name_type(id: ID!): Boolean
 	delete_party(id: ID!): Boolean
 	delete_party_classification_type(id: ID!): Boolean
+	delete_party_id(identity_id: ID!): Boolean
+	delete_party_name(name_id: ID!): Boolean
 	delete_party_relationship_status_type(id: ID!): Boolean
 	delete_priority_type(id: ID!): Boolean
 	delete_party_relationship_type(id: ID!): Boolean
@@ -72,6 +74,8 @@ type Mutation {
 	update_name_type(id: ID!, description: String!): NameType
 	update_party(id: ID!, comment: String, party_type_id:ID!): Party
 	update_party_classification_type(id: ID!, description: String!): PartyClassificationType
+	update_party_id(identity_id: ID!, ident: String!): PartyId
+	update_party_name(name_id: ID!, name: String!): PartyName
 	update_party_relationship_status_type(id: ID!, description: String!): PartyRelationshipStatusType
 	update_party_relationship_type(id: ID!, description: String!): PartyRelationshipType
 	update_party_role_type(id: ID!, description: String!): PartyRoleType

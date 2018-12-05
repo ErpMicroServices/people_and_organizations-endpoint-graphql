@@ -45,8 +45,8 @@ function CustomWorld() {
 		id   : '',
 		ident: '',
 		type : {
-			description: '',
-			id         : ''
+			ident: '',
+			id   : ''
 		}
 	}
 
