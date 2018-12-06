@@ -8,6 +8,7 @@ import Case from './types/Case'
 import CaseRole from './types/CaseRole'
 import CaseRoleType from './types/CaseRoleType'
 import CaseStatusType from './types/CaseStatusType'
+import CaseType from './types/CaseType'
 import CommunicationEvent from './types/CommunicationEvent'
 import CommunicationEventPurpose from './types/CommunicationEventPurpose'
 import CommunicationEventPurposeType from './types/CommunicationEventPurposeType'
@@ -60,6 +61,7 @@ export default [
 	CaseRole,
 	CaseRoleType,
 	CaseStatusType,
+	CaseType,
 	ContactMechanismType,
 	CommunicationEvent,
 	CommunicationEventType,

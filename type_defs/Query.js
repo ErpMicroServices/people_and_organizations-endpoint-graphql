@@ -1,5 +1,6 @@
 export default `
 type Query {
+	case_type_by_description(description: String!): [CaseType]
 	case_role_type_by_description(description: String!): [CaseRoleType] 
 	case_status_type_by_description(description: String!): [CaseStatusType]
 	communication_event_purpose_type_by_description(description: String!):[CommunicationEventPurposeType]

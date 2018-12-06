@@ -18,6 +18,7 @@ import case_role_type_add_child from './types/case/role/add_child'
 import case_role_type_by_description from './types/case/role/by_description'
 import case_role_type_create from './types/case/role/create'
 import case_role_type_delete from './types/case/role/delete'
+
 import CaseRoleType from './types/case/role/type'
 import case_role_type_update from './types/case/role/update'
 import case_status_type_add_child from './types/case/status/add_child'
@@ -26,6 +27,12 @@ import case_status_type_create from './types/case/status/create'
 import case_status_type_delete from './types/case/status/delete'
 import CaseStatusType from './types/case/status/type'
 import case_status_type_update from './types/case/status/update'
+import case_type_add_child from './types/case/type/add_child'
+import case_type_by_description from './types/case/type/by_description'
+import case_type_create from './types/case/type/create'
+import case_type_delete from './types/case/type/delete'
+import CaseType from './types/case/type/type'
+import case_type_update from './types/case/type/update'
 import communication_event_type_add_child from './types/communication_event/add_child'
 import communication_event_type_by_description from './types/communication_event/by_description'
 import communication_event_type_create from './types/communication_event/create'
@@ -80,7 +87,6 @@ import party_classification_type_add_child from './types/party/classification/ad
 import party_classification_type_by_description from './types/party/classification/by_description'
 import party_classification_type_create from './types/party/classification/create'
 import party_classification_type_delete from './types/party/classification/delete'
-
 import PartyClassificationType from './types/party/classification/type'
 import party_classification_type_update from './types/party/classification/update'
 import party_type_create from './types/party/create'
@@ -125,6 +131,7 @@ import PriorityType from './types/priority/type'
 import priority_type_update from './types/priority/update'
 
 export default {
+	CaseType,
 	CaseStatusType,
 	CommunicationEventPurposeType,
 	CommunicationEventRoleType,
@@ -150,6 +157,7 @@ export default {
 	Query   : {
 		case_role_type_by_description,
 		case_status_type_by_description,
+		case_type_by_description,
 		communication_event_purpose_type_by_description,
 		communication_event_role_type_by_description,
 		communication_event_status_type_by_description,
@@ -180,6 +188,10 @@ export default {
 		case_status_type_create,
 		case_status_type_delete,
 		case_status_type_update,
+		case_type_add_child,
+		case_type_create,
+		case_type_delete,
+		case_type_update,
 		communication_event_purpose_type_add_child,
 		communication_event_purpose_type_create,
 		communication_event_purpose_type_delete,
