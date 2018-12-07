@@ -2,9 +2,10 @@ export default `
 type Case {
     id: ID!
     description: String!
-    encompassing: [CommunicationEvent]!
-    inTheStateOf: CaseStatusType
-    involving: [CaseRole]!
-    start: String!   
+    communication_events: [CommunicationEvent]!
+    status: CaseStatusType
+    roles: [CaseRole]!
+    started_at: String!   
+    case_type: CaseType
  }
 `

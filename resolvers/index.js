@@ -1,4 +1,9 @@
 import {GraphQLDate} from 'graphql-iso-date'
+import cases_by_status from './case/by_status'
+import cases_by_type from './case/by_type'
+import case_create from './case/create'
+import cases from './case/list'
+import Case from './case/type'
 import party from './party/by_id'
 import parties_by_type from './party/by_type'
 import party_create from './party/create'
@@ -18,7 +23,6 @@ import case_role_type_add_child from './types/case/role/add_child'
 import case_role_type_by_description from './types/case/role/by_description'
 import case_role_type_create from './types/case/role/create'
 import case_role_type_delete from './types/case/role/delete'
-
 import CaseRoleType from './types/case/role/type'
 import case_role_type_update from './types/case/role/update'
 import case_status_type_add_child from './types/case/status/add_child'
@@ -131,6 +135,7 @@ import PriorityType from './types/priority/type'
 import priority_type_update from './types/priority/update'
 
 export default {
+	Case,
 	CaseType,
 	CaseStatusType,
 	CommunicationEventPurposeType,
@@ -155,6 +160,9 @@ export default {
 	PriorityType,
 	CaseRoleType,
 	Query   : {
+		cases,
+		cases_by_status,
+		cases_by_type,
 		case_role_type_by_description,
 		case_status_type_by_description,
 		case_type_by_description,
@@ -180,6 +188,7 @@ export default {
 	}
 	,
 	Mutation: {
+		case_create,
 		case_role_type_add_child,
 		case_role_type_create,
 		case_role_type_delete,

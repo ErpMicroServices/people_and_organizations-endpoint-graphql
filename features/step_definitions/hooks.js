@@ -11,6 +11,7 @@ defineSupportCode(function ({
 
 	Before(function (result, callback) {
 		this.db.any('delete from party_contact_mechanism')
+			.then(() => this.db.any('delete from "case"'))
 			.then(() => this.db.any('delete from case_type'))
 			.then(() => this.db.any('delete from case_role_type'))
 			.then(() => this.db.any('delete from case_status_type'))

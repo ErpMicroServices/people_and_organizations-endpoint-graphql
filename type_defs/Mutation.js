@@ -1,5 +1,6 @@
 export default `
 type Mutation {
+	case_create( new_case: InputCase!): Case
 	case_type_add_child( description: String, parent_id: ID!): CaseType
 	case_type_create( description: String!): CaseType
 	case_type_delete(id: ID!): Boolean

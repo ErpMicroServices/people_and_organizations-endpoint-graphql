@@ -116,7 +116,6 @@ defineSupportCode(function ({
 				'records': this.parties.length + 10
 			}
 		})
-
 		.then((response) => this.result.data = response)
 		.catch(error => this.result.error = error)
 	})

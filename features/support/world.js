@@ -20,6 +20,36 @@ function CustomWorld() {
 
 	this.graphql_function = ''
 
+	this.case = {
+		id                  : '',
+		description         : '',
+		started_at          : '',
+		case_type_id        : '',
+		case_status_type_id : '',
+		roles               : [],
+		status              : {
+			id         : '',
+			description: ''
+		},
+		case_type           : {
+			id         : '',
+			description: ''
+		},
+		communication_events: []
+	}
+
+	this.case_type = {
+		id         : '',
+		description: ''
+	}
+
+	this.case_status_type = {
+		id         : '',
+		description: ''
+	}
+
+	this.cases = []
+
 	this.party_role_type = {
 		id         : '',
 		description: ''
