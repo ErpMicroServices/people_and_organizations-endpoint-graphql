@@ -1,5 +1,6 @@
 export default `
 type Query {
+	case_by_id( id: ID!): Case
 	cases( start: Int!, records: Int!) : [Case]!
 	cases_by_status( case_status: String!, start: Int!, records: Int!): [Case]!
 	cases_by_type( case_type: String!, start: Int!, records: Int!): [Case]!

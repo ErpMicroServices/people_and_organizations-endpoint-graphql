@@ -1,4 +1,5 @@
 import {GraphQLDate} from 'graphql-iso-date'
+import case_by_id from './case/by_id'
 import cases_by_status from './case/by_status'
 import cases_by_type from './case/by_type'
 import case_create from './case/create'
@@ -161,6 +162,7 @@ export default {
 	CaseRoleType,
 	Query   : {
 		cases,
+		case_by_id,
 		cases_by_status,
 		cases_by_type,
 		case_role_type_by_description,

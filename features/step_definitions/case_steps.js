@@ -44,6 +44,19 @@ defineSupportCode(function ({
 		this.case_status_type   = {id: case_status_type_id.id, description: case_status}
 	})
 
+	Given('the case is saved to the database', async function () {
+		let case_id = await this.db.one('insert into "case" (description, case_type_id, case_status_type_id) values( ${description}, ${case_type_id}, ${case_status_type_id}) returning id', {
+			description        : this.case.description,
+			case_type_id       : this.party_type.id,
+			case_status_type_id: this.case_status_type.id
+		})
+		this.case   = {
+			id                 : case_id.id,
+			case_type_id       : this.case_type.id,
+			case_status_type_id: this.case_status_type.id
+		}
+	})
+
 	When('I search for all cases', async function () {
 		try {
 			this.graphql_function = 'cases'
@@ -82,6 +95,19 @@ defineSupportCode(function ({
 					'start'  : 0,
 					'records': this.cases.length + 10,
 					case_status
+				}
+			})
+			this.result.data      = result
+		} catch (error) { this.result.error = error}
+	})
+
+	When('I search for the case by id', async function () {
+		try {
+			this.graphql_function = 'case_by_id'
+			let result            = await this.client.query({
+				query    : gql`query case_by_id($id: ID!) {case_by_id(id: $id){id description started_at case_type{id} status{id}}}`,
+				variables: {
+					id: this.case.id
 				}
 			})
 			this.result.data      = result
