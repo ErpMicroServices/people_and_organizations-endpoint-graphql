@@ -3,8 +3,10 @@ import case_by_id from './case/by_id'
 import cases_by_status from './case/by_status'
 import cases_by_type from './case/by_type'
 import case_create from './case/create'
+import case_delete from './case/delete'
 import cases from './case/list'
 import Case from './case/type'
+import case_update from './case/update'
 import party from './party/by_id'
 import parties_by_type from './party/by_type'
 import party_create from './party/create'
@@ -191,6 +193,8 @@ export default {
 	,
 	Mutation: {
 		case_create,
+		case_delete,
+		case_update,
 		case_role_type_add_child,
 		case_role_type_create,
 		case_role_type_delete,

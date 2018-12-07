@@ -134,6 +134,46 @@ defineSupportCode(function ({
 		}
 	})
 
+	When('I update the case description to {string}', async function (case_description) {
+		try {
+			this.graphql_function = 'case_update'
+			this.case.description = case_description
+			let update_case       = {
+				description        : case_description,
+				case_type_id       : (await this.db.one('select id, description, parent_id from case_type where description = ${description}', this.party_type)).id,
+				case_status_type_id: (await this.db.one('select id, description, parent_id from case_status_type where description = ${description}', this.case_status_type)).id,
+				started_at         : this.case.started_at
+			}
+			let result            = await this.client.mutate({
+				mutation : gql`mutation case_update($id: ID!, $update_case: InputCase!){ case_update(id: $id, update_case: $update_case) {id description started_at case_type {id} status {id}}}`,
+				variables: {
+					update_case,
+					id: this.case.id
+				}
+			})
+
+			this.result.data = result
+		} catch (error) {
+			this.result.error = error
+		}
+	})
+
+	When('I delete the case', async function () {
+		try {
+			this.graphql_function = 'case_delete'
+			let result            = await this.client.mutate({
+				mutation : gql`mutation case_delete($id: ID!){ case_delete(id: $id) }`,
+				variables: {
+					id: this.case.id
+				}
+			})
+
+			this.result.data = result
+		} catch (error) {
+			this.result.error = error
+		}
+	})
+
 	Then('{int} of them are cases of type {string}', async function (number_of_cases, case_type) {
 		return this.db.one('select id, description, parent_id from case_type where description = ${case_type}', {case_type})
 			.then(data => expect(this.result.data.data[`${this.graphql_function}`].filter(p => p.case_type.id === data.id).length).to.be.equal(number_of_cases))
@@ -183,5 +223,30 @@ defineSupportCode(function ({
 		}
 		expect(actual_case.case_type_id).to.be.equal(this.party_type.id)
 		expect(actual_case.case_status_type_id).to.be.equal(this.case_status_type.id)
+	})
+
+	Then('the case is not in the database', async function () {
+		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
+		expect(this.result.data).to.not.be.null
+		let case_id = ''
+		switch (this.graphql_function) {
+			case 'case_id_update':
+			case 'case_id_delete':
+			case 'case_name_update':
+			case 'case_name_delete':
+				case_id = this.case.id
+				break
+			default:
+				case_id = this.result.data.data[`${this.graphql_function}`].id
+		}
+
+		try {
+			let actual_case = await this.db.one('select id, description, started_at, case_type_id, case_status_type_id ' +
+				'from "case" ' +
+				'where id = ${case_id}', {case_id})
+			expect(actual_case).to.be.null
+		} catch (error) {
+			expect(error.message).to.be.equal('No data returned from the query.')
+		}
 	})
 })
