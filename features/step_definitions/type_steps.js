@@ -40,79 +40,78 @@ defineSupportCode(function ({
 	When('I add a child type with a description of {string}', async function (description) {
 		try {
 			this.child_party_type_description = description
-			this.graphql_function             = `${this.party_type.type}_type_add_child`
+			let graphql_function              = `${this.party_type.type}_type_add_child`
 			let response                      = await this.client.mutate({
-				mutation : gql`mutation add_type_child($description: String!, $parent_id: ID!) {${this.graphql_function}(description: $description, parent_id: $parent_id) {id description parent_id}}`,
+				mutation : gql`mutation add_type_child($description: String!, $parent_id: ID!) {${graphql_function}(description: $description, parent_id: $parent_id) {id description parent_id}}`,
 				variables: {
 					description: description,
 					parent_id  : this.party_type.id
 				}
 			})
-			this.result.data                  = response
+			this.result.data                  = response.data[graphql_function]
 		} catch (error) {this.result.error = error}
 	})
 
 	When('I save the type', async function () {
 		try {
-			this.graphql_function = `${this.party_type.type}_type_create`
-			let response          = await this.client.mutate({
-				mutation : gql`mutation create_type( $description: String!) { ${this.graphql_function}( description: $description) {id description parent_id}}`,
+			let graphql_function = `${this.party_type.type}_type_create`
+			let response         = await this.client.mutate({
+				mutation : gql`mutation create_type( $description: String!) { ${graphql_function}( description: $description) {id description parent_id}}`,
 				variables: {
 					description: this.party_type.description
 				}
 			})
-			this.result.data      = response
+			this.result.data     = response.data[graphql_function]
 		} catch (error) { this.result.error = error}
 	})
 
 	When('I delete the type', async function () {
 		try {
-			this.graphql_function = `${this.party_type.type}_type_delete`
-			let response          = await this.client.mutate({
-				mutation : gql`mutation delete_type( $id: ID!) { ${this.graphql_function}(id: $id) }`,
+			let graphql_function = `${this.party_type.type}_type_delete`
+			let response         = await this.client.mutate({
+				mutation : gql`mutation delete_type( $id: ID!) { ${graphql_function}(id: $id) }`,
 				variables: {
 					id: this.party_type.id
 				}
 			})
-			this.result.data      = response
+			this.result.data     = response.data[graphql_function]
 		} catch (error) {this.result.error = error}
 	})
 
 	When('I update the description of the type to {string}', async function (updated_description) {
 		try {
 			this.party_type.description = updated_description
-			this.graphql_function       = `${this.party_type.type}_type_update`
+			let graphql_function        = `${this.party_type.type}_type_update`
 			let response                = await this.client.mutate({
-				mutation : gql`mutation update_type( $id: ID!, $description: String!) { ${this.graphql_function}(id: $id, description: $description) {id description parent_id}}`,
+				mutation : gql`mutation update_type( $id: ID!, $description: String!) { ${graphql_function}(id: $id, description: $description) {id description parent_id}}`,
 				variables: {
 					id         : this.party_type.id,
 					description: this.party_type.description
 				}
 			})
-			this.result.data            = response
+			this.result.data            = response.data[graphql_function]
 		} catch (error) { this.result.error = error}
 	})
 
 	When('I search for the type by the description {string}', async function (description) {
 		try {
-			this.graphql_function = `${this.party_type.type}_type_by_description`
-			let query             = `query type_by_description( $description: String!) { ${this.graphql_function}(description: $description) {id description parent_id}}`
-			let response          = await this.client.query({
+			let graphql_function = `${this.party_type.type}_type_by_description`
+			let query            = `query type_by_description( $description: String!) { ${graphql_function}(description: $description) {id description parent_id}}`
+			let response         = await this.client.query({
 				query    : gql(query),
 				variables: {
 					'description': description
 				}
 			})
-
-			this.result.data = response
+			this.result.data     = response.data[graphql_function]
 		} catch (error) { this.result.error = error}
 	})
 
 	When('I search for the parent type', async function () {
 		try {
-			this.graphql_function = `${this.party_type.type}_type_by_description`
-			let query             = `query type_by_description( $description: String!) { ${this.graphql_function}(description: $description) {id description parent_id children {id description}}}`
-			let response          = await this.client
+			let graphql_function = `${this.party_type.type}_type_by_description`
+			let query            = `query type_by_description( $description: String!) { ${graphql_function}(description: $description) {id description parent_id children {id description}}}`
+			let response         = await this.client
 				.query({
 					query    : gql(query),
 					variables: {
@@ -120,7 +119,7 @@ defineSupportCode(function ({
 					}
 				})
 
-			this.result.data = response
+			this.result.data = response.data[graphql_function]
 		} catch (error) {this.result.error = error}
 	})
 
@@ -128,7 +127,7 @@ defineSupportCode(function ({
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 
-		let result = this.result.data.data[this.graphql_function]
+		let result = this.result.data
 		expect(result.description).to.be.equal(this.party_type.description)
 		callback()
 	})
@@ -136,9 +135,8 @@ defineSupportCode(function ({
 	Then('I find the type', function (callback) {
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
-		let result = this.result.data.data[this.graphql_function]
-		if (this.graphql_function.endsWith('_type_by_description')) {
-
+		let result = this.result.data
+		if (Array.isArray(result)) {
 			expect(result.length).to.be.equal(1)
 			expect(result[0].description).to.be.equal(this.party_type.description)
 		} else {
@@ -150,9 +148,9 @@ defineSupportCode(function ({
 	Then('the type is in the database', function (callback) {
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
-		let result = this.result.data.data[this.graphql_function]
+		let result = this.result.data
 
-		if (this.graphql_function.startsWith('query')) {
+		if (Array.isArray(result)) {
 			expect(result.length).to.be.equal(1)
 			expect(result[0].description).to.be.equal(this.party_type.description)
 		} else {
@@ -165,7 +163,7 @@ defineSupportCode(function ({
 	Then('the type is not in the database', function (callback) {
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
-		let result = this.result.data.data[this.graphql_function]
+		let result = this.result.data
 		expect(result).to.be.true
 		callback()
 	})
@@ -174,7 +172,7 @@ defineSupportCode(function ({
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 		let sql    = `select id, description from ${this.party_type.type}_type where id =` + '${parent_id}'
-		let result = this.result.data.data[this.graphql_function]
+		let result = this.result.data
 		let parent = await this.db.one(sql, {
 			parent_id: result.parent_id
 		})
@@ -187,7 +185,7 @@ defineSupportCode(function ({
 	Then('I find the child type', function (callback) {
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
-		let result = this.result.data.data[this.graphql_function][0]
+		let result = this.result.data[0]
 		expect(result.children.length).to.be.equal(1)
 		expect(result.children[0].description).to.be.equal(this.child_party_type_description)
 		callback()

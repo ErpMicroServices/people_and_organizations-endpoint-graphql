@@ -58,8 +58,7 @@ defineSupportCode(function ({
 
 	When('I save the party', async function () {
 		try {
-			this.graphql_function = 'party_create'
-			let inputParty        = {
+			let inputParty = {
 				"inputParty": {
 					'comment'      : this.party.comment,
 					'party_type_id': this.party_type.id
@@ -75,14 +74,13 @@ defineSupportCode(function ({
 				mutation : gql`mutation party_create($inputParty: InputParty!) { party_create(new_party: $inputParty) { id comment identifications { id ident id_type { id description}} names { id name name_type { id description}} party_type { id description} }}`,
 				variables: inputParty
 			})
-			this.result.data = response
+			this.result.data = response.data.party_create
 		} catch (error) { this.result.error = error}
 	})
 
 	When('I update the party', async function () {
 		try {
-			this.graphql_function = 'party_update'
-			let response          = await this.client.mutate({
+			let response     = await this.client.mutate({
 				mutation : gql`mutation party_update($id: ID!, $comment: String, $party_type_id: ID!) {party_update(id: $id, comment: $comment, party_type_id: $party_type_id){id comment party_type{id}}}`,
 				variables: {
 					'id'           : this.party.id,
@@ -90,27 +88,25 @@ defineSupportCode(function ({
 					'party_type_id': this.party_type.id
 				}
 			})
-			this.result.data      = response
+			this.result.data = response.data.party_update
 		} catch (error) { this.result.error = error}
 	})
 
 	When('I search for all parties', async function () {
 		try {
-			this.graphql_function = 'parties'
-			let response          = await this.client.query({
+			let response     = await this.client.query({
 				query    : gql`query parties($start: Int!, $records: Int!) {parties(start: $start, records: $records){id comment party_type{id}}}`,
 				variables: {
 					'start'  : 0,
 					'records': this.parties.length + 10
 				}
 			})
-			this.result.data      = response
+			this.result.data = response.data.parties
 		} catch (error) {this.result.error = error}
 	})
 
 	When('I search for parties of type {string}', async function (party_type) {
 		try {
-			this.graphql_function = 'parties_by_type'
 			let response          = await this.client.query({
 				query    : gql`query parties_by_type($party_type: String!, $start: Int!, $records: Int!) {parties_by_type(party_type: $party_type, start: $start, records: $records){id comment party_type{id description}}}`,
 				variables: {
@@ -120,7 +116,7 @@ defineSupportCode(function ({
 				}
 			})
 
-			this.result.data = response
+			this.result.data = response.data.parties_by_type
 		} catch (error) { this.result.error = error}
 	})
 
@@ -131,14 +127,13 @@ defineSupportCode(function ({
 
 	When('I search for the party by id', async function () {
 		try {
-			this.graphql_function = 'party'
-			let response          = await this.client.query({
+			let response     = await this.client.query({
 				query    : gql`query party($id: ID!) { party(id: $id){id comment party_type{id description}}}`,
 				variables: {
 					'id': this.party.id
 				}
 			})
-			this.result.data      = response
+			this.result.data = response.data.party
 		} catch (error) { this.result.error = error}
 	})
 
@@ -151,32 +146,32 @@ defineSupportCode(function ({
 					'id': this.party.id
 				}
 			})
-			this.result.data      = response
+			this.result.data      = response.data.party_delete
 		} catch (error) {this.result.error = error}
 	})
 
 	Then('I get {int} parties', function (number_of_parties, callback) {
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
-		expect(this.result.data.data[`${this.graphql_function}`].length).to.be.equal(number_of_parties)
+		expect(this.result.data.length).to.be.equal(number_of_parties)
 		callback()
 	})
 
 	Then('{int} of them are type {string}', async function (count, type) {
 		let party_type = await this.db.one('select id, description, parent_id from party_type where description = ${type}', {type})
-		expect(this.result.data.data[`${this.graphql_function}`].filter(p => p.party_type.id === party_type.id).length).to.be.equal(count)
+		expect(this.result.data.filter(p => p.party_type.id === party_type.id).length).to.be.equal(count)
 	})
 
 	Then('I get the party back', function (callback) {
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
-		expect(this.result.data.data[`${this.graphql_function}`].id).to.not.be.null
+		expect(this.result.data.id).to.not.be.null
 		if (this.party.comment) {
-			expect(this.result.data.data[`${this.graphql_function}`].comment).to.be.equal(this.party.comment)
+			expect(this.result.data.comment).to.be.equal(this.party.comment)
 		} else {
-			expect(this.result.data.data[`${this.graphql_function}`].comment).to.be.equal('')
+			expect(this.result.data.comment).to.be.equal('')
 		}
-		expect(this.result.data.data[`${this.graphql_function}`].party_type.id).to.be.equal(this.party_type.id)
+		expect(this.result.data.party_type.id).to.be.equal(this.party_type.id)
 		callback()
 	})
 
@@ -184,15 +179,10 @@ defineSupportCode(function ({
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
 		let party_id = ''
-		switch (this.graphql_function) {
-			case 'party_id_update':
-			case 'party_id_delete':
-			case 'party_name_update':
-			case 'party_name_delete':
-				party_id = this.party.id
-				break
-			default:
-				party_id = this.result.data.data[`${this.graphql_function}`].id
+		if (this.party.id && this.party.id !== '') {
+			party_id = this.party.id
+		} else {
+			party_id = this.result.data.id
 		}
 
 		let party = await this.db.one('select id, comment, party_type_id from party where id = ${party_id}', {party_id})
@@ -214,7 +204,7 @@ defineSupportCode(function ({
 	Then('I get {string} back', function (string, callback) {
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.not.be.null
-		expect(this.result.data.data[`${this.graphql_function}`]).to.be.true
+		expect(this.result.data).to.be.true
 		callback()
 	})
 

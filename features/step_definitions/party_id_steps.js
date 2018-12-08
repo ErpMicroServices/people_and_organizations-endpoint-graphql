@@ -1,6 +1,5 @@
 import 'babel-polyfill'
 import gql from 'graphql-tag'
-import party_id_add_to_party from '../../resolvers/party/id/add_to_party'
 
 var {
 	    defineSupportCode
@@ -51,8 +50,7 @@ defineSupportCode(function ({
 					id_type_id: id_type_id.id
 				}
 			})
-			this.graphql_function          = 'party_id_add_to_party'
-			this.result.data               = response
+			this.result.data               = response.data.party_id_add_to_party
 		} catch (error) {
 			this.result.error = error
 		}
@@ -60,16 +58,15 @@ defineSupportCode(function ({
 
 	When('I change the id to {string}', async function (new_id) {
 		try {
-			this.party_id.ident   = new_id
-			let response          = await this.client.mutate({
+			this.party_id.ident = new_id
+			let response        = await this.client.mutate({
 				mutation : gql`mutation party_id_update($identity_id: ID!, $ident:String!) { party_id_update(identity_id: $identity_id, ident: $ident) { id ident id_type {id description}}}`,
 				variables: {
 					identity_id: this.party_id.id,
 					ident      : new_id
 				}
 			})
-			this.result.data      = response
-			this.graphql_function = 'party_id_update'
+			this.result.data    = response.data.party_id_update
 		} catch (error) {
 			this.result.error = error
 		}
@@ -77,14 +74,13 @@ defineSupportCode(function ({
 
 	When('I delete the id', async function () {
 		try {
-			let response          = await this.client.mutate({
+			let response     = await this.client.mutate({
 				mutation : gql`mutation party_id_delete($identity_id: ID!) { party_id_delete(identity_id: $identity_id) }`,
 				variables: {
 					identity_id: this.party_id.id
 				}
 			})
-			this.result.data      = response
-			this.graphql_function = 'party_id_delete'
+			this.result.data = response.data.party_id_delete
 		} catch (error) {
 			this.result.error = error
 		}
@@ -93,7 +89,7 @@ defineSupportCode(function ({
 	Then('I get the party id back', function (callback) {
 		expect(this.result.error, `error is: ${this.result.error}`).to.be.null
 		expect(this.result.data).to.not.be.null
-		let actual_id = this.result.data.data.party_id_add_to_party
+		let actual_id = this.result.data
 		expect(actual_id.id).to.be.ok
 		expect(actual_id.ident).to.be.equal(this.party_id.ident)
 		expect(actual_id.id_type.description).to.be.equal(this.party_id.type.description)
@@ -102,13 +98,13 @@ defineSupportCode(function ({
 	})
 
 	Then('the party id type is present', function (callback) {
-		expect(this.result.data.data[`${this.graphql_function}`].identifications.length).to.be.equal(this.party.identifications.length)
+		expect(this.result.data.identifications.length).to.be.equal(this.party.identifications.length)
 		callback()
 	})
 
 	Then('the party ids are present', function (callback) {
 		this.party.identifications.forEach(p => {
-			let found = this.result.data.data[`${this.graphql_function}`].identifications.find(n => p.ident === n.ident)
+			let found = this.result.data.identifications.find(n => p.ident === n.ident)
 			expect(found).to.be.ok
 			expect(found.id_type.id).to.be.equal(p.id_type_id)
 			expect(found.id).to.be.ok
@@ -117,7 +113,7 @@ defineSupportCode(function ({
 	})
 
 	Then('the party id is in the database', async function () {
-		let actual_id = this.result.data.data[`${this.graphql_function}`]
+		let actual_id = this.result.data
 		let party_id  = await this.db.one('select id, ident, from_date, thru_date, party_id, id_type_id from party_id where id = ${id}', actual_id)
 		expect(party_id).to.not.be.null
 		expect(party_id.name).to.be.equal(this.party_id.name)
@@ -128,7 +124,7 @@ defineSupportCode(function ({
 	Then('the party id is not in the database', function (callback) {
 		expect(this.result.error, `error is: ${this.result.error}`).to.be.null
 		expect(this.result.data).to.not.be.null
-		expect(this.result.data.data.party_id_delete).to.be.true
+		expect(this.result.data).to.be.true
 		callback()
 	})
 })
