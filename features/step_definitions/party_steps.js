@@ -13,16 +13,14 @@ defineSupportCode(function ({
 	                            Then
                             }) {
 	Given('there are {int} parties with a type of {string} in the database', async function (number_of_parties, party_type) {
-		let db = this.db
-
 		let party_type_id = await this.db.one('insert into party_type (description) values (${party_type}) returning id', {party_type})
 		this.party_type   = {id: party_type_id.id, description: party_type}
 		for (let i = 0; i < number_of_parties; i++) {
-			let party_id = await db.one('insert into party (comment, party_type_id) values ( ${comment}, ${party_type_id} ) returning id', {
+			let party_id = await this.db.one('insert into party (comment, party_type_id) values ( ${comment}, ${party_type_id} ) returning id', {
 				comment      : `party number ${i}`,
 				party_type_id: this.party_type.id
 			})
-			let party    = await db.one('select id, comment, party_type_id from party where id = ${id}', party_id)
+			let party    = await this.db.one('select id, comment, party_type_id from party where id = ${id}', party_id)
 			this.parties.push(party)
 		}
 	})
@@ -38,11 +36,12 @@ defineSupportCode(function ({
 		callback()
 	})
 
-	Given('a party with a comment of {string} is in the database', async function (comment) {
+	Given('a party with a comment of {string} and a type of {string} is in the database', async function (comment, party_type_description) {
+		let party_type     = await this.db.one('select id from party_type where description = ${party_type_description}', {party_type_description})
 		this.party.comment = comment
 		let party_id       = await this.db.one('insert into party (comment, party_type_id) values(${comment}, ${party_type_id}) returning id', {
 			comment      : comment,
-			party_type_id: this.party_type.id
+			party_type_id: party_type.id
 		})
 		this.party.id      = party_id.id
 	})

@@ -39,22 +39,29 @@ defineSupportCode(function ({
 		callback()
 	})
 
-	Given('a case status of {string}', async function (case_status) {
-		let case_status_type_id = await this.db.one('insert into case_status_type (description) values (${description}) returning id', {description: case_status})
-		this.case_status_type   = {id: case_status_type_id.id, description: case_status}
+	Given('a case status of {string}', async function (case_status_description) {
+		let case_status_type_id       = await this.db.one('select id from case_status_type where description = ${case_status_description}', {case_status_description})
+		this.case.case_status_type_id = case_status_type_id.id
+	})
+
+	Given('a case type of {string}', async function (case_type_description) {
+		let case_type_id       = await this.db.one('select id, description from case_type where description = ${description}', {description: case_type_description})
+		this.case.case_type_id = case_type_id.id
 	})
 
 	Given('the case is saved to the database', async function () {
 		let case_id = await this.db.one('insert into "case" (description, case_type_id, case_status_type_id) values( ${description}, ${case_type_id}, ${case_status_type_id}) returning id', {
 			description        : this.case.description,
-			case_type_id       : this.party_type.id,
-			case_status_type_id: this.case_status_type.id
+			case_type_id       : this.case.case_type_id,
+			case_status_type_id: this.case.case_status_type_id
 		})
-		this.case   = {
-			id                 : case_id.id,
-			case_type_id       : this.case_type.id,
-			case_status_type_id: this.case_status_type.id
-		}
+		this.case   = Object.assign({},
+
+			this.case,
+			{
+				id: case_id.id
+			})
+
 	})
 
 	When('I search for all cases', async function () {
@@ -72,7 +79,7 @@ defineSupportCode(function ({
 
 	When('I search for cases of type {string}', async function (case_type) {
 		try {
-			let result            = await this.client.query({
+			let result = await this.client.query({
 				query    : gql`query cases_by_type($case_type: String!, $start: Int!, $records: Int!) {cases_by_type(case_type: $case_type, start: $start, records: $records){id description started_at case_type{id} status{id}}}`,
 				variables: {
 					'start'  : 0,
@@ -113,13 +120,13 @@ defineSupportCode(function ({
 
 	When('I save the case', async function () {
 		try {
-			let inputCase         = {
+			let inputCase = {
 				description        : this.case.description,
-				case_type_id       : (await this.db.one('select id, description, parent_id from case_type where description = ${description}', this.party_type)).id,
-				case_status_type_id: (await this.db.one('select id, description, parent_id from case_status_type where description = ${description}', this.case_status_type)).id,
+				case_type_id       : this.case.case_type_id,
+				case_status_type_id: this.case.case_status_type_id,
 				started_at         : this.case.started_at
 			}
-			let result            = await this.client.mutate({
+			let result    = await this.client.mutate({
 				mutation : gql`mutation case_create($inputCase: InputCase!){ case_create(new_case: $inputCase) {id description started_at case_type {id} status {id}}}`,
 				variables: {inputCase}
 			})
@@ -135,8 +142,8 @@ defineSupportCode(function ({
 			this.case.description = case_description
 			let update_case       = {
 				description        : case_description,
-				case_type_id       : (await this.db.one('select id, description, parent_id from case_type where description = ${description}', this.party_type)).id,
-				case_status_type_id: (await this.db.one('select id, description, parent_id from case_status_type where description = ${description}', this.case_status_type)).id,
+				case_type_id       : this.case.case_type_id,
+				case_status_type_id: this.case.case_status_type_id,
 				started_at         : this.case.started_at
 			}
 			let result            = await this.client.mutate({
@@ -154,7 +161,7 @@ defineSupportCode(function ({
 
 	When('I delete the case', async function () {
 		try {
-			let result            = await this.client.mutate({
+			let result = await this.client.mutate({
 				mutation : gql`mutation case_delete($id: ID!){ case_delete(id: $id) }`,
 				variables: {
 					id: this.case.id
@@ -209,8 +216,8 @@ defineSupportCode(function ({
 		} else {
 			expect(actual_case.description).to.not.be.ok
 		}
-		expect(actual_case.case_type_id).to.be.equal(this.party_type.id)
-		expect(actual_case.case_status_type_id).to.be.equal(this.case_status_type.id)
+		expect(actual_case.case_type_id).to.be.equal(this.case.case_type_id)
+		expect(actual_case.case_status_type_id).to.be.equal(this.case.case_status_type_id)
 	})
 
 	Then('the case is not in the database', async function () {

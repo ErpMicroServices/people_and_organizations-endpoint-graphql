@@ -27,20 +27,23 @@ function CustomWorld() {
 		case_type_id        : '',
 		case_status_type_id : '',
 		roles               : [],
-		status              : {
-			id         : '',
-			description: ''
-		},
-		case_type           : {
-			id         : '',
-			description: ''
-		},
 		communication_events: []
 	}
 
-	this.case_type = {
-		id         : '',
-		description: ''
+	this.cases = []
+
+	this.case_role = {
+		id       : '',
+		case_role:
+			{
+				id         : '',
+				description: ''
+			},
+		party    : {
+			id     : '',
+			comment:
+				''
+		}
 	}
 
 	this.case_status_type = {
@@ -48,9 +51,7 @@ function CustomWorld() {
 		description: ''
 	}
 
-	this.cases = []
-
-	this.party_role_type = {
+	this.case_type = {
 		id         : '',
 		description: ''
 	}
@@ -62,6 +63,15 @@ function CustomWorld() {
 		names          : []
 	}
 
+	this.party_id = {
+		id   : '',
+		ident: '',
+		type : {
+			ident: '',
+			id   : ''
+		}
+	}
+
 	this.party_name = {
 		id  : '',
 		name: '',
@@ -71,13 +81,9 @@ function CustomWorld() {
 		}
 	}
 
-	this.party_id = {
-		id   : '',
-		ident: '',
-		type : {
-			ident: '',
-			id   : ''
-		}
+	this.party_role_type = {
+		id         : '',
+		description: ''
 	}
 
 	this.parties = []

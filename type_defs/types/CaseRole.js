@@ -2,7 +2,7 @@ export default `
 type CaseRole {
     id: ID!
     type: CaseRoleType!
-    of: Party!
+    party: Party!
     relationshipsInvolvedIn: [PartyRelationship]!
     fromDate: String!
     thruDate: String
