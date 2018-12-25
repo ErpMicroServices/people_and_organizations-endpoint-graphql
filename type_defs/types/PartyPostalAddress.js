@@ -3,7 +3,7 @@ export default `
     id: ID!
     comment: String
     locatedAt: PostalAddress
-    fromDate: String!
-    thruDate: String
+    from_date: Date!
+    thru_date: Date
   }
   `

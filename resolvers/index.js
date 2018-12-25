@@ -5,6 +5,7 @@ import cases_by_type from './case/by_type'
 import case_create from './case/create'
 import case_delete from './case/delete'
 import cases from './case/list'
+import CaseRole from './case/role/type'
 import Case from './case/type'
 import case_update from './case/update'
 import party from './party/by_id'
@@ -139,6 +140,7 @@ import priority_type_update from './types/priority/update'
 
 export default {
 	Case,
+	CaseRole,
 	CaseType,
 	CaseStatusType,
 	CommunicationEventPurposeType,
@@ -167,6 +169,7 @@ export default {
 		case_by_id,
 		cases_by_status,
 		cases_by_type,
+
 		case_role_type_by_description,
 		case_status_type_by_description,
 		case_type_by_description,

@@ -2,7 +2,7 @@ export default `
  type PartyContactMechanismPurpose {
   id: ID!
   type: ContactMechanismPurposeType!
-  fromDate: String!
-  thruDate: String
+  from_date: Date!
+  thru_date: Date
   }
 `

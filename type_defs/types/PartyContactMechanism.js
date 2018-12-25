@@ -6,7 +6,7 @@ export default `
   specifiedFor: PartyRole
   contactMechanism: ContactMechanism!
   purposes: [PartyContactMechanismPurpose]!
-  fromDate: String!
-  thruDate: String
+  from_date: Date!
+  thru_date: Date
   }
 `

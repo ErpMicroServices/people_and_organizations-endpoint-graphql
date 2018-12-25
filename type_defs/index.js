@@ -1,4 +1,5 @@
 import InputCase from './inputs/InputCase'
+import InputCaseRole from './inputs/InputCaseRole'
 import InputParty from './inputs/InputParty'
 import InputPartyId from './inputs/InputPartyId'
 import InputPartyName from './inputs/InputPartyName'
@@ -85,6 +86,7 @@ export default [
 	GeographicBoundaryType,
 	IdType,
 	InputCase,
+	InputCaseRole,
 	InputParty,
 	InputPartyId,
 	InputPartyName,

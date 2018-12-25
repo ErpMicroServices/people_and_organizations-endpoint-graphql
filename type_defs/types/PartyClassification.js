@@ -2,7 +2,7 @@ export default `
  type PartyClassification {
   id: ID!
   type: PartyClassificationType!
-  fromDate: String!
-  thruDate: String
+  from_date: Date!
+  thru_date: Date
   }
 `

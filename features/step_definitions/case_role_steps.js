@@ -53,12 +53,12 @@ defineSupportCode(function ({
 		callback()
 	})
 
-	Then('the {int} roles have type {string}', async function (expected_number_of_role, case_role_type_description) {
+	Then('the {int} roles have type {string}', async function (expected_number_of_roles, case_role_type_description) {
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.be.ok
 		expect(this.result.data.roles.length).to.be.equal(expected_number_of_roles)
 		let expected_case_role = await this.db.one('select id from case_role_type where description = ${case_role_type_description}', {case_role_type_description})
-		this.result.data.roles.forEach(role => expect(role.role_type.id).to.be.equal(expected_case_role.id))
+		this.result.data.roles.forEach(role => expect(role.type.id).to.be.equal(expected_case_role.id))
 	})
 
 	Then('the role includes the party', function (callback) {
@@ -72,7 +72,7 @@ defineSupportCode(function ({
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.be.ok
 		let expected_party_ids = this.parties.map(p => p.id)
-		this.result.data.roles.each(r => expect(r.party.id).to.be.in(expected_party_ids))
+		this.result.data.roles.forEach(r => expect(r.party.id).to.be.oneOf(expected_party_ids))
 		callback()
 	})
 

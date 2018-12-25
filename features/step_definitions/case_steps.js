@@ -126,8 +126,12 @@ defineSupportCode(function ({
 				case_status_type_id: this.case.case_status_type_id,
 				started_at         : this.case.started_at
 			}
-			let result    = await this.client.mutate({
-				mutation : gql`mutation case_create($inputCase: InputCase!){ case_create(new_case: $inputCase) {id description started_at case_type {id} status {id}}}`,
+			if (this.case.roles && (this.case.roles.length > 0)) {
+				inputCase.roles = this.case.roles
+
+			}
+			let result = await this.client.mutate({
+				mutation : gql`mutation case_create($inputCase: InputCase!){ case_create(new_case: $inputCase) {id description started_at case_type {id} status {id} roles{id type{id} party{id} from_date thru_date}}}`,
 				variables: {inputCase}
 			})
 

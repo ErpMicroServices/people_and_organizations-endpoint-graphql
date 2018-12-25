@@ -4,7 +4,7 @@ type CaseRole {
     type: CaseRoleType!
     party: Party!
     relationshipsInvolvedIn: [PartyRelationship]!
-    fromDate: String!
-    thruDate: String
+    from_date: Date!
+    thru_date: Date
  }
 `
