@@ -1,4 +1,5 @@
 import 'babel-polyfill'
+import gql from 'graphql-tag'
 
 var {
 	    defineSupportCode
@@ -30,9 +31,25 @@ defineSupportCode(function ({
 		callback(null, 'pending')
 	})
 
-	When('I add a party with case role {string} to the case', function (case_role_type_description, callback) {
-		// Write code here that turns the phrase above into concrete actions
-		callback(null, 'pending')
+	When('I add a party with case role {string} to the case', async function (case_role_type_description) {
+		try {
+			let case_role_type = await this.db.one('select id, description, parent_id from case_role_type where description = ${case_role_type_description}', {case_role_type_description})
+			let inputCaseRole  = {
+				case_role_type_id: case_role_type.id,
+				party_id         : this.party.id
+			}
+			let result         = await this.client.mutate({
+				mutation : gql`mutation case_role_add($case_id: ID!, $input_case_role: InputCaseRole!){ case_role_add(case_id: $case_id, input_case_role: $input_case_role) {id description status{id} roles{id type {id} party{id}} started_at, case_type{id}}}`,
+				variables: {
+					case_id        : this.case.id,
+					input_case_role: inputCaseRole
+				}
+			})
+
+			this.result.data = result.data.case_role_add
+		} catch (error) {
+			this.result.error = error
+		}
 	})
 
 	When('I change the party in the role', function (callback) {
@@ -64,7 +81,7 @@ defineSupportCode(function ({
 	Then('the role includes the party', function (callback) {
 		expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
 		expect(this.result.data).to.be.ok
-		expect(this.result.data.id).to.be.equal(this.party.id)
+		expect(this.result.data.roles[0].party.id).to.be.equal(this.party.id)
 		callback()
 	})
 

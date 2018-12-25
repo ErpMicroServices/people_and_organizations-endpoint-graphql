@@ -5,6 +5,7 @@ import cases_by_type from './case/by_type'
 import case_create from './case/create'
 import case_delete from './case/delete'
 import cases from './case/list'
+import case_role_add from './case/role/add_to_case'
 import CaseRole from './case/role/type'
 import Case from './case/type'
 import case_update from './case/update'
@@ -169,7 +170,6 @@ export default {
 		case_by_id,
 		cases_by_status,
 		cases_by_type,
-
 		case_role_type_by_description,
 		case_status_type_by_description,
 		case_type_by_description,
@@ -198,6 +198,7 @@ export default {
 		case_create,
 		case_delete,
 		case_update,
+		case_role_add,
 		case_role_type_add_child,
 		case_role_type_create,
 		case_role_type_delete,
