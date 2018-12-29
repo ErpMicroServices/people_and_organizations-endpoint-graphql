@@ -104,9 +104,19 @@ defineSupportCode(function ({
 		}
 	})
 
-	When('I delete the case role', function (callback) {
-		// Write code here that turns the phrase above into concrete actions
-		callback(null, 'pending')
+	When('I delete the case role', async function () {
+		try {
+			let result = await this.client.mutate({
+				mutation : gql`mutation case_role_delete($case_role_id: ID!){ case_role_delete(case_role_id: $case_role_id) {id description status{id} roles{id type {id} party{id}} started_at, case_type{id}}}`,
+				variables: {
+					case_role_id: this.case_role.id
+				}
+			})
+
+			this.result.data = result.data.case_role_delete
+		} catch (error) {
+			this.result.error = error
+		}
 	})
 
 	Then('the case has {int} roles', function (expected_number_of_roles, callback) {
