@@ -7,6 +7,7 @@ import case_delete from './case/delete'
 import cases from './case/list'
 import case_role_add from './case/role/add_to_case'
 import CaseRole from './case/role/type'
+import case_role_update from './case/role/update'
 import Case from './case/type'
 import case_update from './case/update'
 import party from './party/by_id'
@@ -199,6 +200,7 @@ export default {
 		case_delete,
 		case_update,
 		case_role_add,
+		case_role_update,
 		case_role_type_add_child,
 		case_role_type_create,
 		case_role_type_delete,

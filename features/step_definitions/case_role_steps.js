@@ -26,9 +26,26 @@ defineSupportCode(function ({
 		callback(null, 'pending')
 	})
 
-	Given('party with case role {string} has been added to the case', function (string, callback) {
-		// Write code here that turns the phrase above into concrete actions
-		callback(null, 'pending')
+	Given('party with case role {string} has been added to the case', async function (case_role_type_description) {
+		let case_role_type = await this.db.one('select id, description, parent_id from case_role_type where description = ${case_role_type_description}', {case_role_type_description})
+		let case_role      = await this.db.one('insert into case_role (case_id, case_role_type_id, party_id) values (${case_id}, ${case_role_type_id}, ${party_id}) returning id', {
+			case_id          : this.case.id,
+			case_role_type_id: case_role_type.id,
+			party_id         : this.party.id
+		})
+		this.case_role     = {
+			id   : case_role.id,
+			type :
+				{
+					id         : case_role_type.id,
+					description: ''
+				},
+			party: {
+				id     : this.party.id,
+				comment:
+					''
+			}
+		}
 	})
 
 	When('I add a party with case role {string} to the case', async function (case_role_type_description) {
@@ -52,9 +69,39 @@ defineSupportCode(function ({
 		}
 	})
 
-	When('I change the party in the role', function (callback) {
-		// Write code here that turns the phrase above into concrete actions
-		callback(null, 'pending')
+	When('I change the party in the role', async function () {
+		let new_party_result = await this.db.one('insert into party (comment, party_type_id) values (${comment}, ${party_type_id}) returning id', {
+			comment      : 'new party',
+			party_type_id: this.party_type.id
+		})
+		this.party           = Object.assign({
+			id             : '',
+			comment        : '',
+			identifications: [],
+			party_type_id  : '',
+			names          : []
+		}, {
+			id           : new_party_result.id,
+			comment      : 'new party',
+			party_type_id: this.party_type.id
+		})
+		try {
+			let inputCaseRole = {
+				case_role_type_id: this.case_role.type.id,
+				party_id         : this.party.id
+			}
+			let result        = await this.client.mutate({
+				mutation : gql`mutation case_role_update($case_role_id: ID!, $input_case_role: InputCaseRole!){ case_role_update(case_role_id: $case_role_id, input_case_role: $input_case_role) {id description status{id} roles{id type {id} party{id}} started_at, case_type{id}}}`,
+				variables: {
+					case_role_id   : this.case_role.id,
+					input_case_role: inputCaseRole
+				}
+			})
+
+			this.result.data = result.data.case_role_update
+		} catch (error) {
+			this.result.error = error
+		}
 	})
 
 	When('I delete the case role', function (callback) {

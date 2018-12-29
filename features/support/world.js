@@ -33,13 +33,13 @@ function CustomWorld() {
 	this.cases = []
 
 	this.case_role = {
-		id       : '',
-		case_role:
+		id   : '',
+		type :
 			{
 				id         : '',
 				description: ''
 			},
-		party    : {
+		party: {
 			id     : '',
 			comment:
 				''
@@ -72,6 +72,9 @@ function CustomWorld() {
 		}
 	}
 
+	this.type       = {
+		table_name: ''
+	}
 	this.party_name = {
 		id  : '',
 		name: '',
@@ -90,7 +93,6 @@ function CustomWorld() {
 
 	this.party_type = {
 		id         : '',
-		type       : '',
 		description: '',
 		parent_id  : '',
 		children   : []

@@ -38,6 +38,7 @@ defineSupportCode(function ({
 
 	Given('a party with a comment of {string} and a type of {string} is in the database', async function (comment, party_type_description) {
 		let party_type     = await this.db.one('select id from party_type where description = ${party_type_description}', {party_type_description})
+		this.party_type    = {id: party_type.id, description: party_type_description, parent_id: '', children: []}
 		this.party.comment = comment
 		let party_id       = await this.db.one('insert into party (comment, party_type_id) values(${comment}, ${party_type_id}) returning id', {
 			comment      : comment,
@@ -106,7 +107,7 @@ defineSupportCode(function ({
 
 	When('I search for parties of type {string}', async function (party_type) {
 		try {
-			let response          = await this.client.query({
+			let response = await this.client.query({
 				query    : gql`query parties_by_type($party_type: String!, $start: Int!, $records: Int!) {parties_by_type(party_type: $party_type, start: $start, records: $records){id comment party_type{id description}}}`,
 				variables: {
 					'start'     : 0,
