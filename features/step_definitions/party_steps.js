@@ -13,8 +13,7 @@ defineSupportCode(function ({
 	                            Then
                             }) {
 	Given('there are {int} parties with a type of {string} in the database', async function (number_of_parties, party_type) {
-		let party_type_id = await this.db.one('insert into party_type (description) values (${party_type}) returning id', {party_type})
-		this.party_type   = {id: party_type_id.id, description: party_type}
+		this.party_type = await this.db.one('select id, description from party_type where description = ${party_type}', {party_type})
 		for (let i = 0; i < number_of_parties; i++) {
 			let party_id = await this.db.one('insert into party (comment, party_type_id) values ( ${comment}, ${party_type_id} ) returning id', {
 				comment      : `party number ${i}`,
