@@ -1,27 +1,21 @@
 import 'babel-polyfill'
-import gql from 'graphql-tag'
+import gql                      from 'graphql-tag'
+import {create_parties_of_type} from './utils'
 
 const PQ = require('pg-promise').ParameterizedQuery
 
 var {
-	    defineSupportCode
-    } = require('cucumber')
+			defineSupportCode
+		} = require('cucumber')
+
 
 defineSupportCode(function ({
-	                            Given,
-	                            When,
-	                            Then
-                            }) {
+															Given,
+															When,
+															Then
+														}) {
 	Given('there are {int} parties with a type of {string} in the database', async function (number_of_parties, party_type) {
-		this.party_type = await this.db.one('select id, description from party_type where description = ${party_type}', {party_type})
-		for (let i = 0; i < number_of_parties; i++) {
-			let party_id = await this.db.one('insert into party (comment, party_type_id) values ( ${comment}, ${party_type_id} ) returning id', {
-				comment      : `party number ${i}`,
-				party_type_id: this.party_type.id
-			})
-			let party    = await this.db.one('select id, comment, party_type_id from party where id = ${id}', party_id)
-			this.parties.push(party)
-		}
+		this.parties = await create_parties_of_type(this.db, party_type, number_of_parties)
 	})
 
 
@@ -70,53 +64,61 @@ defineSupportCode(function ({
 				inputParty.inputParty.identifications = this.party.identifications
 			}
 			let response     = await this.client.mutate({
-				mutation : gql`mutation party_create($inputParty: InputParty!) { party_create(new_party: $inputParty) { id comment identifications { id ident id_type { id description}} names { id name name_type { id description}} party_type { id description} }}`,
-				variables: inputParty
-			})
+																										mutation : gql`mutation party_create($inputParty: InputParty!) { party_create(new_party: $inputParty) { id comment identifications { id ident id_type { id description}} names { id name name_type { id description}} party_type { id description} }}`,
+																										variables: inputParty
+																									})
 			this.result.data = response.data.party_create
-		} catch (error) { this.result.error = error}
+		} catch (error) {
+			this.result.error = error
+		}
 	})
 
 	When('I update the party', async function () {
 		try {
 			let response     = await this.client.mutate({
-				mutation : gql`mutation party_update($id: ID!, $comment: String, $party_type_id: ID!) {party_update(id: $id, comment: $comment, party_type_id: $party_type_id){id comment party_type{id}}}`,
-				variables: {
-					'id'           : this.party.id,
-					'comment'      : this.party.comment,
-					'party_type_id': this.party_type.id
-				}
-			})
+																										mutation : gql`mutation party_update($id: ID!, $comment: String, $party_type_id: ID!) {party_update(id: $id, comment: $comment, party_type_id: $party_type_id){id comment party_type{id}}}`,
+																										variables: {
+																											'id'           : this.party.id,
+																											'comment'      : this.party.comment,
+																											'party_type_id': this.party_type.id
+																										}
+																									})
 			this.result.data = response.data.party_update
-		} catch (error) { this.result.error = error}
+		} catch (error) {
+			this.result.error = error
+		}
 	})
 
 	When('I search for all parties', async function () {
 		try {
 			let response     = await this.client.query({
-				query    : gql`query parties($start: Int!, $records: Int!) {parties(start: $start, records: $records){id comment party_type{id}}}`,
-				variables: {
-					'start'  : 0,
-					'records': this.parties.length + 10
-				}
-			})
+																									 query    : gql`query parties($start: Int!, $records: Int!) {parties(start: $start, records: $records){id comment party_type{id}}}`,
+																									 variables: {
+																										 'start'  : 0,
+																										 'records': this.parties.length + 10
+																									 }
+																								 })
 			this.result.data = response.data.parties
-		} catch (error) {this.result.error = error}
+		} catch (error) {
+			this.result.error = error
+		}
 	})
 
 	When('I search for parties of type {string}', async function (party_type) {
 		try {
 			let response = await this.client.query({
-				query    : gql`query parties_by_type($party_type: String!, $start: Int!, $records: Int!) {parties_by_type(party_type: $party_type, start: $start, records: $records){id comment party_type{id description}}}`,
-				variables: {
-					'start'     : 0,
-					'records'   : this.parties.length + 10,
-					'party_type': party_type
-				}
-			})
+																							 query    : gql`query parties_by_type($party_type: String!, $start: Int!, $records: Int!) {parties_by_type(party_type: $party_type, start: $start, records: $records){id comment party_type{id description}}}`,
+																							 variables: {
+																								 'start'     : 0,
+																								 'records'   : this.parties.length + 10,
+																								 'party_type': party_type
+																							 }
+																						 })
 
 			this.result.data = response.data.parties_by_type
-		} catch (error) { this.result.error = error}
+		} catch (error) {
+			this.result.error = error
+		}
 	})
 
 	Given('I change the comment to {string}', function (new_comment, callback) {
@@ -127,26 +129,30 @@ defineSupportCode(function ({
 	When('I search for the party by id', async function () {
 		try {
 			let response     = await this.client.query({
-				query    : gql`query party($id: ID!) { party(id: $id){id comment party_type{id description}}}`,
-				variables: {
-					'id': this.party.id
-				}
-			})
+																									 query    : gql`query party($id: ID!) { party(id: $id){id comment party_type{id description}}}`,
+																									 variables: {
+																										 'id': this.party.id
+																									 }
+																								 })
 			this.result.data = response.data.party
-		} catch (error) { this.result.error = error}
+		} catch (error) {
+			this.result.error = error
+		}
 	})
 
 	When('I delete the party', async function () {
 		try {
 			this.graphql_function = 'party_delete'
 			let response          = await this.client.mutate({
-				mutation : gql`mutation party_delete($id: ID!) {party_delete(id: $id)}`,
-				variables: {
-					'id': this.party.id
-				}
-			})
+																												 mutation : gql`mutation party_delete($id: ID!) {party_delete(id: $id)}`,
+																												 variables: {
+																													 'id': this.party.id
+																												 }
+																											 })
 			this.result.data      = response.data.party_delete
-		} catch (error) {this.result.error = error}
+		} catch (error) {
+			this.result.error = error
+		}
 	})
 
 	Then('I get {int} parties', function (number_of_parties, callback) {

@@ -1,5 +1,6 @@
 import 'babel-polyfill'
-import gql from 'graphql-tag'
+import gql                      from 'graphql-tag'
+import {create_parties_of_type} from './utils'
 
 var {
 	    defineSupportCode
@@ -11,19 +12,16 @@ defineSupportCode(function ({
 	                            When,
 	                            Then
                             }) {
-	Given('{int} parties have a case role type {string}', async function (number_of_parties, case_role_type) {
-		let case_role = await this.db.one('select id, description, parent_id from case_role_type where description = ${case_role_type}', {case_role_type})
+	Given('{int} parties of type {string} have a case role type {string}', async function (number_of_parties, party_type_description, case_role_type_description) {
+		this.parties       = await create_parties_of_type(this.db, party_type_description, number_of_parties)
+		let case_role_type = await this.db.one('select id, description, parent_id from case_role_type where description = ${case_role_type_description}', {case_role_type_description})
+
 		for (let i = 0; i < number_of_parties; i++) {
 			this.case.roles.push({
-				case_role_type_id: case_role.id,
-				party_id         : this.parties[i].id
+														 case_role_type_id: case_role_type.id,
+				party_id                              : this.parties[i].id
 			})
 		}
-	})
-
-	Given('the case has been saved to the database', function (callback) {
-		// Write code here that turns the phrase above into concrete actions
-		callback(null, 'pending')
 	})
 
 	Given('party with case role {string} has been added to the case', async function (case_role_type_description) {
