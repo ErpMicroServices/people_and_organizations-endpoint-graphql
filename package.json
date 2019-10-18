@@ -8,7 +8,7 @@
 		"start": "docker-compose up",
 		"stop": "docker-compose down",
 		"start:local": "node ./index.js",
-		"test": "cucumber-js --compiler es6:babel-core/register  -r ./features ../people_and_organizations-features",
+		"test": "cucumber-js --require-module @babel/register --require-module @babel/polyfill  -r ./features ../people_and_organizations-features",
 		"db_admin": "docker run --detach --publish 5050:5050 --name pgadmin --link party-db:party-db thajeztah/pgadmin4"
 	},
 	"repository": {
@@ -32,7 +32,6 @@
 	},
 	"homepage": "https://github.com/ErpMicroServices/party-party-service#readme",
 	"dependencies": {
-		"babel-preset-env": "^1.7.0",
 		"graphql": "^14.5.8",
 		"graphql-iso-date": "^3.6.1",
 		"graphql-tools": "^4.0.5",
@@ -42,10 +41,13 @@
 		"pg-promise": "^9.3.3"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.6.4",
+		"@babel/polyfill": "^7.6.0",
+		"@babel/preset-env": "^7.6.3",
+		"@babel/register": "^7.6.2",
 		"apollo-boost": "^0.4.4",
 		"apollo-cache-inmemory": "^1.6.3",
 		"apollo-client": "^2.6.4",
-		"babel-cli": "^6.26.0",
 		"chai": "^4.1.2",
 		"cucumber": "^6.0.2",
 		"graphql-tag": "^2.10.1",

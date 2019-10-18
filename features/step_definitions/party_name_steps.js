@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import gql from 'graphql-tag'
 
 var {

@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import gql                      from 'graphql-tag'
 import {create_parties_of_type} from './utils'
 
