@@ -10,9 +10,8 @@ Given('there are {int} parties with a type of {string} in the database', async f
 })
 
 
-Given('a comment of {string}', function (comment, callback) {
+Given('a comment of {string}', function (comment) {
 	this.party.comment=comment
-	callback()
 })
 
 Given('no comment field', function (callback) {
