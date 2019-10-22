@@ -1,10 +1,10 @@
 import {makeExecutableSchema} from 'graphql-tools'
-import {GraphQLServer} from 'graphql-yoga'
-import config from "./config"
+import {GraphQLServer}        from 'graphql-yoga'
+import config                 from "./config"
 
-import database from "./database"
+import database  from "./database"
 import resolvers from "./resolvers"
-import typeDefs from "./type_defs"
+import typeDefs  from "./type_defs"
 
 const schema = makeExecutableSchema({typeDefs, resolvers})
 
