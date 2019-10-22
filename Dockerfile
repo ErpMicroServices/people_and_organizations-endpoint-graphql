@@ -1,4 +1,4 @@
-FROM node:8.12-alpine
+FROM node:12-alpine
 
 EXPOSE 80
 
@@ -15,7 +15,6 @@ COPY resolvers/ /usr/src/app/resolvers/
 COPY server.js /usr/src/app/
 COPY type_defs/ /usr/src/app/type_defs/
 
-RUN npm install --global nodemon babel-core babel-cli
 RUN npm install
 
-CMD [ "nodemon", "-L", "--watch", "/usr/src/app", "index.js", "--exec", "babel-node"]
+CMD [ "./node_modules/.bin/babel-node", "index.js"]

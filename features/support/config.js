@@ -6,7 +6,7 @@ class Config {
 		this._currentEnvironment = process.env.NODE_ENV || defaultEnvironment()
 		if (this._currentEnvironment == defaultEnvironment()) {
 			this._config = {
-				url     : process.env.DATABASE_HOST || 'http://localhost/api/people_and_organizations',
+				url     : process.env.DATABASE_HOST || 'http://localhost:3000/',
 				database: {
 					host    : process.env.DATABASE_HOST || 'localhost',
 					port    : process.env.DATABASE_PORT || 5432,

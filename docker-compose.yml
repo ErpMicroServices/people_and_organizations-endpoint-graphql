@@ -7,33 +7,5 @@ services:
     volumes:
     - "dbdata:/var/lib/postgresql/data"
 
-  endpoint-graphql:
-    build: .
-    environment:
-    - DATABASE_HOST=database
-    - SERVER_URL=http://localhost/api/people_and_organizations
-    - SERVER_PORT=80
-    labels:
-    - "traefik.backend=people_and_organizations-endpoint-graphql"
-    - "traefik.frontend.rule=Host:localhost;PathPrefixStrip:/api/people_and_organizations"
-    - "traefik.port=80"
-    - "traefik.frontend.entryPoints=http"
-    links:
-    - database
-    volumes:
-    - "./:/usr/src/app"
-    command: "nodemon -L --ignore /usr/src/app/features --watch /usr/src/app index.js --exec babel-node"
-
-  traefik:
-    image: traefik
-    container_name: traefik
-    command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
-    ports:
-    - "80:80"
-    - "8080:8080"
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - /dev/null:/traefik.toml
-
 volumes:
   dbdata:
