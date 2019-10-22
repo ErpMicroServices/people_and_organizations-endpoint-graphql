@@ -1,26 +1,26 @@
 import {InMemoryCache} from 'apollo-cache-inmemory'
-import {ApolloClient} from 'apollo-client'
-import {HttpLink} from 'apollo-link-http'
-import fetch from 'node-fetch'
-import config from './config'
-import database from './database'
+import {ApolloClient}  from 'apollo-client'
+import {HttpLink}      from 'apollo-link-http'
+import fetch           from 'node-fetch'
+import config          from './config'
+import database        from './database'
 
 var {
-	    defineSupportCode
-    } = require('cucumber')
+			defineSupportCode
+		}=require('cucumber')
 
-function CustomWorld() {
-	this.config = config
-	this.db     = database
-	this.client = new ApolloClient({
-		link : new HttpLink({uri: config.url, fetch}),
-		cache: new InMemoryCache()
-	})
+function CustomWorld () {
+	this.config=config
+	this.db    =database
+	this.client=new ApolloClient({
+																 link : new HttpLink({uri: config.url, fetch}),
+																 cache: new InMemoryCache()
+															 })
 
 
-	this.graphql_function = ''
+	this.graphql_function=''
 
-	this.case = {
+	this.case={
 		id                  : '',
 		description         : '',
 		started_at          : '',
@@ -30,9 +30,9 @@ function CustomWorld() {
 		communication_events: []
 	}
 
-	this.cases = []
+	this.cases=[]
 
-	this.case_role = {
+	this.case_role={
 		id   : '',
 		type :
 			{
@@ -46,24 +46,33 @@ function CustomWorld() {
 		}
 	}
 
-	this.case_status_type = {
+	this.case_status_type={
 		id         : '',
 		description: ''
 	}
 
-	this.case_type = {
+	this.case_type={
 		id         : '',
 		description: ''
 	}
 
-	this.party = {
+	this.communication_event={}
+
+	this.communication_event_list  =[]
+	this.communication_event_status={}
+
+	this.communication_event_type={}
+
+	this.contact_mechanism_type={}
+
+	this.party={
 		comment        : '',
 		identifications: [],
 		party_type_id  : '',
 		names          : []
 	}
 
-	this.party_id = {
+	this.party_id={
 		id   : '',
 		ident: '',
 		type : {
@@ -72,10 +81,12 @@ function CustomWorld() {
 		}
 	}
 
-	this.type       = {
+	this.party_roles=[]
+
+	this.type      ={
 		table_name: ''
 	}
-	this.party_name = {
+	this.party_name={
 		id  : '',
 		name: '',
 		type: {
@@ -84,28 +95,30 @@ function CustomWorld() {
 		}
 	}
 
-	this.party_role_type = {
+	this.party_relationship={}
+
+	this.party_role_type={
 		id         : '',
 		description: ''
 	}
 
-	this.parties = []
+	this.parties=[]
 
-	this.party_type = {
+	this.party_type={
 		id         : '',
 		description: '',
 		parent_id  : '',
 		children   : []
 	}
 
-	this.result = {
+	this.result={
 		error: null,
 		data : null
 	}
 }
 
 defineSupportCode(function ({
-	                            setWorldConstructor
-                            }) {
+															setWorldConstructor
+														}) {
 	setWorldConstructor(CustomWorld)
 })

@@ -1,5 +1,6 @@
 export default `
 type Mutation {
+	case_communication_event_add(case_id:ID!, communication_event: InputCommunicationEvent!): Case
 	case_create( new_case: InputCase!): Case
 	case_delete( id: ID!): Boolean
 	case_update( id: ID!, update_case: InputCase!): Case

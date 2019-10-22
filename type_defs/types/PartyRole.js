@@ -1,9 +1,10 @@
 export default `
 type PartyRole {
     id: ID!
-    type: PartyRoleType!
-    relationshipsInvolvedIn: [PartyRelationship]!
     from_date: Date!
+    party: Party!
+    relationshipsInvolvedIn: [PartyRelationship]!
     thru_date: Date
+    type: PartyRoleType!
  }
 `
