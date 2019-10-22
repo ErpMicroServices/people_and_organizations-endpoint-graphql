@@ -15,7 +15,7 @@ Given('{int} parties of type {string} have a case role type {string}', async fun
 	}
 })
 
-Given('party with case role {string} has been added to the case', async function (case_role_type_description) {
+Given('a party with case role {string} has been added to the case', async function (case_role_type_description) {
 	let case_role_type=await this.db.one('select id, description, parent_id from case_role_type where description = ${case_role_type_description}', {case_role_type_description})
 	let case_role     =await this.db.one('insert into case_role (case_id, case_role_type_id, party_id) values (${case_id}, ${case_role_type_id}, ${party_id}) returning id', {
 		case_id          : this.case.id,
@@ -36,6 +36,7 @@ Given('party with case role {string} has been added to the case', async function
 		}
 	}
 })
+
 
 When('I add a party with case role {string} to the case', async function (case_role_type_description) {
 	try {
@@ -132,8 +133,6 @@ Then('the role includes the party', function (callback) {
 })
 
 Then('the roles include the parties', function (callback) {
-	expect(this.result.error, JSON.stringify(this.result.error)).to.be.null
-	expect(this.result.data).to.be.ok
 	let expected_party_ids=this.parties.map(p => p.id)
 	this.result.data.roles.forEach(r => expect(r.party.id).to.be.oneOf(expected_party_ids))
 	callback()

@@ -9,7 +9,6 @@ Given('there are {int} parties with a type of {string} in the database', async f
 	this.parties= await create_parties_of_type(this.db, party_type, number_of_parties)
 })
 
-
 Given('a comment of {string}', function (comment) {
 	this.party.comment=comment
 })
@@ -23,11 +22,12 @@ Given('a party with a comment of {string} and a type of {string} is in the datab
 	let party_type    =await this.db.one('select id from party_type where description = ${party_type_description}', {party_type_description})
 	this.party_type   ={id: party_type.id, description: party_type_description, parent_id: '', children: []}
 	this.party.comment=comment
-	let party_id      =await this.db.one('insert into party (comment, party_type_id) values(${comment}, ${party_type_id}) returning id', {
+	let party         =await this.db.one('insert into party (comment, party_type_id) values(${comment}, ${party_type_id}) returning id, comment, party_type_id', {
 		comment      : comment,
 		party_type_id: party_type.id
 	})
-	this.party.id     =party_id.id
+	this.party.id     =party.id
+	this.parties.push(party)
 })
 
 Given('a party of type {string} is in the database', async function (party_type) {
