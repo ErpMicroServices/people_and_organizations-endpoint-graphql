@@ -1,4 +1,4 @@
-package org.erpmicroservices.peopleandorganizations.api.graphql;
+package org.erpmicroservices.peopleandorganizations.endpoint.graphql;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
