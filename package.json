@@ -38,7 +38,7 @@
 		"graphql-tools": "^4.0.5",
 		"graphql-upload": "^8.1.0",
 		"graphql-yoga": "^1.18.3",
-		"moment": "^2.24.0",
+		"moment": "^2.29.2",
 		"pg-promise": "^9.3.3"
 	},
 	"devDependencies": {
