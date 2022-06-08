@@ -1,233 +1,233 @@
 schema {
-	query: Query
-	mutation: Mutation
+    query: Query
+    mutation: Mutation
 }
 
 interface ContactMechanism {
-	id: ID!
-	usedByFacilities: [FacilityContactMechanism]!
-	usedByParties: [PartyContactMechanism]!
+    id: ID!
+    usedByFacilities: [FacilityContactMechanism]!
+    usedByParties: [PartyContactMechanism]!
 }
 
 type Case {
-	case_type: CaseType
-	communication_events: [CommunicationEvent]!
-	description: String!
-	id: ID!
-	roles: [CaseRole]!
-	started_at: String!
-	status: CaseStatusType
+    case_type: CaseType
+    communication_events: [CommunicationEvent]!
+    description: String!
+    id: ID!
+    roles: [CaseRole]!
+    started_at: String!
+    status: CaseStatusType
 }
 
 type CaseRole {
-	from_date: Date!
-	id: ID!
-	party: Party!
-	relationshipsInvolvedIn: [PartyRelationship]!
-	thru_date: Date
-	type: CaseRoleType!
+    from_date: Date!
+    id: ID!
+    party: Party!
+    relationshipsInvolvedIn: [PartyRelationship]!
+    thru_date: Date
+    type: CaseRoleType!
 }
 
 type CaseRoleType {
-	children: [CaseRoleType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [CaseRoleType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type CaseStatusType {
-	children: [CaseStatusType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [CaseStatusType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type CaseType {
-	children: [CaseType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [CaseType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type CommunicationEvent {
-	categorizedBy: [CommunicationEventPurpose]!
-	dateTimeEnded: String
-	dateTimeStarted: String!
-	id: ID!
-	inTheContextOf: PartyRelationship!
-	involving: [CommunicationEventRole]!
-	monitoredBy: CommunicationEventStatusType!
-	note: String
-	occursVia: PartyContactMechanism!
-	partOf: [Case]!
+    categorizedBy: [CommunicationEventPurpose]!
+    dateTimeEnded: String
+    dateTimeStarted: String!
+    id: ID!
+    inTheContextOf: PartyRelationship!
+    involving: [CommunicationEventRole]!
+    monitoredBy: CommunicationEventStatusType!
+    note: String
+    occursVia: PartyContactMechanism!
+    partOf: [Case]!
 }
 
 type CommunicationEventPurpose {
-	existed: DateTimeRange!
-	id: ID!
-	type: CommunicationEventPurposeType!
+    existed: DateTimeRange!
+    id: ID!
+    type: CommunicationEventPurposeType!
 }
 
 type CommunicationEventPurposeType {
-	children: [CommunicationEventPurposeType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [CommunicationEventPurposeType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type CommunicationEventRole {
-	describedBy: CommunicationEventRoleType!
-	forParty: Party!
-	id: ID!
-	of: CommunicationEvent!
-	type: CommunicationEventRoleType!
+    describedBy: CommunicationEventRoleType!
+    forParty: Party!
+    id: ID!
+    of: CommunicationEvent!
+    type: CommunicationEventRoleType!
 }
 
 type CommunicationEventRoleType {
-	children: [CommunicationEventRoleType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [CommunicationEventRoleType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type CommunicationEventStatusType {
-	children: [CommunicationEventStatusType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [CommunicationEventStatusType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type CommunicationEventType {
-	children: [CommunicationEventType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [CommunicationEventType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type CommunicationEventWorkEffort {
-	description: String
-	effortFor: ID!
-	id: ID!
+    description: String
+    effortFor: ID!
+    id: ID!
 }
 
 type ContactMechanismPurposeType {
-	description: String!
-	id: ID!
-	parent_id: ID
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type ContactMechanismType {
-	children: [ContactMechanismType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [ContactMechanismType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type DateTimeRange {
-	from: String!
-	thru: String
+    from: String!
+    thru: String
 }
 
 type EmailAddress implements ContactMechanism {
-	email: String!
-	id: ID!
-	usedByFacilities: [FacilityContactMechanism]!
-	usedByParties: [PartyContactMechanism]!
+    email: String!
+    id: ID!
+    usedByFacilities: [FacilityContactMechanism]!
+    usedByParties: [PartyContactMechanism]!
 }
 
 type Facility {
-	contactedVia: [FacilityContactMechanism]!
-	description: String!
-	id: ID!
-	involving: [FacilityRole]!
-	madeUpOf: [Facility]
-	partOf: Facility
+    contactedVia: [FacilityContactMechanism]!
+    description: String!
+    id: ID!
+    involving: [FacilityRole]!
+    madeUpOf: [Facility]
+    partOf: Facility
 }
 
 type FacilityContactMechanism {
-	dateTimeRange: DateTimeRange!
-	id: ID!
-	mechanismToContact: Facility!
-	specifiedVia: ContactMechanism!
+    dateTimeRange: DateTimeRange!
+    id: ID!
+    mechanismToContact: Facility!
+    specifiedVia: ContactMechanism!
 }
 
 type FacilityRole {
-	dateTimeRange: DateTimeRange!
-	id: ID!
-	of: Facility!
-	type: FacilityRoleType!
+    dateTimeRange: DateTimeRange!
+    id: ID!
+    of: Facility!
+    type: FacilityRoleType!
 }
 
 type FacilityRoleType {
-	children: [FacilityRoleType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [FacilityRoleType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type FacilityType {
-	children: [FacilityType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [FacilityType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type GeographicBoundary {
-	boundaryFor: [PostalAddress]!
-	code: String
-	contains: [GeographicBoundary]!
-	name: String!
-	"Reorder guideline is a list of ids from Product domain"
-	reorderGuidelines: [ID]!
-	"The Sales tax lookup ids from Product domain"
-	salesTaxLookup: [ID]!
-	type: GeographicBoundaryType!
-	within: [GeographicBoundary]!
+    boundaryFor: [PostalAddress]!
+    code: String
+    contains: [GeographicBoundary]!
+    name: String!
+    "Reorder guideline is a list of ids from Product domain"
+    reorderGuidelines: [ID]!
+    "The Sales tax lookup ids from Product domain"
+    salesTaxLookup: [ID]!
+    type: GeographicBoundaryType!
+    within: [GeographicBoundary]!
 }
 
 type GeographicBoundaryType {
-	children: [GeographicBoundaryType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [GeographicBoundaryType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type IdType {
-	children: [IdType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [IdType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type InstantMessaging implements ContactMechanism {
-	id: ID!
-	protocol: String!
-	service: String!
-	usedByFacilities: [FacilityContactMechanism]!
-	usedByParties: [PartyContactMechanism]!
-	username: String!
+    id: ID!
+    protocol: String!
+    service: String!
+    usedByFacilities: [FacilityContactMechanism]!
+    usedByParties: [PartyContactMechanism]!
+    username: String!
 }
 
 type IpAddress implements ContactMechanism {
-	address: String!
-	id: ID!
-	ipv4: Boolean!
-	ipv6: Boolean!
-	usedByFacilities: [FacilityContactMechanism]!
-	usedByParties: [PartyContactMechanism]!
+    address: String!
+    id: ID!
+    ipv4: Boolean!
+    ipv6: Boolean!
+    usedByFacilities: [FacilityContactMechanism]!
+    usedByParties: [PartyContactMechanism]!
 }
 
-#type Mutation {
-#	add_communication_event_to_case(case_id: ID!, communication_event: InputCommunicationEvent!): Case
-#	case_create(new_case: InputCase!): Case
-#	case_delete(id: ID!): Boolean
-#	case_role_add(case_id: ID!, input_case_role: InputCaseRole!): Case
-#	case_role_delete(case_role_id: ID!): Case
-#	case_role_type_add_child(description: String, parent_id: ID!): CaseRoleType
-#	case_role_type_create(description: String!): CaseRoleType
-#	case_role_type_delete(id: ID!): Boolean
-#	case_role_type_update(description: String!, id: ID!): CaseRoleType
-#	case_role_update(case_role_id: ID!, input_case_role: InputCaseRole!): Case
+type Mutation {
+    #	add_communication_event_to_case(case_id: ID!, communication_event: InputCommunicationEvent!): Case
+    #	case_create(new_case: InputCase!): Case
+    #	case_delete(id: ID!): Boolean
+    #	case_role_add(case_id: ID!, input_case_role: InputCaseRole!): Case
+    #	case_role_delete(case_role_id: ID!): Case
+    #	case_role_type_add_child(description: String, parent_id: ID!): CaseRoleType
+    #	case_role_type_create(description: String!): CaseRoleType
+    #	case_role_type_delete(id: ID!): Boolean
+    #	case_role_type_update(description: String!, id: ID!): CaseRoleType
+    #	case_role_update(case_role_id: ID!, input_case_role: InputCaseRole!): Case
 #	case_status_type_add_child(description: String, parent_id: ID!): CaseStatusType
 #	case_status_type_create(description: String!): CaseStatusType
 #	case_status_type_delete(id: ID!): Boolean
@@ -311,240 +311,258 @@ type IpAddress implements ContactMechanism {
 #	priority_type_create(description: String!): PriorityType
 #	priority_type_delete(id: ID!): Boolean
 #	priority_type_update(description: String!, id: ID!): PriorityType
-#}
+}
 
 type NameType {
-	children: [NameType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [NameType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type Party {
-	comment: String
-	id: ID!
-	identifications: [PartyId]
-	names: [PartyName]
-	party_type: PartyType!
+    comment: String
+    id: ID!
+    identifications: [PartyId]
+    names: [PartyName]
+    party_type: PartyType!
 }
 
 type PartyClassification {
-	from_date: Date!
-	id: ID!
-	thru_date: Date
-	type: PartyClassificationType!
+    from_date: Date!
+    id: ID!
+    thru_date: Date
+    type: PartyClassificationType!
 }
 
 type PartyClassificationType {
-	children: [PartyClassificationType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [PartyClassificationType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type PartyContactMechanism {
-	comment: String
-	contactMechanism: ContactMechanism!
-	from_date: Date!
-	id: ID!
-	purposes: [PartyContactMechanismPurpose]!
-	solicitable: Boolean!
-	specifiedFor: PartyRole
-	thru_date: Date
+    comment: String
+    contactMechanism: ContactMechanism!
+    from_date: Date!
+    id: ID!
+    purposes: [PartyContactMechanismPurpose]!
+    solicitable: Boolean!
+    specifiedFor: PartyRole
+    thru_date: Date
 }
 
 type PartyContactMechanismPurpose {
-	from_date: Date!
-	id: ID!
-	thru_date: Date
-	type: ContactMechanismPurposeType!
+    from_date: Date!
+    id: ID!
+    thru_date: Date
+    type: ContactMechanismPurposeType!
 }
 
 type PartyContactMechanismPurposeType {
-	description: String!
-	id: ID!
-	parent_id: ID
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type PartyId {
-	id: ID!
-	id_type: IdType!
-	ident: String!
+    id: ID!
+    id_type: IdType!
+    ident: String!
 }
 
 type PartyName {
-	id: ID!
-	name: String!
-	name_type: NameType!
+    id: ID!
+    name: String!
+    name_type: NameType!
 }
 
 type PartyPostalAddress {
-	comment: String
-	from_date: Date!
-	id: ID!
-	locatedAt: PostalAddress
-	thru_date: Date
+    comment: String
+    from_date: Date!
+    id: ID!
+    locatedAt: PostalAddress
+    thru_date: Date
 }
 
 type PartyRelationship {
-	comment: String
-	dateTimeRange: DateTimeRange!
-	id: ID!
-	priority: PriorityType!
-	relationshipFrom: PartyRole!
-	relationshipTo: PartyRole!
-	status: StatusType!
+    comment: String
+    dateTimeRange: DateTimeRange!
+    id: ID!
+    priority: PriorityType!
+    relationshipFrom: PartyRole!
+    relationshipTo: PartyRole!
+    status: StatusType!
 }
 
 type PartyRelationshipStatusType {
-	children: [PartyRelationshipStatusType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [PartyRelationshipStatusType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type PartyRelationshipType {
-	children: [PartyRelationshipType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [PartyRelationshipType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type PartyRole {
-	from_date: Date!
-	id: ID!
-	relationshipsInvolvedIn: [PartyRelationship]!
-	thru_date: Date
-	type: PartyRoleType!
+    from_date: Date!
+    id: ID!
+    relationshipsInvolvedIn: [PartyRelationship]!
+    thru_date: Date
+    type: PartyRoleType!
 }
 
 type PartyRoleType {
-	children: [PartyRoleType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [PartyRoleType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type PartyType {
-	children: [PartyType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [PartyType]
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type PostalAddress implements ContactMechanism {
-	address: String!
-	directions: String!
-	id: ID!
-	locationFor: [PartyPostalAddress]!
-	usedByFacilities: [FacilityContactMechanism]!
-	usedByParties: [PartyContactMechanism]!
-	within: [GeographicBoundary]!
+    address: String!
+    directions: String!
+    id: ID!
+    locationFor: [PartyPostalAddress]!
+    usedByFacilities: [FacilityContactMechanism]!
+    usedByParties: [PartyContactMechanism]!
+    within: [GeographicBoundary]!
 }
 
 type PriorityType {
-	children: [PriorityType]
-	description: String!
-	id: ID!
-	parent_id: ID
+    children: [PriorityType]
+    description: String!
+    id: ID!
+    parent_id: ID
+}
+
+type PageInfo {
+    hasPreviousPage: Boolean!
+    hasNextPage: Boolean!
+    startCursor: String
+    endCursor: String
+}
+
+type CaseEdge {
+    cursor: String
+    node: Case
+}
+
+type CaseConnection {
+    edges: [CaseEdge]
+    pageInfo: PageInfo
 }
 
 type Query {
-	case_by_id(id: ID!): Case
-	case_role_type_by_description(description: String!): [CaseRoleType]
-	case_status_type_by_description(description: String!): [CaseStatusType]
-	case_type_by_description(description: String!): [CaseType]
-	#	cases(records: Int!, start: Int!): [Case]!
-	#	cases_by_status(case_status: String!, records: Int!, start: Int!): [Case]!
-	#	cases_by_type(case_type: String!, records: Int!, start: Int!): [Case]!
-	#	communication_event_purpose_type_by_description(description: String!): [CommunicationEventPurposeType]
-	#	communication_event_role_type_by_description(description: String!): [CommunicationEventRoleType]
-	#	communication_event_status_type_by_description(description: String!): [CommunicationEventStatusType]
-	#	communication_event_type_by_description(description: String!): [CommunicationEventType]
-	#	contact_mechanism_type_by_description(description: String!): [ContactMechanismType]
-	#	facility_role_type_by_description(description: String!): [FacilityRoleType]
-	#	facility_type_by_description(description: String!): [FacilityType]
-	#	geographic_boundary_type_by_description(description: String!): [GeographicBoundaryType]
-	#	id_type_by_description(description: String!): [IdType]
-	#	name_type_by_description(description: String!): [NameType]
-	#	parties(records: Int!, start: Int!): [Party]!
-	#	parties_by_type(party_type: String!, records: Int!, start: Int!): [Party]!
-	#	party(id: ID!): Party
-	#	party_classification_type_by_description(description: String!): [PartyClassificationType]
-	#	party_relationship_status_type_by_description(description: String!): [PartyRelationshipStatusType]
-	#	party_relationship_type_by_description(description: String!): [PartyRelationshipType]
-	#	party_role_type_by_description(description: String!): [PartyRoleType]
-	#	party_type_by_description(description: String!): [PartyType]
-	#	priority_type_by_description(description: String!): [PriorityType]
+    cases( first: Int!, cursor: String): CaseConnection @connection(for: "Case")
+    #    case_by_id(id: ID!): Case
+    #    case_role_type_by_description(description: String!): [CaseRoleType]
+    #    case_status_type_by_description(description: String!): [CaseStatusType]
+    #    case_type_by_description(description: String!): [CaseType]
+    #    cases(records: Int!, start: Int!): [Case]!
+    #    cases_by_status(case_status: String!, records: Int!, start: Int!): [Case]!
+    #    cases_by_type(case_type: String!, records: Int!, start: Int!): [Case]!
+    #	communication_event_purpose_type_by_description(description: String!): [CommunicationEventPurposeType]
+    #	communication_event_role_type_by_description(description: String!): [CommunicationEventRoleType]
+    #	communication_event_status_type_by_description(description: String!): [CommunicationEventStatusType]
+    #	communication_event_type_by_description(description: String!): [CommunicationEventType]
+    #	contact_mechanism_type_by_description(description: String!): [ContactMechanismType]
+    #	facility_role_type_by_description(description: String!): [FacilityRoleType]
+    #	facility_type_by_description(description: String!): [FacilityType]
+    #	geographic_boundary_type_by_description(description: String!): [GeographicBoundaryType]
+    #	id_type_by_description(description: String!): [IdType]
+    #	name_type_by_description(description: String!): [NameType]
+    #	parties(records: Int!, start: Int!): [Party]!
+    #	parties_by_type(party_type: String!, records: Int!, start: Int!): [Party]!
+    #	party(id: ID!): Party
+    #	party_classification_type_by_description(description: String!): [PartyClassificationType]
+    #	party_relationship_status_type_by_description(description: String!): [PartyRelationshipStatusType]
+    #	party_relationship_type_by_description(description: String!): [PartyRelationshipType]
+    #	party_role_type_by_description(description: String!): [PartyRoleType]
+    #	party_type_by_description(description: String!): [PartyType]
+    #	priority_type_by_description(description: String!): [PriorityType]
 }
 
 type StatusType {
-	description: String!
-	id: ID!
-	parent_id: ID
+    description: String!
+    id: ID!
+    parent_id: ID
 }
 
 type TelecommunicationsNumber implements ContactMechanism {
-	acceptsData: Boolean!
-	acceptsFaxes: Boolean!
-	acceptsTextMessages: Boolean!
-	areaCode: String!
-	contactNumber: String!
-	countryCode: String!
-	extension: String!
-	id: ID!
-	usedByFacilities: [FacilityContactMechanism]!
-	usedByParties: [PartyContactMechanism]!
+    acceptsData: Boolean!
+    acceptsFaxes: Boolean!
+    acceptsTextMessages: Boolean!
+    areaCode: String!
+    contactNumber: String!
+    countryCode: String!
+    extension: String!
+    id: ID!
+    usedByFacilities: [FacilityContactMechanism]!
+    usedByParties: [PartyContactMechanism]!
 }
 
 type WebAddress implements ContactMechanism {
-	"A list of ids from the e-commerce domain"
-	hostOf: [ID]!
-	id: ID!
-	url: String!
-	usedByFacilities: [FacilityContactMechanism]!
-	usedByParties: [PartyContactMechanism]!
+    "A list of ids from the e-commerce domain"
+    hostOf: [ID]!
+    id: ID!
+    url: String!
+    usedByFacilities: [FacilityContactMechanism]!
+    usedByParties: [PartyContactMechanism]!
 }
 
 input InputCase {
-	case_status_type_id: ID!
-	case_type_id: ID!
-	description: String
-	roles: [InputCaseRole]
-	started_at: String
+    case_status_type_id: ID!
+    case_type_id: ID!
+    description: String
+    roles: [InputCaseRole]
+    started_at: String
 }
 
 input InputCaseRole {
-	case_role_type_id: ID!
-	party_id: ID!
+    case_role_type_id: ID!
+    party_id: ID!
 }
 
 input InputCommunicationEvent {
-	communication_event_status_type_id: ID!
-	communication_event_type_id: ID!
-	contact_mechanism_type_id: ID!
-	ended: Date
-	note: String!
-	party_relationship_id: ID!
-	started: Date!
+    communication_event_status_type_id: ID!
+    communication_event_type_id: ID!
+    contact_mechanism_type_id: ID!
+    ended: Date
+    note: String!
+    party_relationship_id: ID!
+    started: Date!
 }
 
 input InputParty {
-	comment: String
-	id: ID
-	identifications: [InputPartyId]
-	names: [InputPartyName]
-	party_type_id: ID!
+    comment: String
+    id: ID
+    identifications: [InputPartyId]
+    names: [InputPartyName]
+    party_type_id: ID!
 }
 
 input InputPartyId {
-	id_type_id: ID!
-	ident: String!
+    id_type_id: ID!
+    ident: String!
 }
 
 input InputPartyName {
-	name: String!
-	name_type_id: ID!
+    name: String!
+    name_type_id: ID!
 }
 
 
