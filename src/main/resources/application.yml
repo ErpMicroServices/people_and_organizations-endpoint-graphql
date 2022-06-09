@@ -1,11 +1,31 @@
 spring:
+  application:
+    name: People and Organizations Endopint Graphql
+  graphql:
+    schema:
+      printer:
+        enabled: true
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
   datasource:
     url: jdbc:postgresql://localhost:5432/people_and_organizations
     username: people_and_organizations
     password: people_and_organizations
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+    driverClassName: org.postgresql.Driver
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,info
+
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.graphql: INFO
+    org.springframework.data.repository: INFO
+    org.springframework.graphql.data: INFO
+    org.hibernate: INFO
