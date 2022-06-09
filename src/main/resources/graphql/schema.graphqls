@@ -1,0 +1,91 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+}
+
+type CaseRoleType {
+    children: [CaseRoleType]
+    description: String!
+    id: ID!
+    parent: CaseRoleType
+}
+
+type CaseStatusType {
+    children: [CaseStatusType]
+    description: String!
+    id: ID!
+    parent: CaseStatusType
+}
+
+type CaseType {
+    children: [CaseType]
+    description: String!
+    id: ID!
+    parent: CaseType
+}
+
+type CommunicationEventPurposeType {
+    children: [CommunicationEventPurposeType]
+    description: String!
+    id: ID!
+    parent: CommunicationEventPurposeType
+}
+
+type CommunicationEventRoleType {
+    children: [CommunicationEventRoleType]
+    description: String!
+    id: ID!
+    parent: CommunicationEventRoleType
+}
+
+type CommunicationEventStatusType {
+    children: [CommunicationEventStatusType]
+    description: String!
+    id: ID!
+    parent: CommunicationEventStatusType
+}
+
+type CommunicationEventType {
+    children: [CommunicationEventType]
+    description: String!
+    id: ID!
+    parent: CommunicationEventType
+}
+
+type FacilityRoleType {
+    children: [FacilityRoleType]
+    description: String!
+    id: ID!
+    parent: FacilityRoleType
+}
+
+type FacilityType {
+    children: [FacilityType]
+    description: String!
+    id: ID!
+    parent: FacilityType
+}
+
+type PartyType {
+    children: [PartyType]
+    description: String!
+    id: ID!
+    parent: PartyType
+}
+
+
+
+type Query {
+    caseRoleTypes: [CaseRoleType]
+    caseStatusTypes: [CaseStatusType]
+    caseTypes: [CaseType]
+    communicationEventPurposeTypes: [CommunicationEventPurposeType]
+    communicationEventRoleTypes: [CommunicationEventRoleType]
+    communicationEventStatusTypes: [CommunicationEventStatusType]
+    communicationEventTypes: [CommunicationEventType]
+    facilityRoleTypes: [FacilityRoleType]
+    facilityTypes: [FacilityType]
+    partyTypes: [PartyType]
+
+}
