@@ -42,12 +42,16 @@ public class CaseController {
 
 	@MutationMapping
 	public Case createCase(@Argument NewCase newCase) {
-		return caseRepository.save(Case.builder()
-				                           .description(newCase.getDescription())
-				                           .caseType(caseTypeRepository.findById(newCase.getCaseTypeId()).get())
-				                           .startedAt(ZonedDateTime.parse(newCase.getStartedAt()))
-				                           .caseStatusType(caseStatusTypeRepository.findById(newCase.getCaseStatusTypeId()).get())
-				                           .build());
+		return caseTypeRepository.findById(newCase.getCaseTypeId())
+				       .flatMap(caseType ->
+						                caseStatusTypeRepository.findById(newCase.getCaseStatusTypeId())
+								                .flatMap(caseStatusType ->
+										                         Optional.of(caseRepository.save(Case.builder()
+												                                                         .description(newCase.getDescription())
+												                                                         .caseType(caseType)
+												                                                         .startedAt(ZonedDateTime.parse(newCase.getStartedAt()))
+												                                                         .caseStatusType(caseStatusType)
+												                                                         .build())))).orElseThrow();
 	}
 
 	@MutationMapping
