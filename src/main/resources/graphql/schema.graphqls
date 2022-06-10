@@ -30,6 +30,13 @@ type CaseRole {
     thruDate: String
 }
 
+input NewCaseRole {
+    caseId: ID!
+    caseRoleTypeId: ID!
+    partyId: ID!
+    fromDate: String!
+}
+
 type CaseRoleType {
     children: [CaseRoleType]
     description: String!
@@ -109,7 +116,8 @@ type PartyType {
 }
 
 type Mutation {
-    createCase( newCase: NewCase!) :Case
+    addCaseRole( newCaseRole: NewCaseRole!): Case!
+    createCase( newCase: NewCase!) :Case!
 }
 
 type Query {

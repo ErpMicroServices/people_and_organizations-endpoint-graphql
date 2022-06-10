@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.controllers;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.PartyType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CaseRoleType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.CaseRoleTypeRepository;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ public class CaseRoleTypeController {
 	}
 
 	@QueryMapping
-	public Iterable<PartyType> caseRoleTypes() {
+	public Iterable<CaseRoleType> caseRoleTypes() {
 		return caseRoleTypeRepository.findAll();
 	}
 }
