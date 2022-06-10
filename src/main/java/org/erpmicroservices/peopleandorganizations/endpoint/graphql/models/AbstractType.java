@@ -12,6 +12,7 @@ import java.util.UUID;
 @Data
 public class AbstractType<T> {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
 	private UUID id;
 
