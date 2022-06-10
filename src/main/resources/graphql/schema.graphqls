@@ -2,6 +2,7 @@
 
 schema {
     query: Query
+    mutation: Mutation
 }
 
 type Case {
@@ -12,6 +13,13 @@ type Case {
     caseStatusType: CaseStatusType
     roles: [CaseRole]
     communicationEvents: [CommunicationEvent]
+}
+
+input NewCase {
+    description: String!
+    startedAt: String!
+    caseTypeId: ID!
+    caseStatusTypeId: ID!
 }
 
 type CaseRole {
@@ -100,7 +108,9 @@ type PartyType {
     parent: PartyType
 }
 
-
+type Mutation {
+    createCase( newCase: NewCase!) :Case
+}
 
 type Query {
     cases: [Case]
