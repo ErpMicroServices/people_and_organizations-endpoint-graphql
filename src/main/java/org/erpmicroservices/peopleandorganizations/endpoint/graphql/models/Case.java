@@ -36,11 +36,14 @@ public class Case {
 	@ManyToOne
 	private CaseStatusType caseStatusType;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "case_id")
+	@OneToMany(mappedBy = "kase", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CaseRole> roles = new ArrayList<>();
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "case_id")
+	@OneToMany(mappedBy = "kase", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CommunicationEvent> communicationEvents;
+
+	public void addRole(final CaseRole caseRole) {
+		caseRole.setKase(this);
+		roles.add(caseRole);
+	}
 }
