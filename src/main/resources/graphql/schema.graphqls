@@ -117,6 +117,7 @@ type PartyType {
 
 type Mutation {
     addCaseRole( newCaseRole: NewCaseRole!): Case!
+    expireCaseRole( caseId: ID!, caseRoleId: ID!): Case!
     createCase( newCase: NewCase!) :Case!
 }
 
