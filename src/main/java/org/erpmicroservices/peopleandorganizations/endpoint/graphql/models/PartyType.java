@@ -1,17 +1,17 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class PartyType extends AbstractType<PartyType> {
 
 }

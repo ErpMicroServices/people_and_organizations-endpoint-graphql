@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Controller
@@ -64,5 +65,14 @@ public class CaseController {
 															                                      .build());
 													                         return Optional.of(caseRepository.save(kase));
 												                         }))).orElseThrow();
+	}
+
+	@MutationMapping
+	public Case expireCaseRole(@Argument UUID caseId, @Argument UUID caseRoleId) {
+		return caseRepository.findById(caseId)
+				       .map(kase -> {
+					       kase.expireRoleWithId(caseRoleId);
+					       return caseRepository.save(kase);
+				       }).orElseThrow();
 	}
 }
