@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.controllers;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.NewCase;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.NewCaseRole;
+import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.Case;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CaseRole;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
@@ -15,6 +15,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -36,8 +37,23 @@ public class CaseController {
 	}
 
 	@QueryMapping
-	public List<Case> cases() {
-		return (List<Case>) caseRepository.findAll();
+	public CaseConnection cases() {
+		final List<Edge<Case>> caseEdges = ((List<Case>) caseRepository.findAll()).stream()
+				                                   .map(kase -> CaseEdge.builder()
+						                                                .node(kase)
+						                                                .connectionCursor(Cursor.builder().value(String.valueOf(kase.getId().hashCode())).build())
+						                                                .build())
+				                                   .collect(Collectors.toList());
+		final PageInfo pageInfo = PageInfo.builder()
+				                          .hasNextPage(false)
+				                          .hasPreviousPage(false)
+				                          .startCursor(caseEdges.get(0).getCursor())
+				                          .endCursor(caseEdges.get(caseEdges.size() - 1).getCursor())
+				                          .build();
+		return CaseConnection.builder()
+				       .edges(caseEdges)
+				       .pageInfo(pageInfo)
+				       .build();
 	}
 
 	@MutationMapping
