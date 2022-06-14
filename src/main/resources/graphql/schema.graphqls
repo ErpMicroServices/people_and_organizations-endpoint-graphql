@@ -22,8 +22,8 @@ type Case implements Node {
     startedAt: String
     caseType: CaseType!
     caseStatusType: CaseStatusType
-    roles: [CaseRole]
-    communicationEvents: [CommunicationEvent]
+    roles: CaseRoleConnection
+    communicationEvents: CommunicationEventConnection
 }
 
 type CaseEdge {
@@ -43,12 +43,22 @@ input NewCase {
     caseStatusTypeId: ID!
 }
 
-type CaseRole {
+type CaseRole implements Node{
     id: ID!
     caseRoleType: CaseRoleType!
     party: Party!
     fromDate: String
     thruDate: String
+}
+
+type CaseRoleEdge {
+    cursor: String!
+    node: CaseRole!
+}
+
+type CaseRoleConnection {
+    edges: [CaseRoleEdge]
+    pageInfo: PageInfo!
 }
 
 input NewCaseRole {
@@ -81,6 +91,16 @@ type CaseType {
 
 type CommunicationEvent {
     id: ID!
+}
+
+type CommunicationEventConnection {
+    edges: [CommunicationEventEdge]
+    pageInfo: PageInfo
+}
+
+type CommunicationEventEdge {
+    node: CommunicationEvent!
+    cursor: String!
 }
 
 type CommunicationEventPurposeType {

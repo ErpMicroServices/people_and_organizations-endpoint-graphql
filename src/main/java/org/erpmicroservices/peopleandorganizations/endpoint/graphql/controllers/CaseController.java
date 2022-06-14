@@ -4,10 +4,12 @@ import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.Case;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CaseRole;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CommunicationEvent;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
@@ -22,17 +24,22 @@ import java.util.stream.Collectors;
 public class CaseController {
 
 	private final CaseRepository caseRepository;
+
+	private final CaseRoleRepository caseRoleRepository;
 	private final CaseTypeRepository caseTypeRepository;
 	private final CaseStatusTypeRepository caseStatusTypeRepository;
 	private final CaseRoleTypeRepository caseRoleTypeRepository;
 
+	private final CommunicationEventRepository communicationEventRepository;
 	private final PartyRepository partyRepository;
 
-	public CaseController(final CaseRepository caseRepository, final CaseTypeRepository caseTypeRepository, final CaseStatusTypeRepository caseStatusTypeRepository, final CaseRoleTypeRepository caseRoleTypeRepository, final PartyRepository partyRepository) {
+	public CaseController(final CaseRepository caseRepository, final CaseRoleRepository caseRoleRepository, final CaseTypeRepository caseTypeRepository, final CaseStatusTypeRepository caseStatusTypeRepository, final CaseRoleTypeRepository caseRoleTypeRepository, final CommunicationEventRepository communicationEventRepository, final PartyRepository partyRepository) {
 		this.caseRepository = caseRepository;
+		this.caseRoleRepository = caseRoleRepository;
 		this.caseTypeRepository = caseTypeRepository;
 		this.caseStatusTypeRepository = caseStatusTypeRepository;
 		this.caseRoleTypeRepository = caseRoleTypeRepository;
+		this.communicationEventRepository = communicationEventRepository;
 		this.partyRepository = partyRepository;
 	}
 
@@ -56,6 +63,44 @@ public class CaseController {
 				       .build();
 	}
 
+	@SchemaMapping
+	public CaseRoleConnection roles(Case kase) {
+		final List<Edge<CaseRole>> caseRoleEdges = caseRoleRepository.findByKase_Id(kase.getId())
+				                                           .stream().map(caseRole -> CaseRoleEdge.builder()
+						                                                                     .node(caseRole)
+						                                                                     .cursor(Cursor.builder().value(String.valueOf(caseRole.getId().hashCode())).build())
+						                                                                     .build())
+				                                           .collect(Collectors.toList());
+		return CaseRoleConnection.builder()
+				       .edges(caseRoleEdges)
+				       .pageInfo(PageInfo.builder()
+						                 .hasNextPage(false)
+						                 .hasPreviousPage(false)
+						                 .startCursor(caseRoleEdges.isEmpty() ? null : caseRoleEdges.get(0).getCursor())
+						                 .endCursor(caseRoleEdges.isEmpty() ? null : caseRoleEdges.get(caseRoleEdges.size() - 1).getCursor())
+						                 .build())
+				       .build();
+	}
+
+	@SchemaMapping
+	public CommunicationEventConnection communicationEvents(Case kase) {
+		final List<Edge<CommunicationEvent>> communicationEventEdges = communicationEventRepository.findByKase_Id(kase.getId()).stream()
+				                                                               .map(communicationEvent -> CommunicationEventEdge.builder()
+						                                                                                          .node(communicationEvent)
+						                                                                                          .cursor(Cursor.builder().value(String.valueOf(communicationEvent.getId().hashCode())).build())
+						                                                                                          .build())
+				                                                               .collect(Collectors.toList());
+		return CommunicationEventConnection.builder()
+				       .edges(communicationEventEdges)
+				       .pageInfo(PageInfo.builder()
+						                 .hasNextPage(false)
+						                 .hasPreviousPage(false)
+						                 .startCursor(communicationEventEdges.isEmpty() ? null : communicationEventEdges.get(0).getCursor())
+						                 .endCursor(communicationEventEdges.isEmpty() ? null : communicationEventEdges.get(communicationEventEdges.size() - 1).getCursor())
+						                 .build())
+				       .build();
+	}
+
 	@MutationMapping
 	public Case createCase(@Argument NewCase newCase) {
 		return caseTypeRepository.findById(newCase.getCaseTypeId())
@@ -71,28 +116,28 @@ public class CaseController {
 	}
 
 	@MutationMapping
-	public Case addCaseRole(@Argument NewCaseRole newCaseRole) {
+	public CaseRole addCaseRole(@Argument NewCaseRole newCaseRole) {
 		return caseRoleTypeRepository.findById(newCaseRole.getCaseRoleTypeId())
 				       .flatMap(caseRoleType ->
 						                partyRepository.findById(newCaseRole.getPartyId())
-								                .flatMap(party ->
-										                         caseRepository.findById(newCaseRole.getCaseId())
-												                         .flatMap(kase -> {
-													                         kase.addRole(CaseRole.builder()
-															                                      .caseRoleType(caseRoleType)
-															                                      .party(party)
-															                                      .fromDate(LocalDate.parse(newCaseRole.getFromDate()))
-															                                      .build());
-													                         return Optional.of(caseRepository.save(kase));
-												                         }))).orElseThrow();
+								                .flatMap(party -> {
+									                return caseRepository.findById(newCaseRole.getCaseId())
+											                       .flatMap(kase -> {
+												                       return Optional.of(caseRoleRepository.save(CaseRole.builder()
+														                                                                  .caseRoleType(caseRoleType)
+														                                                                  .party(party)
+														                                                                  .fromDate(LocalDate.parse(newCaseRole.getFromDate()))
+														                                                                  .build()));
+											                       });
+								                })).orElseThrow();
 	}
 
 	@MutationMapping
-	public Case expireCaseRole(@Argument UUID caseId, @Argument UUID caseRoleId) {
-		return caseRepository.findById(caseId)
-				       .map(kase -> {
-					       kase.expireRoleWithId(caseRoleId);
-					       return caseRepository.save(kase);
+	public CaseRole expireCaseRole(@Argument UUID caseId, @Argument UUID caseRoleId) {
+		return caseRoleRepository.findById(caseRoleId)
+				       .map(kaseRole -> {
+					       kaseRole.setThruDate(LocalDate.now());
+					       return caseRoleRepository.save(kaseRole);
 				       }).orElseThrow();
 	}
 }
