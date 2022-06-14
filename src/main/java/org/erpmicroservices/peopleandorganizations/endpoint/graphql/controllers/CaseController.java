@@ -6,6 +6,10 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.Case;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CaseRole;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CommunicationEvent;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -44,47 +48,43 @@ public class CaseController {
 	}
 
 	@QueryMapping
-	public CaseConnection cases() {
-		final List<Edge<Case>> caseEdges = ((List<Case>) caseRepository.findAll()).stream()
+	public CaseConnection cases(@Argument PageInfo pageInfo) {
+		final Page<Case> all = caseRepository.findAll(pageInfoToPageable(pageInfo));
+		final List<Edge<Case>> caseEdges = all.get()
 				                                   .map(kase -> CaseEdge.builder()
 						                                                .node(kase)
 						                                                .connectionCursor(Cursor.builder().value(String.valueOf(kase.getId().hashCode())).build())
 						                                                .build())
 				                                   .collect(Collectors.toList());
-		final PageInfo pageInfo = PageInfo.builder()
-				                          .hasNextPage(false)
-				                          .hasPreviousPage(false)
-				                          .startCursor(caseEdges.get(0).getCursor())
-				                          .endCursor(caseEdges.get(caseEdges.size() - 1).getCursor())
-				                          .build();
 		return CaseConnection.builder()
 				       .edges(caseEdges)
 				       .pageInfo(pageInfo)
 				       .build();
 	}
 
+	private Pageable pageInfoToPageable(final PageInfo pageInfo) {
+		final Sort sort = Sort.by(pageInfo.getSortDirection(), pageInfo.getSortBy().toArray(new String[0]));
+		return PageRequest.of(pageInfo.getPageNumber(), pageInfo.getPageSize(), sort);
+	}
+
 	@SchemaMapping
-	public CaseRoleConnection roles(Case kase) {
-		final List<Edge<CaseRole>> caseRoleEdges = caseRoleRepository.findByKase_Id(kase.getId())
-				                                           .stream().map(caseRole -> CaseRoleEdge.builder()
-						                                                                     .node(caseRole)
-						                                                                     .cursor(Cursor.builder().value(String.valueOf(caseRole.getId().hashCode())).build())
-						                                                                     .build())
+	public CaseRoleConnection roles(@Argument PageInfo pageInfo, Case kase) {
+		final Page<CaseRole> byKase_id = caseRoleRepository.findByKase_Id(kase.getId(), pageInfoToPageable(pageInfo));
+		final List<Edge<CaseRole>> caseRoleEdges = byKase_id.get()
+				                                           .map(caseRole -> CaseRoleEdge.builder()
+						                                                            .node(caseRole)
+						                                                            .cursor(Cursor.builder().value(String.valueOf(caseRole.getId().hashCode())).build())
+						                                                            .build())
 				                                           .collect(Collectors.toList());
 		return CaseRoleConnection.builder()
 				       .edges(caseRoleEdges)
-				       .pageInfo(PageInfo.builder()
-						                 .hasNextPage(false)
-						                 .hasPreviousPage(false)
-						                 .startCursor(caseRoleEdges.isEmpty() ? null : caseRoleEdges.get(0).getCursor())
-						                 .endCursor(caseRoleEdges.isEmpty() ? null : caseRoleEdges.get(caseRoleEdges.size() - 1).getCursor())
-						                 .build())
+				       .pageInfo(pageInfo)
 				       .build();
 	}
 
 	@SchemaMapping
-	public CommunicationEventConnection communicationEvents(Case kase) {
-		final List<Edge<CommunicationEvent>> communicationEventEdges = communicationEventRepository.findByKase_Id(kase.getId()).stream()
+	public CommunicationEventConnection communicationEvents(@Argument PageInfo pageInfo, Case kase) {
+		final List<Edge<CommunicationEvent>> communicationEventEdges = communicationEventRepository.findByKase_Id(kase.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                                               .map(communicationEvent -> CommunicationEventEdge.builder()
 						                                                                                          .node(communicationEvent)
 						                                                                                          .cursor(Cursor.builder().value(String.valueOf(communicationEvent.getId().hashCode())).build())
@@ -92,12 +92,7 @@ public class CaseController {
 				                                                               .collect(Collectors.toList());
 		return CommunicationEventConnection.builder()
 				       .edges(communicationEventEdges)
-				       .pageInfo(PageInfo.builder()
-						                 .hasNextPage(false)
-						                 .hasPreviousPage(false)
-						                 .startCursor(communicationEventEdges.isEmpty() ? null : communicationEventEdges.get(0).getCursor())
-						                 .endCursor(communicationEventEdges.isEmpty() ? null : communicationEventEdges.get(communicationEventEdges.size() - 1).getCursor())
-						                 .build())
+				       .pageInfo(pageInfo)
 				       .build();
 	}
 

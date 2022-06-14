@@ -1,5 +1,9 @@
 # This file was generated based on ".graphqlconfig". Do not edit manually.
 
+enum SortDirection {
+    ASC
+    DESC
+}
 schema {
     query: Query
     mutation: Mutation
@@ -10,10 +14,17 @@ interface Node {
 }
 
 type PageInfo {
-    hasNextPage: Boolean!
-    hasPreviousPage: Boolean!
-    startCursor: String
-    endCursor: String
+    pageNumber: Int!
+    pageSize: Int!
+    sortBy: [String]
+    sortDirection: SortDirection!
+}
+
+input PageInfoInput {
+    pageNumber: Int = 0
+    pageSize: Int =100
+    sortBy: [String]
+    sortDirection: SortDirection = ASC
 }
 
 type Case implements Node {
@@ -22,8 +33,8 @@ type Case implements Node {
     startedAt: String
     caseType: CaseType!
     caseStatusType: CaseStatusType
-    roles: CaseRoleConnection
-    communicationEvents: CommunicationEventConnection
+    roles(pageInfo: PageInfoInput): CaseRoleConnection
+    communicationEvents(pageInfo: PageInfoInput): CommunicationEventConnection
 }
 
 type CaseEdge {
@@ -163,7 +174,7 @@ type Mutation {
 }
 
 type Query {
-    cases: CaseConnection
+    cases(pageInfo:PageInfoInput): CaseConnection
     caseRoleTypes: [CaseRoleType]
     caseStatusTypes: [CaseStatusType]
     caseTypes: [CaseType]

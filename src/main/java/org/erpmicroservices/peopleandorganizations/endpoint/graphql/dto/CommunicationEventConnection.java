@@ -1,8 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto;
 
-import graphql.relay.Connection;
 import graphql.relay.Edge;
-import graphql.relay.PageInfo;
 import lombok.Builder;
 import lombok.Data;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CommunicationEvent;
