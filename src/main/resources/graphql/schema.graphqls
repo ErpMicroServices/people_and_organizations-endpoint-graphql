@@ -191,6 +191,8 @@ type FacilityType {
 
 type Party {
     id: ID!
+    comment: String
+    partyType: PartyType!
 }
 
 type PartyRelationship {
