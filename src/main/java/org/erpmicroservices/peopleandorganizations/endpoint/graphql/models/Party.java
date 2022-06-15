@@ -23,4 +23,8 @@ public class Party {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
 	private UUID id;
+
+	private String comment;
+
+	private PartyType partyType;
 }
