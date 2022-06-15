@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -22,4 +19,11 @@ public class ContactMechanism {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
 	private UUID id;
+
+	private String endPoint;
+
+	private String directions;
+
+	@ManyToOne
+	private ContactMechanismType contactMechanismType;
 }
