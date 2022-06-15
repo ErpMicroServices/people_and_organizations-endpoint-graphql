@@ -7,9 +7,6 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CaseR
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CommunicationEvent;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -23,6 +20,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static org.erpmicroservices.peopleandorganizations.endpoint.graphql.misc.Utils.pageInfoToPageable;
+
 
 @Controller
 public class CaseController {
@@ -35,15 +34,32 @@ public class CaseController {
 	private final CaseRoleTypeRepository caseRoleTypeRepository;
 
 	private final CommunicationEventRepository communicationEventRepository;
+
+	private final CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository;
+
+	private final CommunicationEventTypeRepository communicationEventTypeRepository;
+
+	private final ContactMechanismTypeRepository contactMechanismTypeRepository;
+
+	private final PartyRelationshipRepository partyRelationshipRepository;
 	private final PartyRepository partyRepository;
 
-	public CaseController(final CaseRepository caseRepository, final CaseRoleRepository caseRoleRepository, final CaseTypeRepository caseTypeRepository, final CaseStatusTypeRepository caseStatusTypeRepository, final CaseRoleTypeRepository caseRoleTypeRepository, final CommunicationEventRepository communicationEventRepository, final PartyRepository partyRepository) {
+	public CaseController(final CaseRepository caseRepository, final CaseRoleRepository caseRoleRepository,
+	                      final CaseTypeRepository caseTypeRepository,
+	                      final CaseStatusTypeRepository caseStatusTypeRepository,
+	                      final CaseRoleTypeRepository caseRoleTypeRepository,
+	                      final CommunicationEventRepository communicationEventRepository,
+	                      final CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository, final CommunicationEventTypeRepository communicationEventTypeRepository, final ContactMechanismTypeRepository contactMechanismTypeRepository, final PartyRelationshipRepository partyRelationshipRepository, final PartyRepository partyRepository) {
 		this.caseRepository = caseRepository;
 		this.caseRoleRepository = caseRoleRepository;
 		this.caseTypeRepository = caseTypeRepository;
 		this.caseStatusTypeRepository = caseStatusTypeRepository;
 		this.caseRoleTypeRepository = caseRoleTypeRepository;
 		this.communicationEventRepository = communicationEventRepository;
+		this.communicationEventStatusTypeRepository = communicationEventStatusTypeRepository;
+		this.communicationEventTypeRepository = communicationEventTypeRepository;
+		this.contactMechanismTypeRepository = contactMechanismTypeRepository;
+		this.partyRelationshipRepository = partyRelationshipRepository;
 		this.partyRepository = partyRepository;
 	}
 
@@ -62,11 +78,6 @@ public class CaseController {
 				       .build();
 	}
 
-	private Pageable pageInfoToPageable(final PageInfo pageInfo) {
-		final Sort sort = Sort.by(pageInfo.getSortDirection(), pageInfo.getSortBy().toArray(new String[0]));
-		return PageRequest.of(pageInfo.getPageNumber(), pageInfo.getPageSize(), sort);
-	}
-
 	@SchemaMapping
 	public CaseRoleConnection roles(@Argument PageInfo pageInfo, Case kase) {
 		final Page<CaseRole> byKase_id = caseRoleRepository.findByKase_Id(kase.getId(), pageInfoToPageable(pageInfo));
@@ -78,20 +89,6 @@ public class CaseController {
 				                                           .collect(Collectors.toList());
 		return CaseRoleConnection.builder()
 				       .edges(caseRoleEdges)
-				       .pageInfo(pageInfo)
-				       .build();
-	}
-
-	@SchemaMapping
-	public CommunicationEventConnection communicationEvents(@Argument PageInfo pageInfo, Case kase) {
-		final List<Edge<CommunicationEvent>> communicationEventEdges = communicationEventRepository.findByKase_Id(kase.getId(), pageInfoToPageable(pageInfo)).stream()
-				                                                               .map(communicationEvent -> CommunicationEventEdge.builder()
-						                                                                                          .node(communicationEvent)
-						                                                                                          .cursor(Cursor.builder().value(String.valueOf(communicationEvent.getId().hashCode())).build())
-						                                                                                          .build())
-				                                                               .collect(Collectors.toList());
-		return CommunicationEventConnection.builder()
-				       .edges(communicationEventEdges)
 				       .pageInfo(pageInfo)
 				       .build();
 	}
@@ -134,5 +131,28 @@ public class CaseController {
 					       kaseRole.setThruDate(LocalDate.now());
 					       return caseRoleRepository.save(kaseRole);
 				       }).orElseThrow();
+	}
+
+	@MutationMapping
+	public CommunicationEvent addCommunicationEventToCase(@Argument UUID caseId, @Argument NewCommunicationEvent newCommunicationEvent) {
+		return caseRepository.findById(caseId)
+				       .flatMap(kase ->
+						                contactMechanismTypeRepository.findById(newCommunicationEvent.getContactMechanismTypeId())
+								                .flatMap(contactMechanismType ->
+										                         communicationEventStatusTypeRepository.findById(newCommunicationEvent.getCommunicationEventStatusTypeId())
+												                         .flatMap(communicationEventStatusType ->
+														                                  partyRelationshipRepository.findById(newCommunicationEvent.getPartyRelationshipId())
+																                                  .flatMap(partyRelationship ->
+																		                                           communicationEventTypeRepository.findById(newCommunicationEvent.getCommunicationEventTypeId())
+																				                                           .flatMap(communicationEventType -> Optional.of(communicationEventRepository.save(CommunicationEvent.builder()
+																						                                                                                                                            .kase(kase)
+																						                                                                                                                            .started(newCommunicationEvent.getStarted().toZonedDateTime())
+																						                                                                                                                            .ended(newCommunicationEvent.getEnded())
+																						                                                                                                                            .note(newCommunicationEvent.getNote())
+																						                                                                                                                            .communicationEventStatusType(communicationEventStatusType)
+																						                                                                                                                            .contactMechanismType(contactMechanismType)
+																						                                                                                                                            .communicationEventType(communicationEventType)
+																						                                                                                                                            .partyRelationship(partyRelationship)
+																						                                                                                                                            .build()))))))).orElseThrow();
 	}
 }
