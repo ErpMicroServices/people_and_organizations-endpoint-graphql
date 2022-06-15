@@ -163,6 +163,9 @@ type CommunicationEventType {
 
 type ContactMechanism {
     id: ID!
+    endpoint: String!
+    directions: String
+    contactMechanismType: ContactMechanismType!
 }
 
 type ContactMechanismType {
