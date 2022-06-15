@@ -1,9 +1,11 @@
 # This file was generated based on ".graphqlconfig". Do not edit manually.
+scalar DateTime
 
 enum SortDirection {
     ASC
     DESC
 }
+
 schema {
     query: Query
     mutation: Mutation
@@ -100,8 +102,25 @@ type CaseType {
     parent: CaseType
 }
 
-type CommunicationEvent {
+type CommunicationEvent implements Node{
     id: ID!
+    started: String!
+    ended: String
+    note: String!
+    contactMechanismType: ContactMechanismType!
+    communicationEventStatusType: CommunicationEventStatusType!
+    communicationEventType: CommunicationEventType!
+    partyRelationship: PartyRelationship!
+}
+
+input NewCommunicationEvent {
+    started: DateTime!
+    ended: DateTime
+    note: String!
+    contactMechanismTypeId: ID!
+    communicationEventStatusTypeId: ID!
+    communicationEventTypeId: ID!
+    partyRelationshipId: ID!
 }
 
 type CommunicationEventConnection {
@@ -142,6 +161,17 @@ type CommunicationEventType {
     parent: CommunicationEventType
 }
 
+type ContactMechanism {
+    id: ID!
+}
+
+type ContactMechanismType {
+    children:[ContactMechanismType]
+    description: String!
+    id: ID!
+    parent: ContactMechanismType
+}
+
 type FacilityRoleType {
     children: [FacilityRoleType]
     description: String!
@@ -160,6 +190,9 @@ type Party {
     id: ID!
 }
 
+type PartyRelationship {
+    id: ID!
+}
 type PartyType {
     children: [PartyType]
     description: String!
@@ -169,6 +202,7 @@ type PartyType {
 
 type Mutation {
     addCaseRole( newCaseRole: NewCaseRole!): Case!
+    addCommunicationEventToCase( caseId: ID!, newCommunicationEvent: NewCommunicationEvent!): CommunicationEvent
     expireCaseRole( caseId: ID!, caseRoleId: ID!): Case!
     createCase( newCase: NewCase!) :Case!
 }

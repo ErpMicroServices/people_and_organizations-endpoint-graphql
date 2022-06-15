@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity
@@ -23,4 +24,20 @@ public class CommunicationEvent {
 	@ManyToOne
 	@JoinColumn(name = "case_id")
 	private Case kase;
+
+	private ZonedDateTime started;
+	private ZonedDateTime ended;
+	private String note;
+
+	@ManyToOne
+	private ContactMechanismType contactMechanismType;
+
+	@ManyToOne
+	private PartyRelationship partyRelationship;
+
+	@ManyToOne
+	private CommunicationEventStatusType communicationEventStatusType;
+
+	@ManyToOne
+	private CommunicationEventType communicationEventType;
 }
