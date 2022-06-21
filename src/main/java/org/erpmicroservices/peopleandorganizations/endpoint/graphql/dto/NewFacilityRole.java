@@ -10,9 +10,10 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewCaseRole {
-	private UUID caseId;
-	private UUID caseRoleTypeId;
+public class NewFacilityRole {
 	private UUID partyId;
+	private UUID facilityId;
+	private UUID facilityRoleTypeId;
 	private LocalDate fromDate;
+	private LocalDate thruDate;
 }

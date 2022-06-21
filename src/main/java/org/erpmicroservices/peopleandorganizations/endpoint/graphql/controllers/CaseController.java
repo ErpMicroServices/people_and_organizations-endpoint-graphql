@@ -118,7 +118,7 @@ public class CaseController {
 												                       return Optional.of(caseRoleRepository.save(CaseRole.builder()
 														                                                                  .caseRoleType(caseRoleType)
 														                                                                  .party(party)
-														                                                                  .fromDate(LocalDate.parse(newCaseRole.getFromDate()))
+														                                                                  .fromDate(newCaseRole.getFromDate())
 														                                                                  .build()));
 											                       });
 								                })).orElseThrow();

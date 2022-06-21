@@ -22,6 +22,8 @@ public class PeopleAndOrganizationsEndpointGraphqlJavaApplication implements Run
 	 */
 	@Override
 	public void configure(final RuntimeWiring.Builder builder) {
-		builder.scalar(ExtendedScalars.DateTime);
+		builder
+				.scalar(ExtendedScalars.DateTime)
+				.scalar(ExtendedScalars.Date);
 	}
 }

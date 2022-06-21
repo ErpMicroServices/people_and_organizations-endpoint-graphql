@@ -1,5 +1,6 @@
 # This file was generated based on ".graphqlconfig". Do not edit manually.
 scalar DateTime
+scalar Date
 
 enum SortDirection {
     ASC
@@ -78,7 +79,7 @@ input NewCaseRole {
     caseId: ID!
     caseRoleTypeId: ID!
     partyId: ID!
-    fromDate: String!
+    fromDate: DateTime!
 }
 
 type CaseRoleType {
@@ -175,6 +176,56 @@ type ContactMechanismType {
     parent: ContactMechanismType
 }
 
+type Facility {
+    contactMechanisms: [ContactMechanism]
+    description: String!
+    facilityType: FacilityType!
+    id: ID!
+    madeUpOf: [Facility]
+    partOf: Facility
+    roles: [FacilityRole]
+    squareFootage: Int
+}
+
+input NewFacility {
+    facilityTypeId: ID!
+    description: String!
+    partOfId: ID
+    squareFootage: Int
+}
+
+type FacilityConnection {
+    edges: [FacilityEdge]
+    pageInfo: PageInfo!
+}
+
+type FacilityEdge {
+    node: Facility!
+    cursor: String!
+}
+
+type FacilityContactMechanism {
+    id: ID!
+    contactMechanism: ContactMechanism!
+}
+
+type FacilityRole {
+    id: ID!
+    facility: Facility!
+    facilityRoleType: FacilityRoleType!
+    party: Party!
+    fromDate: Date!
+    thruDate: Date
+}
+
+input NewFacilityRole {
+    facilityRoleTypeId: ID!
+    partyId: ID!
+    facilityId: ID!
+    fromDate: Date!
+    thruDate: Date
+}
+
 type FacilityRoleType {
     children: [FacilityRoleType]
     description: String!
@@ -198,6 +249,7 @@ type Party {
 type PartyRelationship {
     id: ID!
 }
+
 type PartyType {
     children: [PartyType]
     description: String!
@@ -210,10 +262,12 @@ type Mutation {
     addCommunicationEventToCase( caseId: ID!, newCommunicationEvent: NewCommunicationEvent!): CommunicationEvent
     expireCaseRole( caseId: ID!, caseRoleId: ID!): Case!
     createCase( newCase: NewCase!) :Case!
+    createFacility( newFacility: NewFacility!): Facility!
+    addFacilityRole( newFacilityRole: NewFacilityRole!): FacilityRole!
 }
 
 type Query {
-    cases(pageInfo:PageInfoInput): CaseConnection
+    cases(pageInfo:PageInfoInput!): CaseConnection!
     caseRoleTypes: [CaseRoleType]
     caseStatusTypes: [CaseStatusType]
     caseTypes: [CaseType]
@@ -221,6 +275,7 @@ type Query {
     communicationEventRoleTypes: [CommunicationEventRoleType]
     communicationEventStatusTypes: [CommunicationEventStatusType]
     communicationEventTypes: [CommunicationEventType]
+    facilities(pageInfo: PageInfoInput!): FacilityConnection!
     facilityRoleTypes: [FacilityRoleType]
     facilityTypes: [FacilityType]
     partyTypes: [PartyType]
