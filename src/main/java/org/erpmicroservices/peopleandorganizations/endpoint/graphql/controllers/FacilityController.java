@@ -34,13 +34,16 @@ public class FacilityController {
 
 	private final PartyRepository partyRepository;
 
-	public FacilityController(final FacilityRepository repository, final FacilityContactMechanismRepository facilityContactMechanismRepository, final FacilityRoleRepository facilityRoleRepository, final FacilityTypeRepository facilityTypeRepository, final FacilityRoleTypeRepository facilityRoleTypeRepository, final PartyRepository partyRepository) {
+	private final ContactMechanismRepository contactMechanismRepository;
+
+	public FacilityController(final FacilityRepository repository, final FacilityContactMechanismRepository facilityContactMechanismRepository, final FacilityRoleRepository facilityRoleRepository, final FacilityTypeRepository facilityTypeRepository, final FacilityRoleTypeRepository facilityRoleTypeRepository, final PartyRepository partyRepository, final ContactMechanismRepository contactMechanismRepository) {
 		this.facilityRepository = repository;
 		this.facilityContactMechanismRepository = facilityContactMechanismRepository;
 		this.facilityRoleRepository = facilityRoleRepository;
 		this.facilityTypeRepository = facilityTypeRepository;
 		this.facilityRoleTypeRepository = facilityRoleTypeRepository;
 		this.partyRepository = partyRepository;
+		this.contactMechanismRepository = contactMechanismRepository;
 	}
 
 	@QueryMapping
@@ -64,7 +67,7 @@ public class FacilityController {
 	}
 
 	@SchemaMapping
-	public List<FacilityContactMechanism> contactMechanisms(Facility facility) {
+	public List<FacilityContactMechanism> facilityContactMechanisms(Facility facility) {
 		return facilityContactMechanismRepository.findByFacility(facility);
 	}
 
@@ -103,5 +106,17 @@ public class FacilityController {
 										                                                                                                                   .thruDate(newFacilityRole.getThruDate())
 										                                                                                                                   .build())))))
 				       .orElseThrow();
+	}
+
+	@MutationMapping
+	public FacilityContactMechanism addFacilityContactMechanism(@Argument NewFacilityContactMechanism newFacilityContactMechanism) {
+		return facilityRepository.findById(newFacilityContactMechanism.getFacilityId())
+				       .flatMap(facility -> contactMechanismRepository.findById(newFacilityContactMechanism.getContactMechanismId())
+						                            .flatMap(contactMechanism -> Optional.of(facilityContactMechanismRepository.save(FacilityContactMechanism.builder()
+								                                                                                                             .contactMechanism(contactMechanism)
+								                                                                                                             .facility(facility)
+								                                                                                                             .build()))))
+				       .orElseThrow();
+
 	}
 }

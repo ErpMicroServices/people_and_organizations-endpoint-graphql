@@ -164,7 +164,7 @@ type CommunicationEventType {
 
 type ContactMechanism {
     id: ID!
-    endpoint: String!
+    endPoint: String!
     directions: String
     contactMechanismType: ContactMechanismType!
 }
@@ -177,7 +177,7 @@ type ContactMechanismType {
 }
 
 type Facility {
-    contactMechanisms: [ContactMechanism]
+    facilityContactMechanisms: [FacilityContactMechanism]
     description: String!
     facilityType: FacilityType!
     id: ID!
@@ -207,6 +207,11 @@ type FacilityEdge {
 type FacilityContactMechanism {
     id: ID!
     contactMechanism: ContactMechanism!
+}
+
+input NewFacilityContactMechanism {
+    facilityId: ID!
+    contactMechanismId: ID!
 }
 
 type FacilityRole {
@@ -264,6 +269,7 @@ type Mutation {
     createCase( newCase: NewCase!) :Case!
     createFacility( newFacility: NewFacility!): Facility!
     addFacilityRole( newFacilityRole: NewFacilityRole!): FacilityRole!
+    addFacilityContactMechanism( newFacilityContactMechanism: NewFacilityContactMechanism): FacilityContactMechanism!
 }
 
 type Query {

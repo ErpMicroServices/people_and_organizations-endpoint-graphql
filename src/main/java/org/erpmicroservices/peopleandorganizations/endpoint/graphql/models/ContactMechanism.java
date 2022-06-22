@@ -14,12 +14,14 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "contact_mechanism")
 public class ContactMechanism {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
 	private UUID id;
 
+	@Column(name = "end_point")
 	private String endPoint;
 
 	private String directions;
