@@ -13,8 +13,11 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.lang.String.valueOf;
@@ -118,5 +121,15 @@ public class FacilityController {
 								                                                                                                             .build()))))
 				       .orElseThrow();
 
+	}
+
+	@MutationMapping
+	public FacilityRole expireFacilityRole(@Argument @NotNull UUID facilityRoleId, @Argument @NotNull LocalDate expirationDate) {
+		return facilityRoleRepository.findById(facilityRoleId)
+				       .flatMap(facilityRole -> {
+					       facilityRole.setThruDate(expirationDate);
+					       return Optional.of(facilityRoleRepository.save(facilityRole));
+				       })
+				       .orElseThrow();
 	}
 }

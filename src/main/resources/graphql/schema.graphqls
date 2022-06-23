@@ -269,6 +269,7 @@ type Mutation {
     createCase( newCase: NewCase!) :Case!
     createFacility( newFacility: NewFacility!): Facility!
     addFacilityRole( newFacilityRole: NewFacilityRole!): FacilityRole!
+    expireFacilityRole(facilityRoleId: ID!, expirationDate: Date!): FacilityRole!
     addFacilityContactMechanism( newFacilityContactMechanism: NewFacilityContactMechanism): FacilityContactMechanism!
 }
 
