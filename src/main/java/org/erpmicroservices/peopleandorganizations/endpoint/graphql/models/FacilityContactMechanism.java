@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -20,6 +21,11 @@ public class FacilityContactMechanism {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
 	private UUID id;
+
+	@NotNull
+	private LocalDate fromDate;
+
+	private LocalDate thruDate;
 
 	@ManyToOne
 	private Facility facility;

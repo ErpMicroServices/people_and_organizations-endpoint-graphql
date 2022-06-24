@@ -132,4 +132,14 @@ public class FacilityController {
 				       })
 				       .orElseThrow();
 	}
+
+	@MutationMapping
+	public FacilityContactMechanism expireFacilityContactMechanism(@Argument @NotNull UUID facilityContactMechanismId, @Argument @NotNull LocalDate expirationDate) {
+		return facilityContactMechanismRepository.findById(facilityContactMechanismId)
+				       .flatMap(facilityContactMechanism -> {
+					       facilityContactMechanism.setThruDate(expirationDate);
+					       return Optional.of(facilityContactMechanismRepository.save(facilityContactMechanism));
+				       })
+				       .orElseThrow();
+	}
 }
