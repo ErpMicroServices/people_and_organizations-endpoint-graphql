@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,4 +29,11 @@ public class ContactMechanism {
 
 	@ManyToOne
 	private ContactMechanismType contactMechanismType;
+
+	@ManyToMany
+	@JoinTable(
+			name = "contact_mechanism_geographic_boundary",
+			joinColumns = @JoinColumn(name = "contact_mechanism_id"),
+			inverseJoinColumns = @JoinColumn(name = "geographic_boundary_id"))
+	private List<GeographicBoundary> geographicBoundaries;
 }

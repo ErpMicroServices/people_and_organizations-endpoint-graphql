@@ -166,7 +166,23 @@ type ContactMechanism {
     id: ID!
     endPoint: String!
     directions: String
+    geographicBoundaries: [GeographicBoundary]
     contactMechanismType: ContactMechanismType!
+}
+
+type GeographicBoundary {
+    id: ID!
+    geoCode: String
+    name: String!
+    abbreviation: String
+    geographicBoundaryType: GeographicBoundaryType!
+}
+
+type GeographicBoundaryType {
+    children:[GeographicBoundaryType]
+    description: String!
+    id: ID!
+    parent: GeographicBoundaryType
 }
 
 type ContactMechanismType {
