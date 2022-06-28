@@ -8,7 +8,9 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CaseRoleType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.CaseRoleTypeRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -27,8 +29,8 @@ public class CaseRoleTypeController {
 	}
 
 	@QueryMapping
-	public CaseRoleTypeConnection caseRoleTypes(PageInfo pageInfo) {
-		final Page<CaseRoleType> caseRoleTypePage = caseRoleTypeRepository.findAll(pageInfoToPageable(pageInfo));
+	public CaseRoleTypeConnection caseRoleTypes(@Argument PageInfo pageInfo) {
+		final Page<CaseRoleType> caseRoleTypePage = caseRoleTypeRepository.findCaseRoleTypesByParentIsNull(pageInfoToPageable(pageInfo));
 		final List<Edge<CaseRoleType>> caseRoleTypeEdges = caseRoleTypePage.stream()
 				                                                   .map(caseRoleType -> CaseRoleTypeEdge.builder()
 						                                                                        .node(caseRoleType)
@@ -42,4 +44,18 @@ public class CaseRoleTypeController {
 				       .build();
 	}
 
+	@SchemaMapping
+	public CaseRoleTypeConnection children(CaseRoleType parent, @Argument PageInfo pageInfo) {
+		final Page<CaseRoleType> caseRoleTypePage = caseRoleTypeRepository.findCaseRoleTypesByParentEquals(parent, pageInfoToPageable(pageInfo));
+		final List<Edge<CaseRoleType>> caseRoleTypeEdges = caseRoleTypePage.stream()
+				                                                   .map(caseRoleType -> CaseRoleTypeEdge.builder()
+						                                                                        .cursor(Cursor.builder().value(valueOf(caseRoleType.getId().hashCode())).build())
+						                                                                        .node(caseRoleType)
+						                                                                        .build())
+				                                                   .collect(Collectors.toList());
+		return CaseRoleTypeConnection.builder()
+				       .edges(caseRoleTypeEdges)
+				       .pageInfo(pageInfo)
+				       .build();
+	}
 }
