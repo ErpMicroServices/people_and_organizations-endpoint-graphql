@@ -82,25 +82,55 @@ input NewCaseRole {
     fromDate: DateTime!
 }
 
-type CaseRoleType {
-    children: [CaseRoleType]
+type CaseRoleType implements Node {
+    children(pageInfo:PageInfoInput!): CaseRoleTypeConnection
     description: String!
     id: ID!
     parent: CaseRoleType
 }
 
-type CaseStatusType {
-    children: [CaseStatusType]
+type CaseRoleTypeEdge {
+    node: CaseRoleType!
+    cursor: String!
+}
+
+type CaseRoleTypeConnection {
+    edges: [CaseRoleTypeEdge]
+    pageInfo: PageInfo!
+}
+
+type CaseStatusType implements Node {
+    children(pageInfo:PageInfoInput!): CaseStatusTypeConnection!
     description: String!
     id: ID!
     parent: CaseStatusType
 }
 
+type CaseStatusTypeEdge{
+    node: CaseStatusType!
+    cursor: String!
+}
+
+type CaseStatusTypeConnection {
+    edges: [CaseStatusTypeEdge]
+    pageInfo: PageInfo!
+}
+
 type CaseType {
-    children: [CaseType]
+    children(pageInfo:PageInfoInput!): CaseTypeConnection
     description: String!
     id: ID!
     parent: CaseType
+}
+
+type CaseTypeEdge {
+    node: CaseType!
+    cursor: String!
+}
+
+type CaseTypeConnection {
+    nodes: [CaseTypeEdge]
+    pageInfo: PageInfo!
 }
 
 type CommunicationEvent implements Node{
@@ -135,38 +165,78 @@ type CommunicationEventEdge {
 }
 
 type CommunicationEventPurposeType {
-    children: [CommunicationEventPurposeType]
+    children(pageInfo:PageInfoInput!): CommunicationEventPurposeTypeConnection
     description: String!
     id: ID!
     parent: CommunicationEventPurposeType
 }
 
+type CommunicationEventPurposeTypeEdge {
+    node: CommunicationEventPurposeType!
+    cursor: String!
+}
+
+type CommunicationEventPurposeTypeConnection {
+    edges: [CommunicationEventPurposeTypeEdge]
+    pageInfo: PageInfo
+}
+
 type CommunicationEventRoleType {
-    children: [CommunicationEventRoleType]
+    children(pageInfo:PageInfoInput!): CommunicationEventRoleTypeConnection
     description: String!
     id: ID!
     parent: CommunicationEventRoleType
 }
 
+type CommunicationEventRoleTypeEdge{
+    node: CommunicationEventRoleType!
+    cursor: String!
+}
+
+type CommunicationEventRoleTypeConnection {
+    edges: [CommunicationEventRoleTypeEdge]
+    pageInfo: PageInfo!
+}
+
 type CommunicationEventStatusType {
-    children: [CommunicationEventStatusType]
+    children(pageInfo:PageInfoInput!): CommunicationEventStatusTypeConnection
     description: String!
     id: ID!
     parent: CommunicationEventStatusType
 }
 
+type CommunicationEventStatusTypeEdge {
+    node: CommunicationEventStatusType!
+    cursor: String!
+}
+
+type CommunicationEventStatusTypeConnection {
+    edges: [CommunicationEventStatusTypeEdge]
+    pageInfo: PageInfo!
+}
+
 type CommunicationEventType {
-    children: [CommunicationEventType]
+    children(pageInfo:PageInfoInput!): CommunicationEventTypeConnection
     description: String!
     id: ID!
     parent: CommunicationEventType
+}
+
+type CommunicationEventTypeEdge {
+    node: CommunicationEventType
+    cursor: String!
+}
+
+type CommunicationEventTypeConnection {
+    edges: [CommunicationEventTypeEdge]
+    pageInfo: PageInfo!
 }
 
 type ContactMechanism {
     id: ID!
     endPoint: String!
     directions: String
-    geographicBoundaries: [GeographicBoundary]
+    geographicBoundaries(pageInfo:PageInfoInput!): GeographicBoundaryConnection
     contactMechanismType: ContactMechanismType!
 }
 
@@ -176,32 +246,66 @@ type GeographicBoundary {
     name: String!
     abbreviation: String
     geographicBoundaryType: GeographicBoundaryType!
+    partOf: GeographicBoundary
+    madeUpOf(pageInfo:PageInfoInput!): GeographicBoundaryConnection
+}
+
+
+type GeographicBoundaryEdge {
+    node: GeographicBoundary!
+    cursor: String!
+}
+
+type GeographicBoundaryConnection {
+    edges: [GeographicBoundaryEdge]
+    pageInfo: PageInfo
 }
 
 type GeographicBoundaryType {
-    children:[GeographicBoundaryType]
+    children(pageInfo:PageInfoInput!): GeographicBoundaryTypeConnection
     description: String!
     id: ID!
     parent: GeographicBoundaryType
 }
 
+type GeographicBoundaryTypeEdge {
+    node: GeographicBoundaryType!
+    cursor: String!
+}
+
+type GeographicBoundaryTypeConnection {
+    edges: [GeographicBoundaryTypeEdge]
+    pageInfo: PageInfo!
+}
+
 type ContactMechanismType {
-    children:[ContactMechanismType]
+    children(pageInfo:PageInfoInput!):[ContactMechanismType]
     description: String!
     id: ID!
     parent: ContactMechanismType
 }
 
+type ContactMechanismTypeEdge {
+    node: ContactMechanismType!
+    cursor: String!
+}
+
+type ContactMechanismTypeConnection {
+    edges: [ContactMechanismTypeEdge]
+    pageInfo: PageInfo!
+}
+
 type Facility {
-    facilityContactMechanisms: [FacilityContactMechanism]
+    facilityContactMechanisms(pageInfo:PageInfoInput!): FacilityContactMechanismConnection
     description: String!
     facilityType: FacilityType!
     id: ID!
-    madeUpOf: [Facility]
+    madeUpOf(pageInfo:PageInfoInput!): FacilityConnection
     partOf: Facility
-    roles: [FacilityRole]
+    roles(pageInfo:PageInfoInput!): FacilityRoleConnection
     squareFootage: Int
 }
+
 
 input NewFacility {
     facilityTypeId: ID!
@@ -225,6 +329,16 @@ type FacilityContactMechanism {
     contactMechanism: ContactMechanism!
 }
 
+type FacilityContactMechanismEdge {
+    node: FacilityContactMechanism!
+    cursor: String!
+}
+
+type FacilityContactMechanismConnection {
+    edges: [FacilityContactMechanism]
+    pageInfo: PageInfo!
+}
+
 input NewFacilityContactMechanism {
     facilityId: ID!
     contactMechanismId: ID!
@@ -239,6 +353,16 @@ type FacilityRole {
     thruDate: Date
 }
 
+type FacilityRoleEdge {
+    node: FacilityRole!
+    cursor: String!
+}
+
+type FacilityRoleConnection {
+    edges: [FacilityRole]
+    pageInfo: PageInfo!
+}
+
 input NewFacilityRole {
     facilityRoleTypeId: ID!
     partyId: ID!
@@ -248,17 +372,37 @@ input NewFacilityRole {
 }
 
 type FacilityRoleType {
-    children: [FacilityRoleType]
+    children: FacilityRoleTypeConnection
     description: String!
     id: ID!
     parent: FacilityRoleType
 }
 
+type FacilityRoleTypeEdge {
+    node: FacilityRoleType!
+    cursor: String!
+}
+
+type FacilityRoleTypeConnection {
+    edges: [FacilityRoleType]
+    pageInfo: PageInfo!
+}
+
 type FacilityType {
-    children: [FacilityType]
+    children: FacilityTypeConnection
     description: String!
     id: ID!
     parent: FacilityType
+}
+
+type FacilityTypeEdge {
+    node: FacilityType!
+    cursor: String!
+}
+
+type FacilityTypeConnection {
+    edges: [FacilityType]
+    pageInfo: PageInfo!
 }
 
 type Party {
@@ -272,10 +416,20 @@ type PartyRelationship {
 }
 
 type PartyType {
-    children: [PartyType]
+    children(pageInfo:PageInfoInput!): PartyTypeConnection!
     description: String!
     id: ID!
     parent: PartyType
+}
+
+type PartyTypeEdge {
+    node: PartyType!
+    cursor: String!
+}
+
+type PartyTypeConnection {
+    edges: [PartyType]
+    pageInfo: PageInfo!
 }
 
 type Mutation {
@@ -292,16 +446,16 @@ type Mutation {
 
 type Query {
     cases(pageInfo:PageInfoInput!): CaseConnection!
-    caseRoleTypes: [CaseRoleType]
-    caseStatusTypes: [CaseStatusType]
-    caseTypes: [CaseType]
-    communicationEventPurposeTypes: [CommunicationEventPurposeType]
-    communicationEventRoleTypes: [CommunicationEventRoleType]
-    communicationEventStatusTypes: [CommunicationEventStatusType]
-    communicationEventTypes: [CommunicationEventType]
+    caseRoleTypes(pageInfo:PageInfoInput!): CaseRoleTypeConnection!
+    caseStatusTypes(pageInfo:PageInfoInput!): CaseStatusTypeConnection!
+    caseTypes(pageInfo:PageInfoInput!): CaseTypeConnection!
+    communicationEventPurposeTypes(pageInfo:PageInfoInput!): CommunicationEventPurposeTypeConnection!
+    communicationEventRoleTypes(pageInfo:PageInfoInput!): CommunicationEventRoleTypeConnection!
+    communicationEventStatusTypes(pageInfo:PageInfoInput!): CommunicationEventStatusTypeConnection!
+    communicationEventTypes(pageInfo:PageInfoInput!): CommunicationEventTypeConnection!
     facilities(pageInfo: PageInfoInput!): FacilityConnection!
-    facilityRoleTypes: [FacilityRoleType]
-    facilityTypes: [FacilityType]
-    partyTypes: [PartyType]
+    facilityRoleTypes(pageInfo:PageInfoInput!): FacilityRoleTypeConnection!
+    facilityTypes(pageInfo:PageInfoInput!): FacilityTypeConnection!
+    partyTypes(pageInfo:PageInfoInput!): PartyTypeConnection!
 
 }
