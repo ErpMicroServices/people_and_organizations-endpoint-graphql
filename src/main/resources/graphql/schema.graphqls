@@ -129,7 +129,7 @@ type CaseTypeEdge {
 }
 
 type CaseTypeConnection {
-    nodes: [CaseTypeEdge]
+    edges: [CaseTypeEdge]
     pageInfo: PageInfo!
 }
 
