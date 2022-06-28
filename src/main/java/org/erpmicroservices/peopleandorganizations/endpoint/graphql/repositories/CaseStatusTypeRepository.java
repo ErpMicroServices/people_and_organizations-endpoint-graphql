@@ -1,11 +1,16 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories;
 
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CaseStatusType;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.graphql.data.GraphQlRepository;
 
 import java.util.UUID;
 
 @GraphQlRepository
-public interface CaseStatusTypeRepository extends CrudRepository<CaseStatusType, UUID> {
+public interface CaseStatusTypeRepository extends PagingAndSortingRepository<CaseStatusType, UUID> {
+	Page<CaseStatusType> findCaseStatusTypeByParentEquals(CaseStatusType parent, Pageable pageable);
+
+	Page<CaseStatusType> findCaseStatusTypeByParentIsNull(final Pageable pageable);
 }
