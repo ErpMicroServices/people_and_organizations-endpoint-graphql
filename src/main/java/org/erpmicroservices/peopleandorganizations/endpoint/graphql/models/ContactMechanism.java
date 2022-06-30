@@ -27,7 +27,7 @@ public class ContactMechanism {
 
 	private String directions;
 
-	@ManyToOne
+	@ManyToOne(optional = false, cascade = CascadeType.ALL)
 	private ContactMechanismType contactMechanismType;
 
 	@ManyToMany

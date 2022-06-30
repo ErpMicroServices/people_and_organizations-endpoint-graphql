@@ -65,18 +65,46 @@ public class FacilityController {
 	}
 
 	@SchemaMapping
-	public List<Facility> madeUpOf(Facility facility) {
-		return facilityRepository.findFacilitiesByPartOf(facility);
+	public FacilityConnection madeUpOf(@Argument PageInfo pageInfo, Facility parent) {
+		final Page<Facility> page = facilityRepository.findFacilitiesByPartOf(parent, pageInfoToPageable(pageInfo));
+		final List<Edge<Facility>> facilityEdges = page.stream()
+				                                           .map(facility -> FacilityEdge.builder()
+						                                                            .node(facility)
+						                                                            .cursor(Cursor.builder().value(valueOf(facility.getId().hashCode())).build()).build())
+				                                           .collect(Collectors.toList());
+		return FacilityConnection.builder()
+				       .edges(facilityEdges)
+				       .pageInfo(pageInfo).build();
 	}
 
 	@SchemaMapping
-	public List<FacilityContactMechanism> facilityContactMechanisms(Facility facility) {
-		return facilityContactMechanismRepository.findByFacility(facility);
+	public FacilityContactMechanismConnection facilityContactMechanisms(@Argument PageInfo pageInfo, Facility facility) {
+		final Page<FacilityContactMechanism> page = facilityContactMechanismRepository.findByFacility_Id(facility.getId(), pageInfoToPageable(pageInfo));
+		final List<Edge<FacilityContactMechanism>> edges = page.stream()
+				                                                   .map(facilityContactMechanism -> FacilityContactMechanismEdge.builder()
+						                                                                                    .node(facilityContactMechanism)
+						                                                                                    .cursor(Cursor.builder().value(valueOf(facilityContactMechanism.getId().hashCode())).build())
+						                                                                                    .build())
+				                                                   .collect(Collectors.toList());
+		return FacilityContactMechanismConnection.builder()
+				       .edges(edges)
+				       .pageInfo(pageInfo)
+				       .build();
 	}
 
 	@SchemaMapping
-	public List<FacilityRole> roles(Facility facility) {
-		return facilityRoleRepository.findByFacility(facility);
+	public FacilityConnection roles(@Argument PageInfo pageInfo, Facility parent) {
+		final Page<Facility> page = facilityRoleRepository.findByFacility(parent, pageInfoToPageable(pageInfo));
+		final List<Edge<Facility>> edges = page.stream()
+				                                   .map(facility -> FacilityEdge.builder()
+						                                                    .node(facility)
+						                                                    .cursor(Cursor.builder().value(valueOf(facility.getId().hashCode())).build())
+						                                                    .build())
+				                                   .collect(Collectors.toList());
+		return FacilityConnection.builder()
+				       .pageInfo(pageInfo)
+				       .edges(edges)
+				       .build();
 	}
 
 	@MutationMapping
@@ -111,17 +139,17 @@ public class FacilityController {
 				       .orElseThrow();
 	}
 
-	@MutationMapping
-	public FacilityContactMechanism addFacilityContactMechanism(@Argument NewFacilityContactMechanism newFacilityContactMechanism) {
-		return facilityRepository.findById(newFacilityContactMechanism.getFacilityId())
-				       .flatMap(facility -> contactMechanismRepository.findById(newFacilityContactMechanism.getContactMechanismId())
-						                            .flatMap(contactMechanism -> Optional.of(facilityContactMechanismRepository.save(FacilityContactMechanism.builder()
-								                                                                                                             .contactMechanism(contactMechanism)
-								                                                                                                             .facility(facility)
-								                                                                                                             .build()))))
-				       .orElseThrow();
-
-	}
+//	@MutationMapping
+//	public FacilityContactMechanism addFacilityContactMechanism(@Argument NewFacilityContactMechanism newFacilityContactMechanism) {
+//		return facilityRepository.findById(newFacilityContactMechanism.getFacilityId())
+//				       .flatMap(facility -> contactMechanismRepository.findById(newFacilityContactMechanism.getContactMechanismId())
+//						                            .flatMap(contactMechanism -> Optional.of(facilityContactMechanismRepository.save(FacilityContactMechanism.builder()
+//								                                                                                                             .contactMechanism(contactMechanism)
+//								                                                                                                             .facility(facility)
+//								                                                                                                             .build()))))
+//				       .orElseThrow();
+//
+//	}
 
 	@MutationMapping
 	public FacilityRole expireFacilityRole(@Argument @NotNull UUID facilityRoleId, @Argument @NotNull LocalDate expirationDate) {

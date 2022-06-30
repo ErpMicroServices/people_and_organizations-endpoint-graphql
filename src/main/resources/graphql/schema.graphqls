@@ -236,8 +236,24 @@ type ContactMechanism {
     id: ID!
     endPoint: String!
     directions: String
-    geographicBoundaries(pageInfo:PageInfoInput!): GeographicBoundaryConnection
+    geographicBoundaries(pageInfo:PageInfoInput!): ContactMechanismGeographicBoundaryConnection
     contactMechanismType: ContactMechanismType!
+}
+
+type ContactMechanismGeographicBoundary {
+    id: ID!
+    contactMechanism: ContactMechanism!
+    geographicBoundary: GeographicBoundary!
+}
+
+type ContactMechanismGeographicBoundaryEdge {
+    node: ContactMechanismGeographicBoundary!
+    cursor: String!
+}
+
+type ContactMechanismGeographicBoundaryConnection {
+    edges: [ContactMechanismGeographicBoundaryEdge]
+    pageInfo: PageInfo!
 }
 
 type GeographicBoundary {
@@ -296,8 +312,8 @@ type ContactMechanismTypeConnection {
 }
 
 type Facility {
-    facilityContactMechanisms(pageInfo:PageInfoInput!): FacilityContactMechanismConnection
     description: String!
+    facilityContactMechanisms(pageInfo:PageInfoInput!): FacilityContactMechanismConnection
     facilityType: FacilityType!
     id: ID!
     madeUpOf(pageInfo:PageInfoInput!): FacilityConnection
@@ -324,8 +340,11 @@ type FacilityEdge {
     cursor: String!
 }
 
+
 type FacilityContactMechanism {
     id: ID!
+    fromDate: Date!
+    thruDate: Date
     contactMechanism: ContactMechanism!
 }
 
@@ -335,7 +354,7 @@ type FacilityContactMechanismEdge {
 }
 
 type FacilityContactMechanismConnection {
-    edges: [FacilityContactMechanism]
+    edges: [FacilityContactMechanismEdge]
     pageInfo: PageInfo!
 }
 

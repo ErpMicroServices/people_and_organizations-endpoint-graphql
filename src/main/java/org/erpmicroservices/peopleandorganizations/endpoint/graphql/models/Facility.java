@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -30,4 +31,7 @@ public class Facility {
 	private FacilityType facilityType;
 
 	private Long squareFootage;
+
+	@OneToMany(mappedBy = "facility")
+	private List<FacilityContactMechanism> contactMechanisms;
 }
