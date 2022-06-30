@@ -139,17 +139,17 @@ public class FacilityController {
 				       .orElseThrow();
 	}
 
-//	@MutationMapping
-//	public FacilityContactMechanism addFacilityContactMechanism(@Argument NewFacilityContactMechanism newFacilityContactMechanism) {
-//		return facilityRepository.findById(newFacilityContactMechanism.getFacilityId())
-//				       .flatMap(facility -> contactMechanismRepository.findById(newFacilityContactMechanism.getContactMechanismId())
-//						                            .flatMap(contactMechanism -> Optional.of(facilityContactMechanismRepository.save(FacilityContactMechanism.builder()
-//								                                                                                                             .contactMechanism(contactMechanism)
-//								                                                                                                             .facility(facility)
-//								                                                                                                             .build()))))
-//				       .orElseThrow();
-//
-//	}
+	@MutationMapping
+	public FacilityContactMechanism addFacilityContactMechanism(@Argument NewFacilityContactMechanism newFacilityContactMechanism) {
+		return facilityRepository.findById(newFacilityContactMechanism.getFacilityId())
+				       .flatMap(facility -> contactMechanismRepository.findById(newFacilityContactMechanism.getContactMechanismId())
+						                            .flatMap(contactMechanism -> Optional.of(facilityContactMechanismRepository.save(FacilityContactMechanism.builder()
+								                                                                                                             .contactMechanism(contactMechanism)
+								                                                                                                             .facility(facility)
+								                                                                                                             .build()))))
+				       .orElseThrow();
+
+	}
 
 	@MutationMapping
 	public FacilityRole expireFacilityRole(@Argument @NotNull UUID facilityRoleId, @Argument @NotNull LocalDate expirationDate) {
