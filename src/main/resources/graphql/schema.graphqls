@@ -420,7 +420,7 @@ type FacilityTypeEdge {
 }
 
 type FacilityTypeConnection {
-    edges: [FacilityType]
+    edges: [FacilityTypeEdge]
     pageInfo: PageInfo!
 }
 
