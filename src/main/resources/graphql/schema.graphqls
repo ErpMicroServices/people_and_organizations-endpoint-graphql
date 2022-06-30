@@ -391,7 +391,7 @@ input NewFacilityRole {
 }
 
 type FacilityRoleType {
-    children: FacilityRoleTypeConnection
+    children(pageInfo: PageInfoInput!): FacilityRoleTypeConnection
     description: String!
     id: ID!
     parent: FacilityRoleType
@@ -403,12 +403,12 @@ type FacilityRoleTypeEdge {
 }
 
 type FacilityRoleTypeConnection {
-    edges: [FacilityRoleType]
+    edges: [FacilityRoleTypeEdge]
     pageInfo: PageInfo!
 }
 
 type FacilityType {
-    children: FacilityTypeConnection
+    children(pageInfo: PageInfoInput!): FacilityTypeConnection
     description: String!
     id: ID!
     parent: FacilityType
