@@ -16,6 +16,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "party_role")
 public class PartyRole {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,8 +29,9 @@ public class PartyRole {
 	private LocalDate thruDate;
 
 	@ManyToOne
+	@JoinColumn(name = "party_role_type_id")
 	@NotNull
-	private PartyRoleType partyRoleType;
+	private PartyRoleType roleType;
 
 	@ManyToOne
 	@NotNull

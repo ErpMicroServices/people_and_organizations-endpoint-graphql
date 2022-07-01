@@ -465,6 +465,7 @@ type Party {
     iDs(pageInfo: PageInfoInput!):PartyIdConnection!
     names(pageInfo: PageInfoInput!): PartyNameConnection!
     relationships(pageInfo:PageInfoInput!): PartyRelationshipConnection!
+    roles(pageInfo:PageInfoInput!): PartyRoleConnection!
 }
 
 type PartyEdge {
