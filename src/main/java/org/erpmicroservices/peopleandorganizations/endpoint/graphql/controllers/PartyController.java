@@ -28,12 +28,15 @@ public class PartyController {
 
 	private final PartyNameRepository partyNameRepository;
 
-	public PartyController(final PartyRepository repository, final PartyClassificationRepository classificationRepository, final PartyContactMechanismRepository contactMechanismRepository, final PartyIdRepository idRepository, final PartyNameRepository partyNameRepository) {
+	private final PartyRelationshipRepository relationshipRepository;
+
+	public PartyController(final PartyRepository repository, final PartyClassificationRepository classificationRepository, final PartyContactMechanismRepository contactMechanismRepository, final PartyIdRepository idRepository, final PartyNameRepository partyNameRepository, final PartyRelationshipRepository relationshipRepository) {
 		this.repository = repository;
 		this.classificationRepository = classificationRepository;
 		this.contactMechanismRepository = contactMechanismRepository;
 		this.idRepository = idRepository;
 		this.partyNameRepository = partyNameRepository;
+		this.relationshipRepository = relationshipRepository;
 	}
 
 	@QueryMapping
@@ -101,6 +104,20 @@ public class PartyController {
 						                                                 .build())
 				                                    .collect(Collectors.toList());
 		return PartyNameConnection.builder()
+				       .edges(edges)
+				       .pageInfo(pageInfo)
+				       .build();
+	}
+
+	@SchemaMapping
+	public PartyRelationshipConnection relationships(@Argument PageInfo pageInfo, Party party) {
+		final List<Edge<PartyRelationship>> edges = relationshipRepository.findPartyRelationshipByFromPartyRole_PartyOrToPartyRole_Party(party, party, pageInfoToPageable(pageInfo)).stream()
+				                                            .map(node -> PartyRelationshipEdge.builder()
+						                                                         .node(node)
+						                                                         .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
+						                                                         .build())
+				                                            .collect(Collectors.toList());
+		return PartyRelationshipConnection.builder()
 				       .edges(edges)
 				       .pageInfo(pageInfo)
 				       .build();

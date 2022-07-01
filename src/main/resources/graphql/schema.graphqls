@@ -464,6 +464,7 @@ type Party {
     contactMechanisms(pageInfo: PageInfoInput!): PartyContactMechanismConnection!
     iDs(pageInfo: PageInfoInput!):PartyIdConnection!
     names(pageInfo: PageInfoInput!): PartyNameConnection!
+    relationships(pageInfo:PageInfoInput!): PartyRelationshipConnection!
 }
 
 type PartyEdge {
@@ -602,6 +603,107 @@ type PartyNameEdge {
 
 type PartyRelationship {
     id: ID!
+    fromDate: Date!
+    thruDate: Date
+    comment: String
+    fromPartyRole: PartyRole!
+    toPartyRole: PartyRole!
+    relationshipType: PartyRelationshipType!
+    statusType: PartyRelationshipStatusType!
+    priorityType: PartyRelationshipPriorityType!
+}
+
+type PartyRelationshipConnection {
+    edges: [PartyRelationshipEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyRelationshipEdge {
+    node: PartyRelationship!
+    cursor: String!
+}
+
+type PartyRelationshipType {
+    id: ID!
+    description: String!
+    children(pageInfo: PageInfoInput!): PartyRelationshipTypeConnection
+
+}
+
+type PartyRelationshipTypeConnection {
+    edges: [PartyRelationshipTypeEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyRelationshipTypeEdge {
+    node: PartyRelationshipType!
+    cusror: String!
+}
+
+type PartyRelationshipPriorityType {
+    id: ID!
+    description: String!
+    children(pageInfo: PageInfoInput!): PartyRelationshipPriorityTypeConnection!
+}
+
+type PartyRelationshipPriorityTypeConnection {
+    edges: [PartyRelationshipPriorityTypeEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyRelationshipPriorityTypeEdge {
+    node: PartyRelationshipPriorityType!
+    cursor: String!
+}
+
+type PartyRelationshipStatusType {
+    id: ID!
+    description: String!
+    children(pageInfo:PageInfoInput!): PartyRelationshipStatusTypeConnection!
+}
+
+type PartyRelationshipStatusTypeConnection {
+    edges: [PartyRelationshipStatusTypeEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyRelationshipStatusTypeEdge {
+    node: PartyRelationshipStatusType!
+    cursor: String!
+}
+
+type PartyRole {
+    id: ID!
+    fromDate: Date!
+    thruDate: Date
+    roleType: PartyRoleType!
+    party: Party!
+}
+
+type PartyRoleConnection {
+    edges: [PartyRoleEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyRoleEdge {
+    node: PartyRole!
+    cursor: String!
+}
+
+type PartyRoleType {
+    id: ID!
+    description: String!
+    children(pageInfo: PageInfoInput!): PartyRoleTypeConnection!
+}
+
+type PartyRoleTypeConnection {
+    edges: [PartyRoleTypeEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyRoleTypeEdge {
+    node: PartyRoleType!
+    cursor: String!
 }
 
 type PartyType {
@@ -650,5 +752,9 @@ type Query {
     parties(pageInfo: PageInfoInput!): PartyConnection!
     partyClassificationTypes(pageInfo: PageInfoInput!): PartyClassificationTypeConnection!
     partyContactMechanismPurposeTypes(pageInfo: PageInfoInput!): PartyContactMechanismPurposeTypeConnection!
+    partyRelationshipStatusTypes(pageInfo: PageInfoInput!): PartyRelationshipStatusTypeConnection!
+    partyRelationshipTypes(pageInfo: PageInfoInput!): PartyRelationshipTypeConnection!
+    partyRelationshipPriorityTypes(pageInfo: PageInfoInput!): PartyRelationshipPriorityTypeConnection!
+    partyRoleTypes(pageInfo: PageInfoInput!): PartyRoleTypeConnection!
     partyTypes(pageInfo:PageInfoInput!): PartyTypeConnection!
 }
