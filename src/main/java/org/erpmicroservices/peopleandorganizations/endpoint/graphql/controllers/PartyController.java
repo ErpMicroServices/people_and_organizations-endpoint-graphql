@@ -4,7 +4,9 @@ import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.Party;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.PartyClassification;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.PartyContactMechanism;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyClassificationRepository;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyContactMechanismRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -24,9 +26,12 @@ public class PartyController {
 	private final PartyRepository repository;
 	private final PartyClassificationRepository classificationRepository;
 
-	public PartyController(final PartyRepository repository, final PartyClassificationRepository classificationRepository) {
+	private final PartyContactMechanismRepository contactMechanismRepository;
+
+	public PartyController(final PartyRepository repository, final PartyClassificationRepository classificationRepository, final PartyContactMechanismRepository contactMechanismRepository) {
 		this.repository = repository;
 		this.classificationRepository = classificationRepository;
+		this.contactMechanismRepository = contactMechanismRepository;
 	}
 
 	@QueryMapping
@@ -52,6 +57,20 @@ public class PartyController {
 						                                                                          .build())
 				                                              .collect(Collectors.toList());
 		return PartyClassificationConnection.builder()
+				       .edges(edges)
+				       .pageInfo(pageInfo)
+				       .build();
+	}
+
+	@SchemaMapping
+	public PartyContactMechanismConnection contactMechanisms(@Argument PageInfo pageInfo, Party party) {
+		final List<Edge<PartyContactMechanism>> edges = contactMechanismRepository.findPartyContactMechanismByParty(party, pageInfoToPageable(pageInfo)).stream()
+				                                                .map(node -> PartyContactMechanismEdge.builder()
+						                                                             .node(node)
+						                                                             .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
+						                                                             .build())
+				                                                .collect(Collectors.toList());
+		return PartyContactMechanismConnection.builder()
 				       .edges(edges)
 				       .pageInfo(pageInfo)
 				       .build();

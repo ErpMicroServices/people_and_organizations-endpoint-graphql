@@ -429,6 +429,7 @@ type Party {
     comment: String
     partyType: PartyType!
     classifications(pageInfo: PageInfoInput!): PartyClassificationConnection!
+    contactMechanisms(pageInfo: PageInfoInput!): PartyContactMechanismConnection!
 }
 
 type PartyEdge {
@@ -439,6 +440,26 @@ type PartyEdge {
 type PartyConnection {
     edges: [PartyEdge]
     pageInfo: PageInfo!
+}
+
+type PartyContactMechanism {
+    id: ID!
+    fromDate: Date!
+    thruDate: Date
+    doNotSolicitIndicator: Boolean!
+    comment: String
+    contactMechanism: ContactMechanism!
+    purpose: PartyContactMechanismPurpose!
+}
+
+type PartyContactMechanismConnection {
+    edges: [PartyContactMechanismEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyContactMechanismEdge {
+    node: PartyContactMechanism!
+    cursor: String!
 }
 
 type PartyClassification {
@@ -472,6 +493,40 @@ type PartyClassificationTypeConnection {
 
 type PartyClassificationTypeEdge {
     node: PartyClassificationType!
+    cursor: String!
+}
+
+type PartyContactMechanismPurpose {
+    id: ID!
+    fromDate: Date!
+    thruDate: Date
+    purposeType: PartyContactMechanismPurposeType!
+}
+
+type PartyContactMechanismPurposeConnection {
+    edges: [PartyContactMechanismPurposeEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyContactMechanismPurposeEdge {
+    node: PartyContactMechanismPurpose!
+    cursor: String!
+}
+
+
+type PartyContactMechanismPurposeType{
+    id: ID!
+    description: String!
+    children(pageInfo: PageInfoInput!): PartyContactMechanismPurposeTypeConnection!
+}
+
+type PartyContactMechanismPurposeTypeConnection {
+    edges: [PartyClassificationTypeEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyContactMechanismPurposeTypeEdge {
+    node: PartyContactMechanismPurposeType!
     cursor: String!
 }
 
@@ -522,5 +577,6 @@ type Query {
     facilityTypes(pageInfo:PageInfoInput!): FacilityTypeConnection!
     parties(pageInfo: PageInfoInput!): PartyConnection!
     partyClassificationTypes(pageInfo: PageInfoInput!): PartyClassificationTypeConnection!
+    partyContactMechanismPurposeTypes(pageInfo: PageInfoInput!): PartyContactMechanismPurposeTypeConnection!
     partyTypes(pageInfo:PageInfoInput!): PartyTypeConnection!
 }
