@@ -2,14 +2,8 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.controllers
 
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.*;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.Party;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.PartyClassification;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.PartyContactMechanism;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.PartyId;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyClassificationRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyContactMechanismRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyIdRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyRepository;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.*;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
@@ -32,11 +26,14 @@ public class PartyController {
 
 	private final PartyIdRepository idRepository;
 
-	public PartyController(final PartyRepository repository, final PartyClassificationRepository classificationRepository, final PartyContactMechanismRepository contactMechanismRepository, final PartyIdRepository idRepository) {
+	private final PartyNameRepository partyNameRepository;
+
+	public PartyController(final PartyRepository repository, final PartyClassificationRepository classificationRepository, final PartyContactMechanismRepository contactMechanismRepository, final PartyIdRepository idRepository, final PartyNameRepository partyNameRepository) {
 		this.repository = repository;
 		this.classificationRepository = classificationRepository;
 		this.contactMechanismRepository = contactMechanismRepository;
 		this.idRepository = idRepository;
+		this.partyNameRepository = partyNameRepository;
 	}
 
 	@QueryMapping
@@ -90,6 +87,20 @@ public class PartyController {
 						                                               .build())
 				                                  .collect(Collectors.toList());
 		return PartyIdConnection.builder()
+				       .edges(edges)
+				       .pageInfo(pageInfo)
+				       .build();
+	}
+
+	@SchemaMapping
+	public PartyNameConnection names(@Argument PageInfo pageInfo, Party party) {
+		final List<Edge<PartyName>> edges = partyNameRepository.findPartyNamesByParty(party, pageInfoToPageable(pageInfo)).stream()
+				                                    .map(node -> PartyNameEdge.builder()
+						                                                 .node(node)
+						                                                 .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
+						                                                 .build())
+				                                    .collect(Collectors.toList());
+		return PartyNameConnection.builder()
 				       .edges(edges)
 				       .pageInfo(pageInfo)
 				       .build();
