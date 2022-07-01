@@ -430,6 +430,32 @@ type Party {
     partyType: PartyType!
 }
 
+type PartyEdge {
+    node: Party!
+    cursor: String!
+}
+
+type PartyConnection {
+    edges: [PartyEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyClassificationType {
+    id: ID!
+    description: String!
+    children(pageInfo: PageInfoInput!): PartyClassificationTypeConnection!
+}
+
+type PartyClassificationTypeConnection {
+    edges: [PartyClassificationTypeEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyClassificationTypeEdge {
+    node: PartyClassificationType!
+    cursor: String!
+}
+
 type PartyRelationship {
     id: ID!
 }
@@ -475,6 +501,6 @@ type Query {
     facilities(pageInfo: PageInfoInput!): FacilityConnection!
     facilityRoleTypes(pageInfo:PageInfoInput!): FacilityRoleTypeConnection!
     facilityTypes(pageInfo:PageInfoInput!): FacilityTypeConnection!
+    partyClassificationTypes(pageInfo: PageInfoInput!): PartyClassificationTypeConnection!
     partyTypes(pageInfo:PageInfoInput!): PartyTypeConnection!
-
 }
