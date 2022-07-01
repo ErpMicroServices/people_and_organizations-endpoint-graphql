@@ -424,12 +424,29 @@ type FacilityTypeConnection {
     pageInfo: PageInfo!
 }
 
+type IdType {
+    id: ID!
+    description: String!
+    children(pageInfo: PageInfoInput!): [IdTypeConnection]
+}
+
+type IdTypeEdge{
+    node: IdType!
+    cursor: String!
+}
+
+type IdTypeConnection {
+    edges: [IdTypeEdge]
+    pageInfo: PageInfo!
+}
+
 type Party {
     id: ID!
     comment: String
     partyType: PartyType!
     classifications(pageInfo: PageInfoInput!): PartyClassificationConnection!
     contactMechanisms(pageInfo: PageInfoInput!): PartyContactMechanismConnection!
+    iDs(pageInfo: PageInfoInput!):PartyIdConnection!
 }
 
 type PartyEdge {
@@ -527,6 +544,24 @@ type PartyContactMechanismPurposeTypeConnection {
 
 type PartyContactMechanismPurposeTypeEdge {
     node: PartyContactMechanismPurposeType!
+    cursor: String!
+}
+
+type PartyId{
+    id:ID!
+    ident: String!
+    fromDate: Date!
+    thruDate: Date
+    idType: IdType!
+}
+
+type PartyIdConnection {
+    edges:[PartyIdEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyIdEdge {
+    node: PartyId!
     cursor: String!
 }
 

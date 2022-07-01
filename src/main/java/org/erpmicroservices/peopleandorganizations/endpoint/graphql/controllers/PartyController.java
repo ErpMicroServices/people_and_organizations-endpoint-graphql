@@ -5,8 +5,10 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.Party;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.PartyClassification;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.PartyContactMechanism;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.PartyId;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyClassificationRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyContactMechanismRepository;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyIdRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -28,10 +30,13 @@ public class PartyController {
 
 	private final PartyContactMechanismRepository contactMechanismRepository;
 
-	public PartyController(final PartyRepository repository, final PartyClassificationRepository classificationRepository, final PartyContactMechanismRepository contactMechanismRepository) {
+	private final PartyIdRepository idRepository;
+
+	public PartyController(final PartyRepository repository, final PartyClassificationRepository classificationRepository, final PartyContactMechanismRepository contactMechanismRepository, final PartyIdRepository idRepository) {
 		this.repository = repository;
 		this.classificationRepository = classificationRepository;
 		this.contactMechanismRepository = contactMechanismRepository;
+		this.idRepository = idRepository;
 	}
 
 	@QueryMapping
@@ -76,4 +81,17 @@ public class PartyController {
 				       .build();
 	}
 
+	@SchemaMapping
+	public PartyIdConnection iDs(@Argument PageInfo pageInfo, Party party) {
+		final List<Edge<PartyId>> edges = idRepository.findPartyIdsByPartyEquals(party, pageInfoToPageable(pageInfo)).stream()
+				                                  .map(node -> PartyIdEdge.builder()
+						                                               .node(node)
+						                                               .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
+						                                               .build())
+				                                  .collect(Collectors.toList());
+		return PartyIdConnection.builder()
+				       .edges(edges)
+				       .pageInfo(pageInfo)
+				       .build();
+	}
 }
