@@ -447,7 +447,7 @@ type PartyTypeEdge {
 }
 
 type PartyTypeConnection {
-    edges: [PartyType]
+    edges: [PartyTypeEdge]
     pageInfo: PageInfo!
 }
 
