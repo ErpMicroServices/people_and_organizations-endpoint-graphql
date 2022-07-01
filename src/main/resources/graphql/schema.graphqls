@@ -428,6 +428,7 @@ type Party {
     id: ID!
     comment: String
     partyType: PartyType!
+    classifications(pageInfo: PageInfoInput!): PartyClassificationConnection!
 }
 
 type PartyEdge {
@@ -437,6 +438,24 @@ type PartyEdge {
 
 type PartyConnection {
     edges: [PartyEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyClassification {
+    id:ID!
+    value: String!
+    fromDate: Date!
+    thruDate: Date
+    partyClassificationType: PartyClassificationType!
+}
+
+type PartyClassificationEdge {
+    node: PartyClassification!
+    cursor: String!
+}
+
+type PartyClassificationConnection {
+    edges: [PartyClassificationEdge]
     pageInfo: PageInfo!
 }
 
@@ -501,6 +520,7 @@ type Query {
     facilities(pageInfo: PageInfoInput!): FacilityConnection!
     facilityRoleTypes(pageInfo:PageInfoInput!): FacilityRoleTypeConnection!
     facilityTypes(pageInfo:PageInfoInput!): FacilityTypeConnection!
+    parties(pageInfo: PageInfoInput!): PartyConnection!
     partyClassificationTypes(pageInfo: PageInfoInput!): PartyClassificationTypeConnection!
     partyTypes(pageInfo:PageInfoInput!): PartyTypeConnection!
 }

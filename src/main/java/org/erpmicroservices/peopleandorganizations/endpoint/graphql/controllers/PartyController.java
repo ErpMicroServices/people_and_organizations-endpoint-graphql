@@ -1,0 +1,60 @@
+package org.erpmicroservices.peopleandorganizations.endpoint.graphql.controllers;
+
+import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.*;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.Party;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.PartyClassification;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyClassificationRepository;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyRepository;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.stereotype.Controller;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.lang.String.valueOf;
+import static org.erpmicroservices.peopleandorganizations.endpoint.graphql.misc.Utils.pageInfoToPageable;
+
+
+@Controller
+public class PartyController {
+
+	private final PartyRepository repository;
+	private final PartyClassificationRepository classificationRepository;
+
+	public PartyController(final PartyRepository repository, final PartyClassificationRepository classificationRepository) {
+		this.repository = repository;
+		this.classificationRepository = classificationRepository;
+	}
+
+	@QueryMapping
+	public PartyConnection parties(@Argument PageInfo pageInfo) {
+		final List<Edge<Party>> edges = repository.findAll(pageInfoToPageable(pageInfo)).stream()
+				                                .map(node -> PartyEdge.builder()
+						                                             .node(node)
+						                                             .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
+						                                             .build())
+				                                .collect(Collectors.toList());
+		return PartyConnection.builder()
+				       .edges(edges)
+				       .pageInfo(pageInfo)
+				       .build();
+	}
+
+	@SchemaMapping
+	public PartyClassificationConnection classifications(@Argument PageInfo pageInfo, Party party) {
+		final List<Edge<PartyClassification>> edges = classificationRepository.findPartyClassificationsByParty(party, pageInfoToPageable(pageInfo)).stream()
+				                                              .map(partyClassification -> PartyClassificationEdge.builder()
+						                                                                          .node(partyClassification)
+						                                                                          .cursor(Cursor.builder().value(valueOf(partyClassification.getId().hashCode())).build())
+						                                                                          .build())
+				                                              .collect(Collectors.toList());
+		return PartyClassificationConnection.builder()
+				       .edges(edges)
+				       .pageInfo(pageInfo)
+				       .build();
+	}
+
+}

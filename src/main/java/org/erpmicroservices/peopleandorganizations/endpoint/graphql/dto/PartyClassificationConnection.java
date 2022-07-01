@@ -1,25 +1,24 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto;
 
-
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.Party;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.PartyClassification;
 
 import java.util.List;
 
 @Data
 @Builder
-public class PartyConnection implements Connection<Party> {
+public class PartyClassificationConnection implements Connection<PartyClassification> {
 
-	private List<Edge<Party>> edges;
+	private List<Edge<PartyClassification>> edges;
 	private PageInfo pageInfo;
 
 	/**
 	 * @return a list of {@link Edge}s that are really a node of data and its cursor
 	 */
 	@Override
-	public List<Edge<Party>> getEdges() {
+	public List<Edge<PartyClassification>> getEdges() {
 		return edges;
 	}
 
