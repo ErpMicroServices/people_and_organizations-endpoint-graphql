@@ -17,7 +17,7 @@ import static org.erpmicroservices.peopleandorganizations.endpoint.graphql.misc.
 
 
 @Controller
-public class PartyController {
+public class PartyQueryController {
 
 	private final PartyRepository repository;
 	private final PartyClassificationRepository classificationRepository;
@@ -32,7 +32,7 @@ public class PartyController {
 
 	private final PartyRoleRepository roleRepository;
 
-	public PartyController(final PartyRepository repository, final PartyClassificationRepository classificationRepository, final PartyContactMechanismRepository contactMechanismRepository, final PartyIdRepository idRepository, final PartyNameRepository partyNameRepository, final PartyRelationshipRepository relationshipRepository, final PartyRoleRepository roleRepository) {
+	public PartyQueryController(final PartyRepository repository, final PartyClassificationRepository classificationRepository, final PartyContactMechanismRepository contactMechanismRepository, final PartyIdRepository idRepository, final PartyNameRepository partyNameRepository, final PartyRelationshipRepository relationshipRepository, final PartyRoleRepository roleRepository) {
 		this.repository = repository;
 		this.classificationRepository = classificationRepository;
 		this.contactMechanismRepository = contactMechanismRepository;
