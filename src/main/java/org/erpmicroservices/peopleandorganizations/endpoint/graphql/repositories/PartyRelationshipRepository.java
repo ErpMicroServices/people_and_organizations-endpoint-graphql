@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories;
 
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.PartyRelationship;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationship;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;

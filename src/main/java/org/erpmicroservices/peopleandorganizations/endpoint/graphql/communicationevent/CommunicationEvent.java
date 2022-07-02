@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanismType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.Case;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.PartyRelationship;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationship;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
