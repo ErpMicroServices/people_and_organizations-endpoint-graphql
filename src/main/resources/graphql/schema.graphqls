@@ -468,6 +468,11 @@ type Party {
     roles(pageInfo:PageInfoInput!): PartyRoleConnection!
 }
 
+input NewParty {
+    comment: String
+    partyTypeId:ID!
+}
+
 type PartyEdge {
     node: Party!
     cursor: String!
@@ -730,6 +735,7 @@ type Mutation {
     expireCaseRole( caseId: ID!, caseRoleId: ID!): Case!
     createCase( newCase: NewCase!) :Case!
     createFacility( newFacility: NewFacility!): Facility!
+    createParty( newParty: NewParty!): Party!
     addFacilityRole( newFacilityRole: NewFacilityRole!): FacilityRole!
     expireFacilityRole(facilityRoleId: ID!, expirationDate: Date!): FacilityRole!
     addFacilityContactMechanism( newFacilityContactMechanism: NewFacilityContactMechanism): FacilityContactMechanism!
