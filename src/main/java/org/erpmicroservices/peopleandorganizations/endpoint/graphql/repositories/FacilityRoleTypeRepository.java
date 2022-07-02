@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.FacilityRoleType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.FacilityRoleType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;

@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CommunicationEventPurposeType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventPurposeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;

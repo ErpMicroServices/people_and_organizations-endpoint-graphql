@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.GeographicBoundaryType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundaryType;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.graphql.data.GraphQlRepository;
 

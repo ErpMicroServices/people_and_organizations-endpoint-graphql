@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.CommunicationEventStatusType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventStatusType;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.graphql.data.GraphQlRepository;
 
