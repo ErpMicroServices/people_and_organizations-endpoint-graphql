@@ -473,6 +473,12 @@ input NewParty {
     partyTypeId:ID!
 }
 
+input UpdateParty {
+    id: ID!
+    comment: String
+    partyTypeId:ID!
+}
+
 type PartyEdge {
     node: Party!
     cursor: String!
@@ -509,6 +515,22 @@ type PartyClassification {
     fromDate: Date!
     thruDate: Date
     partyClassificationType: PartyClassificationType!
+}
+
+input PartyClassificationNew {
+    partyId: ID!
+    value: String!
+    fromDate: Date!
+    thruDate: Date
+    partyClassificationTypeId: ID!
+}
+
+input PartyClassificationUpdate {
+    id:ID!
+    value: String!
+    fromDate: Date!
+    thruDate: Date
+    partyClassificationTypeId: ID!
 }
 
 type PartyClassificationEdge {
@@ -735,7 +757,11 @@ type Mutation {
     expireCaseRole( caseId: ID!, caseRoleId: ID!): Case!
     createCase( newCase: NewCase!) :Case!
     createFacility( newFacility: NewFacility!): Facility!
-    createParty( newParty: NewParty!): Party!
+    partyCreate( newParty: NewParty!): Party!
+    partyClassificationAdd( partyClassificationNew: PartyClassificationNew!): PartyClassification!
+    partyClassificationUpdate( partyClassificationUpdate: PartyClassificationUpdate!): PartyClassification!
+    partyClassificationRemove( partyClassificationId: ID!): PartyClassification!
+    partyUpdate( updateParty: UpdateParty!): Party!
     addFacilityRole( newFacilityRole: NewFacilityRole!): FacilityRole!
     expireFacilityRole(facilityRoleId: ID!, expirationDate: Date!): FacilityRole!
     addFacilityContactMechanism( newFacilityContactMechanism: NewFacilityContactMechanism): FacilityContactMechanism!
