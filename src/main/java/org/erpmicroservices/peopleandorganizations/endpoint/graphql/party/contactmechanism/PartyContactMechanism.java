@@ -33,8 +33,13 @@ public class PartyContactMechanism {
 
 	private String comment;
 
-	@ManyToOne
-	private Party party;
+//	private UUID partyId;
+//
+//	private UUID contactMechanismId;
+//
+//	private UUID partyContactMechanismPurpose;
+@ManyToOne
+private Party party;
 
 	@ManyToOne
 	private ContactMechanism contactMechanism;

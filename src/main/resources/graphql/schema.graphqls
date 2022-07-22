@@ -251,6 +251,21 @@ type ContactMechanismGeographicBoundaryEdge {
     cursor: String!
 }
 
+input ContactMechanismNew {
+    endPoint: String!
+    directions: String
+    geographicBoundaryIds: [ID]
+    contactMechanismTypeId: ID!
+}
+
+input ContactMechanismUpdate {
+    id: ID!
+    endPoint: String!
+    directions: String
+    geographicBoundaries: [ID]
+    contactMechanismTypeId: ID!
+}
+
 type ContactMechanismGeographicBoundaryConnection {
     edges: [ContactMechanismGeographicBoundaryEdge]
     pageInfo: PageInfo!
@@ -489,25 +504,6 @@ type PartyConnection {
     pageInfo: PageInfo!
 }
 
-type PartyContactMechanism {
-    id: ID!
-    fromDate: Date!
-    thruDate: Date
-    doNotSolicitIndicator: Boolean!
-    comment: String
-    contactMechanism: ContactMechanism!
-    purpose: PartyContactMechanismPurpose!
-}
-
-type PartyContactMechanismConnection {
-    edges: [PartyContactMechanismEdge]
-    pageInfo: PageInfo!
-}
-
-type PartyContactMechanismEdge {
-    node: PartyContactMechanism!
-    cursor: String!
-}
 
 type PartyClassification {
     id:ID!
@@ -559,6 +555,47 @@ type PartyClassificationTypeEdge {
     cursor: String!
 }
 
+type PartyContactMechanism {
+    id: ID!
+    fromDate: Date!
+    thruDate: Date
+    doNotSolicitIndicator: Boolean!
+    comment: String
+    contactMechanism: ContactMechanism!
+    purpose: PartyContactMechanismPurpose!
+}
+
+type PartyContactMechanismConnection {
+    edges: [PartyContactMechanismEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyContactMechanismEdge {
+    node: PartyContactMechanism!
+    cursor: String!
+}
+
+input PartyContactMechanismNew {
+    partyId: ID!
+    fromDate: Date!
+    thruDate: Date
+    doNotSolicitIndicator: Boolean!
+    comment: String
+    contactMechanism: ContactMechanismNew!
+    newPurpose: PartyContactMechanismPurposeNew!
+}
+
+input PartyContactMechanismUpdate {
+    id: ID!
+    fromDate: Date!
+    thruDate: Date
+    doNotSolicitIndicator: Boolean!
+    comment: String
+    contactMechanismId: ID!
+    purposeId: ID!
+    contactMechanism: ContactMechanismUpdate!
+}
+
 type PartyContactMechanismPurpose {
     id: ID!
     fromDate: Date!
@@ -566,6 +603,11 @@ type PartyContactMechanismPurpose {
     purposeType: PartyContactMechanismPurposeType!
 }
 
+input PartyContactMechanismPurposeNew {
+    fromDate: Date!
+    thruDate: Date
+    purposeTypeId: ID!
+}
 type PartyContactMechanismPurposeConnection {
     edges: [PartyContactMechanismPurposeEdge]
     pageInfo: PageInfo!
@@ -761,6 +803,9 @@ type Mutation {
     partyClassificationAdd( partyClassificationNew: PartyClassificationNew!): PartyClassification!
     partyClassificationUpdate( partyClassificationUpdate: PartyClassificationUpdate!): PartyClassification!
     partyClassificationRemove( partyClassificationId: ID!): PartyClassification!
+    partyContactMechanismAdd( partyContactMechanismNew: PartyContactMechanismNew!): PartyContactMechanism!
+    partyContactMechanismUpdate( partyContactMechanism: PartyContactMechanismUpdate!): PartyContactMechanism!
+    partyContactMechanismRemove( partyContactMechanismId: ID!): PartyContactMechanism!
     partyUpdate( updateParty: UpdateParty!): Party!
     addFacilityRole( newFacilityRole: NewFacilityRole!): FacilityRole!
     expireFacilityRole(facilityRoleId: ID!, expirationDate: Date!): FacilityRole!
