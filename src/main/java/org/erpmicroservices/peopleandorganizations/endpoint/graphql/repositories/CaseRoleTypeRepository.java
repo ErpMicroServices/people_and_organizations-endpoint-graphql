@@ -11,7 +11,7 @@ import java.util.UUID;
 @GraphQlRepository
 public interface CaseRoleTypeRepository extends PagingAndSortingRepository<CaseRoleType, UUID> {
 
-	Page<CaseRoleType> findCaseRoleTypesByParentEquals(final CaseRoleType parent, final Pageable pageable);
+	Page<CaseRoleType> findCaseRoleTypesByParentId(final UUID parentId, final Pageable pageable);
 
-	Page<CaseRoleType> findCaseRoleTypesByParentIsNull(final Pageable pageable);
+	Page<CaseRoleType> findCaseRoleTypesByParentIdIsNull(final Pageable pageable);
 }

@@ -12,9 +12,6 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contac
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.name.PartyName;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.name.PartyNameConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.name.PartyNameEdge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationship;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationshipConnection;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationshipEdge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRole;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRoleConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRoleEdge;
@@ -73,7 +70,7 @@ public class PartyQueryController {
 
 	@SchemaMapping
 	public PartyClassificationConnection classifications(@Argument PageInfo pageInfo, Party party) {
-		final List<Edge<PartyClassification>> edges = classificationRepository.findPartyClassificationsByParty(party, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyClassification>> edges = classificationRepository.findPartyClassificationsByPartyId(party.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                              .map(partyClassification -> PartyClassificationEdge.builder()
 						                                                                          .node(partyClassification)
 						                                                                          .cursor(Cursor.builder().value(valueOf(partyClassification.getId().hashCode())).build())
@@ -87,7 +84,7 @@ public class PartyQueryController {
 
 	@SchemaMapping
 	public PartyContactMechanismConnection contactMechanisms(@Argument PageInfo pageInfo, Party party) {
-		final List<Edge<PartyContactMechanism>> edges = contactMechanismRepository.findPartyContactMechanismByParty(party, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyContactMechanism>> edges = contactMechanismRepository.findPartyContactMechanismByPartyId(party.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                                .map(node -> PartyContactMechanismEdge.builder()
 						                                                             .node(node)
 						                                                             .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -101,7 +98,7 @@ public class PartyQueryController {
 
 	@SchemaMapping
 	public PartyIdConnection iDs(@Argument PageInfo pageInfo, Party party) {
-		final List<Edge<PartyId>> edges = idRepository.findPartyIdsByPartyEquals(party, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyId>> edges = idRepository.findPartyIdsByPartyId(party.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                  .map(node -> PartyIdEdge.builder()
 						                                               .node(node)
 						                                               .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -115,7 +112,7 @@ public class PartyQueryController {
 
 	@SchemaMapping
 	public PartyNameConnection names(@Argument PageInfo pageInfo, Party party) {
-		final List<Edge<PartyName>> edges = partyNameRepository.findPartyNamesByParty(party, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyName>> edges = partyNameRepository.findPartyNamesByPartyId(party.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                    .map(node -> PartyNameEdge.builder()
 						                                                 .node(node)
 						                                                 .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -127,23 +124,23 @@ public class PartyQueryController {
 				       .build();
 	}
 
-	@SchemaMapping
-	public PartyRelationshipConnection relationships(@Argument PageInfo pageInfo, Party party) {
-		final List<Edge<PartyRelationship>> edges = relationshipRepository.findPartyRelationshipByFromPartyRole_PartyOrToPartyRole_Party(party, party, pageInfoToPageable(pageInfo)).stream()
-				                                            .map(node -> PartyRelationshipEdge.builder()
-						                                                         .node(node)
-						                                                         .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
-						                                                         .build())
-				                                            .collect(Collectors.toList());
-		return PartyRelationshipConnection.builder()
-				       .edges(edges)
-				       .pageInfo(pageInfo)
-				       .build();
-	}
+//	@SchemaMapping
+//	public PartyRelationshipConnection relationships(@Argument PageInfo pageInfo, Party party) {
+//		final List<Edge<PartyRelationship>> edges = relationshipRepository.findPartyRelationshipByFromPartyRole_PartyOrToPartyRole_Party(party, party, pageInfoToPageable(pageInfo)).stream()
+//				                                            .map(node -> PartyRelationshipEdge.builder()
+//						                                                         .node(node)
+//						                                                         .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
+//						                                                         .build())
+//				                                            .collect(Collectors.toList());
+//		return PartyRelationshipConnection.builder()
+//				       .edges(edges)
+//				       .pageInfo(pageInfo)
+//				       .build();
+//	}
 
 	@SchemaMapping
 	public PartyRoleConnection roles(@Argument PageInfo pageInfo, Party party) {
-		final List<Edge<PartyRole>> edges = roleRepository.findPartyRolesByParty(party, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyRole>> edges = roleRepository.findPartyRolesByPartyId(party.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                    .map(node -> PartyRoleEdge.builder()
 						                                                 .node(node)
 						                                                 .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

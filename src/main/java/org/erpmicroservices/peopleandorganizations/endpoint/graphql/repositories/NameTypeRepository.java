@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @GraphQlRepository
 public interface NameTypeRepository extends PagingAndSortingRepository<NameType, UUID> {
-	Page<NameType> findNameTypesByParentEquals(final NameType parent, final Pageable pageable);
+	Page<NameType> findNameTypesByParentId(final UUID parentId, final Pageable pageable);
 
-	Page<NameType> findNameTypesByParentIsNull(final Pageable pageable);
+	Page<NameType> findNameTypesByParentIdIsNull(final Pageable pageable);
 }

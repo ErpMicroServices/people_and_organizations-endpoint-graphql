@@ -12,5 +12,5 @@ import java.util.UUID;
 @GraphQlRepository
 public interface FacilityContactMechanismRepository extends PagingAndSortingRepository<FacilityContactMechanism, UUID> {
 
-	Page<FacilityContactMechanism> findByFacility_Id(UUID id, Pageable pageable);
+	Page<FacilityContactMechanism> findByFacilityId(UUID id, Pageable pageable);
 }

@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.name.NameType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -32,11 +33,9 @@ public class PartyName {
 
 	private LocalDate thruDate;
 
-	@ManyToOne
 	@NotNull
-	private Party party;
+	private UUID partyId;
 
-	@ManyToOne
 	@NotNull
-	private NameType nameType;
+	private UUID nameTypeId;
 }

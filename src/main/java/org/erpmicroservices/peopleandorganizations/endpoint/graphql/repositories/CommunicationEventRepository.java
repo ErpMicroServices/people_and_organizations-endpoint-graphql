@@ -12,5 +12,5 @@ import java.util.UUID;
 @GraphQlRepository
 public interface CommunicationEventRepository extends PagingAndSortingRepository<CommunicationEvent, UUID> {
 
-	List<CommunicationEvent> findByKase_Id(UUID caseId, final Pageable pageable);
+	List<CommunicationEvent> findByCaseId(UUID caseId, final Pageable pageable);
 }

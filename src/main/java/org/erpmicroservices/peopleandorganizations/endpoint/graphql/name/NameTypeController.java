@@ -27,7 +27,7 @@ public class NameTypeController {
 
 	@QueryMapping
 	public NameTypeConnection nameTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<NameType>> edges = repository.findNameTypesByParentIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<NameType>> edges = repository.findNameTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                   .map(node -> NameTypeEdge.builder()
 						                                                .node(node)
 						                                                .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -41,7 +41,7 @@ public class NameTypeController {
 
 	@SchemaMapping
 	public NameTypeConnection children(NameType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<NameType>> edges = repository.findNameTypesByParentEquals(parent, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<NameType>> edges = repository.findNameTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                   .map(node -> NameTypeEdge.builder()
 						                                                .node(node)
 						                                                .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

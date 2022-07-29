@@ -80,7 +80,7 @@ public class CaseController {
 
 	@SchemaMapping
 	public CaseRoleConnection roles(@Argument PageInfo pageInfo, Case kase) {
-		final Page<CaseRole> byKase_id = caseRoleRepository.findByKase_Id(kase.getId(), pageInfoToPageable(pageInfo));
+		final Page<CaseRole> byKase_id = caseRoleRepository.findByCaseId(kase.getId(), pageInfoToPageable(pageInfo));
 		final List<Edge<CaseRole>> caseRoleEdges = byKase_id.get()
 				                                           .map(caseRole -> CaseRoleEdge.builder()
 						                                                            .node(caseRole)
@@ -101,9 +101,9 @@ public class CaseController {
 								                .flatMap(caseStatusType ->
 										                         Optional.of(caseRepository.save(Case.builder()
 												                                                         .description(newCase.getDescription())
-												                                                         .caseType(caseType)
+												                                                         .caseTypeId(newCase.getCaseTypeId())
 												                                                         .startedAt(ZonedDateTime.parse(newCase.getStartedAt()))
-												                                                         .caseStatusType(caseStatusType)
+												                                                         .caseStatusTypeId(newCase.getCaseStatusTypeId())
 												                                                         .build())))).orElseThrow();
 	}
 
@@ -116,8 +116,8 @@ public class CaseController {
 									                return caseRepository.findById(newCaseRole.getCaseId())
 											                       .flatMap(kase -> {
 												                       return Optional.of(caseRoleRepository.save(CaseRole.builder()
-														                                                                  .caseRoleType(caseRoleType)
-														                                                                  .party(party)
+														                                                                  .caseRoleTypeId(newCaseRole.getCaseRoleTypeId())
+														                                                                  .partyId(newCaseRole.getPartyId())
 														                                                                  .fromDate(newCaseRole.getFromDate())
 														                                                                  .build()));
 											                       });
@@ -145,14 +145,14 @@ public class CaseController {
 																                                  .flatMap(partyRelationship ->
 																		                                           communicationEventTypeRepository.findById(newCommunicationEvent.getCommunicationEventTypeId())
 																				                                           .flatMap(communicationEventType -> Optional.of(communicationEventRepository.save(CommunicationEvent.builder()
-																						                                                                                                                            .kase(kase)
+
 																						                                                                                                                            .started(newCommunicationEvent.getStarted().toZonedDateTime())
 																						                                                                                                                            .ended(newCommunicationEvent.getEnded())
 																						                                                                                                                            .note(newCommunicationEvent.getNote())
-																						                                                                                                                            .communicationEventStatusType(communicationEventStatusType)
-																						                                                                                                                            .contactMechanismType(contactMechanismType)
-																						                                                                                                                            .communicationEventType(communicationEventType)
-																						                                                                                                                            .partyRelationship(partyRelationship)
+																						                                                                                                                            .communicationEventStatusTypeId(communicationEventStatusType.getId())
+																						                                                                                                                            .contactMechanismTypeId(contactMechanismType.getId())
+																						                                                                                                                            .communicationEventTypeId(communicationEventType.getId())
+																						                                                                                                                            .partyRelationshipId(partyRelationship.getId())
 																						                                                                                                                            .build()))))))).orElseThrow();
 	}
 }

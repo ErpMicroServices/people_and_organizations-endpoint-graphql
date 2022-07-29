@@ -27,7 +27,7 @@ public class PartyRelationshipPriorityTypeController {
 
 	@QueryMapping
 	public PartyRelationshipPriorityTypeConnection partyRelationshipPriorityTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<PriorityType>> edges = repository.findPartyRelationshipPriorityTypesByParentIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PriorityType>> edges = repository.findPartyRelationshipPriorityTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                       .map(node -> PartyRelationshipPriorityTypeEdge.builder()
 						                                                    .node(node)
 						                                                    .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

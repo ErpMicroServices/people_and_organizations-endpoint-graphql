@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @GraphQlRepository
 public interface IdTypeRepository extends PagingAndSortingRepository<IdType, UUID> {
-	Page<IdType> findIdTypesByParentEquals(final IdType parent, final Pageable pageable);
+	Page<IdType> findIdTypesByParentId(final UUID parentId, final Pageable pageable);
 
-	Page<IdType> findIdTypesByParentIsNull(final Pageable pageable);
+	Page<IdType> findIdTypesByParentIdIsNull(final Pageable pageable);
 }

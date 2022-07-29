@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.id.IdType;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -29,9 +31,9 @@ public class PartyId {
 
 	private LocalDate thruDate;
 
-	@ManyToOne
-	private Party party;
+	@NotNull
+	private UUID partyId;
 
-	@ManyToOne
-	private IdType idType;
+	@NotNull
+	private UUID idTypeId;
 }

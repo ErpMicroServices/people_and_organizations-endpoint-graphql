@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundary;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,13 +26,7 @@ public class ContactMechanism {
 
 	private String directions;
 
-	@ManyToOne(optional = false, cascade = CascadeType.ALL)
-	private ContactMechanismType contactMechanismType;
+	@NotNull
+	private UUID contactMechanismTypeId;
 
-	@ManyToMany
-	@JoinTable(
-			name = "contact_mechanism_geographic_boundary",
-			joinColumns = @JoinColumn(name = "contact_mechanism_id"),
-			inverseJoinColumns = @JoinColumn(name = "geographic_boundary_id"))
-	private List<GeographicBoundary> geographicBoundaries;
 }

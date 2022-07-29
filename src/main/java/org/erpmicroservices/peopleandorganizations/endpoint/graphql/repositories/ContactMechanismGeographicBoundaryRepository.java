@@ -1,6 +1,5 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanism;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanismGeographicBoundary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +12,6 @@ import java.util.UUID;
 @GraphQlRepository
 public interface ContactMechanismGeographicBoundaryRepository extends PagingAndSortingRepository<ContactMechanismGeographicBoundary, UUID> {
 
-	Page<ContactMechanismGeographicBoundary> findContactMechanismGeographicBoundariesByContactMechanism(ContactMechanism contactMechanism, Pageable pageable);
-//	Page<GeographicBoundary> findContactMechanismGeographicBoundariesByContactMechanism(ContactMechanism contactMechanism, Pageable pageable);
+	Page<ContactMechanismGeographicBoundary> findContactMechanismGeographicBoundariesByContactMechanismId(UUID contactMechanismId, Pageable pageable);
+
 }

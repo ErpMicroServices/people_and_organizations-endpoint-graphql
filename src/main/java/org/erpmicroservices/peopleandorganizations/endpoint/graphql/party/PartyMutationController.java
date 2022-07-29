@@ -1,22 +1,17 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party;
 
-import org.apache.commons.collections4.IteratorUtils;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanism;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundary;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.classification.PartyClassification;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.classification.PartyClassificationNew;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.classification.PartyClassificationUpdate;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanism;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismNew;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurpose;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.stereotype.Controller;
 
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.UUID;
 
 
@@ -60,7 +55,7 @@ public class PartyMutationController {
 	public Party partyCreate(@Argument final NewParty newParty) {
 		final Party party = typeRepository.findById(newParty.getPartyTypeId()).stream()
 				                    .map(partyType -> partyRepository.save(Party.builder()
-						                                                           .partyType(partyType)
+						                                                           .partyTypeId(newParty.getPartyTypeId())
 						                                                           .comment(newParty.getComment())
 						                                                           .build()))
 				                    .findFirst()
@@ -74,7 +69,7 @@ public class PartyMutationController {
 				       .flatMap(partyType -> partyRepository.findById(updateParty.getId()).stream()
 						                             .map(party -> {
 							                             party.setComment(updateParty.getComment());
-							                             party.setPartyType(partyType);
+							                             party.setPartyTypeId(updateParty.getPartyTypeId());
 							                             return partyRepository.save(party);
 						                             }))
 				       .findFirst()
@@ -87,11 +82,11 @@ public class PartyMutationController {
 		return partyRepository.findById(partyClassificationNew.getPartyId()).stream()
 				       .flatMap(party -> classificationTypeRepository.findById(partyClassificationNew.getPartyClassificationTypeId()).stream()
 						                         .map(classificationType -> classificationRepository.save(PartyClassification.builder()
-								                                                                                  .party(party)
+								                                                                                  .partyId(partyClassificationNew.getPartyId())
 								                                                                                  .fromDate(partyClassificationNew.getFromDate())
 								                                                                                  .thruDate(partyClassificationNew.getThruDate())
 								                                                                                  .value(partyClassificationNew.getValue())
-								                                                                                  .partyClassificationType(classificationType)
+								                                                                                  .partyClassificationTypeId(partyClassificationNew.getPartyClassificationTypeId())
 								                                                                                  .build())))
 				       .findFirst()
 				       .orElseThrow();
@@ -104,7 +99,7 @@ public class PartyMutationController {
 					       partyClassification.setFromDate(partyClassificationUpdate.getFromDate());
 					       partyClassification.setThruDate(partyClassificationUpdate.getThruDate());
 					       partyClassification.setValue(partyClassificationUpdate.getValue());
-					       partyClassification.setPartyClassificationType(classificationTypeRepository.findById(partyClassificationUpdate.getPartyClassificationTypeId()).orElseThrow());
+					       partyClassification.setPartyClassificationTypeId(partyClassificationUpdate.getPartyClassificationTypeId());
 					       return classificationRepository.save(partyClassification);
 				       })
 				       .findFirst()
@@ -125,37 +120,20 @@ public class PartyMutationController {
 
 	@MutationMapping(name = "partyContactMechanismAdd")
 	public PartyContactMechanism addContactMechanism(@Argument PartyContactMechanismNew partyContactMechanismNew) {
-		return partyRepository.findById(partyContactMechanismNew.getPartyId()).stream()
-				       .flatMap(party -> contactMechanismTypeRepository.findById(partyContactMechanismNew.getContactMechanism().getContactMechanismTypeId()).stream()
-						                         .flatMap(contactMechanismType -> contactMechanismTypeRepository.findById(partyContactMechanismNew.getContactMechanism().getContactMechanismTypeId()).stream()
-								                                                          .flatMap(purposeType -> partyContactMechanismPurposeTypeRepository.findById(partyContactMechanismNew.getNewPurpose().getPurposeTypeId()).stream()
-										                                                                                  .map(partyContactMechanismPurposeType -> {
-											                                                                                  Iterator<GeographicBoundary> geographicBoundaries = Collections.emptyIterator();
-											                                                                                  if (partyContactMechanismNew.getContactMechanism().getGeographicBoundaryIds() != null && !partyContactMechanismNew.getContactMechanism().getGeographicBoundaryIds().isEmpty()) {
-												                                                                                  geographicBoundaries = geographicBoundaryRepository.findAllById(partyContactMechanismNew.getContactMechanism().getGeographicBoundaryIds()).iterator();
-											                                                                                  }
-
-											                                                                                  final ContactMechanism contactMechanism = contactMechanismRepository.save(ContactMechanism.builder()
-													                                                                                                                                                            .contactMechanismType(contactMechanismType)
-													                                                                                                                                                            .directions(partyContactMechanismNew.getContactMechanism().getDirections())
-													                                                                                                                                                            .endPoint(partyContactMechanismNew.getContactMechanism().getEndPoint())
-													                                                                                                                                                            .geographicBoundaries(IteratorUtils.toList(geographicBoundaries))
-													                                                                                                                                                            .build());
-											                                                                                  final PartyContactMechanismPurpose partyContactMechanismPurpose = partyContactMechanismPurposeRepository.save(PartyContactMechanismPurpose.builder()
-													                                                                                                                                                                                                .fromDate(partyContactMechanismNew.getFromDate())
-													                                                                                                                                                                                                .thruDate(partyContactMechanismNew.getThruDate())
-													                                                                                                                                                                                                .purposeType(partyContactMechanismPurposeType)
-													                                                                                                                                                                                                .build());
-											                                                                                  return partyContactMechanismRepository.save(PartyContactMechanism.builder()
-													                                                                                                                              .contactMechanism(contactMechanism)
-													                                                                                                                              .comment(partyContactMechanismNew.getComment())
-													                                                                                                                              .doNotSolicitIndicator(partyContactMechanismNew.isDoNotSolicitIndicator())
-													                                                                                                                              .fromDate(partyContactMechanismNew.getFromDate())
-													                                                                                                                              .party(party)
-													                                                                                                                              .purpose(partyContactMechanismPurpose)
-													                                                                                                                              .build());
-										                                                                                  }))))
-				       .findFirst()
-				       .orElseThrow();
+		final ContactMechanism contactMechanism = contactMechanismRepository.save(
+				ContactMechanism.builder()
+						.contactMechanismTypeId(partyContactMechanismNew.getContactMechanism().getContactMechanismTypeId())
+						.directions(partyContactMechanismNew.getContactMechanism().getDirections())
+						.endPoint(partyContactMechanismNew.getContactMechanism().getEndPoint())
+						.build()
+		);
+		return partyContactMechanismRepository.save( PartyContactMechanism.builder()
+				                                             .comment(partyContactMechanismNew.getComment())
+				                                             .contactMechanismId(contactMechanism.getId())
+				                                             .doNotSolicitIndicator(partyContactMechanismNew.isDoNotSolicitIndicator())
+				                                             .partyId(partyContactMechanismNew.getPartyId())
+				                                             .fromDate(partyContactMechanismNew.getFromDate())
+				                                             .thruDate(partyContactMechanismNew.getThruDate())
+				                                             .build());
 	}
 }

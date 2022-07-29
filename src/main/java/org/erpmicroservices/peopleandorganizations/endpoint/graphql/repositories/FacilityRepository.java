@@ -12,7 +12,7 @@ import java.util.UUID;
 @GraphQlRepository
 public interface FacilityRepository extends JpaRepository<Facility, UUID> {
 
-	Page<Facility> findByPartOfIsNull(Pageable pageable);
+	Page<Facility> findByPartOfIdIsNull(Pageable pageable);
 
-	Page<Facility> findFacilitiesByPartOf(Facility facility, Pageable pageable);
+	Page<Facility> findFacilitiesByPartOfId(UUID facilityId, Pageable pageable);
 }

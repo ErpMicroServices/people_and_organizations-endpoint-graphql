@@ -27,7 +27,7 @@ public class IdTypeController {
 
 	@QueryMapping
 	public IdTypeConnection idTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<IdType>> edges = repository.findIdTypesByParentIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<IdType>> edges = repository.findIdTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                 .map(node -> IdTypeEdge.builder()
 						                                              .node(node)
 						                                              .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -41,7 +41,7 @@ public class IdTypeController {
 
 	@SchemaMapping
 	public IdTypeConnection children(IdType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<IdType>> edges = repository.findIdTypesByParentEquals(parent, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<IdType>> edges = repository.findIdTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                 .map(node -> IdTypeEdge.builder()
 						                                              .node(node)
 						                                              .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

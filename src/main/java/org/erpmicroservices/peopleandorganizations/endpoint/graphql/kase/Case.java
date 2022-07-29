@@ -28,10 +28,9 @@ public class Case {
 
 	private ZonedDateTime startedAt;
 
-	@ManyToOne
-	private CaseType caseType;
+	@NotNull
+	private UUID caseTypeId;
 
-	@ManyToOne
-	private CaseStatusType caseStatusType;
-
+	@NotNull
+	private UUID caseStatusTypeId;
 }

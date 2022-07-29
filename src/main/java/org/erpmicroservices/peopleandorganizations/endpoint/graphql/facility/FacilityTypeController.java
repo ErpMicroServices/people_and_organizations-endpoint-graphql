@@ -27,7 +27,7 @@ public class FacilityTypeController {
 
 	@QueryMapping
 	public FacilityTypeConnection facilityTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<FacilityType>> edges = repository.findFacilityTypesByParentIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<FacilityType>> edges = repository.findFacilityTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                       .map(facilityType -> FacilityTypeEdge.builder()
 						                                                            .node(facilityType)
 						                                                            .cursor(Cursor.builder().value(valueOf(facilityType.getId().hashCode())).build())
@@ -41,7 +41,7 @@ public class FacilityTypeController {
 
 	@SchemaMapping
 	public FacilityTypeConnection children(FacilityType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<FacilityType>> edges = repository.findFacilityTypesByParentEquals(parent, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<FacilityType>> edges = repository.findFacilityTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                       .map(facilityType -> FacilityTypeEdge.builder()
 						                                                            .node(facilityType)
 						                                                            .cursor(Cursor.builder().value(valueOf(facilityType.getId().hashCode())).build())

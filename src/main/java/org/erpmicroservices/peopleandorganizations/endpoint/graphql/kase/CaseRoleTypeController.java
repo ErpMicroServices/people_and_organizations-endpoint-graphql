@@ -27,7 +27,7 @@ public class CaseRoleTypeController {
 
 	@QueryMapping
 	public CaseRoleTypeConnection caseRoleTypes(@Argument PageInfo pageInfo) {
-		final Page<CaseRoleType> caseRoleTypePage = caseRoleTypeRepository.findCaseRoleTypesByParentIsNull(pageInfoToPageable(pageInfo));
+		final Page<CaseRoleType> caseRoleTypePage = caseRoleTypeRepository.findCaseRoleTypesByParentIdIsNull(pageInfoToPageable(pageInfo));
 		final List<Edge<CaseRoleType>> caseRoleTypeEdges = caseRoleTypePage.stream()
 				                                                   .map(caseRoleType -> CaseRoleTypeEdge.builder()
 						                                                                        .node(caseRoleType)
@@ -43,7 +43,7 @@ public class CaseRoleTypeController {
 
 	@SchemaMapping
 	public CaseRoleTypeConnection children(CaseRoleType parent, @Argument PageInfo pageInfo) {
-		final Page<CaseRoleType> caseRoleTypePage = caseRoleTypeRepository.findCaseRoleTypesByParentEquals(parent, pageInfoToPageable(pageInfo));
+		final Page<CaseRoleType> caseRoleTypePage = caseRoleTypeRepository.findCaseRoleTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo));
 		final List<Edge<CaseRoleType>> caseRoleTypeEdges = caseRoleTypePage.stream()
 				                                                   .map(caseRoleType -> CaseRoleTypeEdge.builder()
 						                                                                        .cursor(Cursor.builder().value(valueOf(caseRoleType.getId().hashCode())).build())

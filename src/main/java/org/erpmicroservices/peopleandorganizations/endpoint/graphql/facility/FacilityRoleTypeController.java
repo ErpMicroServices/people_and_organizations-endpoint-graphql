@@ -27,7 +27,7 @@ public class FacilityRoleTypeController {
 
 	@QueryMapping
 	public FacilityRoleTypeConnection facilityRoleTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<FacilityRoleType>> edges = repository.findFacilityRoleTypesByParentIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<FacilityRoleType>> edges = repository.findFacilityRoleTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                           .map(facilityRoleType -> FacilityRoleTypeEdge.builder()
 						                                                                    .node(facilityRoleType)
 						                                                                    .cursor(Cursor.builder().value(valueOf(facilityRoleType.getId().hashCode())).build())
@@ -41,7 +41,7 @@ public class FacilityRoleTypeController {
 
 	@SchemaMapping
 	public FacilityRoleTypeConnection children(FacilityRoleType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<FacilityRoleType>> edges = repository.findFacilityRoleTypesByParentEquals(parent, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<FacilityRoleType>> edges = repository.findFacilityRoleTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                           .map(facilityRoleType -> FacilityRoleTypeEdge.builder()
 						                                                                    .node(facilityRoleType)
 						                                                                    .cursor(Cursor.builder().value(valueOf(facilityRoleType.getId().hashCode())).build())

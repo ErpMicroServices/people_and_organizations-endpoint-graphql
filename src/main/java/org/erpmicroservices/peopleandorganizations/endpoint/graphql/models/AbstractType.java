@@ -2,10 +2,12 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.models;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -19,8 +21,5 @@ public class AbstractType<T> {
 	@NotBlank
 	private String description;
 
-	@ManyToOne
-	private T parent;
-	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-	private List<T> children;
+	private UUID parentId;
 }

@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @GraphQlRepository
 public interface CommunicationEventRoleTypeRepository extends PagingAndSortingRepository<CommunicationEventRoleType, UUID> {
-	Page<CommunicationEventRoleType> findCommunicationEventRoleTypeByParentEquals(CommunicationEventRoleType parent, Pageable pageable);
+	Page<CommunicationEventRoleType> findCommunicationEventRoleTypeByParentId(UUID parentId, Pageable pageable);
 
-	Page<CommunicationEventRoleType> findCommunicationEventRoleTypeByParentIsNull(final Pageable pageable);
+	Page<CommunicationEventRoleType> findCommunicationEventRoleTypeByParentIdIsNull(final Pageable pageable);
 }

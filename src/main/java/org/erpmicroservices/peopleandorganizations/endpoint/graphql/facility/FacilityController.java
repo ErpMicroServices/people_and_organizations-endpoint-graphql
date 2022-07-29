@@ -49,7 +49,7 @@ public class FacilityController {
 
 	@QueryMapping
 	public FacilityConnection facilities(@Argument PageInfo pageInfo) {
-		final Page<Facility> facilities = facilityRepository.findByPartOfIsNull(pageInfoToPageable(pageInfo));
+		final Page<Facility> facilities = facilityRepository.findByPartOfIdIsNull(pageInfoToPageable(pageInfo));
 		final List<Edge<Facility>> facilityEdges = facilities.get()
 				                                           .map(facility -> FacilityEdge.builder()
 						                                                            .node(facility)
@@ -64,7 +64,7 @@ public class FacilityController {
 
 	@SchemaMapping
 	public FacilityConnection madeUpOf(@Argument PageInfo pageInfo, Facility parent) {
-		final Page<Facility> page = facilityRepository.findFacilitiesByPartOf(parent, pageInfoToPageable(pageInfo));
+		final Page<Facility> page = facilityRepository.findFacilitiesByPartOfId(parent.getPartOfId(), pageInfoToPageable(pageInfo));
 		final List<Edge<Facility>> facilityEdges = page.stream()
 				                                           .map(facility -> FacilityEdge.builder()
 						                                                            .node(facility)
@@ -77,7 +77,7 @@ public class FacilityController {
 
 	@SchemaMapping
 	public FacilityContactMechanismConnection facilityContactMechanisms(@Argument PageInfo pageInfo, Facility facility) {
-		final Page<FacilityContactMechanism> page = facilityContactMechanismRepository.findByFacility_Id(facility.getId(), pageInfoToPageable(pageInfo));
+		final Page<FacilityContactMechanism> page = facilityContactMechanismRepository.findByFacilityId(facility.getId(), pageInfoToPageable(pageInfo));
 		final List<Edge<FacilityContactMechanism>> edges = page.stream()
 				                                                   .map(facilityContactMechanism -> FacilityContactMechanismEdge.builder()
 						                                                                                    .node(facilityContactMechanism)
@@ -92,7 +92,7 @@ public class FacilityController {
 
 	@SchemaMapping
 	public FacilityConnection roles(@Argument PageInfo pageInfo, Facility parent) {
-		final Page<Facility> page = facilityRoleRepository.findByFacility(parent, pageInfoToPageable(pageInfo));
+		final Page<Facility> page = facilityRoleRepository.findByFacilityId(parent.getId(), pageInfoToPageable(pageInfo));
 		final List<Edge<Facility>> edges = page.stream()
 				                                   .map(facility -> FacilityEdge.builder()
 						                                                    .node(facility)
@@ -116,8 +116,7 @@ public class FacilityController {
 					       return facilityRepository.save(Facility.builder()
 							                                      .description(newFacility.getDescription())
 							                                      .squareFootage(newFacility.getSquareFootage())
-							                                      .facilityType(facilityType)
-							                                      .partOf(partOf)
+							                                      .facilityTypeId(newFacility.getFacilityTypeId())
 							                                      .build());
 				       }).orElseThrow();
 	}
@@ -128,9 +127,9 @@ public class FacilityController {
 				       .flatMap(facility -> facilityRoleTypeRepository.findById(newFacilityRole.getFacilityRoleTypeId())
 						                            .flatMap(facilityRoleType -> partyRepository.findById(newFacilityRole.getPartyId())
 								                                                         .flatMap(party -> Optional.of(facilityRoleRepository.save(FacilityRole.builder()
-										                                                                                                                   .facility(facility)
-										                                                                                                                   .facilityRoleType(facilityRoleType)
-										                                                                                                                   .party(party)
+										                                                                                                                   .facilityId(newFacilityRole.getFacilityId())
+										                                                                                                                   .facilityRoleTypeId(newFacilityRole.getFacilityRoleTypeId())
+										                                                                                                                   .partyId(newFacilityRole.getPartyId())
 										                                                                                                                   .fromDate(newFacilityRole.getFromDate())
 										                                                                                                                   .thruDate(newFacilityRole.getThruDate())
 										                                                                                                                   .build())))))
@@ -142,8 +141,8 @@ public class FacilityController {
 		return facilityRepository.findById(newFacilityContactMechanism.getFacilityId())
 				       .flatMap(facility -> contactMechanismRepository.findById(newFacilityContactMechanism.getContactMechanismId())
 						                            .flatMap(contactMechanism -> Optional.of(facilityContactMechanismRepository.save(FacilityContactMechanism.builder()
-								                                                                                                             .contactMechanism(contactMechanism)
-								                                                                                                             .facility(facility)
+								                                                                                                             .contactMechanismId(newFacilityContactMechanism.getContactMechanismId())
+								                                                                                                             .facilityId(newFacilityContactMechanism.getFacilityId())
 								                                                                                                             .build()))))
 				       .orElseThrow();
 

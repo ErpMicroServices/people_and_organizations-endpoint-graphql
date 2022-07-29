@@ -8,7 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.UUID;
 
 public interface CaseTypeRepository extends PagingAndSortingRepository<CaseType, UUID> {
-	Page<CaseType> findCaseTypeByParentEquals(CaseType parent, Pageable pageable);
+	Page<CaseType> findCaseTypeByParentId(UUID parentId, Pageable pageable);
 
-	Page<CaseType> findCaseTypeByParentIsNull(final Pageable pageable);
+	Page<CaseType> findCaseTypeByParentIdIsNull(final Pageable pageable);
 }

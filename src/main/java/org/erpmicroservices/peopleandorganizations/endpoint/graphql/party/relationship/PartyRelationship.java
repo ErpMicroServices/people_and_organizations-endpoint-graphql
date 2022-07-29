@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.PriorityType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRole;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -27,27 +25,23 @@ public class PartyRelationship {
 
 	@NotNull
 	private LocalDate fromDate;
+
 	private LocalDate thruDate;
+
 	private String comment;
-	@ManyToOne
-	@NotNull
-	private PartyRole fromPartyRole;
-	@ManyToOne
-	@NotNull
-	private PartyRole toPartyRole;
 
-	@ManyToOne
-	@JoinColumn(name = "party_relationship_type_id")
 	@NotNull
-	private PartyRelationshipType relationshipType;
+	private UUID fromPartyRoleId;
 
-	@ManyToOne
-	@JoinColumn(name = "party_relationship_status_type_id")
 	@NotNull
-	private PartyRelationshipStatusType statusType;
+	private UUID toPartyRoleId;
 
-	@ManyToOne
-	@JoinColumn(name = "priority_type_id")
 	@NotNull
-	private PriorityType priorityType;
+	private UUID partyRelationshipTypeId;
+
+	@NotNull
+	private UUID partyRelationshipStatusTypeId;
+
+	@NotNull
+	private UUID priorityTypeId;
 }

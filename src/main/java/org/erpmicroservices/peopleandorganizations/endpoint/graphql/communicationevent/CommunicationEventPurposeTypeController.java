@@ -27,13 +27,13 @@ public class CommunicationEventPurposeTypeController {
 
 	@QueryMapping
 	public CommunicationEventPurposeTypeConnection communicationEventPurposeTypes(@Argument PageInfo pageInfo) {
-		final Page<CommunicationEventPurposeType> communicationEventPurposeTypePage = communicationEventPurposeTypeRepository.findCommunicationEventPurposeTypeByParentIsNull(pageInfoToPageable(pageInfo));
+		final Page<CommunicationEventPurposeType> communicationEventPurposeTypePage = communicationEventPurposeTypeRepository.findCommunicationEventPurposeTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
 		return getCommunicationEventPurposeTypeConnection(pageInfo, communicationEventPurposeTypePage);
 	}
 
 	@SchemaMapping
 	public CommunicationEventPurposeTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventPurposeType parent) {
-		final Page<CommunicationEventPurposeType> communicationEventPurposeTypePage = communicationEventPurposeTypeRepository.findCommunicationEventPurposeTypeByParentEquals(parent, pageInfoToPageable(pageInfo));
+		final Page<CommunicationEventPurposeType> communicationEventPurposeTypePage = communicationEventPurposeTypeRepository.findCommunicationEventPurposeTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
 		return getCommunicationEventPurposeTypeConnection(pageInfo, communicationEventPurposeTypePage);
 	}
 

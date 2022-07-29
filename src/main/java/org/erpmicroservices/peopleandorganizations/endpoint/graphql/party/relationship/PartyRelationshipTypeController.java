@@ -27,7 +27,7 @@ public class PartyRelationshipTypeController {
 
 	@QueryMapping
 	public PartyRelationshipTypeConnection partyRelationshipTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<PartyRelationshipType>> edges = repository.findPartyRelationshipTypesByParentIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyRelationshipType>> edges = repository.findPartyRelationshipTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                                .map(node -> PartyRelationshipTypeEdge.builder()
 						                                                             .node(node)
 						                                                             .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -41,7 +41,7 @@ public class PartyRelationshipTypeController {
 
 	@SchemaMapping
 	public PartyRelationshipTypeConnection children(PartyRelationshipType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<PartyRelationshipType>> edges = repository.findPartyRelationshipTypesByParentEquals(parent, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyRelationshipType>> edges = repository.findPartyRelationshipTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                                .map(node -> PartyRelationshipTypeEdge.builder()
 						                                                             .node(node)
 						                                                             .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

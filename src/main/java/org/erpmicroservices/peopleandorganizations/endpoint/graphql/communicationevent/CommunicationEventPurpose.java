@@ -5,7 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -21,11 +24,11 @@ public class CommunicationEventPurpose {
 	@NotNull
 	private UUID id;
 
-	@ManyToOne
-	private CommunicationEvent communicationEvent;
+	@NotNull
+	private UUID communicationEventId;
 
-	@ManyToOne
-	private CommunicationEventPurposeType communicationEventPurposeType;
+	@NotNull
+	private UUID communicationEventPurposeTypeId;
 
 	private String description;
 

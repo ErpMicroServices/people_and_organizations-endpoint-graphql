@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanismType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.Case;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationship;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,23 +22,20 @@ public class CommunicationEvent {
 	@NotNull
 	private UUID id;
 
-	@ManyToOne
-	@JoinColumn(name = "case_id")
-	private Case kase;
-
 	private ZonedDateTime started;
 	private ZonedDateTime ended;
 	private String note;
 
-	@ManyToOne
-	private ContactMechanismType contactMechanismType;
+	@NotNull
+	private UUID contactMechanismTypeId;
 
-	@ManyToOne
-	private PartyRelationship partyRelationship;
+	private UUID partyRelationshipId;
 
-	@ManyToOne
-	private CommunicationEventStatusType communicationEventStatusType;
+	@NotNull
+	private UUID communicationEventStatusTypeId;
 
-	@ManyToOne
-	private CommunicationEventType communicationEventType;
+	@NotNull
+	private UUID communicationEventTypeId;
+
+	private UUID caseId;
 }

@@ -27,7 +27,6 @@ public class PartyContactMechanismPurpose {
 
 	private LocalDate thruDate;
 
-	@ManyToOne
-	@JoinColumn(name = "contact_mechanism_purpose_type_id")
-	private PartyContactMechanismPurposeType purposeType;
+	@NotNull
+	private UUID contactMechanismPurposeTypeId;
 }

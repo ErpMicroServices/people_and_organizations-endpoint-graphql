@@ -27,7 +27,7 @@ public class PartyContactMechanismPurposeTypeController {
 
 	@QueryMapping
 	public PartyContactMechanismPurposeTypeConnection partyContactMechanismPurposeTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<PartyContactMechanismPurposeType>> edges = repository.findPartyContactMechanismPurposeTypesByParentIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyContactMechanismPurposeType>> edges = repository.findPartyContactMechanismPurposeTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                                           .map(node -> PartyContactMechanismPurposeTypeEdge.builder()
 						                                                                        .node(node)
 						                                                                        .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -41,7 +41,7 @@ public class PartyContactMechanismPurposeTypeController {
 
 	@SchemaMapping
 	public PartyContactMechanismPurposeTypeConnection children(PartyContactMechanismPurposeType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<PartyContactMechanismPurposeType>> edges = repository.findPartyContactMechanismPurposeTypesByParentEquals(parent, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyContactMechanismPurposeType>> edges = repository.findPartyContactMechanismPurposeTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                                           .map(node -> PartyContactMechanismPurposeTypeEdge.builder()
 						                                                                        .node(node)
 						                                                                        .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

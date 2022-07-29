@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,13 +28,10 @@ public class PartyRole {
 
 	private LocalDate thruDate;
 
-	@ManyToOne
-	@JoinColumn(name = "party_role_type_id")
 	@NotNull
-	private PartyRoleType roleType;
+	private UUID partyRoleTypeId;
 
-	@ManyToOne
 	@NotNull
-	private Party party;
+	private UUID partyId;
 
 }

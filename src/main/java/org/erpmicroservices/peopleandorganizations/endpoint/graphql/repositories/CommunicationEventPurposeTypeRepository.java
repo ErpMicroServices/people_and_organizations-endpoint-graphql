@@ -11,7 +11,7 @@ import java.util.UUID;
 @GraphQlRepository
 public interface CommunicationEventPurposeTypeRepository extends PagingAndSortingRepository<CommunicationEventPurposeType, UUID> {
 
-	Page<CommunicationEventPurposeType> findCommunicationEventPurposeTypeByParentEquals(CommunicationEventPurposeType parent, Pageable pageable);
+	Page<CommunicationEventPurposeType> findCommunicationEventPurposeTypeByParentId(UUID parentId, Pageable pageable);
 
-	Page<CommunicationEventPurposeType> findCommunicationEventPurposeTypeByParentIsNull(final Pageable pageable);
+	Page<CommunicationEventPurposeType> findCommunicationEventPurposeTypeByParentIdIsNull(final Pageable pageable);
 }

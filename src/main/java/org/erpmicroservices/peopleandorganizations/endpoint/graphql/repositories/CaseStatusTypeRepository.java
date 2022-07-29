@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @GraphQlRepository
 public interface CaseStatusTypeRepository extends PagingAndSortingRepository<CaseStatusType, UUID> {
-	Page<CaseStatusType> findCaseStatusTypeByParentEquals(CaseStatusType parent, Pageable pageable);
+	Page<CaseStatusType> findCaseStatusTypeByParentId(UUID parentId, Pageable pageable);
 
-	Page<CaseStatusType> findCaseStatusTypeByParentIsNull(final Pageable pageable);
+	Page<CaseStatusType> findCaseStatusTypeByParentIdIsNull(final Pageable pageable);
 }

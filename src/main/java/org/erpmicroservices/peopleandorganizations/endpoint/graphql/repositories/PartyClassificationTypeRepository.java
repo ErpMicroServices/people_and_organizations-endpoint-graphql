@@ -12,7 +12,7 @@ import java.util.UUID;
 @GraphQlRepository
 public interface PartyClassificationTypeRepository extends PagingAndSortingRepository<PartyClassificationType, UUID> {
 
-	Page<PartyClassificationType> findPartyClassificationTypesByParentEquals(final PartyClassificationType parent, final Pageable pageable);
+	Page<PartyClassificationType> findPartyClassificationTypesByParentId(final UUID parent, final Pageable pageable);
 
-	Page<PartyClassificationType> findPartyClassificationTypesByParentIsNull(final Pageable pageable);
+	Page<PartyClassificationType> findPartyClassificationTypesByParentIdIsNull(final Pageable pageable);
 }

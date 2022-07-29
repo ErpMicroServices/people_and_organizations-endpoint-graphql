@@ -27,7 +27,7 @@ public class CommunicationEventTypeController {
 
 	@QueryMapping
 	public CommunicationEventTypeConnection communicationEventTypes(@Argument PageInfo pageInfo) {
-		final Page<CommunicationEventType> communicationEventTypePage = communicationEventTypeRepository.findCommunicationEventTypeByParentIsNull(pageInfoToPageable(pageInfo));
+		final Page<CommunicationEventType> communicationEventTypePage = communicationEventTypeRepository.findCommunicationEventTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
 		final List<Edge<CommunicationEventType>> communicationEventTypeEdges = communicationEventTypePage.stream()
 				                                                                       .map(communicationEventType -> CommunicationEventTypeEdge.builder()
 						                                                                                                      .node(communicationEventType)
@@ -42,7 +42,7 @@ public class CommunicationEventTypeController {
 
 	@SchemaMapping
 	public CommunicationEventTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventType parent) {
-		final Page<CommunicationEventType> communicationEventTypeByChildren = communicationEventTypeRepository.findCommunicationEventTypeByParentEquals(parent, pageInfoToPageable(pageInfo));
+		final Page<CommunicationEventType> communicationEventTypeByChildren = communicationEventTypeRepository.findCommunicationEventTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
 		final List<Edge<CommunicationEventType>> communicationEventTypeEdges = communicationEventTypeByChildren.stream()
 				                                                                       .map(communicationEventType -> CommunicationEventTypeEdge.builder()
 						                                                                                                      .cursor(Cursor.builder().value(valueOf(communicationEventType.getId())).build())

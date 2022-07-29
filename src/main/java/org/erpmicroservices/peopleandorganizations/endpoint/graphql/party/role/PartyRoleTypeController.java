@@ -27,7 +27,7 @@ public class PartyRoleTypeController {
 
 	@QueryMapping
 	public PartyRoleTypeConnection partyRoleTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<PartyRoleType>> edges = repository.findPartyRoleTypesByParentIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyRoleType>> edges = repository.findPartyRoleTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                        .map(node -> PartyRoleTypeEdge.builder()
 						                                                     .node(node)
 						                                                     .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -41,7 +41,7 @@ public class PartyRoleTypeController {
 
 	@SchemaMapping
 	public PartyRoleTypeConnection children(PartyRoleType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<PartyRoleType>> edges = repository.findPartyRoleTypesByParentEquals(parent, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyRoleType>> edges = repository.findPartyRoleTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                        .map(node -> PartyRoleTypeEdge.builder()
 						                                                     .node(node)
 						                                                     .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

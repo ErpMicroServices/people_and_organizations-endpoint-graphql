@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @GraphQlRepository
 public interface PartyTypeRepository extends CrudRepository<PartyType, UUID> {
-	Page<PartyType> findPartyTypesByParentEquals(final PartyType parent, final Pageable pageable);
+	Page<PartyType> findPartyTypesByParentId(final UUID parent, final Pageable pageable);
 
-	Page<PartyType> findPartyTypesByParentIsNull(final Pageable pageable);
+	Page<PartyType> findPartyTypesByParentIdIsNull(final Pageable pageable);
 }

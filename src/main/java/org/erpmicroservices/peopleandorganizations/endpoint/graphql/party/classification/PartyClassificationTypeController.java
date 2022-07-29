@@ -27,7 +27,7 @@ public class PartyClassificationTypeController {
 
 	@QueryMapping
 	public PartyClassificationTypeConnection partyClassificationTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<PartyClassificationType>> edges = repository.findPartyClassificationTypesByParentIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyClassificationType>> edges = repository.findPartyClassificationTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                                  .map(node -> PartyClassificationTypeEdge.builder()
 						                                                               .node(node)
 						                                                               .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -41,7 +41,7 @@ public class PartyClassificationTypeController {
 
 	@SchemaMapping
 	public PartyClassificationTypeConnection children(PartyClassificationType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<PartyClassificationType>> edges = repository.findPartyClassificationTypesByParentEquals(parent, pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyClassificationType>> edges = repository.findPartyClassificationTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                                  .map(node -> PartyClassificationTypeEdge.builder()
 						                                                               .node(node)
 						                                                               .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

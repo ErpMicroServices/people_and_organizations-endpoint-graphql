@@ -27,7 +27,7 @@ public class CommunicationEventRoleTypeController {
 
 	@QueryMapping
 	public CommunicationEventRoleTypeConnection communicationEventRoleTypes(@Argument PageInfo pageInfo) {
-		final Page<CommunicationEventRoleType> communicationEventRoleTypePage = communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentIsNull(pageInfoToPageable(pageInfo));
+		final Page<CommunicationEventRoleType> communicationEventRoleTypePage = communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
 		final List<Edge<CommunicationEventRoleType>> communicationEventRoleTypeEdges = communicationEventRoleTypePage.stream()
 				                                                                               .map(communicationEventRoleType -> CommunicationEventRoleTypeEdge.builder()
 						                                                                                                                  .node(communicationEventRoleType)
@@ -42,7 +42,7 @@ public class CommunicationEventRoleTypeController {
 
 	@SchemaMapping
 	public CommunicationEventRoleTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventRoleType parent) {
-		final Page<CommunicationEventRoleType> communicationEventRoleTypeByChildren = communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentEquals(parent, pageInfoToPageable(pageInfo));
+		final Page<CommunicationEventRoleType> communicationEventRoleTypeByChildren = communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
 		final List<Edge<CommunicationEventRoleType>> communicationEventRoleTypeEdges = communicationEventRoleTypeByChildren.stream()
 				                                                                               .map(communicationEventRoleType -> CommunicationEventRoleTypeEdge.builder()
 						                                                                                                                  .cursor(Cursor.builder().value(valueOf(communicationEventRoleType.getId())).build())

@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @GraphQlRepository
 public interface PartyContactMechanismPurposeTypeRepository extends PagingAndSortingRepository<PartyContactMechanismPurposeType, UUID> {
-	Page<PartyContactMechanismPurposeType> findPartyContactMechanismPurposeTypesByParentEquals(final PartyContactMechanismPurposeType parent, final Pageable pageable);
+	Page<PartyContactMechanismPurposeType> findPartyContactMechanismPurposeTypesByParentId(final UUID parentId, final Pageable pageable);
 
-	Page<PartyContactMechanismPurposeType> findPartyContactMechanismPurposeTypesByParentIsNull(final Pageable pageable);
+	Page<PartyContactMechanismPurposeType> findPartyContactMechanismPurposeTypesByParentIdIsNull(final Pageable pageable);
 }

@@ -142,6 +142,7 @@ type CommunicationEvent implements Node{
     communicationEventStatusType: CommunicationEventStatusType!
     communicationEventType: CommunicationEventType!
     partyRelationship: PartyRelationship!
+    roles: [CommunicationEventRole]
 }
 
 input NewCommunicationEvent {
@@ -162,6 +163,12 @@ type CommunicationEventConnection {
 type CommunicationEventEdge {
     node: CommunicationEvent!
     cursor: String!
+}
+
+type CommunicationEventRole {
+    id: ID!
+    roleType: CommunicationEventRoleType!
+    party: Party!
 }
 
 type CommunicationEventPurposeType {

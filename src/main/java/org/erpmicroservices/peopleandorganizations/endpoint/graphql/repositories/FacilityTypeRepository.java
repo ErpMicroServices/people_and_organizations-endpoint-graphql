@@ -11,7 +11,7 @@ import java.util.UUID;
 @GraphQlRepository
 public interface FacilityTypeRepository extends PagingAndSortingRepository<FacilityType, UUID> {
 
-	Page<FacilityType> findFacilityTypesByParentEquals(final FacilityType parent, final Pageable pageable);
+	Page<FacilityType> findFacilityTypesByParentId(final UUID parent, final Pageable pageable);
 
-	Page<FacilityType> findFacilityTypesByParentIsNull(final Pageable pageable);
+	Page<FacilityType> findFacilityTypesByParentIdIsNull(final Pageable pageable);
 }

@@ -12,7 +12,7 @@ import java.util.UUID;
 @GraphQlRepository
 public interface FacilityRoleTypeRepository extends PagingAndSortingRepository<FacilityRoleType, UUID> {
 
-	Page<FacilityRoleType> findFacilityRoleTypesByParentEquals(final FacilityRoleType parent, final Pageable pageable);
+	Page<FacilityRoleType> findFacilityRoleTypesByParentId(final UUID parent, final Pageable pageable);
 
-	Page<FacilityRoleType> findFacilityRoleTypesByParentIsNull(final Pageable pageable);
+	Page<FacilityRoleType> findFacilityRoleTypesByParentIdIsNull(final Pageable pageable);
 }

@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanism;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -33,19 +31,13 @@ public class PartyContactMechanism {
 
 	private String comment;
 
-//	private UUID partyId;
-//
-//	private UUID contactMechanismId;
-//
-//	private UUID partyContactMechanismPurpose;
-@ManyToOne
-private Party party;
+	@NotNull
+	private UUID partyId;
 
-	@ManyToOne
-	private ContactMechanism contactMechanism;
+	@NotNull
+	private UUID contactMechanismId;
 
-	@ManyToOne
-	@JoinColumn(name = "party_contact_mechanism_purpose_id")
-	private PartyContactMechanismPurpose purpose;
+	@NotNull
+	private UUID partyContactMechanismPurposeId;
 
 }

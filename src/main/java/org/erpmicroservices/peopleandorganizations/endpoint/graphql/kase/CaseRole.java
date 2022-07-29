@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,15 +23,14 @@ public class CaseRole {
 	@NotNull
 	private UUID id;
 
-	@ManyToOne
-	@JoinColumn(name = "case_id")
-	private Case kase;
+	@NotNull
+	private UUID caseId;
 
-	@ManyToOne
-	private CaseRoleType caseRoleType;
+	@NotNull
+	private UUID caseRoleTypeId;
 
-	@ManyToOne
-	private Party party;
+	@NotNull
+	private UUID partyId;
 
 	@NotNull
 	private LocalDate fromDate;

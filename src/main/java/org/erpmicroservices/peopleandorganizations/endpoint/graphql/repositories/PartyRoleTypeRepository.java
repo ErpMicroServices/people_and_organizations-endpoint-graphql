@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @GraphQlRepository
 public interface PartyRoleTypeRepository extends PagingAndSortingRepository<PartyRoleType, UUID> {
-	Page<PartyRoleType> findPartyRoleTypesByParentEquals(final PartyRoleType parent, final Pageable pageable);
+	Page<PartyRoleType> findPartyRoleTypesByParentId(final UUID parentId, final Pageable pageable);
 
-	Page<PartyRoleType> findPartyRoleTypesByParentIsNull(final Pageable pageable);
+	Page<PartyRoleType> findPartyRoleTypesByParentIdIsNull(final Pageable pageable);
 }

@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @GraphQlRepository
 public interface PartyRelationshipStatusTypeRepository extends PagingAndSortingRepository<PartyRelationshipStatusType, UUID> {
-	Page<PartyRelationshipStatusType> findPartyRelationshipStatusTypesByParentEquals(final PartyRelationshipStatusType parent, final Pageable pageable);
+	Page<PartyRelationshipStatusType> findPartyRelationshipStatusTypesByParentId(final UUID parentId, final Pageable pageable);
 
-	Page<PartyRelationshipStatusType> findPartyRelationshipStatusTypesByParentIsNull(final Pageable pageable);
+	Page<PartyRelationshipStatusType> findPartyRelationshipStatusTypesByParentIdIsNull(final Pageable pageable);
 }

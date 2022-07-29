@@ -21,14 +21,17 @@ public class CommunicationEventController {
 
 	private final CommunicationEventRepository communicationEventRepository;
 
-	public CommunicationEventController(final CommunicationEventRepository repository, final CommunicationEventPurposeRepository communicationEventPurposeRepository) {
+	private final CommunicationEventRoleRepository communicationEventRoleRepository;
+
+	public CommunicationEventController(final CommunicationEventRepository repository, final CommunicationEventPurposeRepository communicationEventPurposeRepository, final CommunicationEventRoleRepository communicationEventRoleRepository) {
 		this.communicationEventRepository = repository;
+		this.communicationEventRoleRepository = communicationEventRoleRepository;
 	}
 
 
 	@SchemaMapping(typeName = "Case", field = "communicationEvents")
 	public CommunicationEventConnection communicationEvents(@Argument PageInfo pageInfo, Case kase) {
-		final List<Edge<CommunicationEvent>> communicationEventEdges = communicationEventRepository.findByKase_Id(kase.getId(), pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<CommunicationEvent>> communicationEventEdges = communicationEventRepository.findByCaseId(kase.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                                               .map(communicationEvent -> CommunicationEventEdge.builder()
 						                                                                                          .node(communicationEvent)
 						                                                                                          .cursor(Cursor.builder().value(String.valueOf(communicationEvent.getId().hashCode())).build())
@@ -40,4 +43,17 @@ public class CommunicationEventController {
 				       .build();
 	}
 
+	@SchemaMapping(typeName = "CommunicationEvent", field = "roles")
+	public CommunicationEventRoleConnection rolesForCommunicationEvent(@Argument PageInfo pageInfo, CommunicationEvent communicationEvent) {
+		final List<Edge<CommunicationEventRole>> communicationEventRoleEdges = communicationEventRoleRepository.findByCommunicationEventId(communicationEvent.getId(), pageInfoToPageable(pageInfo)).stream()
+				                                                                       .map(communicationEventRole -> CommunicationEventRoleEdge.builder()
+						                                                                                                      .node(communicationEventRole)
+						                                                                                                      .cursor(Cursor.builder().value(String.valueOf(communicationEventRole.getId().hashCode())).build())
+						                                                                                                      .build())
+				                                                                       .collect(Collectors.toList());
+		return CommunicationEventRoleConnection.builder()
+				       .edges(communicationEventRoleEdges)
+				       .pageInfo(pageInfo)
+				       .build();
+	}
 }

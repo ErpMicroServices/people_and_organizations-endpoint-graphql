@@ -1,6 +1,5 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanism;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,5 +12,5 @@ import java.util.UUID;
 @GraphQlRepository
 public interface PartyContactMechanismRepository extends PagingAndSortingRepository<PartyContactMechanism, UUID> {
 
-	Page<PartyContactMechanism> findPartyContactMechanismByParty(Party party, Pageable pageable);
+	Page<PartyContactMechanism> findPartyContactMechanismByPartyId(UUID partyId, Pageable pageable);
 }

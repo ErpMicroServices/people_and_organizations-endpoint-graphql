@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @GraphQlRepository
 public interface PartyRelationshipPriorityTypeRepository extends PagingAndSortingRepository<PriorityType, UUID> {
-	Page<PriorityType> findPartyRelationshipPriorityTypesByParentEquals(final PriorityType parent, final Pageable pageable);
+	Page<PriorityType> findPartyRelationshipPriorityTypesByParentId(final UUID parentId, final Pageable pageable);
 
-	Page<PriorityType> findPartyRelationshipPriorityTypesByParentIsNull(final Pageable pageable);
+	Page<PriorityType> findPartyRelationshipPriorityTypesByParentIdIsNull(final Pageable pageable);
 }

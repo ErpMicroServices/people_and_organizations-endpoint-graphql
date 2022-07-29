@@ -27,7 +27,7 @@ public class CaseTypeController {
 
 	@QueryMapping
 	public CaseTypeConnection caseTypes(@Argument PageInfo pageInfo) {
-		final Page<CaseType> caseTypePage = caseTypeRepository.findCaseTypeByParentIsNull(pageInfoToPageable(pageInfo));
+		final Page<CaseType> caseTypePage = caseTypeRepository.findCaseTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
 		final List<Edge<CaseType>> caseTypeEdges = caseTypePage.stream()
 				                                           .map(caseType -> CaseTypeEdge.builder()
 						                                                            .node(caseType)
@@ -42,7 +42,7 @@ public class CaseTypeController {
 
 	@SchemaMapping
 	public CaseTypeConnection children(@Argument PageInfo pageInfo, CaseType parent) {
-		final Page<CaseType> caseTypeByChildren = caseTypeRepository.findCaseTypeByParentEquals(parent, pageInfoToPageable(pageInfo));
+		final Page<CaseType> caseTypeByChildren = caseTypeRepository.findCaseTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
 		final List<Edge<CaseType>> caseTypeEdges = caseTypeByChildren.stream()
 				                                           .map(caseType -> CaseTypeEdge.builder()
 						                                                            .cursor(Cursor.builder().value(valueOf(caseType.getId())).build())

@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanism;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -24,13 +26,14 @@ public class FacilityContactMechanism {
 	private UUID id;
 
 	@NotNull
+	private UUID facilityId;
+
+	@NotNull
+	private UUID contactMechanismId;
+
+	@NotNull
 	private LocalDate fromDate;
 
 	private LocalDate thruDate;
 
-	@ManyToOne
-	private Facility facility;
-
-	@ManyToOne
-	private ContactMechanism contactMechanism;
 }

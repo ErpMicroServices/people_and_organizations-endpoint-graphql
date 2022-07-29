@@ -5,9 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -24,14 +26,10 @@ public class Facility {
 
 	private String description;
 
-	@ManyToOne
-	private Facility partOf;
-
-	@ManyToOne
-	private FacilityType facilityType;
-
 	private Long squareFootage;
 
-	@OneToMany(mappedBy = "facility")
-	private List<FacilityContactMechanism> contactMechanisms;
+	private UUID partOfId;
+
+	@NotNull
+	private UUID facilityTypeId;
 }
