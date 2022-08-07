@@ -52,7 +52,7 @@ type CaseConnection {
 
 input NewCase {
     description: String!
-    startedAt: String!
+    startedAt: DateTime!
     caseTypeId: ID!
     caseStatusTypeId: ID!
 }

@@ -9,11 +9,12 @@ query caseQuery($casePageInfo:PageInfoInput!, $rolesPageInfo:PageInfoInput!, $co
         edges {
             node {
                 id
+                description
+                startedAt
                 caseType {
                     id
                     description
                 }
-                description
                 caseStatusType {
                     id
                     description
@@ -40,7 +41,6 @@ query caseQuery($casePageInfo:PageInfoInput!, $rolesPageInfo:PageInfoInput!, $co
                         sortDirection
                     }
                 }
-
                 communicationEvents(pageInfo: $communicationEventPageInfo) {
                     edges {
                         node {

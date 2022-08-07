@@ -1,0 +1,16 @@
+mutation CreateCase ($newCase: NewCase!){
+    createCase(newCase: $newCase){
+        id
+        description
+        startedAt
+        caseStatusType {
+            id
+            description
+        }
+        caseType {
+            id
+            description
+        }
+    }
+}
+

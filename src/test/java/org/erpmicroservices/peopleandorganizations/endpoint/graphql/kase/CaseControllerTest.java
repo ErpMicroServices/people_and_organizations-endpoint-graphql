@@ -49,6 +49,9 @@ public class CaseControllerTest {
 	private final String casesGraphQlPath = "cases.edges[0].node.";
 	private final String caseRolesGraphQlPath = casesGraphQlPath + "roles.edges[0].node.";
 	private final String communicationEventsGraphQlPath = casesGraphQlPath + "communicationEvents.edges[0].node.";
+
+	private final String caseCreateGraphQlPath = "createCase.";
+
 	@Autowired
 	private GraphQlTester graphQlTester;
 	@Autowired
@@ -104,6 +107,10 @@ public class CaseControllerTest {
 
 	@BeforeEach
 	public void beforeEach() {
+		emptyTheDatabase();
+	}
+
+	private void emptyTheDatabase() {
 		communicationEventRepository.deleteAll();
 		partyRelationshipRepository.deleteAll();
 		caseRoleRepository.deleteAll();
@@ -180,7 +187,7 @@ public class CaseControllerTest {
 				                                                                                .partyRelationshipId(partyRelationship.getId())
 				                                                                                .build());
 
-		this.graphQlTester.documentName("case")
+		this.graphQlTester.documentName("caseQuery")
 				.operationName("caseQuery")
 				.variable("rolesPageInfo", Map.of("pageNumber", "0"
 						, "pageSize", "100"
@@ -196,6 +203,8 @@ public class CaseControllerTest {
 						, "sortDirection", "ASC"))
 				.execute()
 				.path(casesGraphQlPath + "id").entity(UUID.class).isEqualTo(aCase.getId())
+				.path(casesGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
+				.path(casesGraphQlPath + "startedAt").entity(String.class).isEqualTo(aCase.getStartedAt().toString())
 				.path(casesGraphQlPath + "caseType.id").entity(UUID.class).isEqualTo(caseType.getId())
 				.path(casesGraphQlPath + "caseType.description").entity(String.class).isEqualTo(caseType.getDescription())
 				.path(casesGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
@@ -218,5 +227,31 @@ public class CaseControllerTest {
 				.path(communicationEventsGraphQlPath + "communicationEventType.id").entity(UUID.class).isEqualTo(communicationEventType.getId())
 				.path(communicationEventsGraphQlPath + "communicationEventType.description").entity(String.class).isEqualTo(communicationEventType.getDescription())
 				.path(communicationEventsGraphQlPath + "partyRelationship.id").entity(UUID.class).isEqualTo(partyRelationship.getId());
+	}
+
+	@Test
+	public void createCase() {
+		final CaseType caseType = caseTypeRepository.save(completeCaseType().build());
+		final CaseStatusType caseStatusType = caseStatusTypeRepository.save(completeCaseStatusType().build());
+		final Case aCase = completeCase()
+				                   .caseTypeId(caseType.getId())
+				                   .caseTypeId(caseStatusType.getId())
+				                   .build();
+		this.graphQlTester.documentName("caseCreate")
+				.operationName("CreateCase")
+				.variable("newCase", Map.of(
+						"description", aCase.getDescription(),
+						"startedAt", aCase.getStartedAt(),
+						"caseTypeId", caseType.getId(),
+						"caseStatusTypeId", caseStatusType.getId()
+				))
+				.execute()
+				.path(caseCreateGraphQlPath + "id").hasValue()
+				.path(caseCreateGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
+				.path(caseCreateGraphQlPath + "startedAt").entity(String.class).isEqualTo(aCase.getStartedAt().toString())
+				.path(caseCreateGraphQlPath + "caseType.id").entity(UUID.class).isEqualTo(caseType.getId())
+				.path(caseCreateGraphQlPath + "caseType.description").entity(String.class).isEqualTo(caseType.getDescription())
+				.path(caseCreateGraphQlPath + "caseStatusType.id").entity(UUID.class).isEqualTo(caseStatusType.getId())
+				.path(caseCreateGraphQlPath + "caseStatusType.description").entity(String.class).isEqualTo(caseStatusType.getDescription());
 	}
 }
