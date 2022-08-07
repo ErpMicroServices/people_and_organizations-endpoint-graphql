@@ -27,9 +27,12 @@ public class ContactMechanismController {
 
 	private final ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository;
 
+	private final ContactMechanismTypeRepository contactMechanismTypeRepository;
+
 	public ContactMechanismController(final ContactMechanismRepository repository, final ContactMechanismTypeRepository contactMechanismTypeRepository, final ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository) {
 		this.repository = repository;
 		this.contactMechanismGeographicBoundaryRepository = contactMechanismGeographicBoundaryRepository;
+		this.contactMechanismTypeRepository = contactMechanismTypeRepository;
 	}
 
 	@QueryMapping
@@ -67,5 +70,10 @@ public class ContactMechanismController {
 				       .edges(edges)
 				       .pageInfo(pageInfo)
 				       .build();
+	}
+
+	@SchemaMapping
+	public ContactMechanismType contactMechanismType(ContactMechanism contactMechanism) {
+		return contactMechanismTypeRepository.findById(contactMechanism.getContactMechanismTypeId()).get();
 	}
 }

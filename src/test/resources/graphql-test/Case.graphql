@@ -1,0 +1,80 @@
+query caseQuery($casePageInfo:PageInfoInput!, $rolesPageInfo:PageInfoInput!, $communicationEventPageInfo: PageInfoInput!) {
+    cases(pageInfo: $casePageInfo) {
+        pageInfo {
+            pageNumber
+            pageSize
+            sortBy
+            sortDirection
+        }
+        edges {
+            node {
+                id
+                caseType {
+                    id
+                    description
+                }
+                description
+                caseStatusType {
+                    id
+                    description
+                }
+                roles(pageInfo: $rolesPageInfo) {
+                    edges {
+                        node {
+                            id
+                            caseRoleType {
+                                id
+                                description
+                            }
+                            party {
+                                id
+                            }
+                            fromDate
+                            thruDate
+                        }
+                    }
+                    pageInfo {
+                        pageNumber
+                        pageSize
+                        sortBy
+                        sortDirection
+                    }
+                }
+
+                communicationEvents(pageInfo: $communicationEventPageInfo) {
+                    edges {
+                        node {
+                            id
+                            started
+                            ended
+                            note
+                            contactMechanismType {
+                                id
+                                description
+                            }
+                            communicationEventStatusType {
+                                id
+                                description
+                            }
+                            communicationEventType {
+                                id
+                                description
+                            }
+                            partyRelationship {
+                                id
+                            }
+                        }
+                    }
+                    pageInfo {
+                        pageNumber
+                        pageSize
+                        sortBy
+                        sortDirection
+                    }
+                }
+            }
+            cursor
+        }
+    }
+
+}

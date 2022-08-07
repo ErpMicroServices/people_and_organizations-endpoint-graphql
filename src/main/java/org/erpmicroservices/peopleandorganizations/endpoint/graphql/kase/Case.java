@@ -24,6 +24,7 @@ public class Case {
 	private UUID id;
 
 	@NotEmpty
+
 	private String description;
 
 	private ZonedDateTime startedAt;

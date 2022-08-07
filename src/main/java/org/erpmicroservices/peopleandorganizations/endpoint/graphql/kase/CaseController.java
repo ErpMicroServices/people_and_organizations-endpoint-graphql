@@ -13,6 +13,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -76,6 +77,16 @@ public class CaseController {
 				       .edges(caseEdges)
 				       .pageInfo(pageInfo)
 				       .build();
+	}
+
+	@SchemaMapping
+	public CaseType caseType(@NotNull Case kase) {
+		return caseTypeRepository.findById(kase.getCaseTypeId()).get();
+	}
+
+	@SchemaMapping
+	public CaseStatusType caseStatusType(@NotNull Case kase) {
+		return caseStatusTypeRepository.findById(kase.getCaseStatusTypeId()).get();
 	}
 
 	@SchemaMapping

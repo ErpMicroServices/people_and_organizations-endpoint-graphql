@@ -5,12 +5,11 @@ import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.PriorityType;
 
 
 @Data
 @Builder
-public class PartyRelationshipPriorityTypeEdge implements Edge<PriorityType> {
+public class PriorityTypeEdge implements Edge<PriorityType> {
 
 	private PriorityType node;
 

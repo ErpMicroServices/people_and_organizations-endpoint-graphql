@@ -3,8 +3,7 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relat
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.PriorityType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyRelationshipPriorityTypeRepository;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PriorityTypeRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
@@ -17,23 +16,23 @@ import static org.erpmicroservices.peopleandorganizations.endpoint.graphql.misc.
 
 
 @Controller
-public class PartyRelationshipPriorityTypeController {
+public class PriorityTypeController {
 
-	private final PartyRelationshipPriorityTypeRepository repository;
+	private final PriorityTypeRepository repository;
 
-	public PartyRelationshipPriorityTypeController(final PartyRelationshipPriorityTypeRepository repository) {
+	public PriorityTypeController(final PriorityTypeRepository repository) {
 		this.repository = repository;
 	}
 
 	@QueryMapping
-	public PartyRelationshipPriorityTypeConnection partyRelationshipPriorityTypes(@Argument PageInfo pageInfo) {
+	public PriorityTypeConnection partyRelationshipPriorityTypes(@Argument PageInfo pageInfo) {
 		final List<Edge<PriorityType>> edges = repository.findPartyRelationshipPriorityTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
-				                                       .map(node -> PartyRelationshipPriorityTypeEdge.builder()
+				                                       .map(node -> PriorityTypeEdge.builder()
 						                                                    .node(node)
 						                                                    .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
 						                                                    .build())
 				                                       .collect(Collectors.toList());
-		return PartyRelationshipPriorityTypeConnection.builder()
+		return PriorityTypeConnection.builder()
 				       .edges(edges)
 				       .pageInfo(pageInfo)
 				       .build();

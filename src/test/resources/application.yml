@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: People and Organizations Endpoint Graphql
+  graphql:
+    schema:
+      printer:
+        enabled: true
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: jdbc:postgresql://localhost:5432/people_and_organizations
+    username: people_and_organizations
+    password: people_and_organizations
+    driverClassName: org.postgresql.Driver
+
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.data.repository: DEBUG
+    org.springframework.graphql: DEBUG
+    org.springframework.graphql.data: DEBUG
+    org.springframework.web: DEBUG

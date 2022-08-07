@@ -5,13 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Connection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.PriorityType;
 
 import java.util.List;
 
 @Data
 @Builder
-public class PartyRelationshipPriorityTypeConnection implements Connection<PriorityType> {
+public class PriorityTypeConnection implements Connection<PriorityType> {
 
 	private List<Edge<PriorityType>> edges;
 	private PageInfo pageInfo;

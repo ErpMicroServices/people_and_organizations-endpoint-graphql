@@ -1,11 +1,12 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanismType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.Case;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.CommunicationEventPurposeRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.CommunicationEventRepository;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationship;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
@@ -23,9 +24,21 @@ public class CommunicationEventController {
 
 	private final CommunicationEventRoleRepository communicationEventRoleRepository;
 
-	public CommunicationEventController(final CommunicationEventRepository repository, final CommunicationEventPurposeRepository communicationEventPurposeRepository, final CommunicationEventRoleRepository communicationEventRoleRepository) {
+	private final ContactMechanismTypeRepository contactMechanismTypeRepository;
+
+	private final CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository;
+
+	private final CommunicationEventTypeRepository communicationEventTypeRepository;
+
+	private final PartyRelationshipRepository partyRelationshipRepository;
+
+	public CommunicationEventController(final CommunicationEventRepository repository, final CommunicationEventRoleRepository communicationEventRoleRepository, final ContactMechanismTypeRepository contactMechanismTypeRepository, final CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository, final CommunicationEventTypeRepository communicationEventTypeRepository, final PartyRelationshipRepository partyRelationshipRepository) {
 		this.communicationEventRepository = repository;
 		this.communicationEventRoleRepository = communicationEventRoleRepository;
+		this.contactMechanismTypeRepository = contactMechanismTypeRepository;
+		this.communicationEventStatusTypeRepository = communicationEventStatusTypeRepository;
+		this.communicationEventTypeRepository = communicationEventTypeRepository;
+		this.partyRelationshipRepository = partyRelationshipRepository;
 	}
 
 
@@ -55,5 +68,25 @@ public class CommunicationEventController {
 				       .edges(communicationEventRoleEdges)
 				       .pageInfo(pageInfo)
 				       .build();
+	}
+
+	@SchemaMapping
+	public ContactMechanismType contactMechanismType(CommunicationEvent communicationEvent) {
+		return contactMechanismTypeRepository.findById(communicationEvent.getContactMechanismTypeId()).get();
+	}
+
+	@SchemaMapping
+	public CommunicationEventStatusType communicationEventStatusType(CommunicationEvent communicationEvent) {
+		return communicationEventStatusTypeRepository.findById(communicationEvent.getCommunicationEventStatusTypeId()).get();
+	}
+
+	@SchemaMapping
+	public CommunicationEventType communicationEventType(CommunicationEvent communicationEvent) {
+		return communicationEventTypeRepository.findById(communicationEvent.getCommunicationEventTypeId()).get();
+	}
+
+	@SchemaMapping
+	public PartyRelationship partyRelationship(CommunicationEvent communicationEvent) {
+		return partyRelationshipRepository.findById(communicationEvent.getPartyRelationshipId()).get();
 	}
 }

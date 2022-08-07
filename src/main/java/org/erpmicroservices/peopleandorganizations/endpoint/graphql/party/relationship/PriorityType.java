@@ -1,4 +1,4 @@
-package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role;
+package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship;
 
 import lombok.Builder;
 import lombok.Data;
@@ -16,9 +16,9 @@ import java.util.UUID;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class PartyRoleType extends AbstractType<PartyRoleType> {
+public class PriorityType extends AbstractType<PriorityType> {
 	@Builder
-	public PartyRoleType(@NotNull final UUID id, @NotBlank final String description, final UUID parentId) {
+	public PriorityType(@NotNull final UUID id, @NotBlank final String description, final UUID parentId) {
 		super(id, description, parentId);
 	}
 }
