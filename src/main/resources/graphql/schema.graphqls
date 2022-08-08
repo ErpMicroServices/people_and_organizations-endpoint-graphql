@@ -52,7 +52,7 @@ type CaseConnection {
 
 input NewCase {
     description: String!
-    startedAt: String!
+    startedAt: DateTime!
     caseTypeId: ID!
     caseStatusTypeId: ID!
 }
@@ -61,8 +61,15 @@ type CaseRole implements Node{
     id: ID!
     caseRoleType: CaseRoleType!
     party: Party!
-    fromDate: String
-    thruDate: String
+    fromDate: Date!
+    thruDate: Date
+}
+
+input NewCaseRole {
+    caseId: ID!
+    caseRoleTypeId: ID!
+    partyId: ID!
+    fromDate: Date!
 }
 
 type CaseRoleEdge {
@@ -73,13 +80,6 @@ type CaseRoleEdge {
 type CaseRoleConnection {
     edges: [CaseRoleEdge]
     pageInfo: PageInfo!
-}
-
-input NewCaseRole {
-    caseId: ID!
-    caseRoleTypeId: ID!
-    partyId: ID!
-    fromDate: DateTime!
 }
 
 type CaseRoleType implements Node {

@@ -119,20 +119,14 @@ public class CaseController {
 	}
 
 	@MutationMapping
-	public CaseRole addCaseRole(@Argument NewCaseRole newCaseRole) {
-		return caseRoleTypeRepository.findById(newCaseRole.getCaseRoleTypeId())
-				       .flatMap(caseRoleType ->
-						                partyRepository.findById(newCaseRole.getPartyId())
-								                .flatMap(party -> {
-									                return caseRepository.findById(newCaseRole.getCaseId())
-											                       .flatMap(kase -> {
-												                       return Optional.of(caseRoleRepository.save(CaseRole.builder()
-														                                                                  .caseRoleTypeId(newCaseRole.getCaseRoleTypeId())
-														                                                                  .partyId(newCaseRole.getPartyId())
-														                                                                  .fromDate(newCaseRole.getFromDate())
-														                                                                  .build()));
-											                       });
-								                })).orElseThrow();
+	public Case addCaseRole(@Argument NewCaseRole newCaseRole) {
+		caseRoleRepository.save(CaseRole.builder()
+				                        .caseId(newCaseRole.getCaseId())
+				                        .caseRoleTypeId(newCaseRole.getCaseRoleTypeId())
+				                        .partyId(newCaseRole.getPartyId())
+				                        .fromDate(newCaseRole.getFromDate())
+				                        .build());
+		return caseRepository.findById(newCaseRole.getCaseId()).get();
 	}
 
 	@MutationMapping

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.test.tester.GraphQlTester;
 
 abstract public class AbstractGWT {
-
 	protected GraphQlTester.Response response;
 	@Autowired
 	protected GraphQlTester graphQlTester;
