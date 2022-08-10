@@ -19,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureG
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -155,7 +156,7 @@ public class AnEntireCaseCanBeQueriedTest extends AbstractGWT {
 		response
 				.path(casesGraphQlPath + "id").entity(UUID.class).isEqualTo(aCase.getId())
 				.path(casesGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
-				.path(casesGraphQlPath + "startedAt").entity(String.class).isEqualTo(aCase.getStartedAt().toString())
+				.path(casesGraphQlPath + "startedAt").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(aCase.getStartedAt()))
 				.path(casesGraphQlPath + "caseType.id").entity(UUID.class).isEqualTo(caseType.getId())
 				.path(casesGraphQlPath + "caseType.description").entity(String.class).isEqualTo(caseType.getDescription())
 				.path(casesGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
@@ -168,7 +169,7 @@ public class AnEntireCaseCanBeQueriedTest extends AbstractGWT {
 				.path(caseRolesGraphQlPath + "fromDate").entity(LocalDate.class).isEqualTo(caseRole.getFromDate())
 				.path(caseRolesGraphQlPath + "thruDate").valueIsNull()
 				.path(communicationEventsGraphQlPath + "id").entity(UUID.class).isEqualTo(communicationEvent.getId())
-				.path(communicationEventsGraphQlPath + "started").entity(String.class).isEqualTo(communicationEvent.getStarted().toString())
+				.path(communicationEventsGraphQlPath + "started").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(communicationEvent.getStarted()))
 				.path(communicationEventsGraphQlPath + "ended").valueIsNull()
 				.path(communicationEventsGraphQlPath + "note").entity(String.class).isEqualTo(communicationEvent.getNote())
 				.path(communicationEventsGraphQlPath + "contactMechanismType.id").entity(UUID.class).isEqualTo(contactMechanismType.getId())

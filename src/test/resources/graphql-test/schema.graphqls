@@ -135,8 +135,8 @@ type CaseTypeConnection {
 
 type CommunicationEvent implements Node{
     id: ID!
-    started: String!
-    ended: String
+    started: DateTime!
+    ended: DateTime
     note: String!
     contactMechanismType: ContactMechanismType!
     communicationEventStatusType: CommunicationEventStatusType!
@@ -714,7 +714,7 @@ type PartyRelationshipTypeConnection {
 
 type PartyRelationshipTypeEdge {
     node: PartyRelationshipType!
-    cusror: String!
+    cursor: String!
 }
 
 type PartyRelationshipPriorityType {
