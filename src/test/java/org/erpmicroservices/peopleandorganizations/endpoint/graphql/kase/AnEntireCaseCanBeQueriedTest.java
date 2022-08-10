@@ -33,7 +33,7 @@ public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 		aCaseRoleTypeExists();
 		aCaseRoleExists();
 		aContactMechanismTypeExists();
-		aCommunicationEventStatusTypeRepositoryExists();
+		aCommunicationEventStatusTypeExists();
 		aCommunicationEventTypeExists();
 		aPartyRoleTypeExists();
 		partyRole1 = aPartyRoleExists(party1);

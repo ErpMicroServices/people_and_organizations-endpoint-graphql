@@ -72,11 +72,10 @@ public abstract class KaseGwtTemplate extends AbstractGWT {
 	protected void aCaseExists() {
 		aCaseTypeExists();
 		aCaseStatusTypeExists();
-		aCase = completeCase()
-				        .caseTypeId(caseType.getId())
-				        .caseStatusTypeId(caseStatusType.getId())
-				        .build();
-		aCase = caseRepository.save(aCase);
+		aCase = caseRepository.save(completeCase()
+				                            .caseTypeId(caseType.getId())
+				                            .caseStatusTypeId(caseStatusType.getId())
+				                            .build());
 	}
 
 	protected void aCaseTypeExists() {
@@ -98,6 +97,13 @@ public abstract class KaseGwtTemplate extends AbstractGWT {
 	}
 
 	protected void aPartyRelationshipExists() {
+		party1 = aPartyExists();
+		party2 = aPartyExists();
+		partyRole1 = aPartyRoleExists(party1);
+		partyRole2 = aPartyRoleExists(party2);
+		aPartyRelationshipTypeExists();
+		aPartyRelationshiopStatusTypeExists();
+		aPriorityTypeExists();
 		partyRelationship = partyRelationshipRepository.save(completePartyRelationship()
 				                                                     .fromPartyRoleId(partyRole1.getId())
 				                                                     .toPartyRoleId(partyRole2.getId())
@@ -120,8 +126,11 @@ public abstract class KaseGwtTemplate extends AbstractGWT {
 	}
 
 	protected PartyRole aPartyRoleExists(final Party party) {
+		if (partyRoleType == null) {
+			aPartyRoleTypeExists();
+		}
 		return partyRoleRepository.save(completePartyRole()
-				                                .partyId(party1.getId())
+				                                .partyId(party.getId())
 				                                .partyRoleTypeId(partyRoleType.getId())
 				                                .build());
 	}
@@ -134,7 +143,7 @@ public abstract class KaseGwtTemplate extends AbstractGWT {
 		communicationEventType = communicationEventTypeRepository.save(completeCommunicationEventType().build());
 	}
 
-	protected void aCommunicationEventStatusTypeRepositoryExists() {
+	protected void aCommunicationEventStatusTypeExists() {
 		communicationEventStatusType = communicationEventStatusTypeRepository.save(completeCommunicationEventStatusType().build());
 	}
 
