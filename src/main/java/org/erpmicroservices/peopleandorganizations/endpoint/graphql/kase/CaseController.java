@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -113,7 +112,7 @@ public class CaseController {
 										                         Optional.of(caseRepository.save(Case.builder()
 												                                                         .description(newCase.getDescription())
 												                                                         .caseTypeId(newCase.getCaseTypeId())
-												                                                         .startedAt(ZonedDateTime.parse(newCase.getStartedAt()))
+												                                                         .startedAt(newCase.getStartedAt())
 												                                                         .caseStatusTypeId(newCase.getCaseStatusTypeId())
 												                                                         .build())))).orElseThrow();
 	}

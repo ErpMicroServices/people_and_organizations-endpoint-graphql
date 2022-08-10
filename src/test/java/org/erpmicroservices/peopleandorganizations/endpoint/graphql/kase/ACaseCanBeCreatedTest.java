@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,7 +44,7 @@ public class ACaseCanBeCreatedTest extends AbstractGWT {
 				           .operationName("CreateCase")
 				           .variable("newCase", Map.of(
 						           "description", aCase.getDescription(),
-						           "startedAt", aCase.getStartedAt(),
+						           "startedAt", aCase.getStartedAt().format(DateTimeFormatter.ISO_DATE_TIME),
 						           "caseTypeId", caseType.getId(),
 						           "caseStatusTypeId", caseStatusType.getId()
 				           ))
@@ -54,7 +56,7 @@ public class ACaseCanBeCreatedTest extends AbstractGWT {
 	public void thenThisIsExpected() {
 		response.path(caseCreateGraphQlPath + "id").hasValue()
 				.path(caseCreateGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
-				.path(caseCreateGraphQlPath + "startedAt").entity(String.class).isEqualTo(aCase.getStartedAt().toString())
+				.path(caseCreateGraphQlPath + "startedAt").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(aCase.getStartedAt()))
 				.path(caseCreateGraphQlPath + "caseType.id").entity(UUID.class).isEqualTo(caseType.getId())
 				.path(caseCreateGraphQlPath + "caseType.description").entity(String.class).isEqualTo(caseType.getDescription())
 				.path(caseCreateGraphQlPath + "caseStatusType.id").entity(UUID.class).isEqualTo(caseStatusType.getId())

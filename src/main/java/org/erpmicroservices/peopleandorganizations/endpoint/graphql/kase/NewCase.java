@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Data
@@ -17,7 +18,7 @@ public class NewCase {
 	@NotNull
 	private UUID caseTypeId;
 	@NotNull
-	private String startedAt;
+	private ZonedDateTime startedAt;
 	@NotNull
 	private UUID caseStatusTypeId;
 }
