@@ -1,0 +1,14 @@
+mutation ExpireCaseRole( $caseId: ID!, $caseRoleId: ID!){
+    expireCaseRole(caseId: $caseId, caseRoleId: $caseRoleId){
+        id
+        fromDate
+        thruDate
+        party {
+            id
+        }
+        caseRoleType {
+            id
+            description
+        }
+    }
+}

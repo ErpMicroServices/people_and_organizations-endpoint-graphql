@@ -803,7 +803,7 @@ type PartyTypeConnection {
 type Mutation {
     addCaseRole( newCaseRole: NewCaseRole!): Case!
     addCommunicationEventToCase( caseId: ID!, newCommunicationEvent: NewCommunicationEvent!): CommunicationEvent
-    expireCaseRole( caseId: ID!, caseRoleId: ID!): Case!
+    expireCaseRole( caseId: ID!, caseRoleId: ID!): CaseRole!
     createCase( newCase: NewCase!) :Case!
     createFacility( newFacility: NewFacility!): Facility!
     partyCreate( newParty: NewParty!): Party!

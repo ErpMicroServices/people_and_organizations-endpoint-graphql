@@ -55,6 +55,7 @@ public abstract class KaseGwtTemplate extends AbstractGWT {
 	protected PriorityType priorityType;
 
 	protected Party aPartyExists() {
+		aPartyTypeExists();
 		return partyRepository.save(completeParty()
 				                            .partyTypeId(partyType.getId())
 				                            .build());
@@ -69,8 +70,8 @@ public abstract class KaseGwtTemplate extends AbstractGWT {
 	}
 
 	protected void aCaseExists() {
-		caseType = caseTypeRepository.save(completeCaseType().build());
-		caseStatusType = caseStatusTypeRepository.save(completeCaseStatusType().build());
+		aCaseTypeExists();
+		aCaseStatusTypeExists();
 		aCase = completeCase()
 				        .caseTypeId(caseType.getId())
 				        .caseStatusTypeId(caseStatusType.getId())
@@ -142,6 +143,8 @@ public abstract class KaseGwtTemplate extends AbstractGWT {
 	}
 
 	protected void aCaseRoleExists() {
+		party1 = aPartyExists();
+		aCaseRoleTypeExists();
 		caseRole = caseRoleRepository.save(completeCaseRole()
 				                                   .caseId(aCase.getId())
 				                                   .partyId(party1.getId())
