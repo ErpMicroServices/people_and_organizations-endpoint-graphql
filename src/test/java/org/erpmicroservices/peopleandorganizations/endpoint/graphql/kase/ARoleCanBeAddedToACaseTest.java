@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.UUID;
@@ -65,7 +67,7 @@ public class ARoleCanBeAddedToACaseTest extends AbstractGWT {
 						           "caseId", caseRole.getCaseId(),
 						           "caseRoleTypeId", caseRole.getCaseRoleTypeId(),
 						           "partyId", caseRole.getPartyId(),
-						           "fromDate", DateTimeFormatter.ISO_LOCAL_DATE.format(caseRole.getFromDate())
+						           "fromDate", caseRole.getFromDate().format(DateTimeFormatter.ISO_LOCAL_DATE)
 				           ))
 				           .variable("rolesPageInfo", Map.of("pageNumber", "0"
 						           , "pageSize", "100"
@@ -79,9 +81,9 @@ public class ARoleCanBeAddedToACaseTest extends AbstractGWT {
 	public void thenThisIsExpected() {
 		response.path(addCaseRoleGraphQlPath + "id").hasValue()
 				.path(addCaseRoleGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
-				.path(addCaseRoleGraphQlPath + "startedAt").entity(String.class).isEqualTo(aCase.getStartedAt().toString())
+				.path(addCaseRoleGraphQlPath + "startedAt").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(aCase.getStartedAt()))
 				.path(rolesGraphQlPath + "id").hasValue()
-				.path(rolesGraphQlPath + "fromDate").entity(String.class).isEqualTo(caseRole.getFromDate().toString())
+				.path(rolesGraphQlPath + "fromDate").entity(LocalDate.class).isEqualTo(caseRole.getFromDate())
 				.path(rolesGraphQlPath + "caseRoleType.id").entity(UUID.class).isEqualTo(caseRoleType.getId())
 				.path(rolesGraphQlPath + "caseRoleType.description").entity(String.class).isEqualTo(caseRoleType.getDescription())
 				.path(rolesGraphQlPath + "party.id").entity(UUID.class).isEqualTo(caseRole.getPartyId());
