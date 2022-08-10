@@ -87,6 +87,18 @@ public abstract class KaseGwtTemplate extends AbstractGWT {
 	}
 
 	protected void aCommunicationEventExists() {
+		if (communicationEventStatusType == null) {
+			aCommunicationEventStatusTypeExists();
+		}
+		if (communicationEventType == null) {
+			aCommunicationEventTypeExists();
+		}
+		if (contactMechanismType == null) {
+			aContactMechanismTypeExists();
+		}
+		if (partyRelationship == null) {
+			aPartyRelationshipExists();
+		}
 		communicationEvent = communicationEventRepository.save(completeCommunicationEvent()
 				                                                       .caseId(aCase.getId())
 				                                                       .communicationEventStatusTypeId(communicationEventStatusType.getId())
@@ -97,13 +109,27 @@ public abstract class KaseGwtTemplate extends AbstractGWT {
 	}
 
 	protected void aPartyRelationshipExists() {
-		party1 = aPartyExists();
-		party2 = aPartyExists();
-		partyRole1 = aPartyRoleExists(party1);
-		partyRole2 = aPartyRoleExists(party2);
-		aPartyRelationshipTypeExists();
-		aPartyRelationshiopStatusTypeExists();
-		aPriorityTypeExists();
+		if (party1 == null) {
+			party1 = aPartyExists();
+		}
+		if (party2 == null) {
+			party2 = aPartyExists();
+		}
+		if (partyRole1 == null) {
+			partyRole1 = aPartyRoleExists(party1);
+		}
+		if (partyRole2 == null) {
+			partyRole2 = aPartyRoleExists(party2);
+		}
+		if (partyRelationshipType == null) {
+			aPartyRelationshipTypeExists();
+		}
+		if (partyRelationshipStatusType == null) {
+			aPartyRelationshiopStatusTypeExists();
+		}
+		if (priorityType == null) {
+			aPriorityTypeExists();
+		}
 		partyRelationship = partyRelationshipRepository.save(completePartyRelationship()
 				                                                     .fromPartyRoleId(partyRole1.getId())
 				                                                     .toPartyRoleId(partyRole2.getId())
@@ -152,8 +178,12 @@ public abstract class KaseGwtTemplate extends AbstractGWT {
 	}
 
 	protected void aCaseRoleExists() {
-		party1 = aPartyExists();
-		aCaseRoleTypeExists();
+		if (party1 == null) {
+			party1 = aPartyExists();
+		}
+		if (caseRoleType == null) {
+			aCaseRoleTypeExists();
+		}
 		caseRole = caseRoleRepository.save(completeCaseRole()
 				                                   .caseId(aCase.getId())
 				                                   .partyId(party1.getId())

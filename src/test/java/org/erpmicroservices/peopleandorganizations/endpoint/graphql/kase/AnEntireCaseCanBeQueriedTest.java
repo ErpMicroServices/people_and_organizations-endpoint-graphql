@@ -23,14 +23,9 @@ public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 	@Override
 	public void givenTheFollowing() {
 		super.givenTheFollowing();
-		aCaseTypeExists();
-		aCaseStatusTypeExists();
 		aCaseExists();
-		aPartyTypeExists();
-		aPartyExists();
 		party1 = aPartyExists();
 		party2 = aPartyExists();
-		aCaseRoleTypeExists();
 		aCaseRoleExists();
 		aContactMechanismTypeExists();
 		aCommunicationEventStatusTypeExists();
@@ -38,9 +33,6 @@ public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 		aPartyRoleTypeExists();
 		partyRole1 = aPartyRoleExists(party1);
 		partyRole2 = aPartyRoleExists(party2);
-		aPartyRelationshipTypeExists();
-		aPartyRelationshiopStatusTypeExists();
-		aPriorityTypeExists();
 		aPartyRelationshipExists();
 		aCommunicationEventExists();
 
