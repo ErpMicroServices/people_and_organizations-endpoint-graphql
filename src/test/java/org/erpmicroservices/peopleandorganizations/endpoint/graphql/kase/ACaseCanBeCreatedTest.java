@@ -11,26 +11,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.erpmicroservices.peopleandorganizations.endpoint.builders.CaseStatusTypeTestDataBuilder.completeCaseStatusType;
 import static org.erpmicroservices.peopleandorganizations.endpoint.builders.CaseTestDataBuilder.completeCase;
-import static org.erpmicroservices.peopleandorganizations.endpoint.builders.CaseTypeTestDataBuilder.completeCaseType;
 
 @SpringBootTest
 @AutoConfigureGraphQlTester
-public class ACaseCanBeCreatedTest extends AbstractGWT {
+public class ACaseCanBeCreatedTest extends KaseGwtTemplate {
 
 	private final String caseCreateGraphQlPath = "createCase.";
-
-	private CaseType caseType;
-	private CaseStatusType caseStatusType;
-	private Case aCase;
 
 	@BeforeEach
 	@Override
 	public void givenTheFollowing() {
 		super.givenTheFollowing();
-		caseType = caseTypeRepository.save(completeCaseType().build());
-		caseStatusType = caseStatusTypeRepository.save(completeCaseStatusType().build());
+		aCaseTypeExists();
+		aCaseStatusTypeExists();
 		aCase = completeCase()
 				        .caseTypeId(caseType.getId())
 				        .caseTypeId(caseStatusType.getId())

@@ -51,6 +51,7 @@ abstract public class AbstractGWT {
 		emptyTheDatabase();
 	}
 
+
 	@Test
 	abstract public void whenThisHappens();
 
