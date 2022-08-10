@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -105,16 +104,12 @@ public class CaseController {
 
 	@MutationMapping
 	public Case createCase(@Argument NewCase newCase) {
-		return caseTypeRepository.findById(newCase.getCaseTypeId())
-				       .flatMap(caseType ->
-						                caseStatusTypeRepository.findById(newCase.getCaseStatusTypeId())
-								                .flatMap(caseStatusType ->
-										                         Optional.of(caseRepository.save(Case.builder()
-												                                                         .description(newCase.getDescription())
-												                                                         .caseTypeId(newCase.getCaseTypeId())
-												                                                         .startedAt(newCase.getStartedAt())
-												                                                         .caseStatusTypeId(newCase.getCaseStatusTypeId())
-												                                                         .build())))).orElseThrow();
+		return caseRepository.save(Case.builder()
+				                           .caseStatusTypeId(newCase.getCaseStatusTypeId())
+				                           .caseTypeId(newCase.getCaseTypeId())
+				                           .description(newCase.getDescription())
+				                           .startedAt(newCase.getStartedAt())
+				                           .build());
 	}
 
 	@MutationMapping
@@ -139,24 +134,14 @@ public class CaseController {
 
 	@MutationMapping
 	public CommunicationEvent addCommunicationEventToCase(@Argument UUID caseId, @Argument NewCommunicationEvent newCommunicationEvent) {
-		return caseRepository.findById(caseId)
-				       .flatMap(kase ->
-						                contactMechanismTypeRepository.findById(newCommunicationEvent.getContactMechanismTypeId())
-								                .flatMap(contactMechanismType ->
-										                         communicationEventStatusTypeRepository.findById(newCommunicationEvent.getCommunicationEventStatusTypeId())
-												                         .flatMap(communicationEventStatusType ->
-														                                  partyRelationshipRepository.findById(newCommunicationEvent.getPartyRelationshipId())
-																                                  .flatMap(partyRelationship ->
-																		                                           communicationEventTypeRepository.findById(newCommunicationEvent.getCommunicationEventTypeId())
-																				                                           .flatMap(communicationEventType -> Optional.of(communicationEventRepository.save(CommunicationEvent.builder()
-
-																						                                                                                                                            .started(newCommunicationEvent.getStarted().toZonedDateTime())
-																						                                                                                                                            .ended(newCommunicationEvent.getEnded())
-																						                                                                                                                            .note(newCommunicationEvent.getNote())
-																						                                                                                                                            .communicationEventStatusTypeId(communicationEventStatusType.getId())
-																						                                                                                                                            .contactMechanismTypeId(contactMechanismType.getId())
-																						                                                                                                                            .communicationEventTypeId(communicationEventType.getId())
-																						                                                                                                                            .partyRelationshipId(partyRelationship.getId())
-																						                                                                                                                            .build()))))))).orElseThrow();
+		return communicationEventRepository.save(CommunicationEvent.builder()
+				                                         .caseId(caseId)
+				                                         .communicationEventStatusTypeId(newCommunicationEvent.getCommunicationEventStatusTypeId())
+				                                         .communicationEventTypeId(newCommunicationEvent.getCommunicationEventTypeId())
+				                                         .contactMechanismTypeId(newCommunicationEvent.getContactMechanismTypeId())
+				                                         .note(newCommunicationEvent.getNote())
+				                                         .partyRelationshipId(newCommunicationEvent.getPartyRelationshipId())
+				                                         .started(newCommunicationEvent.getStarted())
+				                                         .build());
 	}
 }
