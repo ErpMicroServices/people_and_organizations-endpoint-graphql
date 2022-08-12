@@ -38,7 +38,7 @@ public class ARoleCanBeExpiredTest extends KaseGwtTemplate {
 		response.path("expireCaseRole.id").entity(UUID.class).isEqualTo(caseRole.getId())
 				.path("expireCaseRole.fromDate").entity(LocalDate.class).isEqualTo(caseRole.getFromDate())
 				.path("expireCaseRole.thruDate").hasValue()
-				.path("expireCaseRole.party.id").entity(UUID.class).isEqualTo(party1.getId())
+				.path("expireCaseRole.party.id").entity(UUID.class).isEqualTo(party.getId())
 				.path("expireCaseRole.caseRoleType.id").entity(UUID.class).isEqualTo(caseRoleType.getId());
 	}
 }

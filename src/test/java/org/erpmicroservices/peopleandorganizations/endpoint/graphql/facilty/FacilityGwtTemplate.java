@@ -21,31 +21,33 @@ public abstract class FacilityGwtTemplate extends AbstractGWT {
 	protected GeographicBoundaryType geographicBoundaryType;
 	protected ContactMechanismGeographicBoundary contactMechanismGeographicBoundary;
 
-	protected void aFacilityRoleExists() {
+	protected FacilityRole aFacilityRoleExists() {
 		if (facility == null) {
 			aFacilityExists();
 		}
 		if (facilityRoleType == null) {
 			aFacilityRoleTypeExists();
 		}
-		if (party1 == null) {
-			party1 = aPartyExists();
+		if (party == null) {
+			aPartyExists();
 		}
 		facilityRole = facilityRoleRepository.save(FacilityRole.builder()
 				                                           .facilityId(facility.getId())
 				                                           .facilityRoleTypeId(facilityRoleType.getId())
-				                                           .partyId(party1.getId())
+				                                           .partyId(party.getId())
 				                                           .fromDate(LocalDate.now())
 				                                           .build());
+		return facilityRole;
 	}
 
-	private void aFacilityRoleTypeExists() {
+	private FacilityRoleType aFacilityRoleTypeExists() {
 		facilityRoleType = facilityRoleTypeRepository.save(FacilityRoleType.builder()
 				                                                   .description("FacilityRoleType Test Data " + UUID.randomUUID())
 				                                                   .build());
+		return facilityRoleType;
 	}
 
-	protected void aFacilityContactMechanismExists() {
+	protected FacilityContactMechanism aFacilityContactMechanismExists() {
 		if (facility == null) {
 			aFacilityExists();
 		}
@@ -57,9 +59,10 @@ public abstract class FacilityGwtTemplate extends AbstractGWT {
 				                                                                   .facilityId(facility.getId())
 				                                                                   .fromDate(LocalDate.now())
 				                                                                   .build());
+		return facilityContactMechanism;
 	}
 
-	protected void aContactMechanismExists() {
+	protected ContactMechanism aContactMechanismExists() {
 		if (contactMechanismType == null) {
 			aContactMechanismTypeExists();
 		}
@@ -68,9 +71,10 @@ public abstract class FacilityGwtTemplate extends AbstractGWT {
 				                                                   .directions("ContactMechanism Test Data directions " + UUID.randomUUID())
 				                                                   .contactMechanismTypeId(contactMechanismType.getId())
 				                                                   .build());
+		return contactMechanism;
 	}
 
-	protected void aGeographicBoundaryBelongsToAContactMechanism() {
+	protected ContactMechanismGeographicBoundary aGeographicBoundaryBelongsToAContactMechanism() {
 		if (geographicBoundaryType == null) {
 			aGeographicBoundaryTypeExists();
 		}
@@ -81,24 +85,27 @@ public abstract class FacilityGwtTemplate extends AbstractGWT {
 				                                                                                       .geographicBoundaryId(geographicBoundary.getId())
 				                                                                                       .contactMechanismId(contactMechanism.getId())
 				                                                                                       .build());
+		return contactMechanismGeographicBoundary;
 	}
 
-	protected void aGeographicBoundaryExists() {
+	protected GeographicBoundary aGeographicBoundaryExists() {
 		geographicBoundary = geographicBoundaryRepository.save(GeographicBoundary.builder()
 				                                                       .abbreviation("GeographicBoundary.abbreviation test data " + UUID.randomUUID())
 				                                                       .geoCode("GeographicBoundary.geocode test data " + UUID.randomUUID())
 				                                                       .geographicBoundaryTypeId(geographicBoundaryType.getId())
 				                                                       .name("geographicBoundary.name test data " + UUID.randomUUID())
 				                                                       .build());
+		return geographicBoundary;
 	}
 
-	protected void aGeographicBoundaryTypeExists() {
+	protected GeographicBoundaryType aGeographicBoundaryTypeExists() {
 		geographicBoundaryType = geographicBoundaryTypeRepository.save(GeographicBoundaryType.builder()
 				                                                               .description("geographicBoundaryType test data " + UUID.randomUUID())
 				                                                               .build());
+		return geographicBoundaryType;
 	}
 
-	protected void aFacilityExists() {
+	protected Facility aFacilityExists() {
 		if (facilityType == null) {
 			aFacilityTypeExists();
 		}
@@ -107,11 +114,13 @@ public abstract class FacilityGwtTemplate extends AbstractGWT {
 				                                   .squareFootage(100L)
 				                                   .description("Facility Test Data " + UUID.randomUUID())
 				                                   .build());
+		return facility;
 	}
 
-	private void aFacilityTypeExists() {
+	private FacilityType aFacilityTypeExists() {
 		facilityType = facilityTypeRepository.save(FacilityType.builder()
 				                                           .description("FacilityType Test Data " + UUID.randomUUID())
 				                                           .build());
+		return facilityType;
 	}
 }

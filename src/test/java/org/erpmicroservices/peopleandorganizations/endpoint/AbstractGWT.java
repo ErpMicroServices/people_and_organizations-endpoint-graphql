@@ -88,15 +88,13 @@ abstract public class AbstractGWT {
 
 	@Autowired
 	protected ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository;
-	protected Party party1;
+	protected Party party;
 	protected ContactMechanismType contactMechanismType;
-	protected PartyRole partyRole1;
+	protected PartyRole partyRole;
 	protected CommunicationEventStatusType communicationEventStatusType;
 	protected CommunicationEventType communicationEventType;
 	protected CommunicationEvent communicationEvent;
 	protected PartyRoleType partyRoleType;
-	protected Party party2;
-	protected PartyRole partyRole2;
 	protected PartyRelationship partyRelationship;
 	protected PartyRelationshipType partyRelationshipType;
 	protected PartyRelationshipStatusType partyRelationshipStatusType;
@@ -160,31 +158,36 @@ abstract public class AbstractGWT {
 		if (partyType == null) {
 			aPartyTypeExists();
 		}
-		return partyRepository.save(completeParty()
-				                            .partyTypeId(partyType.getId())
-				                            .build());
+		party = partyRepository.save(completeParty()
+				                             .partyTypeId(partyType.getId())
+				                             .build());
+		return party;
 	}
 
-	protected void aPartyTypeExists() {
+	protected PartyType aPartyTypeExists() {
 		partyType = partyTypeRepository.save(completePartyType().build());
+		return partyType;
 	}
 
 	protected PartyRole aPartyRoleExists(final Party party) {
 		if (partyRoleType == null) {
 			aPartyRoleTypeExists();
 		}
-		return partyRoleRepository.save(completePartyRole()
-				                                .partyId(party.getId())
-				                                .partyRoleTypeId(partyRoleType.getId())
-				                                .build());
+		partyRole = partyRoleRepository.save(completePartyRole()
+				                                     .partyId(party.getId())
+				                                     .partyRoleTypeId(partyRoleType.getId())
+				                                     .build());
+		return partyRole;
 	}
 
-	protected void aPartyRoleTypeExists() {
+	protected PartyRoleType aPartyRoleTypeExists() {
 		partyRoleType = partyRoleTypeRepository.save(completePartyRoleType().build());
+		return partyRoleType;
 	}
 
-	protected void aContactMechanismTypeExists() {
+	protected ContactMechanismType aContactMechanismTypeExists() {
 		contactMechanismType = contactMechanismTypeRepository.save(completeContactMechanismType().build());
+		return contactMechanismType;
 	}
 
 }

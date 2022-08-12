@@ -66,7 +66,7 @@ public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 				.path(caseRolesGraphQlPath + "id").entity(UUID.class).isEqualTo(caseRole.getId())
 				.path(caseRolesGraphQlPath + "caseRoleType.id").entity(UUID.class).isEqualTo(caseRoleType.getId())
 				.path(caseRolesGraphQlPath + "caseRoleType.description").entity(String.class).isEqualTo(caseRoleType.getDescription())
-				.path(caseRolesGraphQlPath + "party.id").entity(UUID.class).isEqualTo(party1.getId())
+				.path(caseRolesGraphQlPath + "party.id").entity(UUID.class).isEqualTo(party.getId())
 				.path(caseRolesGraphQlPath + "fromDate").entity(LocalDate.class).isEqualTo(caseRole.getFromDate())
 				.path(caseRolesGraphQlPath + "thruDate").valueIsNull()
 				.path(communicationEventsGraphQlPath + "id").entity(UUID.class).isEqualTo(communicationEvent.getId())

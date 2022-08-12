@@ -1,6 +1,11 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
 
 import org.erpmicroservices.peopleandorganizations.endpoint.AbstractGWT;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEvent;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventStatusType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRole;
 
 import static org.erpmicroservices.peopleandorganizations.endpoint.builders.CaseRoleTestDataBuilder.completeCaseRole;
 import static org.erpmicroservices.peopleandorganizations.endpoint.builders.CaseRoleTypeTestDataBuilder.completeCaseRoleType;
@@ -22,42 +27,55 @@ public abstract class KaseGwtTemplate extends AbstractGWT {
 	protected CaseType caseType;
 	protected CaseStatusType caseStatusType;
 
-	protected void aCaseRoleTypeExists() {
+	protected Party party1;
+
+	protected Party party2;
+
+	protected PartyRole partyRole1;
+
+	protected PartyRole partyRole2;
+
+	protected CaseRoleType aCaseRoleTypeExists() {
 		caseRoleType = caseRoleTypeRepository.save(completeCaseRoleType().build());
+		return caseRoleType;
 	}
 
-	protected void aCaseExists() {
+	protected Case aCaseExists() {
 		aCaseTypeExists();
 		aCaseStatusTypeExists();
 		aCase = caseRepository.save(completeCase()
 				                            .caseTypeId(caseType.getId())
 				                            .caseStatusTypeId(caseStatusType.getId())
 				                            .build());
+		return aCase;
 	}
 
-	protected void aCaseTypeExists() {
+	protected CaseType aCaseTypeExists() {
 		caseType = caseTypeRepository.save(completeCaseType().build());
+		return caseType;
 	}
 
-	protected void aCaseStatusTypeExists() {
+	protected CaseStatusType aCaseStatusTypeExists() {
 		caseStatusType = caseStatusTypeRepository.save(completeCaseStatusType().build());
+		return caseStatusType;
 	}
 
-	protected void aCaseRoleExists() {
-		if (party1 == null) {
-			party1 = aPartyExists();
+	protected CaseRole aCaseRoleExists() {
+		if (party == null) {
+			party = aPartyExists();
 		}
 		if (caseRoleType == null) {
 			aCaseRoleTypeExists();
 		}
 		caseRole = caseRoleRepository.save(completeCaseRole()
 				                                   .caseId(aCase.getId())
-				                                   .partyId(party1.getId())
+				                                   .partyId(party.getId())
 				                                   .caseRoleTypeId(caseRoleType.getId())
 				                                   .build());
+		return caseRole;
 	}
 
-	protected void aCommunicationEventExists() {
+	protected CommunicationEvent aCommunicationEventExists() {
 		if (communicationEventStatusType == null) {
 			aCommunicationEventStatusTypeExists();
 		}
@@ -77,14 +95,17 @@ public abstract class KaseGwtTemplate extends AbstractGWT {
 				                                                       .contactMechanismTypeId(contactMechanismType.getId())
 				                                                       .partyRelationshipId(partyRelationship.getId())
 				                                                       .build());
+		return communicationEvent;
 	}
 
-	protected void aCommunicationEventTypeExists() {
+	protected CommunicationEventType aCommunicationEventTypeExists() {
 		communicationEventType = communicationEventTypeRepository.save(completeCommunicationEventType().build());
+		return communicationEventType;
 	}
 
-	protected void aCommunicationEventStatusTypeExists() {
+	protected CommunicationEventStatusType aCommunicationEventStatusTypeExists() {
 		communicationEventStatusType = communicationEventStatusTypeRepository.save(completeCommunicationEventStatusType().build());
+		return communicationEventStatusType;
 	}
 
 	protected void aPartyRelationshipExists() {
