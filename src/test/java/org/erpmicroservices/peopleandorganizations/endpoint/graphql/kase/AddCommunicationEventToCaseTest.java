@@ -38,7 +38,7 @@ public class AddCommunicationEventToCaseTest extends KaseGwtTemplate {
 	@Test
 	@Override
 	public void whenThisHappens() {
-		response = this.graphQlTester.documentName("AddCommunicationEventToCase")
+		response = this.graphQlTester.documentName("CaseAddCommunicationEvent")
 				           .operationName("AddCommunicationEventToCase")
 				           .variable("caseId", aCase.getId())
 				           .variable("newCommunicationEvent", Map.of(

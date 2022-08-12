@@ -34,7 +34,7 @@ public class AFacilityListCanBeQueried extends FacilityGwtTemplate {
 	@Test
 	@Override
 	public void whenThisHappens() {
-		response = graphQlTester.documentName("Facilities")
+		response = graphQlTester.documentName("FacilityQuery")
 				           .operationName("Facilities")
 				           .variable("facilityPageInfo", pageInfoSortingOn("description"))
 				           .variable("facilityContactMechanismsPageInfo", pageInfoSortingOn("fromDate"))

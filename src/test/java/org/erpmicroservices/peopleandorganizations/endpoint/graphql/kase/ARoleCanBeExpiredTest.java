@@ -25,7 +25,7 @@ public class ARoleCanBeExpiredTest extends KaseGwtTemplate {
 	@Test
 	@Override
 	public void whenThisHappens() {
-		response = this.graphQlTester.documentName("ExpireCaseRole")
+		response = this.graphQlTester.documentName("CaseCaseRoleExpire")
 				           .operationName("ExpireCaseRole")
 				           .variable("caseId", aCase.getId())
 				           .variable("caseRoleId", caseRole.getId())

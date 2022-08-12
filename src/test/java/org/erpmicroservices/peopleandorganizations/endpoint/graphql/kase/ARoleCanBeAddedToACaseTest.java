@@ -38,7 +38,7 @@ public class ARoleCanBeAddedToACaseTest extends KaseGwtTemplate {
 	@Test
 	@Override
 	public void whenThisHappens() {
-		response = this.graphQlTester.documentName("AddRoleToCase")
+		response = this.graphQlTester.documentName("CaseAddRole")
 				           .operationName("AddCaseRole")
 				           .variable("newCaseRole", Map.of(
 						           "caseId", caseRole.getCaseId(),
