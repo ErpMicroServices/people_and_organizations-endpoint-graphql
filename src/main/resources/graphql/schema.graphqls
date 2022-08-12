@@ -395,7 +395,7 @@ type FacilityRoleEdge {
 }
 
 type FacilityRoleConnection {
-    edges: [FacilityRole]
+    edges: [FacilityRoleEdge]
     pageInfo: PageInfo!
 }
 

@@ -3,6 +3,7 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility;
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -96,18 +97,28 @@ public class FacilityController {
 	}
 
 	@SchemaMapping
-	public FacilityConnection roles(@Argument PageInfo pageInfo, Facility parent) {
-		final Page<Facility> page = facilityRoleRepository.findByFacilityId(parent.getId(), pageInfoToPageable(pageInfo));
-		final List<Edge<Facility>> edges = page.stream()
-				                                   .map(facility -> FacilityEdge.builder()
-						                                                    .node(facility)
-						                                                    .cursor(Cursor.builder().value(valueOf(facility.getId().hashCode())).build())
-						                                                    .build())
-				                                   .collect(Collectors.toList());
-		return FacilityConnection.builder()
+	public FacilityRoleConnection roles(@Argument PageInfo pageInfo, Facility facility) {
+		final Page<FacilityRole> page = facilityRoleRepository.findByFacilityId(facility.getId(), pageInfoToPageable(pageInfo));
+		final List<Edge<FacilityRole>> edges = page.stream()
+				                                       .map(facilityRole -> FacilityRoleEdge.builder()
+						                                                            .node(facilityRole)
+						                                                            .cursor(Cursor.builder().value(valueOf(facilityRole.getId().hashCode())).build())
+						                                                            .build())
+				                                       .collect(Collectors.toList());
+		return FacilityRoleConnection.builder()
 				       .pageInfo(pageInfo)
 				       .edges(edges)
 				       .build();
+	}
+
+	@SchemaMapping
+	public FacilityRoleType facilityRoleType(FacilityRole facilityRole) {
+		return facilityRoleTypeRepository.findById(facilityRole.getFacilityRoleTypeId()).orElseThrow();
+	}
+
+	@SchemaMapping
+	public Party party(FacilityRole facilityRole) {
+		return partyRepository.findById(facilityRole.getPartyId()).orElseThrow();
 	}
 
 	@MutationMapping

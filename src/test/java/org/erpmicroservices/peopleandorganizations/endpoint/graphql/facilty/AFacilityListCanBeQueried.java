@@ -36,9 +36,10 @@ public class AFacilityListCanBeQueried extends FacilityGwtTemplate {
 	public void whenThisHappens() {
 		response = graphQlTester.documentName("Facilities")
 				           .operationName("Facilities")
-				           .variable("pageInfo", pageInfoSortingOn("description"))
+				           .variable("facilityPageInfo", pageInfoSortingOn("description"))
 				           .variable("facilityContactMechanismsPageInfo", pageInfoSortingOn("fromDate"))
 				           .variable("geographicBoundaryPageInfo", pageInfoSortingOn("id"))
+				           .variable("rolesPageInfo", pageInfoSortingOn("fromDate"))
 				           .execute();
 	}
 

@@ -1,5 +1,5 @@
-query Facilities ($pageInfo: PageInfoInput!, $facilityContactMechanismsPageInfo: PageInfoInput!, $geographicBoundaryPageInfo:PageInfoInput!) {
-    facilities(pageInfo: $pageInfo){
+query Facilities ($facilityPageInfo: PageInfoInput!,$rolesPageInfo: PageInfoInput!, $facilityContactMechanismsPageInfo: PageInfoInput!, $geographicBoundaryPageInfo:PageInfoInput!) {
+    facilities(pageInfo: $facilityPageInfo){
         edges {
             node {
                 id
@@ -7,6 +7,21 @@ query Facilities ($pageInfo: PageInfoInput!, $facilityContactMechanismsPageInfo:
                 facilityType {
                     id
                     description
+                }
+                roles(pageInfo: $rolesPageInfo){
+                    edges {
+                        node {
+                            id
+                            fromDate
+                            facilityRoleType {
+                                id
+                                description
+                            }
+                            party {
+                                id
+                            }
+                        }
+                    }
                 }
                 contactMechanisms(pageInfo: $facilityContactMechanismsPageInfo) {
                     edges {
