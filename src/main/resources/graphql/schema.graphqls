@@ -378,6 +378,8 @@ type FacilityContactMechanismConnection {
 input NewFacilityContactMechanism {
     facilityId: ID!
     contactMechanismId: ID!
+    fromDate: Date!
+    thruDate: Date
 }
 
 type FacilityRole {
@@ -798,21 +800,23 @@ type PartyTypeConnection {
 type Mutation {
     addCaseRole( newCaseRole: NewCaseRole!): Case!
     addCommunicationEventToCase( caseId: ID!, newCommunicationEvent: NewCommunicationEvent!): CommunicationEvent
-    expireCaseRole( caseId: ID!, caseRoleId: ID!): CaseRole!
+    addFacilityContactMechanism( newFacilityContactMechanism: NewFacilityContactMechanism!): FacilityContactMechanism!
+    addFacilityRole( newFacilityRole: NewFacilityRole!): FacilityRole!
     createCase( newCase: NewCase!) :Case!
     createFacility( newFacility: NewFacility!): Facility!
-    partyCreate( newParty: NewParty!): Party!
+    expireCaseRole( caseId: ID!, caseRoleId: ID!): CaseRole!
+    expireFacilityRole(facilityRoleId: ID!, expirationDate: Date!): FacilityRole!
+    expireFacilityContactMechanism(facilityContactMechanismId: ID!, expirationDate: Date!): FacilityContactMechanism!
     partyClassificationAdd( partyClassificationNew: PartyClassificationNew!): PartyClassification!
-    partyClassificationUpdate( partyClassificationUpdate: PartyClassificationUpdate!): PartyClassification!
     partyClassificationRemove( partyClassificationId: ID!): PartyClassification!
+    partyClassificationUpdate( partyClassificationUpdate: PartyClassificationUpdate!): PartyClassification!
     partyContactMechanismAdd( partyContactMechanismNew: PartyContactMechanismNew!): PartyContactMechanism!
     partyContactMechanismUpdate( partyContactMechanism: PartyContactMechanismUpdate!): PartyContactMechanism!
     partyContactMechanismRemove( partyContactMechanismId: ID!): PartyContactMechanism!
+    partyCreate( newParty: NewParty!): Party!
     partyUpdate( updateParty: UpdateParty!): Party!
-    addFacilityRole( newFacilityRole: NewFacilityRole!): FacilityRole!
-    expireFacilityRole(facilityRoleId: ID!, expirationDate: Date!): FacilityRole!
-    addFacilityContactMechanism( newFacilityContactMechanism: NewFacilityContactMechanism): FacilityContactMechanism!
-    expireFacilityContactMechanism(facilityContactMechanismId: ID!, expirationDate: Date!): FacilityContactMechanism!
+
+
 }
 
 type Query {

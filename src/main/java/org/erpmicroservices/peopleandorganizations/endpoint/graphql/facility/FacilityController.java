@@ -159,6 +159,8 @@ public class FacilityController {
 						                            .flatMap(contactMechanism -> Optional.of(facilityContactMechanismRepository.save(FacilityContactMechanism.builder()
 								                                                                                                             .contactMechanismId(newFacilityContactMechanism.getContactMechanismId())
 								                                                                                                             .facilityId(newFacilityContactMechanism.getFacilityId())
+								                                                                                                             .fromDate(newFacilityContactMechanism.getFromDate())
+								                                                                                                             .thruDate(newFacilityContactMechanism.getThruDate())
 								                                                                                                             .build()))))
 				       .orElseThrow();
 
