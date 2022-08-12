@@ -243,7 +243,7 @@ type ContactMechanism {
     id: ID!
     endPoint: String!
     directions: String
-    geographicBoundaries(pageInfo:PageInfoInput!): ContactMechanismGeographicBoundaryConnection
+    geographicBoundaries(pageInfo:PageInfoInput!): GeographicBoundaryConnection
     contactMechanismType: ContactMechanismType!
 }
 
@@ -271,11 +271,6 @@ input ContactMechanismUpdate {
     directions: String
     geographicBoundaries: [ID]
     contactMechanismTypeId: ID!
-}
-
-type ContactMechanismGeographicBoundaryConnection {
-    edges: [ContactMechanismGeographicBoundaryEdge]
-    pageInfo: PageInfo!
 }
 
 type GeographicBoundary {
@@ -335,7 +330,7 @@ type ContactMechanismTypeConnection {
 
 type Facility {
     description: String!
-    facilityContactMechanisms(pageInfo:PageInfoInput!): FacilityContactMechanismConnection
+    contactMechanisms(pageInfo:PageInfoInput!): FacilityContactMechanismConnection
     facilityType: FacilityType!
     id: ID!
     madeUpOf(pageInfo:PageInfoInput!): FacilityConnection

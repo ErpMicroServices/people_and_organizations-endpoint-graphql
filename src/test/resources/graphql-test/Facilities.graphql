@@ -1,0 +1,44 @@
+query Facilities ($pageInfo: PageInfoInput!, $facilityContactMechanismsPageInfo: PageInfoInput!, $geographicBoundaryPageInfo:PageInfoInput!) {
+    facilities(pageInfo: $pageInfo){
+        edges {
+            node {
+                id
+                description
+                facilityType {
+                    id
+                    description
+                }
+                contactMechanisms(pageInfo: $facilityContactMechanismsPageInfo) {
+                    edges {
+                        node {
+                            id
+                            fromDate
+                            contactMechanism {
+                                id
+                                endPoint
+                                contactMechanismType {
+                                    id
+                                    description
+                                }
+                                geographicBoundaries(pageInfo: $geographicBoundaryPageInfo){
+                                    edges {
+                                        node {
+                                            id
+                                            abbreviation
+                                            geoCode
+                                            name
+                                            geographicBoundaryType {
+                                                id
+                                                description
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

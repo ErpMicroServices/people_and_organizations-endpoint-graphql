@@ -27,11 +27,11 @@ public class ARoleCanBeAddedToACaseTest extends KaseGwtTemplate {
 		aCaseExists();
 		aCaseRoleTypeExists();
 		aPartyTypeExists();
-		party = aPartyExists();
+		party1 = aPartyExists();
 		caseRole = completeCaseRole()
 				           .caseId(aCase.getId())
 				           .caseRoleTypeId(caseRoleType.getId())
-				           .partyId(party.getId())
+				           .partyId(party1.getId())
 				           .build();
 	}
 
@@ -46,10 +46,7 @@ public class ARoleCanBeAddedToACaseTest extends KaseGwtTemplate {
 						           "partyId", caseRole.getPartyId(),
 						           "fromDate", caseRole.getFromDate().format(DateTimeFormatter.ISO_LOCAL_DATE)
 				           ))
-				           .variable("rolesPageInfo", Map.of("pageNumber", "0"
-						           , "pageSize", "100"
-						           , "sortBy", "fromDate"
-						           , "sortDirection", "ASC"))
+				           .variable("rolesPageInfo", pageInfoSortingOn("fromDate"))
 				           .execute();
 	}
 

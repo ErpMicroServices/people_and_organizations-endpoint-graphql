@@ -63,6 +63,11 @@ public class FacilityController {
 	}
 
 	@SchemaMapping
+	public FacilityType facilityType(Facility facility) {
+		return facilityTypeRepository.findById(facility.getFacilityTypeId()).get();
+	}
+
+	@SchemaMapping
 	public FacilityConnection madeUpOf(@Argument PageInfo pageInfo, Facility parent) {
 		final Page<Facility> page = facilityRepository.findFacilitiesByPartOfId(parent.getPartOfId(), pageInfoToPageable(pageInfo));
 		final List<Edge<Facility>> facilityEdges = page.stream()
@@ -76,7 +81,7 @@ public class FacilityController {
 	}
 
 	@SchemaMapping
-	public FacilityContactMechanismConnection facilityContactMechanisms(@Argument PageInfo pageInfo, Facility facility) {
+	public FacilityContactMechanismConnection contactMechanisms(@Argument PageInfo pageInfo, Facility facility) {
 		final Page<FacilityContactMechanism> page = facilityContactMechanismRepository.findByFacilityId(facility.getId(), pageInfoToPageable(pageInfo));
 		final List<Edge<FacilityContactMechanism>> edges = page.stream()
 				                                                   .map(facilityContactMechanism -> FacilityContactMechanismEdge.builder()

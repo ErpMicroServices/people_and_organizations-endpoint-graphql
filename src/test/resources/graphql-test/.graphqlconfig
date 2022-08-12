@@ -1,6 +1,6 @@
 {
 	"name": "People and Organizations Endpoint GraphQL Test Schema",
-	"schemaPath": "src/main/resources/graphql/schema.graphqls",
+	"schemaPath": "schema.graphqls",
 	"extensions": {
 		"endpoints": {
 			"Default GraphQL Endpoint": {

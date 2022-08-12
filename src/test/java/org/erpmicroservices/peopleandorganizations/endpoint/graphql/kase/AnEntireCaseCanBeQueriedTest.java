@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -45,18 +44,9 @@ public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 
 		response = this.graphQlTester.documentName("caseQuery")
 				           .operationName("caseQuery")
-				           .variable("rolesPageInfo", Map.of("pageNumber", "0"
-						           , "pageSize", "100"
-						           , "sortBy", "fromDate"
-						           , "sortDirection", "ASC"))
-				           .variable("communicationEventPageInfo", Map.of("pageNumber", "0"
-						           , "pageSize", "100"
-						           , "sortBy", "started"
-						           , "sortDirection", "ASC"))
-				           .variable("casePageInfo", Map.of("pageNumber", "0"
-						           , "pageSize", "100"
-						           , "sortBy", "description"
-						           , "sortDirection", "ASC"))
+				           .variable("rolesPageInfo", pageInfoSortingOn("fromDate"))
+				           .variable("communicationEventPageInfo", pageInfoSortingOn("started"))
+				           .variable("casePageInfo", pageInfoSortingOn("description"))
 				           .execute();
 
 	}
