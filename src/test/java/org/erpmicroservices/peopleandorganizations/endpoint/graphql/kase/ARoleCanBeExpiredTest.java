@@ -16,15 +16,15 @@ public class ARoleCanBeExpiredTest extends KaseGwtTemplate {
 
 	@BeforeEach
 	@Override
-	public void givenTheFollowing() {
-		super.givenTheFollowing();
+	public void given() {
+		super.given();
 		aCaseExists();
 		aCaseRoleExists();
 	}
 
 	@Test
 	@Override
-	public void whenThisHappens() {
+	public void when() {
 		response = this.graphQlTester.documentName("CaseCaseRoleExpire")
 				           .operationName("ExpireCaseRole")
 				           .variable("caseId", aCase.getId())
@@ -34,7 +34,7 @@ public class ARoleCanBeExpiredTest extends KaseGwtTemplate {
 
 	@AfterEach
 	@Override
-	public void thenThisIsExpected() {
+	public void then() {
 		response.path("expireCaseRole.id").entity(UUID.class).isEqualTo(caseRole.getId())
 				.path("expireCaseRole.fromDate").entity(LocalDate.class).isEqualTo(caseRole.getFromDate())
 				.path("expireCaseRole.thruDate").hasValue()

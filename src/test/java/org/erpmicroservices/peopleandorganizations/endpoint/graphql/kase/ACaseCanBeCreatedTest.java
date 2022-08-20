@@ -21,8 +21,8 @@ public class ACaseCanBeCreatedTest extends KaseGwtTemplate {
 
 	@BeforeEach
 	@Override
-	public void givenTheFollowing() {
-		super.givenTheFollowing();
+	public void given() {
+		super.given();
 		aCaseTypeExists();
 		aCaseStatusTypeExists();
 		aCase = completeCase()
@@ -33,7 +33,7 @@ public class ACaseCanBeCreatedTest extends KaseGwtTemplate {
 
 	@Test
 	@Override
-	public void whenThisHappens() {
+	public void when() {
 		response = this.graphQlTester.documentName("caseCreate")
 				           .operationName("CreateCase")
 				           .variable("newCase", Map.of(
@@ -47,7 +47,7 @@ public class ACaseCanBeCreatedTest extends KaseGwtTemplate {
 
 	@AfterEach
 	@Override
-	public void thenThisIsExpected() {
+	public void then() {
 		response.path(caseCreateGraphQlPath + "id").hasValue()
 				.path(caseCreateGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
 				.path(caseCreateGraphQlPath + "startedAt").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(aCase.getStartedAt()))

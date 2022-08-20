@@ -20,8 +20,8 @@ public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 
 	@BeforeEach
 	@Override
-	public void givenTheFollowing() {
-		super.givenTheFollowing();
+	public void given() {
+		super.given();
 		aCaseExists();
 		party1 = aPartyExists();
 		party2 = aPartyExists();
@@ -40,7 +40,7 @@ public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 
 	@Test
 	@Override
-	public void whenThisHappens() {
+	public void when() {
 
 		response = this.graphQlTester.documentName("caseQuery")
 				           .operationName("caseQuery")
@@ -53,7 +53,7 @@ public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 
 	@AfterEach
 	@Override
-	public void thenThisIsExpected() {
+	public void then() {
 		response
 				.path(casesGraphQlPath + "id").entity(UUID.class).isEqualTo(aCase.getId())
 				.path(casesGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())

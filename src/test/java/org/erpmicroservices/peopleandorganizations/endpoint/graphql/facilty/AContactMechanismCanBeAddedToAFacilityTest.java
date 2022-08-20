@@ -18,8 +18,8 @@ public class AContactMechanismCanBeAddedToAFacilityTest extends FacilityGwtTempl
 
 	@BeforeEach
 	@Override
-	public void givenTheFollowing() {
-		super.givenTheFollowing();
+	public void given() {
+		super.given();
 		aFacilityExists();
 		aContactMechanismExists();
 		localDate = LocalDate.now();
@@ -27,7 +27,7 @@ public class AContactMechanismCanBeAddedToAFacilityTest extends FacilityGwtTempl
 
 	@Test
 	@Override
-	public void whenThisHappens() {
+	public void when() {
 		response = graphQlTester.documentName("FacilityAddContactMechanism")
 				           .operationName("AddFacilityContactMechanism")
 				           .variable("newFacilityContactMechanism", Map.of(
@@ -40,7 +40,7 @@ public class AContactMechanismCanBeAddedToAFacilityTest extends FacilityGwtTempl
 
 	@AfterEach
 	@Override
-	public void thenThisIsExpected() {
+	public void then() {
 		response
 				.path("addFacilityContactMechanism.id").hasValue()
 				.path("addFacilityContactMechanism.fromDate").entity(LocalDate.class).isEqualTo(localDate)

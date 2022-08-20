@@ -19,8 +19,8 @@ public class AddCommunicationEventToCaseTest extends KaseGwtTemplate {
 
 	@BeforeEach
 	@Override
-	public void givenTheFollowing() {
-		super.givenTheFollowing();
+	public void given() {
+		super.given();
 		aCaseExists();
 		aCommunicationEventTypeExists();
 		aCommunicationEventStatusTypeExists();
@@ -37,7 +37,7 @@ public class AddCommunicationEventToCaseTest extends KaseGwtTemplate {
 
 	@Test
 	@Override
-	public void whenThisHappens() {
+	public void when() {
 		response = this.graphQlTester.documentName("CaseAddCommunicationEvent")
 				           .operationName("AddCommunicationEventToCase")
 				           .variable("caseId", aCase.getId())
@@ -54,7 +54,7 @@ public class AddCommunicationEventToCaseTest extends KaseGwtTemplate {
 
 	@AfterEach
 	@Override
-	public void thenThisIsExpected() {
+	public void then() {
 		response
 				.path("addCommunicationEventToCase.id").hasValue()
 				.path("addCommunicationEventToCase.started").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(communicationEvent.getStarted()))

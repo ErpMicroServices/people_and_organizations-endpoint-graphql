@@ -22,8 +22,8 @@ public class ARoleCanBeAddedToACaseTest extends KaseGwtTemplate {
 
 	@BeforeEach
 	@Override
-	public void givenTheFollowing() {
-		super.givenTheFollowing();
+	public void given() {
+		super.given();
 		aCaseExists();
 		aCaseRoleTypeExists();
 		aPartyTypeExists();
@@ -37,7 +37,7 @@ public class ARoleCanBeAddedToACaseTest extends KaseGwtTemplate {
 
 	@Test
 	@Override
-	public void whenThisHappens() {
+	public void when() {
 		response = this.graphQlTester.documentName("CaseAddRole")
 				           .operationName("AddCaseRole")
 				           .variable("newCaseRole", Map.of(
@@ -52,7 +52,7 @@ public class ARoleCanBeAddedToACaseTest extends KaseGwtTemplate {
 
 	@AfterEach
 	@Override
-	public void thenThisIsExpected() {
+	public void then() {
 		response.path(addCaseRoleGraphQlPath + "id").hasValue()
 				.path(addCaseRoleGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
 				.path(addCaseRoleGraphQlPath + "startedAt").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(aCase.getStartedAt()))

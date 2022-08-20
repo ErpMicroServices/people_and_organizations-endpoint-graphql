@@ -22,8 +22,8 @@ public class AFacilityListCanBeQueried extends FacilityGwtTemplate {
 
 	@BeforeEach
 	@Override
-	public void givenTheFollowing() {
-		super.givenTheFollowing();
+	public void given() {
+		super.given();
 		aFacilityExists();
 		aFacilityContactMechanismExists();
 		aGeographicBoundaryBelongsToAContactMechanism();
@@ -33,7 +33,7 @@ public class AFacilityListCanBeQueried extends FacilityGwtTemplate {
 
 	@Test
 	@Override
-	public void whenThisHappens() {
+	public void when() {
 		response = graphQlTester.documentName("FacilityQuery")
 				           .operationName("Facilities")
 				           .variable("facilityPageInfo", pageInfoSortingOn("description"))
@@ -45,7 +45,7 @@ public class AFacilityListCanBeQueried extends FacilityGwtTemplate {
 
 	@AfterEach
 	@Override
-	public void thenThisIsExpected() {
+	public void then() {
 		response.path(facilitiesNodeRoot + "id").entity(UUID.class).isEqualTo(facility.getId())
 				.path(facilitiesNodeRoot + "description").entity(String.class).isEqualTo(facility.getDescription())
 				.path(facilityTypeRoot + "id").entity(UUID.class).isEqualTo(facilityType.getId())

@@ -102,16 +102,16 @@ abstract public class AbstractGWT {
 
 
 	@BeforeEach
-	public void givenTheFollowing() {
+	public void given() {
 		emptyTheDatabase();
 	}
 
 
 	@Test
-	abstract public void whenThisHappens();
+	abstract public void when();
 
 	@AfterEach
-	abstract public void thenThisIsExpected();
+	abstract public void then();
 
 	@NotNull
 	protected static Map<String, String> pageInfoSortingOn(final String fromDate) {
