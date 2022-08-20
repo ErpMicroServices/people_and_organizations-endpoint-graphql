@@ -4,6 +4,7 @@ import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.type.PartyType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -36,15 +37,18 @@ public class FacilityController {
 
 	private final PartyRepository partyRepository;
 
+	private final PartyTypeRepository partyTypeRepository;
+
 	private final ContactMechanismRepository contactMechanismRepository;
 
-	public FacilityController(final FacilityRepository repository, final FacilityContactMechanismRepository facilityContactMechanismRepository, final FacilityRoleRepository facilityRoleRepository, final FacilityTypeRepository facilityTypeRepository, final FacilityRoleTypeRepository facilityRoleTypeRepository, final PartyRepository partyRepository, final ContactMechanismRepository contactMechanismRepository) {
+	public FacilityController(final FacilityRepository repository, final FacilityContactMechanismRepository facilityContactMechanismRepository, final FacilityRoleRepository facilityRoleRepository, final FacilityTypeRepository facilityTypeRepository, final FacilityRoleTypeRepository facilityRoleTypeRepository, final PartyRepository partyRepository, final PartyTypeRepository partyTypeRepository, final ContactMechanismRepository contactMechanismRepository) {
 		this.facilityRepository = repository;
 		this.facilityContactMechanismRepository = facilityContactMechanismRepository;
 		this.facilityRoleRepository = facilityRoleRepository;
 		this.facilityTypeRepository = facilityTypeRepository;
 		this.facilityRoleTypeRepository = facilityRoleTypeRepository;
 		this.partyRepository = partyRepository;
+		this.partyTypeRepository = partyTypeRepository;
 		this.contactMechanismRepository = contactMechanismRepository;
 	}
 
@@ -139,17 +143,23 @@ public class FacilityController {
 
 	@MutationMapping
 	public FacilityRole addFacilityRole(@Argument NewFacilityRole newFacilityRole) {
-		return facilityRepository.findById(newFacilityRole.getFacilityId())
-				       .flatMap(facility -> facilityRoleTypeRepository.findById(newFacilityRole.getFacilityRoleTypeId())
-						                            .flatMap(facilityRoleType -> partyRepository.findById(newFacilityRole.getPartyId())
-								                                                         .flatMap(party -> Optional.of(facilityRoleRepository.save(FacilityRole.builder()
-										                                                                                                                   .facilityId(newFacilityRole.getFacilityId())
-										                                                                                                                   .facilityRoleTypeId(newFacilityRole.getFacilityRoleTypeId())
-										                                                                                                                   .partyId(newFacilityRole.getPartyId())
-										                                                                                                                   .fromDate(newFacilityRole.getFromDate())
-										                                                                                                                   .thruDate(newFacilityRole.getThruDate())
-										                                                                                                                   .build())))))
-				       .orElseThrow();
+		return facilityRoleRepository.save(FacilityRole.builder()
+				                                   .facilityId(newFacilityRole.getFacilityId())
+				                                   .facilityRoleTypeId(newFacilityRole.getFacilityRoleTypeId())
+				                                   .fromDate(newFacilityRole.getFromDate())
+				                                   .partyId(newFacilityRole.getPartyId())
+				                                   .thruDate(newFacilityRole.getThruDate())
+				                                   .build());
+	}
+
+	@SchemaMapping
+	public Facility facility(FacilityRole facilityRole) {
+		return facilityRepository.findById(facilityRole.getFacilityId()).orElseThrow();
+	}
+
+	@SchemaMapping
+	public PartyType partyType(Party party) {
+		return partyTypeRepository.findById(party.getPartyTypeId()).orElseThrow();
 	}
 
 	@MutationMapping

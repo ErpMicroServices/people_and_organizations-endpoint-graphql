@@ -1,0 +1,27 @@
+mutation AddFacilityRole($newFacilityRole: NewFacilityRole!) {
+    addFacilityRole(newFacilityRole: $newFacilityRole) {
+        id
+        fromDate
+        thruDate
+        facility {
+            id
+            description
+            squareFootage
+            facilityType {
+                id
+                description
+            }
+        }
+        facilityRoleType {
+            id
+            description
+        }
+        party {
+            id
+            partyType {
+                id
+                description
+            }
+        }
+    }
+}

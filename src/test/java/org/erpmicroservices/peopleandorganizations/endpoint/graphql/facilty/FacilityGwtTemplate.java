@@ -40,7 +40,7 @@ public abstract class FacilityGwtTemplate extends AbstractGWT {
 		return facilityRole;
 	}
 
-	private FacilityRoleType aFacilityRoleTypeExists() {
+	protected FacilityRoleType aFacilityRoleTypeExists() {
 		facilityRoleType = facilityRoleTypeRepository.save(FacilityRoleType.builder()
 				                                                   .description("FacilityRoleType Test Data " + UUID.randomUUID())
 				                                                   .build());
