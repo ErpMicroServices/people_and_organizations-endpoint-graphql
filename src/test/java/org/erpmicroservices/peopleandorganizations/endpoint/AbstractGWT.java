@@ -126,10 +126,10 @@ abstract public class AbstractGWT {
 	abstract public void then();
 
 	@NotNull
-	protected static Map<String, String> pageInfoSortingOn(final String fromDate) {
+	protected static Map<String, String> pageInfoSortingOn(final String sortBy) {
 		return Map.of("pageNumber", "0"
 				, "pageSize", "100"
-				, "sortBy", fromDate
+				, "sortBy", sortBy
 				, "sortDirection", "ASC");
 	}
 
