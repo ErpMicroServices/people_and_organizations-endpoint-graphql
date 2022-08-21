@@ -3,7 +3,11 @@ package org.erpmicroservices.peopleandorganizations.endpoint;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEvent;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventStatusType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanism;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanismGeographicBoundary;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanismType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundary;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundaryType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationship;
@@ -22,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.test.tester.GraphQlTester;
 
 import java.util.Map;
+import java.util.UUID;
 
 import static org.erpmicroservices.peopleandorganizations.endpoint.builders.ContactMechanismTypeDataBuilder.completeContactMechanismType;
 import static org.erpmicroservices.peopleandorganizations.endpoint.builders.PartyRoleTestDataBuilder.completePartyRole;
@@ -111,6 +116,10 @@ abstract public class AbstractGWT {
 	protected PartyRelationshipType partyRelationshipType;
 	protected PartyRelationshipStatusType partyRelationshipStatusType;
 	protected PriorityType priorityType;
+	protected ContactMechanism contactMechanism;
+	protected GeographicBoundary geographicBoundary;
+	protected GeographicBoundaryType geographicBoundaryType;
+	protected ContactMechanismGeographicBoundary contactMechanismGeographicBoundary;
 
 
 	@BeforeEach
@@ -207,4 +216,52 @@ abstract public class AbstractGWT {
 		return contactMechanismType;
 	}
 
+	protected ContactMechanism aContactMechanismExists() {
+		if (contactMechanismType == null) {
+			aContactMechanismTypeExists();
+		}
+		contactMechanism = contactMechanismRepository.save(ContactMechanism.builder()
+				                                                   .endPoint("ContactMechanism Test Data endPoint " + UUID.randomUUID())
+				                                                   .directions("ContactMechanism Test Data directions " + UUID.randomUUID())
+				                                                   .contactMechanismTypeId(contactMechanismType.getId())
+				                                                   .build());
+		return contactMechanism;
+	}
+
+	protected ContactMechanismGeographicBoundary aGeographicBoundaryThatBelongsToAContactMechanismExists() {
+		if (contactMechanism == null) {
+			aContactMechanismExists();
+		}
+		if (geographicBoundaryType == null) {
+			aGeographicBoundaryTypeExists();
+		}
+		if (geographicBoundary == null) {
+			aGeographicBoundaryExists();
+		}
+		contactMechanismGeographicBoundary = contactMechanismGeographicBoundaryRepository.save(ContactMechanismGeographicBoundary.builder()
+				                                                                                       .geographicBoundaryId(geographicBoundary.getId())
+				                                                                                       .contactMechanismId(contactMechanism.getId())
+				                                                                                       .build());
+		return contactMechanismGeographicBoundary;
+	}
+
+	protected GeographicBoundary aGeographicBoundaryExists() {
+		if (geographicBoundaryType == null) {
+			aGeographicBoundaryTypeExists();
+		}
+		geographicBoundary = geographicBoundaryRepository.save(GeographicBoundary.builder()
+				                                                       .abbreviation("abbreviation test data " + UUID.randomUUID())
+				                                                       .geoCode("geocode test data " + UUID.randomUUID())
+				                                                       .geographicBoundaryTypeId(geographicBoundaryType.getId())
+				                                                       .name("name test data " + UUID.randomUUID())
+				                                                       .build());
+		return geographicBoundary;
+	}
+
+	protected GeographicBoundaryType aGeographicBoundaryTypeExists() {
+		geographicBoundaryType = geographicBoundaryTypeRepository.save(GeographicBoundaryType.builder()
+				                                                               .description("geographicBoundaryType test data " + UUID.randomUUID())
+				                                                               .build());
+		return geographicBoundaryType;
+	}
 }

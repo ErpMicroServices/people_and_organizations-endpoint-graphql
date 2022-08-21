@@ -31,6 +31,7 @@ query Facilities ($facilityPageInfo: PageInfoInput!,$rolesPageInfo: PageInfoInpu
                             contactMechanism {
                                 id
                                 endPoint
+                                directions
                                 contactMechanismType {
                                     id
                                     description
@@ -39,12 +40,15 @@ query Facilities ($facilityPageInfo: PageInfoInput!,$rolesPageInfo: PageInfoInpu
                                     edges {
                                         node {
                                             id
-                                            abbreviation
                                             geoCode
                                             name
+                                            abbreviation
                                             geographicBoundaryType {
                                                 id
                                                 description
+                                            }
+                                            partOf {
+                                                id
                                             }
                                         }
                                     }

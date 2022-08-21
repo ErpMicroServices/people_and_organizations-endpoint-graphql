@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureGraphQlTester
-public class AFacilityRoleCanBeAdded extends FacilityGwtTemplate {
+public class AFacilityRoleCanBeAddedTest extends FacilityGwtTemplate {
 
 	@BeforeEach
 	@Override

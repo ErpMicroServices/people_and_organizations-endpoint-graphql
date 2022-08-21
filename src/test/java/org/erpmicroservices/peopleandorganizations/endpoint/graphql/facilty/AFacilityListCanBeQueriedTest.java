@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureGraphQlTester
-public class AFacilityListCanBeQueried extends FacilityGwtTemplate {
+public class AFacilityListCanBeQueriedTest extends FacilityGwtTemplate {
 
 	public static final String facilitiesNodeRoot = "facilities.edges[0].node.";
 	public static final String facilityTypeRoot = facilitiesNodeRoot + "facilityType.";
@@ -26,7 +26,7 @@ public class AFacilityListCanBeQueried extends FacilityGwtTemplate {
 		super.given();
 		aFacilityExists();
 		aFacilityContactMechanismExists();
-		aGeographicBoundaryBelongsToAContactMechanism();
+		aGeographicBoundaryThatBelongsToAContactMechanismExists();
 		aFacilityRoleExists();
 	}
 
@@ -38,7 +38,7 @@ public class AFacilityListCanBeQueried extends FacilityGwtTemplate {
 				           .operationName("Facilities")
 				           .variable("facilityPageInfo", pageInfoSortingOn("description"))
 				           .variable("facilityContactMechanismsPageInfo", pageInfoSortingOn("fromDate"))
-				           .variable("geographicBoundaryPageInfo", pageInfoSortingOn("id"))
+				           .variable("geographicBoundaryPageInfo", pageInfoSortingOn("name"))
 				           .variable("rolesPageInfo", pageInfoSortingOn("fromDate"))
 				           .execute();
 	}

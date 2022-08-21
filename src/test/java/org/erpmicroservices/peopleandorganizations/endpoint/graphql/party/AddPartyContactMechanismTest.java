@@ -1,6 +1,5 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanism;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanism;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurpose;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeType;
@@ -16,11 +15,9 @@ import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureGraphQlTester
-public class AddPartyContactMechanism extends PartyGwtTemplate {
+public class AddPartyContactMechanismTest extends PartyGwtTemplate {
 
 	private PartyContactMechanism partyContactMechanism;
-
-	private ContactMechanism contactMechanism;
 
 	private PartyContactMechanismPurpose partyContactMechanismPurpose;
 
@@ -31,7 +28,7 @@ public class AddPartyContactMechanism extends PartyGwtTemplate {
 	public void given() {
 		super.given();
 		aPartyExists();
-		aContactMechanismExists();
+		aGeographicBoundaryThatBelongsToAContactMechanismExists();
 		aPartyContactMechanismPurposeExists();
 		partyContactMechanism = PartyContactMechanism.builder()
 				                        .comment("This is a comment")
@@ -60,7 +57,7 @@ public class AddPartyContactMechanism extends PartyGwtTemplate {
 						           "pageNumber", 0,
 						           "pageSize", 100,
 						           "sortBy", "name",
-						           "sortDirection", "DESC"
+						           "sortDirection", "ASC"
 				           ))
 				           .execute();
 	}
@@ -96,15 +93,5 @@ public class AddPartyContactMechanism extends PartyGwtTemplate {
 				                                                                                   .build());
 	}
 
-	private void aContactMechanismExists() {
-		if (contactMechanismType == null) {
-			aContactMechanismTypeExists();
-		}
-		contactMechanism = contactMechanismRepository.save(ContactMechanism.builder()
-				                                                   .contactMechanismTypeId(contactMechanismType.getId())
-				                                                   .directions("These are directions")
-				                                                   .endPoint("This is an endpoing")
-				                                                   .build());
-	}
 
 }
