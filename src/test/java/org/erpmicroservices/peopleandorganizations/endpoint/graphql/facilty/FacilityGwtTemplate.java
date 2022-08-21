@@ -117,7 +117,7 @@ public abstract class FacilityGwtTemplate extends AbstractGWT {
 		return facility;
 	}
 
-	private FacilityType aFacilityTypeExists() {
+	protected FacilityType aFacilityTypeExists() {
 		facilityType = facilityTypeRepository.save(FacilityType.builder()
 				                                           .description("FacilityType Test Data " + UUID.randomUUID())
 				                                           .build());
