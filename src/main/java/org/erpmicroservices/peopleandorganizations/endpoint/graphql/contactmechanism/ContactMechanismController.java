@@ -64,16 +64,15 @@ public class ContactMechanismController {
 
 	@SchemaMapping(typeName = "ContactMechanism", field = "geographicBoundaries")
 	public GeographicBoundaryConnection geographicBoundaries(@Argument PageInfo pageInfo, ContactMechanism contactMechanism) {
-		final Page<ContactMechanismGeographicBoundary> page = contactMechanismGeographicBoundaryRepository.findContactMechanismGeographicBoundariesByContactMechanismId(contactMechanism.getId(), pageInfoToPageable(pageInfo));
-		final List<Edge<GeographicBoundary>> edges = page.getContent().stream()
-				                                             .flatMap(contactMechanismGeographicBoundary ->
-						                                                      geographicBoundaryRepository.findById(contactMechanismGeographicBoundary.getGeographicBoundaryId())
-								                                                      .stream().map(geographicBoundary ->
-										                                                                    GeographicBoundaryEdge.builder()
-												                                                                    .cursor(Cursor.builder().value(valueOf(contactMechanism.getId().hashCode())).build())
-												                                                                    .node(geographicBoundary)
-												                                                                    .build()))
+		final List<Edge<GeographicBoundary>> edges = contactMechanismGeographicBoundaryRepository
+				                                             .findByContactMechanismId(contactMechanism.getId(), pageInfoToPageable(pageInfo))
+				                                             .stream()
+				                                             .map(geographicBoundary -> GeographicBoundaryEdge.builder()
+						                                                                        .node(geographicBoundary)
+						                                                                        .cursor(Cursor.builder().value(valueOf(geographicBoundary.getId().hashCode())).build())
+						                                                                        .build())
 				                                             .collect(Collectors.toList());
+
 		return GeographicBoundaryConnection.builder()
 				       .edges(edges)
 				       .pageInfo(pageInfo)

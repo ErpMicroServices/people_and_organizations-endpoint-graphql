@@ -5,6 +5,7 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicatio
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanismType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationship;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationshipStatusType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationshipType;
@@ -88,7 +89,18 @@ abstract public class AbstractGWT {
 
 	@Autowired
 	protected ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository;
+
+	@Autowired
+	protected PartyContactMechanismRepository partyContactMechanismRepository;
+
+	@Autowired
+	protected PartyContactMechanismPurposeRepository partyContactMechanismPurposeRepository;
+
+	@Autowired
+	protected PartyContactMechanismPurposeTypeRepository partyContactMechanismPurposeTypeRepository;
+
 	protected Party party;
+
 	protected ContactMechanismType contactMechanismType;
 	protected PartyRole partyRole;
 	protected CommunicationEventStatusType communicationEventStatusType;
@@ -103,7 +115,7 @@ abstract public class AbstractGWT {
 
 	@BeforeEach
 	public void given() {
-		emptyTheDatabase();
+		theDatabaseIsEmpty();
 	}
 
 
@@ -121,16 +133,18 @@ abstract public class AbstractGWT {
 				, "sortDirection", "ASC");
 	}
 
-	private void emptyTheDatabase() {
+	private void theDatabaseIsEmpty() {
 		communicationEventRepository.deleteAll();
 		partyRelationshipRepository.deleteAll();
 		caseRoleRepository.deleteAll();
 		partyRoleRepository.deleteAll();
 		facilityRoleRepository.deleteAll();
 		facilityContactMechanismRepository.deleteAll();
+		partyContactMechanismRepository.deleteAll();
 		contactMechanismGeographicBoundaryRepository.deleteAll();
 		contactMechanismRepository.deleteAll();
 		geographicBoundaryRepository.deleteAll();
+
 
 		partyRepository.deleteAll();
 		caseRepository.deleteAll();
@@ -152,6 +166,7 @@ abstract public class AbstractGWT {
 		facilityRoleTypeRepository.deleteAll();
 		facilityTypeRepository.deleteAll();
 		geographicBoundaryTypeRepository.deleteAll();
+		partyContactMechanismPurposeRepository.deleteAll();
 	}
 
 	protected Party aPartyExists() {

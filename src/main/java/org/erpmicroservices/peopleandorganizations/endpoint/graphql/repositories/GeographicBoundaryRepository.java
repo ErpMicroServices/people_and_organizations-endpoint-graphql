@@ -10,4 +10,5 @@ import java.util.UUID;
 @GraphQlRepository
 public interface GeographicBoundaryRepository extends PagingAndSortingRepository<GeographicBoundary, UUID> {
 
+
 }

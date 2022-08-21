@@ -2,7 +2,6 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.conta
 
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanismNew;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -25,9 +24,9 @@ public class PartyContactMechanismNew {
 	private UUID partyId;
 
 	@NotNull
-	private ContactMechanismNew contactMechanism;
+	private UUID contactMechanismId;
 
 	@NotNull
-	private PartyContactMechanismPurposeNew newPurpose;
+	private UUID purposeId;
 
 }

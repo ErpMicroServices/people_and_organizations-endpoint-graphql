@@ -6,10 +6,12 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.classi
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.classification.PartyClassificationUpdate;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanism;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismNew;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurpose;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
@@ -120,20 +122,25 @@ public class PartyMutationController {
 
 	@MutationMapping(name = "partyContactMechanismAdd")
 	public PartyContactMechanism addContactMechanism(@Argument PartyContactMechanismNew partyContactMechanismNew) {
-		final ContactMechanism contactMechanism = contactMechanismRepository.save(
-				ContactMechanism.builder()
-						.contactMechanismTypeId(partyContactMechanismNew.getContactMechanism().getContactMechanismTypeId())
-						.directions(partyContactMechanismNew.getContactMechanism().getDirections())
-						.endPoint(partyContactMechanismNew.getContactMechanism().getEndPoint())
-						.build()
-		);
-		return partyContactMechanismRepository.save( PartyContactMechanism.builder()
-				                                             .comment(partyContactMechanismNew.getComment())
-				                                             .contactMechanismId(contactMechanism.getId())
-				                                             .doNotSolicitIndicator(partyContactMechanismNew.isDoNotSolicitIndicator())
-				                                             .partyId(partyContactMechanismNew.getPartyId())
-				                                             .fromDate(partyContactMechanismNew.getFromDate())
-				                                             .thruDate(partyContactMechanismNew.getThruDate())
-				                                             .build());
+
+		return partyContactMechanismRepository.save(PartyContactMechanism.builder()
+				                                            .comment(partyContactMechanismNew.getComment())
+				                                            .contactMechanismId(partyContactMechanismNew.getContactMechanismId())
+				                                            .doNotSolicitIndicator(partyContactMechanismNew.isDoNotSolicitIndicator())
+				                                            .partyId(partyContactMechanismNew.getPartyId())
+				                                            .fromDate(partyContactMechanismNew.getFromDate())
+				                                            .thruDate(partyContactMechanismNew.getThruDate())
+				                                            .partyContactMechanismPurposeId(partyContactMechanismNew.getPurposeId())
+				                                            .build());
+	}
+
+	@SchemaMapping
+	public ContactMechanism contactMechanism(PartyContactMechanism partyContactMechanism) {
+		return contactMechanismRepository.findById(partyContactMechanism.getContactMechanismId()).orElseThrow();
+	}
+
+	@SchemaMapping
+	public PartyContactMechanismPurpose purpose(PartyContactMechanism partyContactMechanism) {
+		return partyContactMechanismPurposeRepository.findById(partyContactMechanism.getPartyContactMechanismPurposeId()).orElseThrow();
 	}
 }

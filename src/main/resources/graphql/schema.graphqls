@@ -585,8 +585,8 @@ input PartyContactMechanismNew {
     thruDate: Date
     doNotSolicitIndicator: Boolean!
     comment: String
-    contactMechanism: ContactMechanismNew!
-    newPurpose: PartyContactMechanismPurposeNew!
+    contactMechanismId: ID!
+    purposeId: ID!
 }
 
 input PartyContactMechanismUpdate {

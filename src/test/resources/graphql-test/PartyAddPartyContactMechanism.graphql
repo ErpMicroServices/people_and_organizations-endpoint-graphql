@@ -1,0 +1,62 @@
+mutation AddPartyContactMechanism($partyContactMechanismNew: PartyContactMechanismNew!,
+    $geographicBoundariesPageInfo: PageInfoInput!){
+    partyContactMechanismAdd(partyContactMechanismNew: $partyContactMechanismNew) {
+        id
+        fromDate
+        thruDate
+        doNotSolicitIndicator
+        comment
+        contactMechanism {
+            id
+            endPoint
+            directions
+            geographicBoundaries(pageInfo: $geographicBoundariesPageInfo) {
+                edges {
+                    node {
+                        id
+                        geoCode
+                        name
+                        abbreviation
+                        geographicBoundaryType {
+                            id
+                            description
+                        }
+                        partOf {
+                            id
+                        }
+                    }
+                }
+            }
+            contactMechanismType {
+                id
+                description
+            }
+        }
+        purpose {
+            id
+        }
+
+    }
+    #{
+    #"partyContactMechanismNew": {
+    #"partyId": "ea7b109f-03b9-4180-a815-fbd52aacea96",
+    #"fromDate": "2022-01-01",
+    #"doNotSolicitIndicator": false,
+    #"comment": "This is a comment",
+    #"contactMechanism": {
+    #"endPoint": "123-123-1234",
+    #"directions": "None",
+    #"contactMechanismTypeId": "fad1960e-dd3f-4981-ba2d-264b8c09f64d"
+    #},
+    #"newPurpose": {
+    #"fromDate": "2022-01-01",
+    #"purposeTypeId": "dd5765dd-c6ad-4d91-a605-fb5a3f77f971"
+    #}
+    #},
+    #"pageInfo": {
+    #"sortBy": ["fromDate"],
+    #"sortDirection": "ASC"
+    #}
+    #}
+}
+
