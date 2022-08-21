@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.graphql.data.GraphQlRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 @GraphQlRepository
@@ -14,4 +15,6 @@ public interface CaseRoleTypeRepository extends PagingAndSortingRepository<CaseR
 	Page<CaseRoleType> findCaseRoleTypesByParentId(final UUID parentId, final Pageable pageable);
 
 	Page<CaseRoleType> findCaseRoleTypesByParentIdIsNull(final Pageable pageable);
+
+	List<CaseRoleType> findCaseRoleTypeByParentIdIsNotNull();
 }

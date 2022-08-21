@@ -151,6 +151,7 @@ abstract public class AbstractGWT {
 		communicationEventRepository.deleteAll();
 		facilityRepository.deleteAll();
 
+		caseRoleTypeRepository.deleteAll(caseRoleTypeRepository.findCaseRoleTypeByParentIdIsNotNull().stream().toList());
 		caseRoleTypeRepository.deleteAll();
 		partyTypeRepository.deleteAll();
 		caseStatusTypeRepository.deleteAll();

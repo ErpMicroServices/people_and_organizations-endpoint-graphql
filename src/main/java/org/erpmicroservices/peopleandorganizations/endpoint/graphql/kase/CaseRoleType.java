@@ -1,9 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.AbstractType;
 
 import javax.persistence.Entity;
@@ -14,6 +11,7 @@ import java.util.UUID;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @NoArgsConstructor
 public class CaseRoleType extends AbstractType<CaseRoleType> {
 	@Builder
