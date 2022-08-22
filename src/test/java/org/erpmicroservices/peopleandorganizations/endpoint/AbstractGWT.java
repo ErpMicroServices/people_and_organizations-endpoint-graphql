@@ -165,6 +165,7 @@ abstract public class AbstractGWT {
 		partyTypeRepository.deleteAll();
 		caseStatusTypeRepository.deleteAll(caseStatusTypeRepository.findCaseStatusTypeByParentIdIsNotNull().stream().toList());
 		caseStatusTypeRepository.deleteAll();
+		caseTypeRepository.deleteAll(caseTypeRepository.findCaseTypeByParentIdIsNotNull().stream().toList());
 		caseTypeRepository.deleteAll();
 		partyRelationshipTypeRepository.deleteAll();
 		priorityTypeRepository.deleteAll();

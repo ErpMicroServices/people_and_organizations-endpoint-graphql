@@ -5,10 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface CaseTypeRepository extends PagingAndSortingRepository<CaseType, UUID> {
 	Page<CaseType> findCaseTypeByParentId(UUID parentId, Pageable pageable);
 
 	Page<CaseType> findCaseTypeByParentIdIsNull(final Pageable pageable);
+
+	List<CaseType> findCaseTypeByParentIdIsNotNull();
 }

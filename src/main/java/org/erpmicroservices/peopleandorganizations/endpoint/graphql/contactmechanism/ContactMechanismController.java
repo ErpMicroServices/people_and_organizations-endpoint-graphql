@@ -65,7 +65,7 @@ public class ContactMechanismController {
 	@SchemaMapping(typeName = "ContactMechanism", field = "geographicBoundaries")
 	public GeographicBoundaryConnection geographicBoundaries(@Argument PageInfo pageInfo, ContactMechanism contactMechanism) {
 		final List<Edge<GeographicBoundary>> edges = contactMechanismGeographicBoundaryRepository
-				                                             .findByContactMechanismId(contactMechanism.getId(), pageInfoToPageable(pageInfo))
+				                                             .findGeographicBoundaryByContactMechanismId(contactMechanism.getId(), pageInfoToPageable(pageInfo))
 				                                             .stream()
 				                                             .map(geographicBoundary -> GeographicBoundaryEdge.builder()
 						                                                                        .node(geographicBoundary)
