@@ -1,6 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint;
 
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEvent;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventPurposeType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventStatusType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanism;
@@ -104,6 +105,9 @@ abstract public class AbstractGWT {
 	@Autowired
 	protected PartyContactMechanismPurposeTypeRepository partyContactMechanismPurposeTypeRepository;
 
+	@Autowired
+	protected CommunicationEventPurposeTypeRepository communicationEventPurposeTypeRepository;
+
 	protected Party party;
 
 	protected ContactMechanismType contactMechanismType;
@@ -121,6 +125,7 @@ abstract public class AbstractGWT {
 	protected GeographicBoundaryType geographicBoundaryType;
 	protected ContactMechanismGeographicBoundary contactMechanismGeographicBoundary;
 
+	protected CommunicationEventPurposeType communicationEventPurposeType;
 
 	@BeforeEach
 	public void given() {
@@ -179,6 +184,8 @@ abstract public class AbstractGWT {
 		facilityTypeRepository.deleteAll();
 		geographicBoundaryTypeRepository.deleteAll();
 		partyContactMechanismPurposeRepository.deleteAll();
+		communicationEventPurposeTypeRepository.deleteAll(communicationEventPurposeTypeRepository.findCommunicationEventPurposeTypeByParentIdIsNotNull().stream().toList());
+		communicationEventPurposeTypeRepository.deleteAll();
 	}
 
 	protected Party aPartyExists() {
