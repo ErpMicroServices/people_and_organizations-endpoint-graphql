@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.graphql.data.GraphQlRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 @GraphQlRepository
@@ -13,4 +14,6 @@ public interface CommunicationEventRoleTypeRepository extends PagingAndSortingRe
 	Page<CommunicationEventRoleType> findCommunicationEventRoleTypeByParentId(UUID parentId, Pageable pageable);
 
 	Page<CommunicationEventRoleType> findCommunicationEventRoleTypeByParentIdIsNull(final Pageable pageable);
+
+	List<CommunicationEventRoleType> findCommunicationEventRoleTypeByParentIdIsNotNull();
 }

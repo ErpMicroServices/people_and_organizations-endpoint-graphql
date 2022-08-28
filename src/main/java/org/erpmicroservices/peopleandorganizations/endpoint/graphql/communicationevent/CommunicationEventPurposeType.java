@@ -14,7 +14,6 @@ import java.util.UUID;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-
 @NoArgsConstructor
 public class CommunicationEventPurposeType extends AbstractType<CommunicationEventPurposeType> {
 	@Builder

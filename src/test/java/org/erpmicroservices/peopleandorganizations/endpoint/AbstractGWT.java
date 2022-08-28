@@ -108,6 +108,9 @@ abstract public class AbstractGWT {
 	@Autowired
 	protected CommunicationEventPurposeTypeRepository communicationEventPurposeTypeRepository;
 
+	@Autowired
+	protected CommunicationEventRoleTypeRepository communicationEventRoleTypeRepository;
+
 	protected Party party;
 
 	protected ContactMechanismType contactMechanismType;
@@ -186,6 +189,8 @@ abstract public class AbstractGWT {
 		partyContactMechanismPurposeRepository.deleteAll();
 		communicationEventPurposeTypeRepository.deleteAll(communicationEventPurposeTypeRepository.findCommunicationEventPurposeTypeByParentIdIsNotNull().stream().toList());
 		communicationEventPurposeTypeRepository.deleteAll();
+		communicationEventRoleTypeRepository.deleteAll(communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentIdIsNotNull().stream().toList());
+		communicationEventRoleTypeRepository.deleteAll();
 	}
 
 	protected Party aPartyExists() {
