@@ -1,6 +1,8 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent;
 
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.CommunicationEventStatusTypeRepository;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
@@ -16,7 +18,7 @@ public class CommunicationEventStatusTypeController {
 	}
 
 	@QueryMapping
-	public List<CommunicationEventStatusType> communicationEventStatusTypes() {
-		return (List<CommunicationEventStatusType>) communicationEventStatusTypeRepository.findAll();
+	public List<CommunicationEventStatusType> communicationEventStatusTypes(@Argument PageInfo pageInfo) {
+		return communicationEventStatusTypeRepository.findAll();
 	}
 }

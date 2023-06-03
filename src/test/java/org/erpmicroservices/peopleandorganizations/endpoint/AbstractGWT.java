@@ -24,6 +24,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.graphql.test.tester.GraphQlTester;
 
 import java.util.Map;
@@ -170,18 +171,31 @@ abstract public class AbstractGWT {
 
 		caseRoleTypeRepository.deleteAll(caseRoleTypeRepository.findCaseRoleTypeByParentIdIsNotNull().stream().toList());
 		caseRoleTypeRepository.deleteAll();
-		partyTypeRepository.deleteAll();
 		caseStatusTypeRepository.deleteAll(caseStatusTypeRepository.findCaseStatusTypeByParentIdIsNotNull().stream().toList());
 		caseStatusTypeRepository.deleteAll();
+
 		caseTypeRepository.deleteAll(caseTypeRepository.findCaseTypeByParentIdIsNotNull().stream().toList());
 		caseTypeRepository.deleteAll();
+
+		partyTypeRepository.deleteAll(partyTypeRepository.findPartyTypesByParentIdIsNotNull().stream().toList());
+		partyTypeRepository.deleteAll();
+
 		partyRelationshipTypeRepository.deleteAll();
 		priorityTypeRepository.deleteAll();
 		partyRelationshipStatusTypeRepository.deleteAll();
 		partyRelationshipTypeRepository.deleteAll();
+
+		partyRoleTypeRepository.findPartyRoleTypesByParentIdIsNull(Pageable.unpaged()).forEach(prt -> {
+			deletePartyRoleTypeChildren(prt);
+			partyRoleTypeRepository.delete(prt);
+		});
 		partyRoleTypeRepository.deleteAll();
-		communicationEventStatusTypeRepository.deleteAll();
-		communicationEventStatusTypeRepository.deleteAll();
+
+		communicationEventStatusTypeRepository.findCommunicationEventStatusTypeByParentIdIsNull(Pageable.unpaged()).forEach(root -> {
+			deleteCommunicationEventStatusTypeChildren(root);
+			communicationEventStatusTypeRepository.delete(root);
+		});
+
 		contactMechanismTypeRepository.deleteAll();
 		facilityRoleTypeRepository.deleteAll();
 		facilityTypeRepository.deleteAll();
@@ -191,6 +205,16 @@ abstract public class AbstractGWT {
 		communicationEventPurposeTypeRepository.deleteAll();
 		communicationEventRoleTypeRepository.deleteAll(communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentIdIsNotNull().stream().toList());
 		communicationEventRoleTypeRepository.deleteAll();
+	}
+
+	private void deleteCommunicationEventStatusTypeChildren(final CommunicationEventStatusType parent) {
+		communicationEventStatusTypeRepository.findCommunicationEventStatusTypeByParentId(parent.getId(), Pageable.unpaged()).forEach(this::deleteCommunicationEventStatusTypeChildren);
+		communicationEventStatusTypeRepository.delete(parent);
+	}
+
+	private void deletePartyRoleTypeChildren(final PartyRoleType parent) {
+		partyRoleTypeRepository.findPartyRoleTypesByParentId(parent.getId(), Pageable.unpaged()).forEach(this::deletePartyRoleTypeChildren);
+		partyRoleTypeRepository.delete(parent);
 	}
 
 	protected Party aPartyExists() {

@@ -3,12 +3,12 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositorie
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface CaseTypeRepository extends PagingAndSortingRepository<CaseType, UUID> {
+public interface CaseTypeRepository extends JpaRepository<CaseType, UUID> {
 	Page<CaseType> findCaseTypeByParentId(UUID parentId, Pageable pageable);
 
 	Page<CaseType> findCaseTypeByParentIdIsNull(final Pageable pageable);
