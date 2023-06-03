@@ -8,7 +8,7 @@
 		<version >2.7.0</version >
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent >
-	<groupId >com.example</groupId >
+	<groupId >erpmmicroservices</groupId >
 	<artifactId >people_and_organizations-endpoint-graphql-java</artifactId >
 	<version >0.0.1-SNAPSHOT</version >
 	<name >people_and_organizations-endpoint-graphql-java</name >
