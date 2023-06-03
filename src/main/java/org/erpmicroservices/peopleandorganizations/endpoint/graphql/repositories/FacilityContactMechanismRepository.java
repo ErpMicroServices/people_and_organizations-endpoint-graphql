@@ -3,14 +3,14 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositorie
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.FacilityContactMechanism;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.graphql.data.GraphQlRepository;
 
 import java.util.UUID;
 
 
 @GraphQlRepository
-public interface FacilityContactMechanismRepository extends PagingAndSortingRepository<FacilityContactMechanism, UUID> {
+public interface FacilityContactMechanismRepository extends JpaRepository<FacilityContactMechanism, UUID> {
 
 	Page<FacilityContactMechanism> findByFacilityId(UUID id, Pageable pageable);
 }

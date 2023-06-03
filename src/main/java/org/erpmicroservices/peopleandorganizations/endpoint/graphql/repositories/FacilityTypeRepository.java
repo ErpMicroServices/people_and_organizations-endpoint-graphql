@@ -3,13 +3,13 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositorie
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.FacilityType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.graphql.data.GraphQlRepository;
 
 import java.util.UUID;
 
 @GraphQlRepository
-public interface FacilityTypeRepository extends PagingAndSortingRepository<FacilityType, UUID> {
+public interface FacilityTypeRepository extends JpaRepository<FacilityType, UUID> {
 
 	Page<FacilityType> findFacilityTypesByParentId(final UUID parent, final Pageable pageable);
 
