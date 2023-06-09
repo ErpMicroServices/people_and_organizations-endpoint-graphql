@@ -34,8 +34,8 @@ public class PartyName {
 	private LocalDate thruDate;
 
     @NotNull
-    private UUID party;
+	private UUID partyId;
 
-    @NotNull
-    private UUID nameType;
+	@NotNull
+	private UUID nameTypeId;
 }
