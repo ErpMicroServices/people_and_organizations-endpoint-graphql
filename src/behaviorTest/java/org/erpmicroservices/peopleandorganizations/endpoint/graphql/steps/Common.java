@@ -8,6 +8,7 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicatio
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRoleType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.type.PartyType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.data.domain.Pageable;
 import org.testcontainers.containers.GenericContainer;
@@ -135,7 +136,7 @@ public class Common extends SpringIntegrationTest {
         caseTypeRepository.deleteAll(caseTypeRepository.findCaseTypeByParentIdIsNotNull().stream().toList());
         caseTypeRepository.deleteAll();
 
-        partyTypeRepository.deleteAll(partyTypeRepository.findPartyTypesByParentIdIsNotNull().stream().toList());
+        partyTypeRepository.findPartyTypesByParentIdIsNull(Pageable.unpaged()).forEach(root -> deletePartyTypeChildren(root));
         partyTypeRepository.deleteAll();
 
         partyRelationshipTypeRepository.deleteAll();
@@ -163,6 +164,11 @@ public class Common extends SpringIntegrationTest {
         communicationEventPurposeTypeRepository.deleteAll();
         communicationEventRoleTypeRepository.deleteAll(communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentIdIsNotNull().stream().toList());
         communicationEventRoleTypeRepository.deleteAll();
+    }
+
+    private void deletePartyTypeChildren(PartyType root) {
+        partyTypeRepository.findPartyTypesByParentId(root.getId(), Pageable.unpaged()).forEach(child -> deletePartyTypeChildren(child));
+        partyTypeRepository.delete(root);
     }
 
     private void deleteCommunicationEventStatusTypeChildren(CommunicationEventStatusType root) {
