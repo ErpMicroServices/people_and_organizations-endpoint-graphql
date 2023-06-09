@@ -1,6 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
 
 import graphql.relay.Edge;
+import jakarta.validation.constraints.NotNull;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEvent;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.NewCommunicationEvent;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
@@ -13,7 +14,6 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;

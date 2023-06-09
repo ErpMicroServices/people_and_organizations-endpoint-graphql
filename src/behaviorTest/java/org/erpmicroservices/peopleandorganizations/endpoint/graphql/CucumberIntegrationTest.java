@@ -1,4 +1,4 @@
-package org.people_and_organizations.cucumber;
+package org.erpmicroservices.peopleandorganizations.endpoint.graphql;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
@@ -9,5 +9,7 @@ import org.junit.runner.RunWith;
 		plugin = {"pretty", "html:target/cucumber-report.html"},
 		features = {"../people_and_organizations-features"}
 )
+//@SpringBootTest(classes = PeopleAndOrganizationsEndpointGraphqlJavaApplication.class)
+//@SpringBootConfiguration
 public class CucumberIntegrationTest {
 }

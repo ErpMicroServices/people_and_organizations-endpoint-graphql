@@ -1,5 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint;
 
+import jakarta.validation.constraints.NotNull;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEvent;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventPurposeType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventStatusType;
@@ -19,7 +20,6 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.P
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRoleType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.type.PartyType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
