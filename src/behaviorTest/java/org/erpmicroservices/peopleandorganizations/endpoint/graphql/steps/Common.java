@@ -11,7 +11,6 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contac
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRoleType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.type.PartyType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
-import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.data.domain.Pageable;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.testcontainers.utility.DockerImageName;
@@ -21,40 +20,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-@AutoConfigureGraphQlTester
 public class Common extends CucumberSpringBootContext {
 
-    protected final CaseStatusTypeRepository caseStatusTypeRepository;
-    protected final CaseTypeRepository caseTypeRepository;
-    protected final CaseRepository caseRepository;
-    protected final PartyTypeRepository partyTypeRepository;
-    protected final PartyRepository partyRepository;
-    protected final CaseRoleTypeRepository caseRoleTypeRepository;
-    protected final CaseRoleRepository caseRoleRepository;
-    protected final ContactMechanismTypeRepository contactMechanismTypeRepository;
-    protected final PartyRoleTypeRepository partyRoleTypeRepository;
-    protected final PartyRoleRepository partyRoleRepository;
-    protected final CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository;
-    protected final CommunicationEventTypeRepository communicationEventTypeRepository;
-    protected final PartyRelationshipTypeRepository partyRelationshipTypeRepository;
-    protected final PartyRelationshipStatusTypeRepository partyRelationshipStatusTypeRepository;
-    protected final PriorityTypeRepository priorityTypeRepository;
-    protected final PartyRelationshipRepository partyRelationshipRepository;
-    protected final CommunicationEventRepository communicationEventRepository;
-    protected final FacilityRepository facilityRepository;
-    protected final FacilityTypeRepository facilityTypeRepository;
-    protected final FacilityRoleTypeRepository facilityRoleTypeRepository;
-    protected final FacilityRoleRepository facilityRoleRepository;
-    protected final FacilityContactMechanismRepository facilityContactMechanismRepository;
-    protected final ContactMechanismRepository contactMechanismRepository;
-    protected final GeographicBoundaryRepository geographicBoundaryRepository;
-    protected final GeographicBoundaryTypeRepository geographicBoundaryTypeRepository;
-    protected final ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository;
-    protected final PartyContactMechanismRepository partyContactMechanismRepository;
-    protected final PartyContactMechanismPurposeRepository partyContactMechanismPurposeRepository;
-    protected final PartyContactMechanismPurposeTypeRepository partyContactMechanismPurposeTypeRepository;
-    protected final CommunicationEventPurposeTypeRepository communicationEventPurposeTypeRepository;
-    protected final CommunicationEventRoleTypeRepository communicationEventRoleTypeRepository;
     private final List<CaseType> caseTypes = new ArrayList<>();
 
     private final static DockerImageName DATABASE_IMAGE_NAME = DockerImageName.parse("erpmicroservices/people_and_organizations-database:latest");
@@ -64,38 +31,7 @@ public class Common extends CucumberSpringBootContext {
 //            .waitingFor(Wait.forLogMessage(".*database system is ready to accept connections.*\\n",1));
 
     public Common(CaseTypeRepository caseTypeRepository, CaseStatusTypeRepository caseStatusTypeRepository, PartyContactMechanismRepository partyContactMechanismRepository, ContactMechanismRepository contactMechanismRepository, ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository, CommunicationEventPurposeTypeRepository communicationEventPurposeTypeRepository, CaseRepository caseRepository, PartyTypeRepository partyTypeRepository, PartyRelationshipStatusTypeRepository partyRelationshipStatusTypeRepository, FacilityRoleRepository facilityRoleRepository, PartyRepository partyRepository, CaseRoleTypeRepository caseRoleTypeRepository, PartyRelationshipTypeRepository partyRelationshipTypeRepository, CommunicationEventRepository communicationEventRepository, FacilityRoleTypeRepository facilityRoleTypeRepository, GeographicBoundaryRepository geographicBoundaryRepository, CommunicationEventTypeRepository communicationEventTypeRepository, CaseRoleRepository caseRoleRepository, PartyContactMechanismPurposeRepository partyContactMechanismPurposeRepository, ContactMechanismTypeRepository contactMechanismTypeRepository, FacilityContactMechanismRepository facilityContactMechanismRepository, PartyRoleTypeRepository partyRoleTypeRepository, PartyRoleRepository partyRoleRepository, FacilityTypeRepository facilityTypeRepository, GeographicBoundaryTypeRepository geographicBoundaryTypeRepository, CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository, PartyRelationshipRepository partyRelationshipRepository, PartyContactMechanismPurposeTypeRepository partyContactMechanismPurposeTypeRepository, CommunicationEventRoleTypeRepository communicationEventRoleTypeRepository, PriorityTypeRepository priorityTypeRepository, FacilityRepository facilityRepository, GraphQlTester graphQlTester) {
-//        super(graphQlTester);
-        this.caseTypeRepository = caseTypeRepository;
-        this.caseStatusTypeRepository = caseStatusTypeRepository;
-        this.partyContactMechanismRepository = partyContactMechanismRepository;
-        this.contactMechanismRepository = contactMechanismRepository;
-        this.contactMechanismGeographicBoundaryRepository = contactMechanismGeographicBoundaryRepository;
-        this.communicationEventPurposeTypeRepository = communicationEventPurposeTypeRepository;
-        this.caseRepository = caseRepository;
-        this.partyTypeRepository = partyTypeRepository;
-        this.partyRelationshipStatusTypeRepository = partyRelationshipStatusTypeRepository;
-        this.facilityRoleRepository = facilityRoleRepository;
-        this.partyRepository = partyRepository;
-        this.caseRoleTypeRepository = caseRoleTypeRepository;
-        this.partyRelationshipTypeRepository = partyRelationshipTypeRepository;
-        this.communicationEventRepository = communicationEventRepository;
-        this.facilityRoleTypeRepository = facilityRoleTypeRepository;
-        this.geographicBoundaryRepository = geographicBoundaryRepository;
-        this.communicationEventTypeRepository = communicationEventTypeRepository;
-        this.caseRoleRepository = caseRoleRepository;
-        this.partyContactMechanismPurposeRepository = partyContactMechanismPurposeRepository;
-        this.contactMechanismTypeRepository = contactMechanismTypeRepository;
-        this.facilityContactMechanismRepository = facilityContactMechanismRepository;
-        this.partyRoleTypeRepository = partyRoleTypeRepository;
-        this.partyRoleRepository = partyRoleRepository;
-        this.facilityTypeRepository = facilityTypeRepository;
-        this.geographicBoundaryTypeRepository = geographicBoundaryTypeRepository;
-        this.communicationEventStatusTypeRepository = communicationEventStatusTypeRepository;
-        this.partyRelationshipRepository = partyRelationshipRepository;
-        this.partyContactMechanismPurposeTypeRepository = partyContactMechanismPurposeTypeRepository;
-        this.communicationEventRoleTypeRepository = communicationEventRoleTypeRepository;
-        this.priorityTypeRepository = priorityTypeRepository;
-        this.facilityRepository = facilityRepository;
+        super(caseStatusTypeRepository, caseTypeRepository, caseRepository, partyTypeRepository, partyRepository, caseRoleTypeRepository, caseRoleRepository, contactMechanismTypeRepository, partyRoleTypeRepository, partyRoleRepository, communicationEventStatusTypeRepository, communicationEventTypeRepository, partyRelationshipTypeRepository, partyRelationshipStatusTypeRepository, priorityTypeRepository, partyRelationshipRepository, communicationEventRepository, facilityRepository, facilityTypeRepository, facilityRoleTypeRepository, facilityRoleRepository, facilityContactMechanismRepository, contactMechanismRepository, geographicBoundaryRepository, geographicBoundaryTypeRepository, contactMechanismGeographicBoundaryRepository, partyContactMechanismRepository, partyContactMechanismPurposeRepository, partyContactMechanismPurposeTypeRepository, communicationEventPurposeTypeRepository, communicationEventRoleTypeRepository);
     }
 
     @BeforeAll

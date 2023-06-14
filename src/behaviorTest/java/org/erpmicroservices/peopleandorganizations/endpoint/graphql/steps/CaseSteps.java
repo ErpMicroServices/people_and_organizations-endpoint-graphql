@@ -7,11 +7,8 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.CucumberSpri
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.Case;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseStatusType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.CaseRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.CaseStatusTypeRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.CaseTypeRepository;
-import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
-import org.springframework.graphql.test.tester.GraphQlTester;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeRepository;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -19,20 +16,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@AutoConfigureGraphQlTester
 public class CaseSteps extends CucumberSpringBootContext {
-    private final CaseRepository caseRepository;
-    private final CaseTypeRepository caseTypeRepository;
-    private final CaseStatusTypeRepository caseStatusTypeRepository;
-
     private final List<Case> expectedCases = new ArrayList<>();
     private List<Case> actualCases;
 
-    public CaseSteps(CaseRepository caseRepository, CaseTypeRepository caseTypeRepository, CaseStatusTypeRepository caseStatusTypeRepository, GraphQlTester graphQlTester) {
-//        super(graphQlTester);
-        this.caseRepository = caseRepository;
-        this.caseTypeRepository = caseTypeRepository;
-        this.caseStatusTypeRepository = caseStatusTypeRepository;
+    public CaseSteps(CaseStatusTypeRepository caseStatusTypeRepository, CaseTypeRepository caseTypeRepository, CaseRepository caseRepository, PartyTypeRepository partyTypeRepository, PartyRepository partyRepository, CaseRoleTypeRepository caseRoleTypeRepository, CaseRoleRepository caseRoleRepository, ContactMechanismTypeRepository contactMechanismTypeRepository, PartyRoleTypeRepository partyRoleTypeRepository, PartyRoleRepository partyRoleRepository, CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository, CommunicationEventTypeRepository communicationEventTypeRepository, PartyRelationshipTypeRepository partyRelationshipTypeRepository, PartyRelationshipStatusTypeRepository partyRelationshipStatusTypeRepository, PriorityTypeRepository priorityTypeRepository, PartyRelationshipRepository partyRelationshipRepository, CommunicationEventRepository communicationEventRepository, FacilityRepository facilityRepository, FacilityTypeRepository facilityTypeRepository, FacilityRoleTypeRepository facilityRoleTypeRepository, FacilityRoleRepository facilityRoleRepository, FacilityContactMechanismRepository facilityContactMechanismRepository, ContactMechanismRepository contactMechanismRepository, GeographicBoundaryRepository geographicBoundaryRepository, GeographicBoundaryTypeRepository geographicBoundaryTypeRepository, ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository, PartyContactMechanismRepository partyContactMechanismRepository, PartyContactMechanismPurposeRepository partyContactMechanismPurposeRepository, PartyContactMechanismPurposeTypeRepository partyContactMechanismPurposeTypeRepository, CommunicationEventPurposeTypeRepository communicationEventPurposeTypeRepository, CommunicationEventRoleTypeRepository communicationEventRoleTypeRepository) {
+        super(caseStatusTypeRepository, caseTypeRepository, caseRepository, partyTypeRepository, partyRepository, caseRoleTypeRepository, caseRoleRepository, contactMechanismTypeRepository, partyRoleTypeRepository, partyRoleRepository, communicationEventStatusTypeRepository, communicationEventTypeRepository, partyRelationshipTypeRepository, partyRelationshipStatusTypeRepository, priorityTypeRepository, partyRelationshipRepository, communicationEventRepository, facilityRepository, facilityTypeRepository, facilityRoleTypeRepository, facilityRoleRepository, facilityContactMechanismRepository, contactMechanismRepository, geographicBoundaryRepository, geographicBoundaryTypeRepository, contactMechanismGeographicBoundaryRepository, partyContactMechanismRepository, partyContactMechanismPurposeRepository, partyContactMechanismPurposeTypeRepository, communicationEventPurposeTypeRepository, communicationEventRoleTypeRepository);
     }
 
     @Given("there are {int} cases with a type of {string} with a status of {string} in the database")
