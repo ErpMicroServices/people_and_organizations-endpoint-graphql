@@ -6,11 +6,12 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Map;
 
-
 @CucumberContextConfiguration
+@ContextConfiguration(classes = PeopleAndOrganizationsEndpointGraphqlJavaApplication.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CucumberSpringBootContext {
 
