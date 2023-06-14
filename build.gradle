@@ -37,11 +37,16 @@ test {
     useJUnitPlatform()
 }
 
+ext {
+    set("jakarta-servlet.version", '5.0.0')
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-graphql'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.graphql-java:graphql-java-extended-scalars:20.2'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
@@ -50,8 +55,18 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework:spring-webflux'
     testImplementation 'org.springframework.graphql:spring-graphql-test'
+    testImplementation 'org.eclipse.jetty:jetty-server:11.0.14'
+    testImplementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-actuator'
     behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-graphql'
     behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-validation'
+    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-web'
+    behaviorTestImplementation 'org.springframework.graphql:spring-graphql-test'
+    behaviorTestImplementation 'org.springframework:spring-webflux'
+    behaviorTestImplementation 'org.eclipse.jetty:jetty-server:11.0.14'
+    behaviorTestImplementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
     behaviorTestImplementation 'io.cucumber:cucumber-java:7.11.1'
     behaviorTestImplementation 'io.cucumber:cucumber-junit:7.11.1'
     behaviorTestImplementation 'io.cucumber:cucumber-spring:7.11.1'
@@ -59,10 +74,6 @@ dependencies {
     behaviorTestImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     behaviorTestImplementation "org.testcontainers:testcontainers:1.18.3"
     behaviorTestImplementation "org.testcontainers:junit-jupiter:1.18.3"
-    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-actuator'
-    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-graphql'
-    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-validation'
     behaviorTestImplementation 'com.graphql-java:graphql-java-extended-scalars:20.2'
     behaviorTestImplementation 'org.postgresql:postgresql'
 }

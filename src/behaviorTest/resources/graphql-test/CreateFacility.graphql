@@ -1,0 +1,10 @@
+mutation CreateFacility( $newFacility: NewFacility!) {
+    createFacility(newFacility: $newFacility) {
+        id
+        description
+        facilityType {
+            id
+            description
+        }
+    }
+}

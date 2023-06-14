@@ -17,4 +17,6 @@ public interface CaseTypeRepository extends JpaRepository<CaseType, UUID> {
 
     List<CaseType> findCaseTypeByParentIdIsNotNull();
 
+    CaseType findByDescription(String description);
+
 }

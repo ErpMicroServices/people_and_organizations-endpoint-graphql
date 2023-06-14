@@ -1,0 +1,21 @@
+mutation AddCommunicationEventToCase( $caseId: ID!, $newCommunicationEvent: NewCommunicationEvent!) {
+    addCommunicationEventToCase(caseId: $caseId, newCommunicationEvent: $newCommunicationEvent){
+        id
+        started
+        ended
+        note
+        contactMechanismType {
+            id
+            description
+        }
+        communicationEventStatusType {
+            id
+            description
+        }
+        communicationEventType {
+            id
+            description
+        }
+    }
+}
+

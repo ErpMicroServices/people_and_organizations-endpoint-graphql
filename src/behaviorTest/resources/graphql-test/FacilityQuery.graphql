@@ -1,0 +1,63 @@
+query Facilities ($facilityPageInfo: PageInfoInput!,$rolesPageInfo: PageInfoInput!, $facilityContactMechanismsPageInfo: PageInfoInput!, $geographicBoundaryPageInfo:PageInfoInput!) {
+    facilities(pageInfo: $facilityPageInfo){
+        edges {
+            node {
+                id
+                description
+                facilityType {
+                    id
+                    description
+                }
+                roles(pageInfo: $rolesPageInfo){
+                    edges {
+                        node {
+                            id
+                            fromDate
+                            facilityRoleType {
+                                id
+                                description
+                            }
+                            party {
+                                id
+                            }
+                        }
+                    }
+                }
+                contactMechanisms(pageInfo: $facilityContactMechanismsPageInfo) {
+                    edges {
+                        node {
+                            id
+                            fromDate
+                            contactMechanism {
+                                id
+                                endPoint
+                                directions
+                                contactMechanismType {
+                                    id
+                                    description
+                                }
+                                geographicBoundaries(pageInfo: $geographicBoundaryPageInfo){
+                                    edges {
+                                        node {
+                                            id
+                                            geoCode
+                                            name
+                                            abbreviation
+                                            geographicBoundaryType {
+                                                id
+                                                description
+                                            }
+                                            partOf {
+                                                id
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

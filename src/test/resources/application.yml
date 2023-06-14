@@ -1,6 +1,6 @@
 spring:
   application:
-    name: People and Organizations Endpoint Graphql
+    name: People and Organizations Endpoint Graphql Unit Tests
   graphql:
     schema:
       printer:
@@ -16,7 +16,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/people_and_organizations
     username: people_and_organizations
     password: people_and_organizations
-#    driverClassName: org.postgresql.Driver
 
 logging:
   level:

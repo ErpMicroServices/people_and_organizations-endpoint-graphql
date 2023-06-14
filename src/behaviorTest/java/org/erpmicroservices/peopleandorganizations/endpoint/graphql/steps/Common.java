@@ -3,15 +3,17 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.steps;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.SpringIntegrationTest;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.CucumberSpringBootContext;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventStatusType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseStatusType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRoleType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.type.PartyType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
+import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.data.domain.Pageable;
-import org.testcontainers.containers.GenericContainer;
+import org.springframework.graphql.test.tester.GraphQlTester;
 import org.testcontainers.utility.DockerImageName;
 
 import java.util.ArrayList;
@@ -19,7 +21,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class Common extends SpringIntegrationTest {
+@AutoConfigureGraphQlTester
+public class Common extends CucumberSpringBootContext {
 
     protected final CaseStatusTypeRepository caseStatusTypeRepository;
     protected final CaseTypeRepository caseTypeRepository;
@@ -54,7 +57,14 @@ public class Common extends SpringIntegrationTest {
     protected final CommunicationEventRoleTypeRepository communicationEventRoleTypeRepository;
     private final List<CaseType> caseTypes = new ArrayList<>();
 
-    public Common(CaseTypeRepository caseTypeRepository, CaseStatusTypeRepository caseStatusTypeRepository, PartyContactMechanismRepository partyContactMechanismRepository, ContactMechanismRepository contactMechanismRepository, ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository, CommunicationEventPurposeTypeRepository communicationEventPurposeTypeRepository, CaseRepository caseRepository, PartyTypeRepository partyTypeRepository, PartyRelationshipStatusTypeRepository partyRelationshipStatusTypeRepository, FacilityRoleRepository facilityRoleRepository, PartyRepository partyRepository, CaseRoleTypeRepository caseRoleTypeRepository, PartyRelationshipTypeRepository partyRelationshipTypeRepository, CommunicationEventRepository communicationEventRepository, FacilityRoleTypeRepository facilityRoleTypeRepository, GeographicBoundaryRepository geographicBoundaryRepository, CommunicationEventTypeRepository communicationEventTypeRepository, CaseRoleRepository caseRoleRepository, PartyContactMechanismPurposeRepository partyContactMechanismPurposeRepository, ContactMechanismTypeRepository contactMechanismTypeRepository, FacilityContactMechanismRepository facilityContactMechanismRepository, PartyRoleTypeRepository partyRoleTypeRepository, PartyRoleRepository partyRoleRepository, FacilityTypeRepository facilityTypeRepository, GeographicBoundaryTypeRepository geographicBoundaryTypeRepository, CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository, PartyRelationshipRepository partyRelationshipRepository, PartyContactMechanismPurposeTypeRepository partyContactMechanismPurposeTypeRepository, CommunicationEventRoleTypeRepository communicationEventRoleTypeRepository, PriorityTypeRepository priorityTypeRepository, FacilityRepository facilityRepository) {
+    private final static DockerImageName DATABASE_IMAGE_NAME = DockerImageName.parse("erpmicroservices/people_and_organizations-database:latest");
+
+//    private final static GenericContainer postgresqlDbContainer = new GenericContainer(DATABASE_IMAGE_NAME)
+//            .withExposedPorts(5432)
+//            .waitingFor(Wait.forLogMessage(".*database system is ready to accept connections.*\\n",1));
+
+    public Common(CaseTypeRepository caseTypeRepository, CaseStatusTypeRepository caseStatusTypeRepository, PartyContactMechanismRepository partyContactMechanismRepository, ContactMechanismRepository contactMechanismRepository, ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository, CommunicationEventPurposeTypeRepository communicationEventPurposeTypeRepository, CaseRepository caseRepository, PartyTypeRepository partyTypeRepository, PartyRelationshipStatusTypeRepository partyRelationshipStatusTypeRepository, FacilityRoleRepository facilityRoleRepository, PartyRepository partyRepository, CaseRoleTypeRepository caseRoleTypeRepository, PartyRelationshipTypeRepository partyRelationshipTypeRepository, CommunicationEventRepository communicationEventRepository, FacilityRoleTypeRepository facilityRoleTypeRepository, GeographicBoundaryRepository geographicBoundaryRepository, CommunicationEventTypeRepository communicationEventTypeRepository, CaseRoleRepository caseRoleRepository, PartyContactMechanismPurposeRepository partyContactMechanismPurposeRepository, ContactMechanismTypeRepository contactMechanismTypeRepository, FacilityContactMechanismRepository facilityContactMechanismRepository, PartyRoleTypeRepository partyRoleTypeRepository, PartyRoleRepository partyRoleRepository, FacilityTypeRepository facilityTypeRepository, GeographicBoundaryTypeRepository geographicBoundaryTypeRepository, CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository, PartyRelationshipRepository partyRelationshipRepository, PartyContactMechanismPurposeTypeRepository partyContactMechanismPurposeTypeRepository, CommunicationEventRoleTypeRepository communicationEventRoleTypeRepository, PriorityTypeRepository priorityTypeRepository, FacilityRepository facilityRepository, GraphQlTester graphQlTester) {
+        super(graphQlTester);
         this.caseTypeRepository = caseTypeRepository;
         this.caseStatusTypeRepository = caseStatusTypeRepository;
         this.partyContactMechanismRepository = partyContactMechanismRepository;
@@ -90,7 +100,10 @@ public class Common extends SpringIntegrationTest {
 
     @BeforeAll
     public static void setupWorld() {
-        GenericContainer postgresqlDbContainer = new GenericContainer(DockerImageName.parse("erpmicroservices/people_and_organizations-database:latest"));
+//        System.out.println("######################################## Starting the db docker instance ##################");
+//        postgresqlDbContainer.start();
+
+//        System.out.println("############################     " + postgresqlDbContainer.getContainerName() + "     ######################");
     }
 
     @Before
@@ -100,13 +113,19 @@ public class Common extends SpringIntegrationTest {
 
     @Given("the following types:")
     public void the_following_types(io.cucumber.datatable.DataTable dataTable) {
-        dataTable.asLists(String.class).stream()
-                .map(row -> switch (row.get(0)) {
-                    case "case" -> caseTypeRepository.save(CaseType.builder()
-                            .description(row.get(1))
-                            .build());
-                    default -> fail("Unknown type: " + row);
+        final List<List<String>> dataTableLists = dataTable.asLists();
+        dataTableLists.stream()
+                .forEach(row -> {
+                    switch (row.get(0)) {
+                        case "case" -> caseTypeRepository.save(CaseType.builder()
+                                .description(row.get(1))
+                                .build());
+                        case "case status" -> caseStatusTypeRepository.save(CaseStatusType.builder()
+                                .description(row.get(1))
+                                .build());
+                        default -> fail("Unknown type: " + row);
 
+                    }
                 });
     }
 

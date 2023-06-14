@@ -3,7 +3,6 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -12,7 +11,7 @@ import java.util.UUID;
 
 
 @SpringBootTest
-@AutoConfigureGraphQlTester
+
 public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 	private final String casesGraphQlPath = "cases.edges[0].node.";
 	private final String caseRolesGraphQlPath = casesGraphQlPath + "roles.edges[0].node.";
