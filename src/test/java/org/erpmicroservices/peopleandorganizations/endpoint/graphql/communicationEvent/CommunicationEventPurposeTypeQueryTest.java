@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationEvent;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventPurposeType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventPurposeTypeEdge;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.graphql.CommunicationEventPurposeTypeEdge;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEventPurposeType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

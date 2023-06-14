@@ -4,6 +4,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.CucumberSpringBootContext;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.repositories.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.Case;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseStatusType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseType;

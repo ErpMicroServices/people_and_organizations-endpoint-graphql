@@ -2,8 +2,11 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
 
 import graphql.relay.Edge;
 import jakarta.validation.constraints.NotNull;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEvent;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.NewCommunicationEvent;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEvent;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.NewCommunicationEvent;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.repositories.CommunicationEventRepository;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.repositories.CommunicationEventStatusTypeRepository;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.repositories.CommunicationEventTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;

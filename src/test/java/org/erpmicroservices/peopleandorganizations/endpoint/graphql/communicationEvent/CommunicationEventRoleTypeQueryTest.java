@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationEvent;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventRoleType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventRoleTypeEdge;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.graphql.CommunicationEventRoleTypeEdge;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEventRoleType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

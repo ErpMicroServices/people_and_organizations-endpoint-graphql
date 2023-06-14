@@ -16,5 +16,6 @@ public class ContactMechanismNew {
     private String directions;
     @NotNull
     private UUID contactMechanismType;
+    @Builder.Default
     private List<UUID> geographicBoundaryIds = new ArrayList<>();
 }

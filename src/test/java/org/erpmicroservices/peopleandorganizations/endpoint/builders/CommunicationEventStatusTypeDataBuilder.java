@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.CommunicationEventStatusType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEventStatusType;
 
 import java.util.UUID;
 
