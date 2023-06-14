@@ -29,7 +29,7 @@ public class CaseSteps extends CucumberSpringBootContext {
     private List<Case> actualCases;
 
     public CaseSteps(CaseRepository caseRepository, CaseTypeRepository caseTypeRepository, CaseStatusTypeRepository caseStatusTypeRepository, GraphQlTester graphQlTester) {
-        super(graphQlTester);
+//        super(graphQlTester);
         this.caseRepository = caseRepository;
         this.caseTypeRepository = caseTypeRepository;
         this.caseStatusTypeRepository = caseStatusTypeRepository;
