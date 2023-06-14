@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: People and Organizations Endpoint Graphql Behavior Test
+  graphql:
+    schema:
+      printer:
+        enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/people_and_organizations
+    username: people_and_organizations
+    password: people_and_organizations
+
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.data.repository: DEBUG
+    org.springframework.graphql: DEBUG
+    org.springframework.graphql.data: DEBUG
+    org.springframework.web: DEBUG

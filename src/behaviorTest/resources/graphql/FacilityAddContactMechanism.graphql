@@ -1,0 +1,16 @@
+mutation AddFacilityContactMechanism( $newFacilityContactMechanism: NewFacilityContactMechanism!) {
+    addFacilityContactMechanism(newFacilityContactMechanism: $newFacilityContactMechanism) {
+        id
+        fromDate
+        thruDate
+        contactMechanism {
+            id
+            endPoint
+            directions
+            contactMechanismType {
+                id
+                description
+            }
+        }
+    }
+}

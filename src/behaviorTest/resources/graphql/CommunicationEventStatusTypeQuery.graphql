@@ -1,0 +1,22 @@
+query CommunicationEventStatusTypeQuery($childrenPageInfo: PageInfoInput!) {
+    communicationEventStatusTypes(pageInfo: $childrenPageInfo)  {
+        edges {
+            node {
+                id
+                description
+                parent {
+                    id
+                    description
+                }
+                children(pageInfo: $childrenPageInfo) {
+                    edges {
+                        node {
+                            description
+                            id
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

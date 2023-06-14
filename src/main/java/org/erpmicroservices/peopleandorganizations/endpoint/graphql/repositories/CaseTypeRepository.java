@@ -11,9 +11,12 @@ import java.util.UUID;
 
 @GraphQlRepository
 public interface CaseTypeRepository extends JpaRepository<CaseType, UUID> {
-	Page<CaseType> findCaseTypeByParentId(UUID parentId, Pageable pageable);
+    Page<CaseType> findCaseTypeByParentId(UUID parentId, Pageable pageable);
 
-	Page<CaseType> findCaseTypeByParentIdIsNull(final Pageable pageable);
+    Page<CaseType> findCaseTypeByParentIdIsNull(final Pageable pageable);
 
-	List<CaseType> findCaseTypeByParentIdIsNotNull();
+    List<CaseType> findCaseTypeByParentIdIsNotNull();
+
+    CaseType findByDescription(String description);
+
 }

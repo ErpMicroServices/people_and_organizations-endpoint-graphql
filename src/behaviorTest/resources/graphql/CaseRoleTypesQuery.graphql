@@ -1,0 +1,26 @@
+query CaseRoleTypesQuery($childrenPageInfo: PageInfoInput!) {
+    caseRoleTypes(pageInfo: $childrenPageInfo) {
+        edges{
+            node{
+                id
+                description
+                parent {
+                    id
+                    description
+                }
+                children(pageInfo: $childrenPageInfo) {
+                    edges {
+                        node {
+                            id
+                            description
+                            parent {
+                                id
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

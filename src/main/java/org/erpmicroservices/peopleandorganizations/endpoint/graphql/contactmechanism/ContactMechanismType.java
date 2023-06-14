@@ -1,14 +1,14 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism;
 
+import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.AbstractType;
 
-import javax.persistence.Entity;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 

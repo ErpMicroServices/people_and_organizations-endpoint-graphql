@@ -1,20 +1,21 @@
 spring:
   application:
-    name: People and Organizations Endpoint Graphql
+    name: People and Organizations Endpoint Graphql Unit Tests
   graphql:
     schema:
       printer:
         enabled: true
   jpa:
-    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
       ddl-auto: validate
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     url: jdbc:postgresql://localhost:5432/people_and_organizations
     username: people_and_organizations
     password: people_and_organizations
-    driverClassName: org.postgresql.Driver
 
 logging:
   level:

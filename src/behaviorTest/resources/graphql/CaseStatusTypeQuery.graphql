@@ -1,0 +1,22 @@
+query CaseStatusTypeQuery($childrenPageInfo: PageInfoInput!) {
+    caseStatusTypes(pageInfo: $childrenPageInfo) {
+        edges {
+            node {
+                id
+                description
+                parent {
+                    id
+                    description
+                }
+                children(pageInfo: $childrenPageInfo) {
+                    edges {
+                        node {
+                            id
+                            description
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

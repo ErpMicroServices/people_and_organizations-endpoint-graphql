@@ -1,0 +1,22 @@
+query CommunicationEventPurposeTypeQuery($childrenPageInfo: PageInfoInput!) {
+    communicationEventPurposeTypes(pageInfo: $childrenPageInfo) {
+        edges {
+            node {
+                id
+                description
+                parent {
+                    id
+                    description
+                }
+                children(pageInfo: $childrenPageInfo){
+                    edges {
+                        node {
+                            id
+                            description
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

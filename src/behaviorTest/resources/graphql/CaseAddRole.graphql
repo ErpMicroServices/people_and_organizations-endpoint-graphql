@@ -1,0 +1,29 @@
+mutation AddCaseRole( $newCaseRole: NewCaseRole!, $rolesPageInfo:PageInfoInput!){
+    addCaseRole(newCaseRole: $newCaseRole){
+        id
+        description
+        startedAt
+        roles(pageInfo: $rolesPageInfo) {
+            edges {
+                node {
+                    id
+                    caseRoleType {
+                        id
+                        description
+                    }
+                    party {
+                        id
+                    }
+                    fromDate
+                    thruDate
+                }
+            }
+            pageInfo {
+                pageNumber
+                pageSize
+                sortBy
+                sortDirection
+            }
+        }
+    }
+}
