@@ -51,7 +51,7 @@ public class CaseSteps extends CucumberSpringBootContext {
 
     @Then("I get {int} cases")
     public void i_get_cases(Integer expectedSize) {
-        assertEquals(expectedCases.size(), actualCases.size());
+        assertEquals(expectedSize, actualCases.size());
     }
 
     @Then("{int} of them are cases of type {string}")

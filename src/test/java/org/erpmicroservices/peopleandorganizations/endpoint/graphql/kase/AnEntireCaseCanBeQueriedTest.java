@@ -14,8 +14,6 @@ import java.util.UUID;
 
 public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 	private final String casesGraphQlPath = "cases.edges[0].node.";
-	private final String caseRolesGraphQlPath = casesGraphQlPath + "roles.edges[0].node.";
-	private final String communicationEventsGraphQlPath = casesGraphQlPath + "communicationEvents.edges[0].node.";
 
 	@BeforeEach
 	@Override
@@ -53,6 +51,8 @@ public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 	@AfterEach
 	@Override
 	public void then() {
+		String caseRolesGraphQlPath = casesGraphQlPath + "roles.edges[0].node.";
+		String communicationEventsGraphQlPath = casesGraphQlPath + "communicationEvents.edges[0].node.";
 		response
 				.path(casesGraphQlPath + "id").entity(UUID.class).isEqualTo(aCase.getId())
 				.path(casesGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())

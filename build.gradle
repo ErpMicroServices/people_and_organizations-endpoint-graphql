@@ -74,6 +74,7 @@ dependencies {
     behaviorTestImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     behaviorTestImplementation "org.testcontainers:testcontainers:1.18.3"
     behaviorTestImplementation "org.testcontainers:junit-jupiter:1.18.3"
+    behaviorTestImplementation 'org.testcontainers:postgresql:1.18.3'
     behaviorTestImplementation 'com.graphql-java:graphql-java-extended-scalars:20.2'
     behaviorTestImplementation 'org.postgresql:postgresql'
 }
