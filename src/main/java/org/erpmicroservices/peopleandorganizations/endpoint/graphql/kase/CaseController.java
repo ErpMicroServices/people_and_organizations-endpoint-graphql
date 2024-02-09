@@ -10,6 +10,8 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicatio
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -28,6 +30,7 @@ import static org.erpmicroservices.peopleandorganizations.endpoint.graphql.misc.
 @Controller
 public class CaseController {
 
+	Logger logger = LoggerFactory.getLogger(CaseController.class);
 	private final CaseRepository caseRepository;
 
 	private final CaseRoleRepository caseRoleRepository;
@@ -65,20 +68,21 @@ public class CaseController {
 		this.partyRepository = partyRepository;
 	}
 
-	@QueryMapping
-	public CaseConnection cases(@Argument PageInfo pageInfo) {
-		final Page<Case> all = caseRepository.findAll(pageInfoToPageable(pageInfo));
-		final List<Edge<Case>> caseEdges = all.get()
-				                                   .map(kase -> CaseEdge.builder()
-						                                                .node(kase)
-						                                                .connectionCursor(Cursor.builder().value(String.valueOf(kase.getId().hashCode())).build())
-						                                                .build())
-				                                   .collect(Collectors.toList());
-		return CaseConnection.builder()
-				       .edges(caseEdges)
-				       .pageInfo(pageInfo)
-				       .build();
-	}
+//	@QueryMapping
+//	public CaseConnection cases(@Argument Integer first, @Argument String after, @Argument Integer last, @Argument String before) {
+//		final Page<Case> all = caseRepository.findAll(pageInfoToPageable(pageInfo));
+//		logger.trace("Total Elements: %d, Total Pages: %d".formatted(all.getTotalElements(), all.getTotalPages()));
+//		final List<Edge<Case>> caseEdges = all.get()
+//				                                   .map(kase -> CaseEdge.builder()
+//						                                                .node(kase)
+//						                                                .connectionCursor(Cursor.builder().value(String.valueOf(kase.getId().hashCode())).build())
+//						                                                .build())
+//				                                   .collect(Collectors.toList());
+//		return CaseConnection.builder()
+//				       .edges(caseEdges)
+//				       .pageInfo(pageInfo)
+//				       .build();
+//	}
 
 	@SchemaMapping
 	public CaseType caseType(@NotNull Case kase) {

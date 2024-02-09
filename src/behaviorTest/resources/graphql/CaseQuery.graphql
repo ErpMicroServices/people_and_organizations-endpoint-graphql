@@ -1,10 +1,10 @@
-query caseQuery($casePageInfo:PageInfoInput!, $rolesPageInfo:PageInfoInput!, $communicationEventPageInfo: PageInfoInput!) {
+query caseQuery($casePageInfo: PageInfoInput!, $rolesPageInfo: PageInfoInput!, $communicationEventPageInfo: PageInfoInput!) {
     cases(pageInfo: $casePageInfo) {
         pageInfo {
-            pageNumber
-            pageSize
-            sortBy
-            sortDirection
+            endCursor
+            hasNextPage
+            hasPreviousPage
+            startCursor
         }
         edges {
             node {
@@ -35,10 +35,10 @@ query caseQuery($casePageInfo:PageInfoInput!, $rolesPageInfo:PageInfoInput!, $co
                         }
                     }
                     pageInfo {
-                        pageNumber
-                        pageSize
-                        sortBy
-                        sortDirection
+                        endCursor
+                        hasNextPage
+                        hasPreviousPage
+                        startCursor
                     }
                 }
                 communicationEvents(pageInfo: $communicationEventPageInfo) {
@@ -66,10 +66,10 @@ query caseQuery($casePageInfo:PageInfoInput!, $rolesPageInfo:PageInfoInput!, $co
                         }
                     }
                     pageInfo {
-                        pageNumber
-                        pageSize
-                        sortBy
-                        sortDirection
+                        endCursor
+                        hasNextPage
+                        hasPreviousPage
+                        startCursor
                     }
                 }
             }

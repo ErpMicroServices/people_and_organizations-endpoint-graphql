@@ -20,7 +20,7 @@ spring:
 logging:
   level:
     ROOT: INFO
-    org.springframework.data.repository: DEBUG
-    org.springframework.graphql: DEBUG
-    org.springframework.graphql.data: DEBUG
-    org.springframework.web: DEBUG
+    org.springframework.data.repository: INFO
+    org.springframework.graphql: INFO
+    org.springframework.graphql.data: INFO
+    org.springframework.web: INFO

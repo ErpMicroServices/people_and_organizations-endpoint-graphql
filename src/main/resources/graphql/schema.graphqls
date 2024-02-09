@@ -17,10 +17,10 @@ interface Node {
 }
 
 type PageInfo {
-    pageNumber: Int!
-    pageSize: Int!
-    sortBy: [String]
-    sortDirection: SortDirection!
+    hasPreviousPage: Boolean!
+    hasNextPage: Boolean!
+    startCursor: String
+    endCursor: String
 }
 
 input PageInfoInput {
@@ -825,7 +825,7 @@ type Query {
     caseStatusTypes(pageInfo:PageInfoInput!): CaseStatusTypeConnection!
     caseTypes(pageInfo:PageInfoInput!): CaseTypeConnection!
     communicationEventPurposeTypes(pageInfo:PageInfoInput!): CommunicationEventPurposeTypeConnection!
-    communicationEventRoleTypes(pageInfo:PageInfoInput!): CommunicationEventRoleTypeConnection!
+    communicationEventRoleTypes(first:Int, after:String, last:Int, before:String): CommunicationEventRoleTypeConnection!
     communicationEventStatusTypes(pageInfo:PageInfoInput!): CommunicationEventStatusTypeConnection!
     communicationEventTypes(pageInfo:PageInfoInput!): CommunicationEventTypeConnection!
     facilities(pageInfo: PageInfoInput!): FacilityConnection!

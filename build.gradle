@@ -7,6 +7,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.0'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
 repositories {
@@ -31,6 +32,7 @@ configurations {
     }
     behaviorTestTestImplementation.extendsFrom testImplementation
     behaviorTestTestRuntimeOnly.extendsFrom testRuntimeOnly
+    querydsl.extendsFrom implementation, compileOnly, runtimeOnly, annotationProcessor
 }
 
 test {
@@ -39,6 +41,7 @@ test {
 
 ext {
     set("jakarta-servlet.version", '5.0.0')
+    set("queryDslVersion", '5.0.0')
 }
 
 dependencies {
@@ -48,10 +51,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.graphql-java:graphql-java-extended-scalars:20.2'
+    implementation 'com.querydsl:querydsl-apt:${queryDslVersion}:jakarta'
+    compileOnly 'jakarta.platform:jakarta.jakartaee-api:9.1.0'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jakarta"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework:spring-webflux'
     testImplementation 'org.springframework.graphql:spring-graphql-test'
@@ -77,6 +83,7 @@ dependencies {
     behaviorTestImplementation 'org.testcontainers:postgresql:1.18.3'
     behaviorTestImplementation 'com.graphql-java:graphql-java-extended-scalars:20.2'
     behaviorTestImplementation 'org.postgresql:postgresql'
+    behaviorTestImplementation 'com.querydsl:querydsl-apt:${queryDslVersion}:jakarta'
 }
 
 tasks.register('behaviorTest', Test) {
@@ -97,3 +104,14 @@ tasks.register('behaviorTest', Test) {
 }
 
 check.dependsOn behaviorTest
+
+
+querydsl {
+    jpa = true
+    library = 'com.querydsl:querydsl-apt:5.0.0'
+    querydslSourcesDir = "$buildDir/generated/sources/annotationProcessor/java/main"
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
