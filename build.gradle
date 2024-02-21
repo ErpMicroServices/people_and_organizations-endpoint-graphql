@@ -47,20 +47,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-//    implementation "com.querydsl:querydsl-core:${queryDslVersion}"
-//    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-
     implementation("io.github.openfeign.querydsl:querydsl-core:$queryDslVersion")
     implementation("io.github.openfeign.querydsl:querydsl-jpa:$queryDslVersion")
     annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:$queryDslVersion:jpa")
     annotationProcessor("jakarta.persistence:jakarta.persistence-api")
     annotationProcessor("jakarta.annotation:jakarta.annotation-api")
 
+    implementation 'com.graphql-java:graphql-java-extended-scalars:19.0'
+
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-
-//    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:general"
 
     runtimeOnly 'org.postgresql:postgresql'
 
@@ -68,8 +65,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testImplementation 'org.springframework.graphql:spring-graphql-test'
     testImplementation 'org.testcontainers:postgresql'
-
-//    testAnnotationProcessor("com.querydsl:querydsl-apt:${queryDslVersion}:general")
 
     behaviorTestImplementation 'io.cucumber:cucumber-java:7.11.1'
     behaviorTestImplementation 'io.cucumber:cucumber-junit:7.11.1'
