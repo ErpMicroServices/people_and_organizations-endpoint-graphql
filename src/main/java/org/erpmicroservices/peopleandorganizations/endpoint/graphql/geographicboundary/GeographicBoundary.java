@@ -16,13 +16,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedNativeQuery(name = "GeographicBoundary.findByContactMechanismId",
-		query = "select cast(geographic_boundary.id as varchar) as id, geographic_boundary.geo_code, geographic_boundary.name,\n" +
-				        "       geographic_boundary.abbreviation, cast(geographic_boundary.geographic_boundary_type_id as varchar)\n" +
-				        "from geographic_boundary, contact_mechanism_geographic_boundary\n" +
-				        "where\n" +
-				        "    contact_mechanism_geographic_boundary.contact_mechanism_id = :contactMechanismId\n" +
-				        "and\n" +
-				        "    geographic_boundary.id = contact_mechanism_geographic_boundary.geographic_boundary_id\n",
+		query = "select geographic_boundary.id, " +
+					"geographic_boundary.geo_code, " +
+					"geographic_boundary.name, " +
+					"geographic_boundary.abbreviation, " +
+					"geographic_boundary.geographic_boundary_type_id " +
+				"from geographic_boundary, contact_mechanism_geographic_boundary " +
+				"where " +
+					"contact_mechanism_geographic_boundary.contact_mechanism_id = :contactMechanismId " +
+					"and " +
+					"geographic_boundary.id = contact_mechanism_geographic_boundary.geographic_boundary_id ",
 		resultClass = GeographicBoundary.class)
 public class GeographicBoundary {
 	@Id
