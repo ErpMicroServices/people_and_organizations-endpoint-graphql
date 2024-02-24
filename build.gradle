@@ -18,12 +18,11 @@ ext {
 }
 
 repositories {
-//    mavenLocal()
     mavenCentral()
 
-//    maven {
-//        url = uri('https://maven.pkg.github.com/ErpMicroServices')
-//    }
+    maven {
+        url = uri('https://maven.pkg.github.com/ErpMicroServices')
+    }
 }
 
 sourceSets {
@@ -46,6 +45,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.graphql:spring-graphql-test'
+    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-web'
     behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-test'
     behaviorTestImplementation 'org.springframework.graphql:spring-graphql-test'
@@ -61,6 +61,9 @@ dependencies {
 configurations {
     behaviorTestTestImplementation.extendsFrom testImplementation
     behaviorTestTestRuntimeOnly.extendsFrom testRuntimeOnly
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 publishing {
@@ -77,6 +80,10 @@ tasks.withType(JavaCompile) {
 
 tasks.withType(Javadoc) {
     options.encoding = 'UTF-8'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
 }
 
 tasks.register('behaviorTest', Test) {
