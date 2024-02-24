@@ -14,7 +14,7 @@ ext {
     graphqlJavaExtendedScalarsVersion = "20.0"
     commonsCollections4 = "4.4"
     cucumberVersion = "7.15.0"
-    testcontainersVersion = "1.24.0"
+    testcontainersVersion = "1.19.6"
 }
 
 repositories {
@@ -53,6 +53,7 @@ dependencies {
     behaviorTestImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
     behaviorTestImplementation "io.cucumber:cucumber-spring:$cucumberVersion"
     behaviorTestImplementation 'org.junit.vintage:junit-vintage-engine'
+    behaviorTestImplementation "org.testcontainers:testcontainers:$testcontainersVersion"
     behaviorTestImplementation "org.testcontainers:postgresql:$testcontainersVersion"
 
 }
@@ -82,6 +83,8 @@ tasks.register('behaviorTest', Test) {
     description = 'Runs integration tests.'
     group = 'verification'
 
+    testClassesDirs = sourceSets.behaviorTest.output.classesDirs
+    classpath = sourceSets.behaviorTest.runtimeClasspath
     shouldRunAfter test
 
     useJUnitPlatform()
