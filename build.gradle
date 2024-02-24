@@ -14,6 +14,7 @@ ext {
     graphqlJavaExtendedScalarsVersion = "20.0"
     commonsCollections4 = "4.4"
     cucumberVersion = "7.15.0"
+    testcontainersVersion = "1.24.0"
 }
 
 repositories {
@@ -45,11 +46,15 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.graphql:spring-graphql-test'
+    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-test'
     behaviorTestImplementation 'org.springframework.graphql:spring-graphql-test'
     behaviorTestImplementation "io.cucumber:cucumber-java:$cucumberVersion"
     behaviorTestImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
+    behaviorTestImplementation "io.cucumber:cucumber-spring:$cucumberVersion"
     behaviorTestImplementation 'org.junit.vintage:junit-vintage-engine'
+    behaviorTestImplementation "org.testcontainers:postgresql:$testcontainersVersion"
+
 }
 
 configurations {
