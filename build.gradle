@@ -2,88 +2,81 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.2'
     id 'io.spring.dependency-management' version '1.1.4'
-    id 'com.netflix.dgs.codegen' version '6.0.3'
+    id 'maven-publish'
 }
 
 group = 'com.erpmicroservices'
 version = '0.0.1-SNAPSHOT'
 description = 'people_and_organizations-endpoint-graphql'
 java.sourceCompatibility = '21'
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-    behaviorTestTestImplementation.extendsFrom implementation, testImplementation
-    behaviorTestTestRuntimeOnly.extendsFrom runtimeOnly, testRuntimeOnly
-}
-
 ext {
-    set('springCloudVersion', "2023.0.0")
-    set('queryDslVersion', '6.0')
+    postgresqlVersion = '42.7.2'
+    graphqlJavaExtendedScalarsVersion = "20.0"
+    commonsCollections4 = "4.4"
+    cucumberVersion = "7.15.0"
 }
-
 
 repositories {
+//    mavenLocal()
     mavenCentral()
+
+//    maven {
+//        url = uri('https://maven.pkg.github.com/ErpMicroServices')
+//    }
 }
 
 sourceSets {
     behaviorTest {
-        compileClasspath += sourceSets.main.output + sourceSets.test.output
-        runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
     }
 }
 
-test {
-    useJUnitPlatform()
-}
-
 dependencies {
-
-    implementation 'org.springframework:spring-beans'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-graphql'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'com.graphql-java:graphql-java-extended-scalars:19.0'
-
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'org.postgresql:postgresql'
+    implementation "org.postgresql:postgresql:$postgresqlVersion"
+    implementation 'org.projectlombok:lombok'
+    implementation "com.graphql-java:graphql-java-extended-scalars:$graphqlJavaExtendedScalarsVersion"
+    implementation "org.apache.commons:commons-collections4:$commonsCollections4"
     annotationProcessor 'org.projectlombok:lombok'
-
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.boot:spring-boot-test'
-    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-    testImplementation 'org.springframework:spring-webflux'
     testImplementation 'org.springframework.graphql:spring-graphql-test'
-    testImplementation 'org.testcontainers:junit-jupiter'
-    testImplementation 'org.testcontainers:postgresql'
-
-    behaviorTestImplementation 'io.cucumber:cucumber-java:7.11.1'
-    behaviorTestImplementation 'io.cucumber:cucumber-junit:7.11.1'
-    behaviorTestImplementation 'io.cucumber:cucumber-spring:7.11.1'
-    behaviorTestImplementation "org.testcontainers:testcontainers:1.18.3"
-    behaviorTestImplementation 'org.testcontainers:postgresql:1.18.3'
+    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+    behaviorTestImplementation 'org.springframework.graphql:spring-graphql-test'
+    behaviorTestImplementation "io.cucumber:cucumber-java:$cucumberVersion"
+    behaviorTestImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
+    behaviorTestImplementation 'org.junit.vintage:junit-vintage-engine'
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+configurations {
+    behaviorTestTestImplementation.extendsFrom testImplementation
+    behaviorTestTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
     }
 }
 
-tasks.register('behaviorTest', Test) {
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
-    description = 'Runs Behavior tests.'
+tasks.withType(Javadoc) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.register('behaviorTest', Test) {
+    description = 'Runs integration tests.'
     group = 'verification'
 
-    testClassesDirs = sourceSets.behaviorTest.output.classesDirs
-    classpath = sourceSets.behaviorTest.runtimeClasspath
-    dependsOn assemble
     shouldRunAfter test
 
     useJUnitPlatform()
@@ -94,10 +87,3 @@ tasks.register('behaviorTest', Test) {
 }
 
 check.dependsOn behaviorTest
-
-generateJava {
-    schemaPaths = ["${projectDir}/src/main/resources/graphql-client"]
-    packageName = 'org.erpmicroservices.peopleandorganizations.endpoint.graphql'
-    generateClient = true
-}
-
