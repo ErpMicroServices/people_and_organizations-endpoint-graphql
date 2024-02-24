@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.graphql.test.tester.GraphQlTester;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -178,7 +179,11 @@ abstract public class AbstractGWT {
 		caseTypeRepository.deleteAll(caseTypeRepository.findCaseTypeByParentIdIsNotNull().stream().toList());
 		caseTypeRepository.deleteAll();
 
-		partyTypeRepository.deleteAll(partyTypeRepository.findPartyTypesByParentIdIsNotNull().stream().toList());
+		final List<PartyType> list = partyTypeRepository.findPartyTypesByParentIdIsNotNull().stream().map(partyType1 -> {
+			partyType1.setParentId(null);
+			return partyType1;
+		}).toList();
+		partyTypeRepository.saveAll(list);
 		partyTypeRepository.deleteAll();
 
 		partyRelationshipTypeRepository.deleteAll();

@@ -18,12 +18,6 @@ mutation AddCaseRole( $newCaseRole: NewCaseRole!, $rolesPageInfo:PageInfoInput!)
                     thruDate
                 }
             }
-            pageInfo {
-                pageNumber
-                pageSize
-                sortBy
-                sortDirection
-            }
         }
     }
 }

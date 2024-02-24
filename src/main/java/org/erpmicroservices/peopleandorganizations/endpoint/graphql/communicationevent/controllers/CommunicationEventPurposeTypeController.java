@@ -1,12 +1,12 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.controllers;
 
 import graphql.relay.Edge;
-import graphql.relay.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.graphql.CommunicationEventPurposeTypeConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.graphql.CommunicationEventPurposeTypeEdge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEventPurposeType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.repositories.CommunicationEventPurposeTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.graphql.data.method.annotation.Argument;

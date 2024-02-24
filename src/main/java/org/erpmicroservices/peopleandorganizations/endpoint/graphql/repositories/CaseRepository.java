@@ -9,6 +9,6 @@ import java.util.UUID;
 
 
 @GraphQlRepository
-public interface CaseRepository extends JpaRepository<Case, UUID>, QuerydslPredicateExecutor<Case> {
+public interface CaseRepository extends JpaRepository<Case, UUID> {
 
 }
