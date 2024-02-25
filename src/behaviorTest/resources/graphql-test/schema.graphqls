@@ -5,6 +5,9 @@ schema {
     mutation: Mutation
 }
 
+"Indicates an Input Object is a OneOf Input Object."
+directive @oneOf on INPUT_OBJECT
+
 interface Node {
     id: ID!
 }
@@ -689,7 +692,7 @@ type Query {
     caseTypes(pageInfo: PageInfoInput!): CaseTypeConnection!
     cases(pageInfo: PageInfoInput!): CaseConnection!
     communicationEventPurposeTypes(pageInfo: PageInfoInput!): CommunicationEventPurposeTypeConnection!
-    communicationEventRoleTypes(after: String, before: String, first: Int, last: Int): CommunicationEventRoleTypeConnection!
+    communicationEventRoleTypes(pageInfo: PageInfoInput!): CommunicationEventRoleTypeConnection!
     communicationEventStatusTypes(pageInfo: PageInfoInput!): CommunicationEventStatusTypeConnection!
     communicationEventTypes(pageInfo: PageInfoInput!): CommunicationEventTypeConnection!
     facilities(pageInfo: PageInfoInput!): FacilityConnection!
@@ -715,7 +718,7 @@ enum SortDirection {
 "An RFC-3339 compliant Full Date Scalar"
 scalar Date
 
-"A slightly refined version of RFC-3339 compliant DateTime Scalar"
+"An RFC-3339 compliant DateTime Scalar"
 scalar DateTime
 
 input ContactMechanismNew {

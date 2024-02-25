@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.erpmicroservices'
-version = 1.1.0-SNAPSHOT'
+version = '1.1.0-SNAPSHOT'
 description = 'people_and_organizations-endpoint-graphql'
 java.sourceCompatibility = '21'
 ext {
@@ -27,8 +27,8 @@ repositories {
 
 sourceSets {
     behaviorTest {
-        compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.output
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
     }
 }
 
@@ -43,11 +43,14 @@ dependencies {
     implementation "com.graphql-java:graphql-java-extended-scalars:$graphqlJavaExtendedScalarsVersion"
     implementation "org.apache.commons:commons-collections4:$commonsCollections4"
     annotationProcessor 'org.projectlombok:lombok'
+    runtimeOnly "org.postgresql:postgresql:$postgresqlVersion"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.graphql:spring-graphql-test'
-    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-web'
     behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-graphql'
     behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-web'
+    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-webflux'
     behaviorTestImplementation 'org.springframework.graphql:spring-graphql-test'
     behaviorTestImplementation "io.cucumber:cucumber-java:$cucumberVersion"
     behaviorTestImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
@@ -55,12 +58,14 @@ dependencies {
     behaviorTestImplementation 'org.junit.vintage:junit-vintage-engine'
     behaviorTestImplementation "org.testcontainers:testcontainers:$testcontainersVersion"
     behaviorTestImplementation "org.testcontainers:postgresql:$testcontainersVersion"
+    behaviorTestImplementation "org.postgresql:postgresql:$postgresqlVersion"
+    behaviorTestImplementation "com.graphql-java:graphql-java-extended-scalars:$graphqlJavaExtendedScalarsVersion"
 
 }
 
 configurations {
-    behaviorTestTestImplementation.extendsFrom testImplementation
-    behaviorTestTestRuntimeOnly.extendsFrom testRuntimeOnly
+    behaviorTestImplementation.extendsFrom testImplementation
+    behaviorTestRuntimeOnly.extendsFrom testRuntimeOnly
     compileOnly {
         extendsFrom annotationProcessor
     }
