@@ -2,103 +2,83 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.2'
     id 'io.spring.dependency-management' version '1.1.4'
-    id 'maven-publish'
 }
 
 group = 'com.erpmicroservices'
-version = 1.1.0-SNAPSHOT'
+version = '1.1.0-SNAPSHOT'
 description = 'people_and_organizations-endpoint-graphql'
 java.sourceCompatibility = '21'
+
 ext {
     postgresqlVersion = '42.7.2'
     graphqlJavaExtendedScalarsVersion = "20.0"
     commonsCollections4 = "4.4"
     cucumberVersion = "7.15.0"
     testcontainersVersion = "1.19.6"
-}
-
-repositories {
-    mavenCentral()
-
-    maven {
-        url = uri('https://maven.pkg.github.com/ErpMicroServices')
-    }
+    junitVintageEngine = "5.10.2"
 }
 
 sourceSets {
     behaviorTest {
+        java {
+            srcDirs("src/behaviorTest")
+        }
         compileClasspath += sourceSets.main.output
         runtimeClasspath += sourceSets.main.output
     }
 }
 
+repositories {
+    mavenCentral()
+    maven {
+        url = uri('https://maven.pkg.github.com/ErpMicroServices')
+    }
+}
+
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-graphql'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation "org.postgresql:postgresql:$postgresqlVersion"
     implementation 'org.projectlombok:lombok'
     implementation "com.graphql-java:graphql-java-extended-scalars:$graphqlJavaExtendedScalarsVersion"
     implementation "org.apache.commons:commons-collections4:$commonsCollections4"
     annotationProcessor 'org.projectlombok:lombok'
+    runtimeOnly "org.postgresql:postgresql:$postgresqlVersion"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.graphql:spring-graphql-test'
-    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-web'
-    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    behaviorTestImplementation 'org.springframework.boot:spring-boot-starter-test'
-    behaviorTestImplementation 'org.springframework.graphql:spring-graphql-test'
+    testImplementation "org.testcontainers:postgresql:$testcontainersVersion"
     behaviorTestImplementation "io.cucumber:cucumber-java:$cucumberVersion"
     behaviorTestImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
     behaviorTestImplementation "io.cucumber:cucumber-spring:$cucumberVersion"
-    behaviorTestImplementation 'org.junit.vintage:junit-vintage-engine'
-    behaviorTestImplementation "org.testcontainers:testcontainers:$testcontainersVersion"
-    behaviorTestImplementation "org.testcontainers:postgresql:$testcontainersVersion"
+    behaviorTestImplementation "org.junit.vintage:junit-vintage-engine:$junitVintageEngine"
 
-}
 
-configurations {
-    behaviorTestTestImplementation.extendsFrom testImplementation
-    behaviorTestTestRuntimeOnly.extendsFrom testRuntimeOnly
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
-tasks.withType(Javadoc) {
-    options.encoding = 'UTF-8'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-tasks.register('behaviorTest', Test) {
-    description = 'Runs integration tests.'
-    group = 'verification'
-
-    testClassesDirs = sourceSets.behaviorTest.output.classesDirs
-    classpath = sourceSets.behaviorTest.runtimeClasspath
-    shouldRunAfter test
-
-    useJUnitPlatform()
-
-    testLogging {
-        events "passed"
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
     }
+    behaviorTestImplementation.extendsFrom(testImplementation)
+    behaviorTestRuntimeOnly.extendsFrom(testRuntimeOnly)
 }
 
-check.dependsOn behaviorTest
+tasks.register('cucumberCli') {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.behaviorTest.output
+
+        }
+    }
+}

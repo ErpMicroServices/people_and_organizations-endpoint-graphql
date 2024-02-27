@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseStatusType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseStatusType;
 
 import java.util.UUID;
 

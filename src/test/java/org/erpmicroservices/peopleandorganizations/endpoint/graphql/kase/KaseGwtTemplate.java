@@ -4,6 +4,7 @@ import org.erpmicroservices.peopleandorganizations.endpoint.AbstractGWT;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEvent;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEventStatusType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEventType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRole;
 

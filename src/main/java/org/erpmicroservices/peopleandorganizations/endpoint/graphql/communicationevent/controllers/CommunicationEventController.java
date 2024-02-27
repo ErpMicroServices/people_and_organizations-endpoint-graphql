@@ -16,7 +16,7 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicatio
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanismType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.Case;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.Case;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationship;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.ContactMechanismTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyRelationshipRepository;

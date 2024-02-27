@@ -11,6 +11,7 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmecha
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanismType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundary;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundaryType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.repositories.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationship;
