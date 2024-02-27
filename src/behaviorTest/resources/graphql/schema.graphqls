@@ -718,7 +718,7 @@ enum SortDirection {
 "An RFC-3339 compliant Full Date Scalar"
 scalar Date
 
-"An RFC-3339 compliant DateTime Scalar"
+"A slightly refined version of RFC-3339 compliant DateTime Scalar"
 scalar DateTime
 
 input ContactMechanismNew {

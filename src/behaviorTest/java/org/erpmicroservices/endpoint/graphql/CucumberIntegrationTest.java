@@ -1,4 +1,4 @@
-package org.erpmicroservices.peopleandorganizations.endpoint.graphql;
+package org.erpmicroservices.endpoint.graphql;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;

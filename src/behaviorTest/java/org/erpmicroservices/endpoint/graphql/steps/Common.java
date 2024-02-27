@@ -1,11 +1,11 @@
-package org.erpmicroservices.peopleandorganizations.endpoint.graphql.steps;
+package org.erpmicroservices.endpoint.graphql.steps;
 
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
 import io.cucumber.spring.CucumberContextConfiguration;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.CucumberSpringBootContext;
+import org.erpmicroservices.endpoint.graphql.CucumberSpringBootContext;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEventStatusType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.repositories.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseStatusType;

@@ -1,18 +1,16 @@
-package org.erpmicroservices.peopleandorganizations.endpoint.graphql.steps;
+package org.erpmicroservices.endpoint.graphql.steps;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.spring.CucumberContextConfiguration;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.CucumberSpringBootContext;
+import org.erpmicroservices.endpoint.graphql.CucumberSpringBootContext;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.repositories.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.Case;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseEdge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseStatusType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
-import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.graphql.test.tester.GraphQlTester;
 
 import java.time.ZonedDateTime;
@@ -23,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CaseSteps extends CucumberSpringBootContext {
     private final List<Case> expectedCases = new ArrayList<>();
-    private List<Case> actualCases;
+    private List<CaseEdge> actualCases = new ArrayList<>();
 
     public CaseSteps(CaseStatusTypeRepository caseStatusTypeRepository, CaseTypeRepository caseTypeRepository, CaseRepository caseRepository, PartyTypeRepository partyTypeRepository, PartyRepository partyRepository, CaseRoleTypeRepository caseRoleTypeRepository, CaseRoleRepository caseRoleRepository, ContactMechanismTypeRepository contactMechanismTypeRepository, PartyRoleTypeRepository partyRoleTypeRepository, PartyRoleRepository partyRoleRepository, CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository, CommunicationEventTypeRepository communicationEventTypeRepository, PartyRelationshipTypeRepository partyRelationshipTypeRepository, PartyRelationshipStatusTypeRepository partyRelationshipStatusTypeRepository, PriorityTypeRepository priorityTypeRepository, PartyRelationshipRepository partyRelationshipRepository, CommunicationEventRepository communicationEventRepository, FacilityRepository facilityRepository, FacilityTypeRepository facilityTypeRepository, FacilityRoleTypeRepository facilityRoleTypeRepository, FacilityRoleRepository facilityRoleRepository, FacilityContactMechanismRepository facilityContactMechanismRepository, ContactMechanismRepository contactMechanismRepository, GeographicBoundaryRepository geographicBoundaryRepository, GeographicBoundaryTypeRepository geographicBoundaryTypeRepository, ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository, PartyContactMechanismRepository partyContactMechanismRepository, PartyContactMechanismPurposeRepository partyContactMechanismPurposeRepository, PartyContactMechanismPurposeTypeRepository partyContactMechanismPurposeTypeRepository, CommunicationEventPurposeTypeRepository communicationEventPurposeTypeRepository, CommunicationEventRoleTypeRepository communicationEventRoleTypeRepository, GraphQlTester graphQlTester) {
         super(caseStatusTypeRepository, caseTypeRepository, caseRepository, partyTypeRepository, partyRepository, caseRoleTypeRepository, caseRoleRepository, contactMechanismTypeRepository, partyRoleTypeRepository, partyRoleRepository, communicationEventStatusTypeRepository, communicationEventTypeRepository, partyRelationshipTypeRepository, partyRelationshipStatusTypeRepository, priorityTypeRepository, partyRelationshipRepository, communicationEventRepository, facilityRepository, facilityTypeRepository, facilityRoleTypeRepository, facilityRoleRepository, facilityContactMechanismRepository, contactMechanismRepository, geographicBoundaryRepository, geographicBoundaryTypeRepository, contactMechanismGeographicBoundaryRepository, partyContactMechanismRepository, partyContactMechanismPurposeRepository, partyContactMechanismPurposeTypeRepository, communicationEventPurposeTypeRepository, communicationEventRoleTypeRepository, graphQlTester);
@@ -46,12 +44,16 @@ public class CaseSteps extends CucumberSpringBootContext {
 
     @When("I search for all cases")
     public void i_search_for_all_cases() {
-        response = this.graphQlTester.documentName("caseQuery")
+        GraphQlTester.Response response = this.graphQlTester.documentName("caseQuery")
                 .operationName("caseQuery")
                 .variable("rolesPageInfo", pageInfoSortingOn("fromDate"))
                 .variable("communicationEventPageInfo", pageInfoSortingOn("started"))
                 .variable("casePageInfo", pageInfoSortingOn("description"))
                 .execute();
+        actualCases = response.path("data.cases.edges[*]")
+                .entityList(CaseEdge.class)
+                .get();
+
     }
 
     @Then("I get {int} cases")
@@ -62,7 +64,7 @@ public class CaseSteps extends CucumberSpringBootContext {
     @Then("{int} of them are cases of type {string}")
     public void of_them_are_cases_of_type(Integer expectedNumberOfCases, String caseTypeDescription) {
         final CaseType expectedCasetype = caseTypeRepository.findByDescription(caseTypeDescription);
-        final List<Case> actualCasesOfCaseType = actualCases.stream().filter(actualCase -> expectedCasetype.getId().equals(actualCase.getCaseTypeId())).toList();
+        final List<CaseEdge> actualCasesOfCaseType = actualCases.stream().filter(actualCaseEdge -> expectedCasetype.getId().equals(actualCaseEdge.getNode().getCaseTypeId())).toList();
         assertEquals(expectedNumberOfCases, actualCasesOfCaseType.size());
 
     }

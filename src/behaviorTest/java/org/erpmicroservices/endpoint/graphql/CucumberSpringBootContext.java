@@ -1,6 +1,7 @@
-package org.erpmicroservices.peopleandorganizations.endpoint.graphql;
+package org.erpmicroservices.endpoint.graphql;
 
 import io.cucumber.spring.CucumberContextConfiguration;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.PeopleAndOrganizationsEndpointGraphqlJavaApplication;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.repositories.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;

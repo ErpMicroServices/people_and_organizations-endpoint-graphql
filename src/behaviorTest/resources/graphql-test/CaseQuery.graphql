@@ -1,11 +1,5 @@
 query caseQuery($casePageInfo: PageInfoInput!, $rolesPageInfo: PageInfoInput!, $communicationEventPageInfo: PageInfoInput!) {
     cases(pageInfo: $casePageInfo) {
-        pageInfo {
-            endCursor
-            hasNextPage
-            hasPreviousPage
-            startCursor
-        }
         edges {
             node {
                 id
@@ -65,15 +59,8 @@ query caseQuery($casePageInfo: PageInfoInput!, $rolesPageInfo: PageInfoInput!, $
                             }
                         }
                     }
-                    pageInfo {
-                        endCursor
-                        hasNextPage
-                        hasPreviousPage
-                        startCursor
-                    }
                 }
             }
-            cursor
         }
     }
 
