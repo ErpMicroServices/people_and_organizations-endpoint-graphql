@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseType;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
+package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

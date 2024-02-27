@@ -1,7 +1,9 @@
-package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
+package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.controllers;
 
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseRole;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseRoleType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.Party;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.CaseRoleTypeRepository;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.repositories.CaseRoleTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyRepository;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
@@ -29,3 +31,4 @@ public class CaseRoleController {
 		return partyRepository.findById(caseRole.getPartyId()).get();
 	}
 }
+

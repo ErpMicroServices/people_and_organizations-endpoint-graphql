@@ -1,17 +1,18 @@
-package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
+package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.graphql;
 
 import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseStatusType;
 
 
 @Data
 @Builder
-public class CaseRoleTypeEdge implements Edge<CaseRoleType> {
+public class CaseStatusTypeEdge implements Edge<CaseStatusType> {
 
-	private CaseRoleType node;
+	private CaseStatusType node;
 
 	private Cursor cursor;
 
@@ -19,7 +20,7 @@ public class CaseRoleTypeEdge implements Edge<CaseRoleType> {
 	 * @return the node of data that this edge represents
 	 */
 	@Override
-	public CaseRoleType getNode() {
+	public CaseStatusType getNode() {
 		return node;
 	}
 

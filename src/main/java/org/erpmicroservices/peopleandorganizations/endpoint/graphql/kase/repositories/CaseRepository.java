@@ -1,8 +1,7 @@
-package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories;
+package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.repositories;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.Case;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.Case;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.graphql.data.GraphQlRepository;
 
 import java.util.UUID;

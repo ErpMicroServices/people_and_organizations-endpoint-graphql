@@ -1,4 +1,4 @@
-package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
+package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -24,7 +24,6 @@ public class Case {
 	private UUID id;
 
 	@NotEmpty
-
 	private String description;
 
 	private ZonedDateTime startedAt;

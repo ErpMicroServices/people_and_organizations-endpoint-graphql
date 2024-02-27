@@ -1,18 +1,9 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql;
 
-import graphql.language.StringValue;
 import graphql.scalars.ExtendedScalars;
-import graphql.schema.*;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.Case;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.CaseRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.graphql.data.query.QuerydslDataFetcher;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
-
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeParseException;
 
 @Configuration
 public class GraphqlConfiguration {

@@ -1,6 +1,6 @@
-package org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories;
+package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.repositories;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.CaseRoleType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseRoleType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
