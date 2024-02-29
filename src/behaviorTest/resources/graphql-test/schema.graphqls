@@ -74,6 +74,11 @@ type CaseStatusType implements Node {
     parent: CaseStatusType
 }
 
+input CaseStatusTypeInput {
+    id: ID!
+    description: String!
+}
+
 type CaseStatusTypeConnection {
     edges: [CaseStatusTypeEdge]
     pageInfo: PageInfo!
@@ -691,8 +696,8 @@ type Query {
     caseStatusTypes(pageInfo: PageInfoInput!): CaseStatusTypeConnection!
     caseTypes(pageInfo: PageInfoInput!): CaseTypeConnection!
     cases(pageInfo: PageInfoInput!): CaseConnection!
-    casesByCaseStatusType(caseStatusType: CaseStatusTypeInput!, pageInfo: PageInfoInput!): CaseConnection!
     casesByCaseType(caseType: CaseTypeInput!, pageInfo: PageInfoInput!): CaseConnection!
+    casesByCaseStatusType(caseStatusType: CaseStatusTypeInput!, pageInfo: PageInfoInput!): CaseConnection!
     communicationEventPurposeTypes(pageInfo: PageInfoInput!): CommunicationEventPurposeTypeConnection!
     communicationEventRoleTypes(pageInfo: PageInfoInput!): CommunicationEventRoleTypeConnection!
     communicationEventStatusTypes(pageInfo: PageInfoInput!): CommunicationEventStatusTypeConnection!
@@ -722,11 +727,6 @@ scalar Date
 
 "A slightly refined version of RFC-3339 compliant DateTime Scalar"
 scalar DateTime
-
-input CaseStatusTypeInput {
-    description: String!
-    id: ID!
-}
 
 input CaseTypeInput {
     description: String!
