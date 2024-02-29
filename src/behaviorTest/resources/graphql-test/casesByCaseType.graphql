@@ -1,0 +1,15 @@
+query  casesByCaseType($caseType: CaseTypeInput!, $pageInfo: PageInfoInput!) {
+    casesByCaseType(caseType: $caseType, pageInfo: $pageInfo) {
+        edges {
+            node {
+                id
+                description
+                startedAt
+                caseType {
+                    id
+                    description
+                }
+            }
+        }
+    }
+}
