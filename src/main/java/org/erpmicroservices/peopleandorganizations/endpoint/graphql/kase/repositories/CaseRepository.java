@@ -14,4 +14,5 @@ import java.util.UUID;
 public interface CaseRepository extends JpaRepository<Case, UUID> {
 
     Page<Case> findByCaseTypeId(final UUID caseTypeId, final Pageable pageable);
+    Page<Case> findByCaseStatusTypeId(final UUID caseTypeId, final Pageable pageable);
 }

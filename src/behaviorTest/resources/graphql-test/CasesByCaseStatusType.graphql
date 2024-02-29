@@ -1,5 +1,5 @@
-query  casesByCaseType($caseType: CaseTypeInput!, $pageInfo: PageInfoInput!) {
-    casesByCaseType(caseType: $caseType, pageInfo: $pageInfo) {
+query  CasesByCaseStatusType($caseStatusType: CaseStatusTypeInput!, $pageInfo: PageInfoInput!) {
+    casesByCaseStatusType(caseStatusType: $caseStatusType, pageInfo: $pageInfo) {
         edges {
             node {
                 id

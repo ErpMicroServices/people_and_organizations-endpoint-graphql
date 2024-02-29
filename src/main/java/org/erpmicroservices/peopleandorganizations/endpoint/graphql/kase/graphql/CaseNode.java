@@ -15,5 +15,5 @@ public class CaseNode {
     private String description;
     private ZonedDateTime startedAt;
     private CaseTypeNode caseType;
-    private CaseStatusTypeNode caseStatusTypeNode;
+    private CaseStatusTypeNode caseStatusType;
 }
