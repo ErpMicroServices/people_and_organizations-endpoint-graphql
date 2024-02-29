@@ -14,16 +14,23 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contac
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.graphql.test.tester.GraphQlTester;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class CaseSteps extends CucumberSpringBootContext {
     private final List<Case> expectedCases = new ArrayList<>();
-    private List<CaseNodeEdge> response;
+    private List<CaseNodeEdge> actualCases;
+
+    private Case expectedCase;
+    private Case actualCase;
+
+    private final Case.CaseBuilder caseBuilder = Case.builder();
 
     public CaseSteps(CaseStatusTypeRepository caseStatusTypeRepository, CaseTypeRepository caseTypeRepository, CaseRepository caseRepository, PartyTypeRepository partyTypeRepository, PartyRepository partyRepository, CaseRoleTypeRepository caseRoleTypeRepository, CaseRoleRepository caseRoleRepository, ContactMechanismTypeRepository contactMechanismTypeRepository, PartyRoleTypeRepository partyRoleTypeRepository, PartyRoleRepository partyRoleRepository, CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository, CommunicationEventTypeRepository communicationEventTypeRepository, PartyRelationshipTypeRepository partyRelationshipTypeRepository, PartyRelationshipStatusTypeRepository partyRelationshipStatusTypeRepository, PriorityTypeRepository priorityTypeRepository, PartyRelationshipRepository partyRelationshipRepository, CommunicationEventRepository communicationEventRepository, FacilityRepository facilityRepository, FacilityTypeRepository facilityTypeRepository, FacilityRoleTypeRepository facilityRoleTypeRepository, FacilityRoleRepository facilityRoleRepository, FacilityContactMechanismRepository facilityContactMechanismRepository, ContactMechanismRepository contactMechanismRepository, GeographicBoundaryRepository geographicBoundaryRepository, GeographicBoundaryTypeRepository geographicBoundaryTypeRepository, ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository, PartyContactMechanismRepository partyContactMechanismRepository, PartyContactMechanismPurposeRepository partyContactMechanismPurposeRepository, PartyContactMechanismPurposeTypeRepository partyContactMechanismPurposeTypeRepository, CommunicationEventPurposeTypeRepository communicationEventPurposeTypeRepository, CommunicationEventRoleTypeRepository communicationEventRoleTypeRepository, GraphQlTester graphQlTester) {
         super(caseStatusTypeRepository, caseTypeRepository, caseRepository, partyTypeRepository, partyRepository, caseRoleTypeRepository, caseRoleRepository, contactMechanismTypeRepository, partyRoleTypeRepository, partyRoleRepository, communicationEventStatusTypeRepository, communicationEventTypeRepository, partyRelationshipTypeRepository, partyRelationshipStatusTypeRepository, priorityTypeRepository, partyRelationshipRepository, communicationEventRepository, facilityRepository, facilityTypeRepository, facilityRoleTypeRepository, facilityRoleRepository, facilityContactMechanismRepository, contactMechanismRepository, geographicBoundaryRepository, geographicBoundaryTypeRepository, contactMechanismGeographicBoundaryRepository, partyContactMechanismRepository, partyContactMechanismPurposeRepository, partyContactMechanismPurposeTypeRepository, communicationEventPurposeTypeRepository, communicationEventRoleTypeRepository, graphQlTester);
@@ -44,9 +51,50 @@ public class CaseSteps extends CucumberSpringBootContext {
         }
     }
 
+    @Given("a case description of {string}")
+    public void a_case_description_of(String description) {
+        caseBuilder.description(description);
+    }
+
+    @Given("a case status of {string}")
+    public void a_case_status_of(String caseStatusDescription) {
+        final CaseStatusType caseStatusType = caseStatusTypeRepository.findByDescription(caseStatusDescription);
+        caseBuilder.caseStatusTypeId(caseStatusType.getId());
+    }
+
+    @Given("a case type of {string}")
+    public void a_case_type_of(String caseTypeDescription) {
+        final CaseType caseType = caseTypeRepository.findByDescription(caseTypeDescription);
+        caseBuilder.caseTypeId(caseType.getId());
+    }
+
+    @Given("a case was started at {string}")
+    public void a_case_was_started_at(String isoDateTime) {
+
+        final ZonedDateTime zonedDateTime = ZonedDateTime.parse(isoDateTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        caseBuilder.startedAt(zonedDateTime);
+    }
+
+    @When("I save the case")
+    public void i_save_the_case() {
+        expectedCase = caseBuilder.build();
+        actualCase = graphQlTester.documentName("CaseCreate")
+                .operationName("CreateCase")
+                .variable("newCase", Map.of(
+                        "caseStatusTypeId", expectedCase.getCaseStatusTypeId(),
+                        "caseTypeId", expectedCase.getCaseTypeId(),
+                        "description", expectedCase.getDescription(),
+                        "startedAt", expectedCase.getStartedAt()
+                ))
+                .execute()
+                .path("createCase")
+                .entity(Case.class)
+                .get();
+    }
+
     @When("I search for all cases")
     public void i_search_for_all_cases() {
-        response = this.graphQlTester.documentName("caseQuery")
+        actualCases = this.graphQlTester.documentName("caseQuery")
                 .operationName("caseQuery")
                 .variable("rolesPageInfo", pageInfoSortingOn("fromDate"))
                 .variable("communicationEventPageInfo", pageInfoSortingOn("started"))
@@ -61,7 +109,7 @@ public class CaseSteps extends CucumberSpringBootContext {
     public void i_search_for_cases_of_type(String description) {
         final CaseType caseType = caseTypeRepository
                 .findByDescription(description);
-        response = this.graphQlTester.documentName("casesByCaseType")
+        actualCases = this.graphQlTester.documentName("casesByCaseType")
                 .operationName("casesByCaseType")
                 .variable("caseType", Map.of(
                         "id", caseType.getId(),
@@ -77,7 +125,7 @@ public class CaseSteps extends CucumberSpringBootContext {
     @When("I search for cases with a status of {string}")
     public void i_search_for_cases_with_a_status_of(String statusDescription) {
         final CaseStatusType caseStatusType = caseStatusTypeRepository.findByDescription(statusDescription);
-        response = graphQlTester.documentName("CasesByCaseStatusType")
+        actualCases = graphQlTester.documentName("CasesByCaseStatusType")
                 .operationName("CasesByCaseStatusType")
                 .variable("caseStatusType", Map.of("id", caseStatusType.getId(),
                         "description", caseStatusType.getDescription()))
@@ -90,7 +138,7 @@ public class CaseSteps extends CucumberSpringBootContext {
 
     @Then("I get {int} cases")
     public void i_get_cases(Integer expectedSize) {
-        assertEquals(expectedSize.intValue(), response.size());
+        assertEquals(expectedSize.intValue(), actualCases.size());
 
     }
 
@@ -98,7 +146,7 @@ public class CaseSteps extends CucumberSpringBootContext {
     public void of_them_are_cases_of_type(Integer expectedNumberOfCases, String caseTypeDescription) {
         final CaseType caseType = caseTypeRepository.findByDescription(caseTypeDescription);
         assertEquals(expectedNumberOfCases.intValue(),
-                response
+                actualCases
                         .stream()
                         .filter(caseNodeEdge -> caseNodeEdge
                                 .getNode()
@@ -111,13 +159,32 @@ public class CaseSteps extends CucumberSpringBootContext {
     public void of_them_are_cases_in_status(Integer expectedNumberOfCases, String statusDescription) {
         final CaseStatusType caseStatusType = caseStatusTypeRepository.findByDescription(statusDescription);
         assertEquals(expectedNumberOfCases.intValue(),
-                response
+                actualCases
                         .stream()
                         .filter(caseNodeEdge -> caseNodeEdge
                                 .getNode()
                                 .getCaseStatusType()
                                 .getId()
                                 .equals(caseStatusType.getId())).toList().size());
+    }
+
+    @Then("the operation was successful")
+    public void the_operation_was_successful() {
+        assertNotNull(actualCase);
+    }
+
+    @Then("the case is in the database")
+    public void the_case_is_in_the_database() {
+        caseRepository
+                .findById(actualCase.getId())
+                .ifPresentOrElse(c -> {
+                            assertNotNull(c.getId());
+                            assertEquals(expectedCase.getDescription(), c.getDescription());
+                            assertEquals(expectedCase.getStartedAt().withZoneSameInstant(ZoneId.of("UTC")), c.getStartedAt().withZoneSameInstant(ZoneId.of("UTC")));
+                            assertEquals(expectedCase.getCaseStatusTypeId(), c.getCaseStatusTypeId());
+                            assertEquals(expectedCase.getCaseTypeId(), c.getCaseTypeId());
+                        },
+                        () -> fail("Could not find case with id: " + actualCase.getId()));
     }
 
 }
