@@ -77,6 +77,16 @@ public class CaseController {
     @QueryMapping
     public CaseConnection casesByCaseType(@Argument CaseType caseType, @Argument PageInfo pageInfo) {
         final Page<Case> casesPage = caseRepository.findByCaseTypeId(caseType.getId(), pageInfoToPageable(pageInfo));
+        return getCaseConnection(casesPage);
+    }
+
+    @QueryMapping
+    public CaseConnection casesByCaseStatusType(@Argument CaseStatusType caseStatusType, @Argument PageInfo pageInfo) {
+        final Page<Case> casesPage = caseRepository.findByCaseStatusTypeId(caseStatusType.getId(), pageInfoToPageable(pageInfo));
+        return getCaseConnection(casesPage);
+    }
+
+    private CaseConnection getCaseConnection(Page<Case> casesPage) {
         List<CaseEdge> caseEdges = casesPage.stream()
                 .map(kase -> CaseEdge.builder()
                         .cursor(Cursor.builder().value(String.valueOf(kase.getId().hashCode())).build())

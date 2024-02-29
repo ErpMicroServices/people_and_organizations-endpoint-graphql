@@ -12,8 +12,8 @@ interface Node {
     id: ID!
 }
 
-type CaseNode implements Node {
-    caseStatusType: CaseStatusType
+type Case implements Node {
+    caseStatusType: CaseStatusType!
     caseType: CaseType!
     communicationEvents(pageInfo: PageInfoInput): CommunicationEventConnection
     description: String!
@@ -29,7 +29,7 @@ type CaseConnection {
 
 type CaseEdge {
     cursor: String!
-    node: CaseNode!
+    node: Case!
 }
 
 type CaseRole implements Node {
@@ -378,11 +378,11 @@ type IdTypeEdge {
 }
 
 type Mutation {
-    addCaseRole(newCaseRole: NewCaseRole!): CaseNode!
+    addCaseRole(newCaseRole: NewCaseRole!): Case!
     addCommunicationEventToCase(caseId: ID!, newCommunicationEvent: NewCommunicationEvent!): CommunicationEvent
     addFacilityContactMechanism(newFacilityContactMechanism: NewFacilityContactMechanism!): FacilityContactMechanism!
     addFacilityRole(newFacilityRole: NewFacilityRole!): FacilityRole!
-    createCase(newCase: NewCase!): CaseNode!
+    createCase(newCase: NewCase!): Case!
     createFacility(newFacility: NewFacility!): Facility!
     expireCaseRole(caseId: ID!, caseRoleId: ID!): CaseRole!
     expireFacilityContactMechanism(expirationDate: Date!, facilityContactMechanismId: ID!): FacilityContactMechanism!
@@ -691,6 +691,7 @@ type Query {
     caseStatusTypes(pageInfo: PageInfoInput!): CaseStatusTypeConnection!
     caseTypes(pageInfo: PageInfoInput!): CaseTypeConnection!
     cases(pageInfo: PageInfoInput!): CaseConnection!
+    casesByCaseStatusType(caseStatusType: CaseStatusTypeInput!, pageInfo: PageInfoInput!): CaseConnection!
     casesByCaseType(caseType: CaseTypeInput!, pageInfo: PageInfoInput!): CaseConnection!
     communicationEventPurposeTypes(pageInfo: PageInfoInput!): CommunicationEventPurposeTypeConnection!
     communicationEventRoleTypes(pageInfo: PageInfoInput!): CommunicationEventRoleTypeConnection!
@@ -721,6 +722,11 @@ scalar Date
 
 "A slightly refined version of RFC-3339 compliant DateTime Scalar"
 scalar DateTime
+
+input CaseStatusTypeInput {
+    description: String!
+    id: ID!
+}
 
 input CaseTypeInput {
     description: String!

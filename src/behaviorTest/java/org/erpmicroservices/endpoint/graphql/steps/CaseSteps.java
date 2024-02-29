@@ -74,6 +74,20 @@ public class CaseSteps extends CucumberSpringBootContext {
                 .get();
     }
 
+    @When("I search for cases with a status of {string}")
+    public void i_search_for_cases_with_a_status_of(String statusDescription) {
+        final CaseStatusType caseStatusType = caseStatusTypeRepository.findByDescription(statusDescription);
+        response = graphQlTester.documentName("CasesByCaseStatusType")
+                .operationName("CasesByCaseStatusType")
+                .variable("caseStatusType", Map.of("id", caseStatusType.getId(),
+                        "description", caseStatusType.getDescription()))
+                .variable("pageInfo", pageInfoSortingOn("description"))
+                .execute()
+                .path("casesByCaseStatusType.edges")
+                .entityList(CaseNodeEdge.class)
+                .get();
+    }
+
     @Then("I get {int} cases")
     public void i_get_cases(Integer expectedSize) {
         assertEquals(expectedSize.intValue(), response.size());
@@ -93,5 +107,17 @@ public class CaseSteps extends CucumberSpringBootContext {
                                 .equals(caseType.getId())).toList().size());
     }
 
+    @Then("{int} of them are cases in status {string}")
+    public void of_them_are_cases_in_status(Integer expectedNumberOfCases, String statusDescription) {
+        final CaseStatusType caseStatusType = caseStatusTypeRepository.findByDescription(statusDescription);
+        assertEquals(expectedNumberOfCases.intValue(),
+                response
+                        .stream()
+                        .filter(caseNodeEdge -> caseNodeEdge
+                                .getNode()
+                                .getCaseStatusType()
+                                .getId()
+                                .equals(caseStatusType.getId())).toList().size());
+    }
 
 }

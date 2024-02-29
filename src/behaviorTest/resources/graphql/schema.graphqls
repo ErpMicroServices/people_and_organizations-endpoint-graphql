@@ -13,7 +13,7 @@ interface Node {
 }
 
 type Case implements Node {
-    caseStatusType: CaseStatusType
+    caseStatusType: CaseStatusType!
     caseType: CaseType!
     communicationEvents(pageInfo: PageInfoInput): CommunicationEventConnection
     description: String!
@@ -691,6 +691,7 @@ type Query {
     caseStatusTypes(pageInfo: PageInfoInput!): CaseStatusTypeConnection!
     caseTypes(pageInfo: PageInfoInput!): CaseTypeConnection!
     cases(pageInfo: PageInfoInput!): CaseConnection!
+    casesByCaseStatusType(caseStatusType: CaseStatusTypeInput!, pageInfo: PageInfoInput!): CaseConnection!
     casesByCaseType(caseType: CaseTypeInput!, pageInfo: PageInfoInput!): CaseConnection!
     communicationEventPurposeTypes(pageInfo: PageInfoInput!): CommunicationEventPurposeTypeConnection!
     communicationEventRoleTypes(pageInfo: PageInfoInput!): CommunicationEventRoleTypeConnection!
@@ -721,6 +722,11 @@ scalar Date
 
 "A slightly refined version of RFC-3339 compliant DateTime Scalar"
 scalar DateTime
+
+input CaseStatusTypeInput {
+    description: String!
+    id: ID!
+}
 
 input CaseTypeInput {
     description: String!
