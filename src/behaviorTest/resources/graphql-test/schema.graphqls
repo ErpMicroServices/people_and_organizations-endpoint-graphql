@@ -12,7 +12,7 @@ interface Node {
     id: ID!
 }
 
-type Case implements Node {
+type CaseNode implements Node {
     caseStatusType: CaseStatusType
     caseType: CaseType!
     communicationEvents(pageInfo: PageInfoInput): CommunicationEventConnection
@@ -29,7 +29,7 @@ type CaseConnection {
 
 type CaseEdge {
     cursor: String!
-    node: Case!
+    node: CaseNode!
 }
 
 type CaseRole implements Node {
@@ -378,11 +378,11 @@ type IdTypeEdge {
 }
 
 type Mutation {
-    addCaseRole(newCaseRole: NewCaseRole!): Case!
+    addCaseRole(newCaseRole: NewCaseRole!): CaseNode!
     addCommunicationEventToCase(caseId: ID!, newCommunicationEvent: NewCommunicationEvent!): CommunicationEvent
     addFacilityContactMechanism(newFacilityContactMechanism: NewFacilityContactMechanism!): FacilityContactMechanism!
     addFacilityRole(newFacilityRole: NewFacilityRole!): FacilityRole!
-    createCase(newCase: NewCase!): Case!
+    createCase(newCase: NewCase!): CaseNode!
     createFacility(newFacility: NewFacility!): Facility!
     expireCaseRole(caseId: ID!, caseRoleId: ID!): CaseRole!
     expireFacilityContactMechanism(expirationDate: Date!, facilityContactMechanismId: ID!): FacilityContactMechanism!

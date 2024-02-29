@@ -5,7 +5,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.erpmicroservices.endpoint.graphql.CucumberSpringBootContext;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.repositories.*;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.graphql.CaseEdge;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.graphql.CaseNodeEdge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.Case;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseStatusType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseType;
@@ -17,14 +17,13 @@ import org.springframework.graphql.test.tester.GraphQlTester;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class CaseSteps extends CucumberSpringBootContext {
     private final List<Case> expectedCases = new ArrayList<>();
-    private List<CaseEdge> response;
-
-    private final String casesGraphQlPath = "cases.edges";
+    private List<CaseNodeEdge> response;
 
     public CaseSteps(CaseStatusTypeRepository caseStatusTypeRepository, CaseTypeRepository caseTypeRepository, CaseRepository caseRepository, PartyTypeRepository partyTypeRepository, PartyRepository partyRepository, CaseRoleTypeRepository caseRoleTypeRepository, CaseRoleRepository caseRoleRepository, ContactMechanismTypeRepository contactMechanismTypeRepository, PartyRoleTypeRepository partyRoleTypeRepository, PartyRoleRepository partyRoleRepository, CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository, CommunicationEventTypeRepository communicationEventTypeRepository, PartyRelationshipTypeRepository partyRelationshipTypeRepository, PartyRelationshipStatusTypeRepository partyRelationshipStatusTypeRepository, PriorityTypeRepository priorityTypeRepository, PartyRelationshipRepository partyRelationshipRepository, CommunicationEventRepository communicationEventRepository, FacilityRepository facilityRepository, FacilityTypeRepository facilityTypeRepository, FacilityRoleTypeRepository facilityRoleTypeRepository, FacilityRoleRepository facilityRoleRepository, FacilityContactMechanismRepository facilityContactMechanismRepository, ContactMechanismRepository contactMechanismRepository, GeographicBoundaryRepository geographicBoundaryRepository, GeographicBoundaryTypeRepository geographicBoundaryTypeRepository, ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository, PartyContactMechanismRepository partyContactMechanismRepository, PartyContactMechanismPurposeRepository partyContactMechanismPurposeRepository, PartyContactMechanismPurposeTypeRepository partyContactMechanismPurposeTypeRepository, CommunicationEventPurposeTypeRepository communicationEventPurposeTypeRepository, CommunicationEventRoleTypeRepository communicationEventRoleTypeRepository, GraphQlTester graphQlTester) {
         super(caseStatusTypeRepository, caseTypeRepository, caseRepository, partyTypeRepository, partyRepository, caseRoleTypeRepository, caseRoleRepository, contactMechanismTypeRepository, partyRoleTypeRepository, partyRoleRepository, communicationEventStatusTypeRepository, communicationEventTypeRepository, partyRelationshipTypeRepository, partyRelationshipStatusTypeRepository, priorityTypeRepository, partyRelationshipRepository, communicationEventRepository, facilityRepository, facilityTypeRepository, facilityRoleTypeRepository, facilityRoleRepository, facilityContactMechanismRepository, contactMechanismRepository, geographicBoundaryRepository, geographicBoundaryTypeRepository, contactMechanismGeographicBoundaryRepository, partyContactMechanismRepository, partyContactMechanismPurposeRepository, partyContactMechanismPurposeTypeRepository, communicationEventPurposeTypeRepository, communicationEventRoleTypeRepository, graphQlTester);
@@ -53,25 +52,46 @@ public class CaseSteps extends CucumberSpringBootContext {
                 .variable("communicationEventPageInfo", pageInfoSortingOn("started"))
                 .variable("casePageInfo", pageInfoSortingOn("description"))
                 .execute()
-                .path(casesGraphQlPath)
-                .entityList(CaseEdge.class)
+                .path("cases.edges")
+                .entityList(CaseNodeEdge.class)
                 .get();
+    }
 
+    @When("I search for cases of type {string}")
+    public void i_search_for_cases_of_type(String description) {
+        final CaseType caseType = caseTypeRepository
+                .findByDescription(description);
+        response = this.graphQlTester.documentName("casesByCaseType")
+                .operationName("casesByCaseType")
+                .variable("caseType", Map.of(
+                        "id", caseType.getId(),
+                        "description", caseType.getDescription()
+                ))
+                .variable("pageInfo", pageInfoSortingOn("description"))
+                .execute()
+                .path("casesByCaseType.edges")
+                .entityList(CaseNodeEdge.class)
+                .get();
     }
 
     @Then("I get {int} cases")
     public void i_get_cases(Integer expectedSize) {
-        assertEquals(expectedSize, response.size());
+        assertEquals(expectedSize.intValue(), response.size());
 
     }
 
     @Then("{int} of them are cases of type {string}")
     public void of_them_are_cases_of_type(Integer expectedNumberOfCases, String caseTypeDescription) {
-//        final CaseType expectedCasetype = caseTypeRepository.findByDescription(caseTypeDescription);
-        assertEquals(expectedNumberOfCases, response.stream()
-                .filter(caseEdge ->
-                        caseEdge.getNode().getCaseType().getDescription().equals(caseTypeDescription))
-                .toList()
-                .size());
+        final CaseType caseType = caseTypeRepository.findByDescription(caseTypeDescription);
+        assertEquals(expectedNumberOfCases.intValue(),
+                response
+                        .stream()
+                        .filter(caseNodeEdge -> caseNodeEdge
+                                .getNode()
+                                .getCaseType()
+                                .getId()
+                                .equals(caseType.getId())).toList().size());
     }
+
+
 }

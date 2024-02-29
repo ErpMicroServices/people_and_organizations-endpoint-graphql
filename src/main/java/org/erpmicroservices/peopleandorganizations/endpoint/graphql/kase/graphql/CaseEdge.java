@@ -8,15 +8,15 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.
 
 @Data
 @Builder
-public class CaseEdge implements Edge<CaseNode> {
-	private CaseNode node;
-	private ConnectionCursor connectionCursor;
+public class CaseEdge implements Edge<Case> {
+	private Case node;
+	private ConnectionCursor cursor;
 
 	/**
 	 * @return the node of data that this edge represents
 	 */
 	@Override
-	public CaseNode getNode() {
+	public Case getNode() {
 		return node;
 	}
 
@@ -25,6 +25,6 @@ public class CaseEdge implements Edge<CaseNode> {
 	 */
 	@Override
 	public ConnectionCursor getCursor() {
-		return connectionCursor;
+		return cursor;
 	}
 }
