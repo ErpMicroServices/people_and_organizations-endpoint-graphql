@@ -1,24 +1,18 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party;
 
 import graphql.relay.Edge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.Party;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyEdge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyId;
+import org.erpmicroservices.peopleandorganizations.backend.entities.*;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyClassification;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.classification.PartyClassificationConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.classification.PartyClassificationEdge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanism;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismEdge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyName;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.name.PartyNameConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.name.PartyNameEdge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyRole;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRoleConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRoleEdge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;

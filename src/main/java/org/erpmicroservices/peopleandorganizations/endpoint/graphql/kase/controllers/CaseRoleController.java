@@ -4,7 +4,7 @@ import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRole;
 import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRoleType;
 import org.erpmicroservices.peopleandorganizations.backend.entities.Party;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.CaseRoleTypeRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyRepository;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.PartyRepository;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 

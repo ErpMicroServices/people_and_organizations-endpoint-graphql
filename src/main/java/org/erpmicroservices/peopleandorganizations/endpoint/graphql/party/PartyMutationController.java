@@ -1,15 +1,10 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.ContactMechanism;
-import org.erpmicroservices.peopleandorganizations.backend.entities.Party;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyClassification;
+import org.erpmicroservices.peopleandorganizations.backend.entities.*;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.classification.PartyClassificationNew;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.classification.PartyClassificationUpdate;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanism;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismNew;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanismPurpose;
-import org.erpmicroservices.peopleandorganizations.backend.repositories.PartyContactMechanismPurposeRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;

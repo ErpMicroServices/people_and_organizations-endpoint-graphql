@@ -3,12 +3,10 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.co
 import graphql.relay.Edge;
 import jakarta.validation.constraints.NotNull;
 import org.erpmicroservices.peopleandorganizations.backend.entities.*;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.models.*;
-import org.erpmicroservices.peopleandorganizations.backend.entities.Party;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -43,8 +41,8 @@ public class FacilityController {
 
 	private final ContactMechanismRepository contactMechanismRepository;
 
-	public FacilityController(final FacilityRepository repository, final FacilityContactMechanismRepository facilityContactMechanismRepository, final FacilityRoleRepository facilityRoleRepository, final FacilityTypeRepository facilityTypeRepository, final FacilityRoleTypeRepository facilityRoleTypeRepository, final PartyRepository partyRepository, final PartyTypeRepository partyTypeRepository, final ContactMechanismRepository contactMechanismRepository) {
-		this.facilityRepository = repository;
+	public FacilityController(final FacilityRepository facilityRepository, final FacilityContactMechanismRepository facilityContactMechanismRepository, final FacilityRoleRepository facilityRoleRepository, final FacilityTypeRepository facilityTypeRepository, final FacilityRoleTypeRepository facilityRoleTypeRepository, final PartyRepository partyRepository, final PartyTypeRepository partyTypeRepository, final ContactMechanismRepository contactMechanismRepository) {
+		this.facilityRepository = facilityRepository;
 		this.facilityContactMechanismRepository = facilityContactMechanismRepository;
 		this.facilityRoleRepository = facilityRoleRepository;
 		this.facilityTypeRepository = facilityTypeRepository;

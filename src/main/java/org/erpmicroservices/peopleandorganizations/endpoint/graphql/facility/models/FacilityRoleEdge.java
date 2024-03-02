@@ -16,19 +16,4 @@ public class FacilityRoleEdge implements Edge<FacilityRole> {
 
 	private Cursor cursor;
 
-	/**
-	 * @return the node of data that this edge represents
-	 */
-	@Override
-	public FacilityRole getNode() {
-		return node;
-	}
-
-	/**
-	 * @return the cursor for this edge node
-	 */
-	@Override
-	public ConnectionCursor getCursor() {
-		return cursor;
-	}
 }

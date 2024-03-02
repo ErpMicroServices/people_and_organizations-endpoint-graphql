@@ -1,11 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
 
+import org.erpmicroservices.peopleandorganizations.backend.entities.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.AbstractGWT;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEvent;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventStatusType;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventType;
-import org.erpmicroservices.peopleandorganizations.backend.entities.Party;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyRole;
 
 import static org.erpmicroservices.peopleandorganizations.endpoint.builders.CaseRoleTestDataBuilder.completeCaseRole;
 import static org.erpmicroservices.peopleandorganizations.endpoint.builders.CaseRoleTypeTestDataBuilder.completeCaseRoleType;

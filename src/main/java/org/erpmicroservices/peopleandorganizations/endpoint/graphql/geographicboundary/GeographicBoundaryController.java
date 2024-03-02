@@ -3,10 +3,10 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicb
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundary;
 import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundaryType;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.GeographicBoundaryRepository;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.GeographicBoundaryTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.GeographicBoundaryRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.GeographicBoundaryTypeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;

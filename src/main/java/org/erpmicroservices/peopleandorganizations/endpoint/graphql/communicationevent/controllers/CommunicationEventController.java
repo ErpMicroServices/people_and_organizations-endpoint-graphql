@@ -2,19 +2,13 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicati
 
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.*;
-import org.erpmicroservices.peopleandorganizations.backend.repositories.CommunicationEventRepository;
-import org.erpmicroservices.peopleandorganizations.backend.repositories.CommunicationEventRoleRepository;
-import org.erpmicroservices.peopleandorganizations.backend.repositories.CommunicationEventStatusTypeRepository;
-import org.erpmicroservices.peopleandorganizations.backend.repositories.CommunicationEventTypeRepository;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventEdge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventRoleConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventRoleEdge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyRelationship;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.ContactMechanismTypeRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyRelationshipRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;

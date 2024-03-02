@@ -2,9 +2,9 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.id;
 
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.IdType;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.IdTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.IdTypeRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;

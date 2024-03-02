@@ -2,11 +2,11 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.co
 
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityRoleType;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.FacilityRoleTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.models.FacilityRoleTypeEdge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.models.FacilityRoleTypeConnection;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.FacilityRoleTypeRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;

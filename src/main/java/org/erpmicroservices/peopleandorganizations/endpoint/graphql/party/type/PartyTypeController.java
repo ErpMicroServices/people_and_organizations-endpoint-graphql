@@ -2,9 +2,9 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.type;
 
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.PartyType;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.PartyTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyTypeRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;

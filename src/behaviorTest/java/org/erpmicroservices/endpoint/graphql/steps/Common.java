@@ -5,15 +5,9 @@ import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
 import org.erpmicroservices.endpoint.graphql.CucumberSpringBootContext;
+import org.erpmicroservices.peopleandorganizations.backend.entities.*;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.*;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventStatusType;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusType;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.repositories.*;
-import org.erpmicroservices.peopleandorganizations.backend.repositories.PartyContactMechanismPurposeRepository;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyRoleType;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.*;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.graphql.test.tester.GraphQlTester;
 

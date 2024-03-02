@@ -2,6 +2,10 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmech
 
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.ContactMechanism;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.ContactMechanismGeographicBoundaryRepository;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.ContactMechanismRepository;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.ContactMechanismTypeRepository;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.GeographicBoundaryRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.models.ContactMechanismConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.models.ContactMechanismEdge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.ContactMechanismType;
@@ -11,10 +15,6 @@ import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityCont
 import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundary;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundaryConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundaryEdge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.ContactMechanismGeographicBoundaryRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.ContactMechanismRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.ContactMechanismTypeRepository;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.GeographicBoundaryRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
