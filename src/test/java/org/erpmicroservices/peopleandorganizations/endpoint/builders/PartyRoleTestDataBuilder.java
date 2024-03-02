@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRole;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyRole;
 
 import java.time.LocalDate;
 

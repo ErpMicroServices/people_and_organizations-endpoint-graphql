@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.graphql.CaseStatusTypeEdge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseStatusType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseStatusTypeEdge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

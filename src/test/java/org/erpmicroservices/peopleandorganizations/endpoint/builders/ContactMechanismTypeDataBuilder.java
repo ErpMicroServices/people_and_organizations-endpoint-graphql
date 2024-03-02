@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.ContactMechanismType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.ContactMechanismType;
 
 import java.util.UUID;
 

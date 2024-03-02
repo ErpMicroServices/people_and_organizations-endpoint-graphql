@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PriorityType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PriorityType;
 
 import java.util.UUID;
 

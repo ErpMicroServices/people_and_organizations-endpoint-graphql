@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.name;
 
 import jakarta.persistence.Entity;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.AbstractType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.AbstractType;
 
 
 

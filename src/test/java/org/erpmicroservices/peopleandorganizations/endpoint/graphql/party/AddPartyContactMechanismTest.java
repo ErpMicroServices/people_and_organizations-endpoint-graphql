@@ -1,8 +1,8 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanism;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurpose;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanism;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanismPurpose;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanismPurposeType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.classification;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyClassificationType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyClassificationTypeRepository;

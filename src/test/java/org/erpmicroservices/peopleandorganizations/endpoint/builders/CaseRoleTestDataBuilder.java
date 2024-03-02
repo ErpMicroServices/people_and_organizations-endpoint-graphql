@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseRole;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRole;
 
 import java.time.LocalDate;
 

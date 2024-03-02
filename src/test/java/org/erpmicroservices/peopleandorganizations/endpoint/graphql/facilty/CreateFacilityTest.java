@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.facilty;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.Facility;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.FacilityType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.Facility;
+import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityType;
 
 import java.util.Map;
 

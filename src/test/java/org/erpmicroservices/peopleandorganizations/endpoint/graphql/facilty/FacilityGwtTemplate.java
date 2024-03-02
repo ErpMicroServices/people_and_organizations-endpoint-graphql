@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.facilty;
 
+import org.erpmicroservices.peopleandorganizations.backend.entities.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.AbstractGWT;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.*;
 
 import java.time.LocalDate;
 import java.util.UUID;

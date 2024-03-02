@@ -1,6 +1,8 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundary;
+import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundaryType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.GeographicBoundaryRepository;

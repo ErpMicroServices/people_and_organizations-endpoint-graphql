@@ -3,10 +3,10 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.contro
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.graphql.CaseTypeConnection;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.graphql.CaseTypeEdge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.repositories.CaseTypeRepository;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseTypeConnection;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseTypeEdge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseType;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.CaseTypeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;

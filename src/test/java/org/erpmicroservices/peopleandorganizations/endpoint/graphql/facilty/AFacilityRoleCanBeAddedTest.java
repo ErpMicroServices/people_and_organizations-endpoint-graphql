@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.facilty;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.FacilityRole;
+import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityRole;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

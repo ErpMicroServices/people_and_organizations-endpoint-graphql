@@ -1,8 +1,8 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationEvent;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.graphql.CommunicationEventStatusTypeEdge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEventStatusType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.models.AbstractType;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventStatusTypeEdge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventStatusType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.AbstractType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

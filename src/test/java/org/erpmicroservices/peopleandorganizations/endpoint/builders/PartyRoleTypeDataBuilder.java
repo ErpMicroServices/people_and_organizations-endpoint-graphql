@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRoleType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyRoleType;
 
 import java.util.UUID;
 

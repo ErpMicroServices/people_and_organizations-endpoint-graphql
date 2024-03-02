@@ -1,6 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanismPurposeType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyContactMechanismPurposeTypeRepository;
