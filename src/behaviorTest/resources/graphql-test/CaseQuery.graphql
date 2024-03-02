@@ -63,5 +63,4 @@ query caseQuery($casePageInfo: PageInfoInput!, $rolesPageInfo: PageInfoInput!, $
             }
         }
     }
-
 }

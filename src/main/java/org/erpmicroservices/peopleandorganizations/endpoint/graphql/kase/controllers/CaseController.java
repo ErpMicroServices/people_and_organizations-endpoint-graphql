@@ -1,5 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.controllers;
 
+import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
 import jakarta.validation.constraints.NotNull;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEvent;
@@ -86,6 +87,24 @@ public class CaseController {
         return getCaseConnection(casesPage);
     }
 
+    @QueryMapping
+    public CaseNodeEdge caseById(@Argument UUID id) {
+        return caseRepository.findById(id).map(c -> CaseNodeEdge
+                        .builder()
+                        .node(CaseNode
+                                .builder()
+                                .description(c.getDescription())
+                                .id(c.getId())
+                                .startedAt(c.getStartedAt())
+                                .build())
+                        .cursor(Cursor
+                                .builder()
+                                .value(String.valueOf(c.getId().hashCode()))
+                                .build())
+                        .build())
+                .get();
+    }
+
     private CaseConnection getCaseConnection(Page<Case> casesPage) {
         List<CaseEdge> caseEdges = casesPage.stream()
                 .map(kase -> CaseEdge.builder()
@@ -101,7 +120,6 @@ public class CaseController {
                 .edges(caseEdges)
                 .build();
     }
-
     @SchemaMapping
     public CaseType caseType(@NotNull Case kase) {
         return caseTypeRepository.findById(kase.getCaseTypeId()).get();

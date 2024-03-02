@@ -1,0 +1,15 @@
+query CaseById( $id: ID!) {
+    caseById( id: $id) {
+        id
+        description
+        startedAt
+        caseType {
+            id
+            description
+        }
+        caseStatusType {
+            id
+            description
+        }
+    }
+}

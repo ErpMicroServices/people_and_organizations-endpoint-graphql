@@ -698,6 +698,7 @@ type Query {
     cases(pageInfo: PageInfoInput!): CaseConnection!
     casesByCaseType(caseType: CaseTypeInput!, pageInfo: PageInfoInput!): CaseConnection!
     casesByCaseStatusType(caseStatusType: CaseStatusTypeInput!, pageInfo: PageInfoInput!): CaseConnection!
+    caseById(id: ID!): Case!
     communicationEventPurposeTypes(pageInfo: PageInfoInput!): CommunicationEventPurposeTypeConnection!
     communicationEventRoleTypes(pageInfo: PageInfoInput!): CommunicationEventRoleTypeConnection!
     communicationEventStatusTypes(pageInfo: PageInfoInput!): CommunicationEventStatusTypeConnection!

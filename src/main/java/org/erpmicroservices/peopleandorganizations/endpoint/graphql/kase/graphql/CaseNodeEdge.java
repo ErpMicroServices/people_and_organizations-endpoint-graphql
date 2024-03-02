@@ -2,9 +2,11 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.graphq
 
 import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class CaseNodeEdge implements Edge<CaseNode> {
     CaseNode node;
     ConnectionCursor cursor;

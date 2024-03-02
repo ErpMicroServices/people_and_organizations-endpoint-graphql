@@ -75,6 +75,22 @@ public class CaseSteps extends CucumberSpringBootContext {
         caseBuilder.startedAt(zonedDateTime);
     }
 
+    @Given("the case is saved to the database")
+    public void the_case_is_saved_to_the_database() {
+        expectedCase = caseBuilder.build();
+        expectedCase = caseRepository.save(expectedCase);
+    }
+    @When("I search for the case by id")
+    public void i_search_for_the_case_by_id() {
+        actualCases = this.graphQlTester.documentName("CaseById")
+                .operationName("CaseById")
+                .variable("id", expectedCase.getId())
+                .execute()
+                .path("caseById")
+                .entityList(CaseNodeEdge.class)
+                .get();
+    }
+
     @When("I save the case")
     public void i_save_the_case() {
         expectedCase = caseBuilder.build();
