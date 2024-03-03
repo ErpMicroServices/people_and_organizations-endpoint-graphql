@@ -1,11 +1,11 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.controllers;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseTypeConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseTypeEdge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseType;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.CaseTypeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -30,8 +30,8 @@ public class CaseTypeController {
 
     @QueryMapping
     public CaseTypeConnection caseTypes(@Argument PageInfo pageInfo) {
-        final Page<CaseType> caseTypePage = caseTypeRepository.findCaseTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
-        final List<Edge<CaseType>> caseTypeEdges = caseTypePage.stream()
+        final Page<CaseTypeEntity> caseTypePage = caseTypeRepository.findCaseTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
+        final List<Edge<CaseTypeEntity>> caseTypeEdges = caseTypePage.stream()
                 .map(caseType -> CaseTypeEdge.builder()
                         .node(caseType)
                         .cursor(Cursor.builder().value(valueOf(caseType.getId().hashCode())).build())
@@ -44,9 +44,9 @@ public class CaseTypeController {
     }
 
     @SchemaMapping
-    public CaseTypeConnection children(@Argument PageInfo pageInfo, CaseType parent) {
-        final Page<CaseType> caseTypeByChildren = caseTypeRepository.findCaseTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
-        final List<Edge<CaseType>> caseTypeEdges = caseTypeByChildren.stream()
+    public CaseTypeConnection children(@Argument PageInfo pageInfo, CaseTypeEntity parent) {
+        final Page<CaseTypeEntity> caseTypeByChildren = caseTypeRepository.findCaseTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
+        final List<Edge<CaseTypeEntity>> caseTypeEdges = caseTypeByChildren.stream()
                 .map(caseType -> CaseTypeEdge.builder()
                         .cursor(Cursor.builder().value(valueOf(caseType.getId())).build())
                         .node(caseType)

@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
 
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseStatusTypeEdge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +16,8 @@ import java.util.UUID;
 @AutoConfigureGraphQlTester
 public class CaseStatusTypeQueryTest extends KaseGwtTemplate {
 
-	private final List<CaseStatusType> children = new ArrayList<>();
-	private CaseStatusType parent;
+	private final List<CaseStatusTypeEntity> children = new ArrayList<>();
+	private CaseStatusTypeEntity parent;
 
 	@BeforeEach
 	@Override
@@ -39,15 +39,15 @@ public class CaseStatusTypeQueryTest extends KaseGwtTemplate {
 	@Override
 	public void then() {
 		response
-				.path("caseStatusTypes.edges").entityList(CaseStatusType.class).hasSize(1)
+				.path("caseStatusTypes.edges").entityList(CaseStatusTypeEntity.class).hasSize(1)
 				.path("caseStatusTypes.edges[0].node.id").entity(UUID.class).isEqualTo(parent.getId())
 				.path("caseStatusTypes.edges[0].node.description").entity(String.class).isEqualTo(parent.getDescription())
 				.path("caseStatusTypes.edges[0].node.parent").valueIsNull()
 				.path("caseStatusTypes.edges[0].node.children.edges").entityList(CaseStatusTypeEdge.class).hasSize(5)
 				.path("caseStatusTypes.edges[0].node.children.edges").entityList(CaseStatusTypeEdge.class).contains(children.stream()
-						                                                                                                    .map(caseStatusType1 -> CaseStatusType.builder()
-								                                                                                                                            .description(caseStatusType.getDescription())
-								                                                                                                                            .id(caseStatusType.getId())
+						                                                                                                    .map(caseStatusType1 -> CaseStatusTypeEntity.builder()
+								                                                                                                                            .description(caseStatusTypeEntity.getDescription())
+								                                                                                                                            .id(caseStatusTypeEntity.getId())
 								                                                                                                                            .build())
 						                                                                                                    .sorted((caseStatusType1, caseStatusType2) ->
 								                                                                                                            caseStatusType1.getDescription().compareTo(caseStatusType2.getDescription()))
@@ -60,7 +60,7 @@ public class CaseStatusTypeQueryTest extends KaseGwtTemplate {
 	private void aCaseStatusTypeWithChildrenExists(final int numberOfChildren) {
 		parent = aCaseStatusTypeExists();
 		for (int i = 0; i < numberOfChildren; i++) {
-			CaseStatusType child = aCaseStatusTypeExists();
+			CaseStatusTypeEntity child = aCaseStatusTypeExists();
 			child.setParentId(parent.getId());
 			child = caseStatusTypeRepository.save(child);
 			children.add(child);

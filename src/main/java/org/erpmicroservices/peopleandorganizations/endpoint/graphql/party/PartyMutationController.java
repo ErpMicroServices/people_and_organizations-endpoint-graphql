@@ -50,19 +50,19 @@ public class PartyMutationController {
 	}
 
 	@MutationMapping
-	public Party partyCreate(@Argument final NewParty newParty) {
-		final Party party = typeRepository.findById(newParty.getPartyTypeId()).stream()
-				                    .map(partyType -> partyRepository.save(Party.builder()
+	public PartyEntity partyCreate(@Argument final NewParty newParty) {
+		final PartyEntity partyEntity = typeRepository.findById(newParty.getPartyTypeId()).stream()
+				                    .map(partyType -> partyRepository.save(PartyEntity.builder()
 						                                                           .partyTypeId(newParty.getPartyTypeId())
 						                                                           .comment(newParty.getComment())
 						                                                           .build()))
 				                    .findFirst()
 				                    .orElseThrow();
-		return party;
+		return partyEntity;
 	}
 
 	@MutationMapping
-	public Party partyUpdate(@Argument final UpdateParty updateParty) {
+	public PartyEntity partyUpdate(@Argument final UpdateParty updateParty) {
 		return typeRepository.findById(updateParty.getPartyTypeId()).stream()
 				       .flatMap(partyType -> partyRepository.findById(updateParty.getId()).stream()
 						                             .map(party -> {
@@ -76,10 +76,10 @@ public class PartyMutationController {
 	}
 
 	@MutationMapping(name = "partyClassificationAdd")
-	public PartyClassification addClassification(@Argument PartyClassificationNew partyClassificationNew) {
+	public PartyClassificationEntity addClassification(@Argument PartyClassificationNew partyClassificationNew) {
 		return partyRepository.findById(partyClassificationNew.getPartyId()).stream()
 				       .flatMap(party -> classificationTypeRepository.findById(partyClassificationNew.getPartyClassificationTypeId()).stream()
-						                         .map(classificationType -> classificationRepository.save(PartyClassification.builder()
+						                         .map(classificationType -> classificationRepository.save(PartyClassificationEntity.builder()
 								                                                                                  .partyId(partyClassificationNew.getPartyId())
 								                                                                                  .fromDate(partyClassificationNew.getFromDate())
 								                                                                                  .thruDate(partyClassificationNew.getThruDate())
@@ -91,7 +91,7 @@ public class PartyMutationController {
 	}
 
 	@MutationMapping(name = "partyClassificationUpdate")
-	public PartyClassification updateClassification(@Argument PartyClassificationUpdate partyClassificationUpdate) {
+	public PartyClassificationEntity updateClassification(@Argument PartyClassificationUpdate partyClassificationUpdate) {
 		return classificationRepository.findById(partyClassificationUpdate.getId()).stream()
 				       .map(partyClassification -> {
 					       partyClassification.setFromDate(partyClassificationUpdate.getFromDate());
@@ -106,7 +106,7 @@ public class PartyMutationController {
 	}
 
 	@MutationMapping(name = "partyClassificationRemove")
-	public PartyClassification removeClassification(@Argument UUID id) {
+	public PartyClassificationEntity removeClassification(@Argument UUID id) {
 		return classificationRepository.findById(id).stream()
 				       .map(classification -> {
 					       classificationRepository.deleteById(id);
@@ -117,9 +117,9 @@ public class PartyMutationController {
 	}
 
 	@MutationMapping(name = "partyContactMechanismAdd")
-	public PartyContactMechanism addContactMechanism(@Argument PartyContactMechanismNew partyContactMechanismNew) {
+	public PartyContactMechanismEntity addContactMechanism(@Argument PartyContactMechanismNew partyContactMechanismNew) {
 
-		return partyContactMechanismRepository.save(PartyContactMechanism.builder()
+		return partyContactMechanismRepository.save(PartyContactMechanismEntity.builder()
 				                                            .comment(partyContactMechanismNew.getComment())
 				                                            .contactMechanismId(partyContactMechanismNew.getContactMechanismId())
 				                                            .doNotSolicitIndicator(partyContactMechanismNew.isDoNotSolicitIndicator())
@@ -131,12 +131,12 @@ public class PartyMutationController {
 	}
 
 	@SchemaMapping
-	public ContactMechanism contactMechanism(PartyContactMechanism partyContactMechanism) {
-		return contactMechanismRepository.findById(partyContactMechanism.getContactMechanismId()).orElseThrow();
+	public ContactMechanismEntity contactMechanism(PartyContactMechanismEntity partyContactMechanismEntity) {
+		return contactMechanismRepository.findById(partyContactMechanismEntity.getContactMechanismId()).orElseThrow();
 	}
 
 	@SchemaMapping
-	public PartyContactMechanismPurpose purpose(PartyContactMechanism partyContactMechanism) {
-		return partyContactMechanismPurposeRepository.findById(partyContactMechanism.getPartyContactMechanismPurposeId()).orElseThrow();
+	public PartyContactMechanismPurposeEntity purpose(PartyContactMechanismEntity partyContactMechanismEntity) {
+		return partyContactMechanismPurposeRepository.findById(partyContactMechanismEntity.getPartyContactMechanismPurposeId()).orElseThrow();
 	}
 }

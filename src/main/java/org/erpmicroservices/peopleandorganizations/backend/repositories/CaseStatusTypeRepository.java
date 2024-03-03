@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.backend.repositories;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusTypeEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface CaseStatusTypeRepository extends JpaRepository<CaseStatusType, UUID> {
-    Page<CaseStatusType> findCaseStatusTypeByParentId(UUID parentId, Pageable pageable);
+public interface CaseStatusTypeRepository extends JpaRepository<CaseStatusTypeEntity, UUID> {
+    Page<CaseStatusTypeEntity> findCaseStatusTypeByParentId(UUID parentId, Pageable pageable);
 
-    Page<CaseStatusType> findCaseStatusTypeByParentIdIsNull(final Pageable pageable);
+    Page<CaseStatusTypeEntity> findCaseStatusTypeByParentIdIsNull(final Pageable pageable);
 
-    List<CaseStatusType> findCaseStatusTypeByParentIdIsNotNull();
+    List<CaseStatusTypeEntity> findCaseStatusTypeByParentIdIsNotNull();
 
-    CaseStatusType findByDescription(String description);
+    CaseStatusTypeEntity findByDescription(String description);
 }

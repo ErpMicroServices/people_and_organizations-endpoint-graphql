@@ -4,7 +4,7 @@ import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.backend.entities.Facility;
+import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityEntity;
 
 @Data
 @Builder

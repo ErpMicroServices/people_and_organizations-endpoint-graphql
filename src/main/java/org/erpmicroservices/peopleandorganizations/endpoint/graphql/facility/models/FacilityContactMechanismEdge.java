@@ -4,7 +4,7 @@ import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityContactMechanism;
+import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityContactMechanismEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 
 @Data

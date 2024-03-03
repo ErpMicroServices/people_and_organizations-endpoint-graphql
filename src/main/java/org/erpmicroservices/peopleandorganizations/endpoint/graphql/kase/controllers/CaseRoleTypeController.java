@@ -1,11 +1,11 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.controllers;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRoleTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseRoleTypeConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseRoleTypeEdge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRoleType;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.CaseRoleTypeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -30,8 +30,8 @@ public class CaseRoleTypeController {
 
     @QueryMapping
     public CaseRoleTypeConnection caseRoleTypes(@Argument PageInfo pageInfo) {
-        final Page<CaseRoleType> caseRoleTypePage = caseRoleTypeRepository.findCaseRoleTypesByParentIdIsNull(pageInfoToPageable(pageInfo));
-        final List<Edge<CaseRoleType>> caseRoleTypeEdges = caseRoleTypePage.stream()
+        final Page<CaseRoleTypeEntity> caseRoleTypePage = caseRoleTypeRepository.findCaseRoleTypesByParentIdIsNull(pageInfoToPageable(pageInfo));
+        final List<Edge<CaseRoleTypeEntity>> caseRoleTypeEdges = caseRoleTypePage.stream()
                 .map(caseRoleType -> CaseRoleTypeEdge.builder()
                         .node(caseRoleType)
                         .cursor(Cursor.builder()
@@ -45,9 +45,9 @@ public class CaseRoleTypeController {
     }
 
     @SchemaMapping
-    public CaseRoleTypeConnection children(CaseRoleType parent, @Argument PageInfo pageInfo) {
-        final Page<CaseRoleType> caseRoleTypePage = caseRoleTypeRepository.findCaseRoleTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo));
-        final List<Edge<CaseRoleType>> caseRoleTypeEdges = caseRoleTypePage.stream()
+    public CaseRoleTypeConnection children(CaseRoleTypeEntity parent, @Argument PageInfo pageInfo) {
+        final Page<CaseRoleTypeEntity> caseRoleTypePage = caseRoleTypeRepository.findCaseRoleTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo));
+        final List<Edge<CaseRoleTypeEntity>> caseRoleTypeEdges = caseRoleTypePage.stream()
                 .map(caseRoleType -> CaseRoleTypeEdge.builder()
                         .cursor(Cursor.builder().value(valueOf(caseRoleType.getId().hashCode())).build())
                         .node(caseRoleType)

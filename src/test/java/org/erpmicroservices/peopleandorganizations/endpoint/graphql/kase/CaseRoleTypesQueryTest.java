@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
 
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRoleTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseRoleTypeEdge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRoleType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +16,8 @@ import java.util.UUID;
 @AutoConfigureGraphQlTester
 public class CaseRoleTypesQueryTest extends KaseGwtTemplate {
 
-	private final List<CaseRoleType> children = new ArrayList<>();
-	private CaseRoleType parent;
+	private final List<CaseRoleTypeEntity> children = new ArrayList<>();
+	private CaseRoleTypeEntity parent;
 
 	@BeforeEach
 	@Override
@@ -39,15 +39,15 @@ public class CaseRoleTypesQueryTest extends KaseGwtTemplate {
 	@Override
 	public void then() {
 		response
-				.path("caseRoleTypes.edges").entityList(CaseRoleType.class).hasSize(1)
+				.path("caseRoleTypes.edges").entityList(CaseRoleTypeEntity.class).hasSize(1)
 				.path("caseRoleTypes.edges[0].node.id").entity(UUID.class).isEqualTo(parent.getId())
 				.path("caseRoleTypes.edges[0].node.description").entity(String.class).isEqualTo(parent.getDescription())
 				.path("caseRoleTypes.edges[0].node.parent").valueIsNull()
 				.path("caseRoleTypes.edges[0].node.children.edges").entityList(CaseRoleTypeEdge.class).hasSize(5)
 				.path("caseRoleTypes.edges[0].node.children.edges").entityList(CaseRoleTypeEdge.class).contains(children.stream()
-						                                                                                                .map(caseRoleType1 -> CaseRoleType.builder()
-								                                                                                                                      .description(caseRoleType.getDescription())
-								                                                                                                                      .id(caseRoleType.getId())
+						                                                                                                .map(caseRoleType1 -> CaseRoleTypeEntity.builder()
+								                                                                                                                      .description(caseRoleTypeEntity.getDescription())
+								                                                                                                                      .id(caseRoleTypeEntity.getId())
 								                                                                                                                      .build())
 						                                                                                                .sorted((caseRoleType1, caseRoleType2) ->
 								                                                                                                        caseRoleType1.getDescription().compareTo(caseRoleType2.getDescription()))
@@ -60,7 +60,7 @@ public class CaseRoleTypesQueryTest extends KaseGwtTemplate {
 	private void aCaseRoleTypeWithChildrenExists(final int numberOfChildren) {
 		parent = aCaseRoleTypeExists();
 		for (int i = 0; i < numberOfChildren; i++) {
-			CaseRoleType child = aCaseRoleTypeExists();
+			CaseRoleTypeEntity child = aCaseRoleTypeExists();
 			child.setParentId(parent.getId());
 			child = caseRoleTypeRepository.save(child);
 			children.add(child);

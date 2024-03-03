@@ -13,8 +13,8 @@ interface Node {
 }
 
 type Case implements Node {
-    caseStatusType: CaseStatusType
-    caseType: CaseType!
+    caseStatusTypeEntity: CaseStatusType
+    caseTypeEntity: CaseType!
     communicationEvents(pageInfo: PageInfoInput): CommunicationEventConnection
     description: String!
     id: ID!
@@ -36,7 +36,7 @@ type CaseRole implements Node {
     caseRoleType: CaseRoleType!
     fromDate: Date!
     id: ID!
-    party: Party!
+    partyEntity: Party!
     thruDate: Date
 }
 
@@ -142,7 +142,7 @@ type CommunicationEventPurposeTypeEdge {
 
 type CommunicationEventRole {
     id: ID!
-    party: Party!
+    partyEntity: Party!
     roleType: CommunicationEventRoleType!
 }
 
@@ -206,8 +206,8 @@ type ContactMechanism {
 }
 
 type ContactMechanismGeographicBoundary {
-    contactMechanism: ContactMechanism!
-    geographicBoundary: GeographicBoundary!
+    contactMechanismEntity: ContactMechanism!
+    geographicBoundaryEntity: GeographicBoundary!
     id: ID!
 }
 
@@ -250,7 +250,7 @@ type FacilityConnection {
 }
 
 type FacilityContactMechanism {
-    contactMechanism: ContactMechanism!
+    contactMechanismEntity: ContactMechanism!
     fromDate: Date!
     id: ID!
     thruDate: Date
@@ -272,11 +272,11 @@ type FacilityEdge {
 }
 
 type FacilityRole {
-    facility: Facility!
+    facilityEntity: Facility!
     facilityRoleType: FacilityRoleType!
     fromDate: Date!
     id: ID!
-    party: Party!
+    partyEntity: Party!
     thruDate: Date
 }
 
@@ -392,7 +392,7 @@ type Mutation {
     partyClassificationUpdate(partyClassificationUpdate: PartyClassificationUpdate!): PartyClassification!
     partyContactMechanismAdd(partyContactMechanismNew: PartyContactMechanismNew!): PartyContactMechanism!
     partyContactMechanismRemove(partyContactMechanismId: ID!): PartyContactMechanism!
-    partyContactMechanismUpdate(partyContactMechanism: PartyContactMechanismUpdate!): PartyContactMechanism!
+    partyContactMechanismUpdate(partyContactMechanismEntity: PartyContactMechanismUpdate!): PartyContactMechanism!
     partyCreate(newParty: NewParty!): Party!
     partyUpdate(updateParty: UpdateParty!): Party!
 }
@@ -473,7 +473,7 @@ type PartyConnection {
 
 type PartyContactMechanism {
     comment: String
-    contactMechanism: ContactMechanism!
+    contactMechanismEntity: ContactMechanism!
     doNotSolicitIndicator: Boolean!
     fromDate: Date!
     id: ID!
@@ -638,7 +638,7 @@ type PartyRelationshipTypeEdge {
 type PartyRole {
     fromDate: Date!
     id: ID!
-    party: Party!
+    partyEntity: Party!
     roleType: PartyRoleType!
     thruDate: Date
 }
@@ -828,7 +828,7 @@ input PartyContactMechanismPurposeNew {
 
 input PartyContactMechanismUpdate {
     comment: String
-    contactMechanism: ContactMechanismUpdate!
+    contactMechanismEntity: ContactMechanismUpdate!
     contactMechanismId: ID!
     doNotSolicitIndicator: Boolean!
     fromDate: Date!

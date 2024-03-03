@@ -26,12 +26,12 @@ public class AddCommunicationEventToCaseTest extends KaseGwtTemplate {
 		aCommunicationEventStatusTypeExists();
 		aPartyRelationshipExists();
 		aContactMechanismTypeExists();
-		communicationEvent = completeCommunicationEvent()
-				                     .caseId(aCase.getId())
-				                     .communicationEventStatusTypeId(communicationEventStatusType.getId())
-				                     .communicationEventTypeId(communicationEventType.getId())
-				                     .partyRelationshipId(partyRelationship.getId())
-				                     .contactMechanismTypeId(contactMechanismType.getId())
+		communicationEventEntity = completeCommunicationEvent()
+				                     .caseId(aCaseEntity.getId())
+				                     .communicationEventStatusTypeId(communicationEventStatusTypeEntity.getId())
+				                     .communicationEventTypeId(communicationEventTypeEntity.getId())
+				                     .partyRelationshipId(partyRelationshipEntity.getId())
+				                     .contactMechanismTypeId(contactMechanismTypeEntity.getId())
 				                     .build();
 	}
 
@@ -40,14 +40,14 @@ public class AddCommunicationEventToCaseTest extends KaseGwtTemplate {
 	public void when() {
 		response = this.graphQlTester.documentName("CaseAddCommunicationEvent")
 				           .operationName("AddCommunicationEventToCase")
-				           .variable("caseId", aCase.getId())
+				           .variable("caseId", aCaseEntity.getId())
 				           .variable("newCommunicationEvent", Map.of(
-						           "started", communicationEvent.getStarted().format(DateTimeFormatter.ISO_DATE_TIME),
-						           "note", communicationEvent.getNote(),
-						           "contactMechanismTypeId", communicationEvent.getContactMechanismTypeId(),
-						           "communicationEventStatusTypeId", communicationEvent.getCommunicationEventStatusTypeId(),
-						           "communicationEventTypeId", communicationEvent.getCommunicationEventTypeId(),
-						           "partyRelationshipId", communicationEvent.getPartyRelationshipId()
+						           "started", communicationEventEntity.getStarted().format(DateTimeFormatter.ISO_DATE_TIME),
+						           "note", communicationEventEntity.getNote(),
+						           "contactMechanismTypeId", communicationEventEntity.getContactMechanismTypeId(),
+						           "communicationEventStatusTypeId", communicationEventEntity.getCommunicationEventStatusTypeId(),
+						           "communicationEventTypeId", communicationEventEntity.getCommunicationEventTypeId(),
+						           "partyRelationshipId", communicationEventEntity.getPartyRelationshipId()
 				           ))
 				           .execute();
 	}
@@ -57,14 +57,14 @@ public class AddCommunicationEventToCaseTest extends KaseGwtTemplate {
 	public void then() {
 		response
 				.path("addCommunicationEventToCase.id").hasValue()
-				.path("addCommunicationEventToCase.started").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(communicationEvent.getStarted()))
+				.path("addCommunicationEventToCase.started").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(communicationEventEntity.getStarted()))
 				.path("addCommunicationEventToCase.ended").valueIsNull()
-				.path("addCommunicationEventToCase.note").entity(String.class).isEqualTo(communicationEvent.getNote())
-				.path("addCommunicationEventToCase.contactMechanismType.id").entity(UUID.class).isEqualTo(contactMechanismType.getId())
-				.path("addCommunicationEventToCase.contactMechanismType.description").entity(String.class).isEqualTo(contactMechanismType.getDescription())
-				.path("addCommunicationEventToCase.communicationEventStatusType.id").entity(UUID.class).isEqualTo(communicationEventStatusType.getId())
-				.path("addCommunicationEventToCase.communicationEventStatusType.description").entity(String.class).isEqualTo(communicationEventStatusType.getDescription())
-				.path("addCommunicationEventToCase.communicationEventType.id").entity(UUID.class).isEqualTo(communicationEventType.getId())
-				.path("addCommunicationEventToCase.communicationEventType.description").entity(String.class).isEqualTo(communicationEventType.getDescription());
+				.path("addCommunicationEventToCase.note").entity(String.class).isEqualTo(communicationEventEntity.getNote())
+				.path("addCommunicationEventToCase.contactMechanismTypeEntity.id").entity(UUID.class).isEqualTo(contactMechanismTypeEntity.getId())
+				.path("addCommunicationEventToCase.contactMechanismTypeEntity.description").entity(String.class).isEqualTo(contactMechanismTypeEntity.getDescription())
+				.path("addCommunicationEventToCase.communicationEventStatusTypeEntity.id").entity(UUID.class).isEqualTo(communicationEventStatusTypeEntity.getId())
+				.path("addCommunicationEventToCase.communicationEventStatusTypeEntity.description").entity(String.class).isEqualTo(communicationEventStatusTypeEntity.getDescription())
+				.path("addCommunicationEventToCase.communicationEventTypeEntity.id").entity(UUID.class).isEqualTo(communicationEventTypeEntity.getId())
+				.path("addCommunicationEventToCase.communicationEventTypeEntity.description").entity(String.class).isEqualTo(communicationEventTypeEntity.getDescription());
 	}
 }

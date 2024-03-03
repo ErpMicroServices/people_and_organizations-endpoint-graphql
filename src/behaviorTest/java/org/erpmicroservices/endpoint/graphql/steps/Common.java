@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class Common extends CucumberSpringBootContext {
 
-    private final List<CaseType> caseTypes = new ArrayList<>();
+    private final List<CaseTypeEntity> caseTypeEntities = new ArrayList<>();
 
     public Common(CaseStatusTypeRepository caseStatusTypeRepository, CaseTypeRepository caseTypeRepository, CaseRepository caseRepository, PartyTypeRepository partyTypeRepository, PartyRepository partyRepository, CaseRoleTypeRepository caseRoleTypeRepository, CaseRoleRepository caseRoleRepository, ContactMechanismTypeRepository contactMechanismTypeRepository, PartyRoleTypeRepository partyRoleTypeRepository, PartyRoleRepository partyRoleRepository, CommunicationEventStatusTypeRepository communicationEventStatusTypeRepository, CommunicationEventTypeRepository communicationEventTypeRepository, PartyRelationshipTypeRepository partyRelationshipTypeRepository, PartyRelationshipStatusTypeRepository partyRelationshipStatusTypeRepository, PriorityTypeRepository priorityTypeRepository, PartyRelationshipRepository partyRelationshipRepository, CommunicationEventRepository communicationEventRepository, FacilityRepository facilityRepository, FacilityTypeRepository facilityTypeRepository, FacilityRoleTypeRepository facilityRoleTypeRepository, FacilityRoleRepository facilityRoleRepository, FacilityContactMechanismRepository facilityContactMechanismRepository, ContactMechanismRepository contactMechanismRepository, GeographicBoundaryRepository geographicBoundaryRepository, GeographicBoundaryTypeRepository geographicBoundaryTypeRepository, ContactMechanismGeographicBoundaryRepository contactMechanismGeographicBoundaryRepository, PartyContactMechanismRepository partyContactMechanismRepository, PartyContactMechanismPurposeRepository partyContactMechanismPurposeRepository, PartyContactMechanismPurposeTypeRepository partyContactMechanismPurposeTypeRepository, CommunicationEventPurposeTypeRepository communicationEventPurposeTypeRepository, CommunicationEventRoleTypeRepository communicationEventRoleTypeRepository, GraphQlTester graphQlTester) {
         super(caseStatusTypeRepository, caseTypeRepository, caseRepository, partyTypeRepository, partyRepository, caseRoleTypeRepository, caseRoleRepository, contactMechanismTypeRepository, partyRoleTypeRepository, partyRoleRepository, communicationEventStatusTypeRepository, communicationEventTypeRepository, partyRelationshipTypeRepository, partyRelationshipStatusTypeRepository, priorityTypeRepository, partyRelationshipRepository, communicationEventRepository, facilityRepository, facilityTypeRepository, facilityRoleTypeRepository, facilityRoleRepository, facilityContactMechanismRepository, contactMechanismRepository, geographicBoundaryRepository, geographicBoundaryTypeRepository, contactMechanismGeographicBoundaryRepository, partyContactMechanismRepository, partyContactMechanismPurposeRepository, partyContactMechanismPurposeTypeRepository, communicationEventPurposeTypeRepository, communicationEventRoleTypeRepository, graphQlTester);
@@ -45,10 +45,10 @@ public class Common extends CucumberSpringBootContext {
         dataTableLists
                 .forEach(row -> {
                     switch (row.get(0)) {
-                        case "case" -> caseTypeRepository.save(CaseType.builder()
+                        case "case" -> caseTypeRepository.save(CaseTypeEntity.builder()
                                 .description(row.get(1))
                                 .build());
-                        case "case status" -> caseStatusTypeRepository.save(CaseStatusType.builder()
+                        case "case status" -> caseStatusTypeRepository.save(CaseStatusTypeEntity.builder()
                                 .description(row.get(1))
                                 .build());
                         default -> fail("Unknown type: " + row);
@@ -113,18 +113,18 @@ public class Common extends CucumberSpringBootContext {
         communicationEventRoleTypeRepository.deleteAll();
     }
 
-    private void deletePartyTypeChildren(PartyType root) {
+    private void deletePartyTypeChildren(PartyTypeEntity root) {
         partyTypeRepository.findPartyTypesByParentId(root.getId(), Pageable.unpaged()).forEach(this::deletePartyTypeChildren);
         partyTypeRepository.delete(root);
     }
 
-    private void deleteCommunicationEventStatusTypeChildren(CommunicationEventStatusType root) {
+    private void deleteCommunicationEventStatusTypeChildren(CommunicationEventStatusTypeEntity root) {
         communicationEventStatusTypeRepository.findCommunicationEventStatusTypeByParentId(root.getParentId(), Pageable.unpaged()).stream()
                 .forEach(this::deleteCommunicationEventStatusTypeChildren);
         communicationEventStatusTypeRepository.delete(root);
     }
 
-    private void deletePartyRoleTypeChildren(PartyRoleType root) {
+    private void deletePartyRoleTypeChildren(PartyRoleTypeEntity root) {
         partyRoleTypeRepository.findPartyRoleTypesByParentId(root.getId(), Pageable.unpaged()).stream()
                 .forEach(this::deletePartyRoleTypeChildren);
         partyRoleTypeRepository.delete(root);

@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.classification;
 
 import graphql.relay.Edge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyClassificationType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyClassificationTypeEntity;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.PartyClassificationTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
@@ -28,7 +28,7 @@ public class PartyClassificationTypeController {
 
 	@QueryMapping
 	public PartyClassificationTypeConnection partyClassificationTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<PartyClassificationType>> edges = repository.findPartyClassificationTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyClassificationTypeEntity>> edges = repository.findPartyClassificationTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                                  .map(node -> PartyClassificationTypeEdge.builder()
 						                                                               .node(node)
 						                                                               .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -41,8 +41,8 @@ public class PartyClassificationTypeController {
 	}
 
 	@SchemaMapping
-	public PartyClassificationTypeConnection children(PartyClassificationType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<PartyClassificationType>> edges = repository.findPartyClassificationTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
+	public PartyClassificationTypeConnection children(PartyClassificationTypeEntity parent, @Argument PageInfo pageInfo) {
+		final List<Edge<PartyClassificationTypeEntity>> edges = repository.findPartyClassificationTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                                  .map(node -> PartyClassificationTypeEdge.builder()
 						                                                               .node(node)
 						                                                               .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

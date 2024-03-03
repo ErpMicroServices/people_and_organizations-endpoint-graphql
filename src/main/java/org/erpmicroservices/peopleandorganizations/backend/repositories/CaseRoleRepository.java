@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.backend.repositories;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRole;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 
 @Repository
-public interface CaseRoleRepository extends JpaRepository<CaseRole, UUID> {
+public interface CaseRoleRepository extends JpaRepository<CaseRoleEntity, UUID> {
 
-	Page<CaseRole> findByCaseId(final UUID caseId, final Pageable pageable);
+	Page<CaseRoleEntity> findByCaseId(final UUID caseId, final Pageable pageable);
 }

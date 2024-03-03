@@ -4,15 +4,15 @@ import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventRole;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventRoleEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 
 
 @Data
 @Builder
-public class CommunicationEventRoleEdge implements Edge<CommunicationEventRole> {
+public class CommunicationEventRoleEdge implements Edge<CommunicationEventRoleEntity> {
 
-	private CommunicationEventRole node;
+	private CommunicationEventRoleEntity node;
 
 	private Cursor cursor;
 
@@ -20,7 +20,7 @@ public class CommunicationEventRoleEdge implements Edge<CommunicationEventRole> 
 	 * @return the node of data that this edge represents
 	 */
 	@Override
-	public CommunicationEventRole getNode() {
+	public CommunicationEventRoleEntity getNode() {
 		return node;
 	}
 

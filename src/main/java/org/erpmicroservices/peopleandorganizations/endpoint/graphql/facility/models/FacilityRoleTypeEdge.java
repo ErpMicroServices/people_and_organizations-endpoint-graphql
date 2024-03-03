@@ -4,7 +4,7 @@ import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityRoleType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityRoleTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 
 @Data
@@ -15,19 +15,4 @@ public class FacilityRoleTypeEdge implements Edge<FacilityRoleType> {
 
 	private Cursor cursor;
 
-	/**
-	 * @return the node of data that this edge represents
-	 */
-	@Override
-	public FacilityRoleType getNode() {
-		return node;
-	}
-
-	/**
-	 * @return the cursor for this edge node
-	 */
-	@Override
-	public ConnectionCursor getCursor() {
-		return cursor;
-	}
 }

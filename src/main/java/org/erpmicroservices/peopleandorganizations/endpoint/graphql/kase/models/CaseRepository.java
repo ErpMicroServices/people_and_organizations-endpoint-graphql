@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.Case;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,8 +10,8 @@ import java.util.UUID;
 
 
 @Repository
-public interface CaseRepository extends JpaRepository<Case, UUID> {
+public interface CaseRepository extends JpaRepository<CaseEntity, UUID> {
 
-    Page<Case> findByCaseTypeId(final UUID caseTypeId, final Pageable pageable);
-    Page<Case> findByCaseStatusTypeId(final UUID caseTypeId, final Pageable pageable);
+    Page<CaseEntity> findByCaseTypeId(final UUID caseTypeId, final Pageable pageable);
+    Page<CaseEntity> findByCaseStatusTypeId(final UUID caseTypeId, final Pageable pageable);
 }

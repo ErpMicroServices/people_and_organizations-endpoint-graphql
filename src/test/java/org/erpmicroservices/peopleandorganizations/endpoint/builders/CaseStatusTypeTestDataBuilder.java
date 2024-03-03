@@ -1,12 +1,12 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusTypeEntity;
 
 import java.util.UUID;
 
 public class CaseStatusTypeTestDataBuilder {
-	public static CaseStatusType.CaseStatusTypeBuilder completeCaseStatusType() {
-		return CaseStatusType.builder()
+	public static CaseStatusTypeEntity.CaseStatusTypeBuilder completeCaseStatusType() {
+		return CaseStatusTypeEntity.builder()
 				       .description("CaseStatusTypeTestDataBuilder " + UUID.randomUUID());
 	}
 }

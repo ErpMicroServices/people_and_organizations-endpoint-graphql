@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.backend.repositories;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEvent;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 
 @Repository
-public interface CommunicationEventRepository extends JpaRepository<CommunicationEvent, UUID> {
+public interface CommunicationEventRepository extends JpaRepository<CommunicationEventEntity, UUID> {
 
-	List<CommunicationEvent> findByCaseId(UUID caseId, final Pageable pageable);
+	List<CommunicationEventEntity> findByCaseId(UUID caseId, final Pageable pageable);
 }

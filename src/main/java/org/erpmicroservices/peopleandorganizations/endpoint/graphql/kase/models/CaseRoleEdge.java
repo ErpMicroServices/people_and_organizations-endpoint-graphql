@@ -5,13 +5,13 @@ import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRole;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRoleEntity;
 
 @Data
 @Builder
-public class CaseRoleEdge implements Edge<CaseRole> {
+public class CaseRoleEdge implements Edge<CaseRoleEntity> {
 
-	private CaseRole node;
+	private CaseRoleEntity node;
 
 	private Cursor cursor;
 
@@ -19,7 +19,7 @@ public class CaseRoleEdge implements Edge<CaseRole> {
 	 * @return the node of data that this edge represents
 	 */
 	@Override
-	public CaseRole getNode() {
+	public CaseRoleEntity getNode() {
 		return node;
 	}
 

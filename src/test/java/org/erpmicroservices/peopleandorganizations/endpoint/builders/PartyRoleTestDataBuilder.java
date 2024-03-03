@@ -1,13 +1,13 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyRole;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyRoleEntity;
 
 import java.time.LocalDate;
 
 public class PartyRoleTestDataBuilder {
 
-	public static PartyRole.PartyRoleBuilder completePartyRole() {
-		return PartyRole.builder()
+	public static PartyRoleEntity.PartyRoleBuilder completePartyRole() {
+		return PartyRoleEntity.builder()
 				       .fromDate(LocalDate.now());
 	}
 }

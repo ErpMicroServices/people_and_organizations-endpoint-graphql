@@ -1,9 +1,9 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.controllers;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventTypeConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventTypeEdge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventType;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.CommunicationEventTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
@@ -30,8 +30,8 @@ public class CommunicationEventTypeController {
 
 	@QueryMapping
 	public CommunicationEventTypeConnection communicationEventTypes(@Argument PageInfo pageInfo) {
-		final Page<CommunicationEventType> communicationEventTypePage = communicationEventTypeRepository.findCommunicationEventTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
-		final List<Edge<CommunicationEventType>> communicationEventTypeEdges = communicationEventTypePage.stream()
+		final Page<CommunicationEventTypeEntity> communicationEventTypePage = communicationEventTypeRepository.findCommunicationEventTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
+		final List<Edge<CommunicationEventTypeEntity>> communicationEventTypeEdges = communicationEventTypePage.stream()
 				                                                                       .map(communicationEventType -> CommunicationEventTypeEdge.builder()
 						                                                                                                      .node(communicationEventType)
 						                                                                                                      .cursor(Cursor.builder().value(valueOf(communicationEventType.getId().hashCode())).build())
@@ -44,9 +44,9 @@ public class CommunicationEventTypeController {
 	}
 
 	@SchemaMapping
-	public CommunicationEventTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventType parent) {
-		final Page<CommunicationEventType> communicationEventTypeByChildren = communicationEventTypeRepository.findCommunicationEventTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
-		final List<Edge<CommunicationEventType>> communicationEventTypeEdges = communicationEventTypeByChildren.stream()
+	public CommunicationEventTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventTypeEntity parent) {
+		final Page<CommunicationEventTypeEntity> communicationEventTypeByChildren = communicationEventTypeRepository.findCommunicationEventTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
+		final List<Edge<CommunicationEventTypeEntity>> communicationEventTypeEdges = communicationEventTypeByChildren.stream()
 				                                                                       .map(communicationEventType -> CommunicationEventTypeEdge.builder()
 						                                                                                                      .cursor(Cursor.builder().value(valueOf(communicationEventType.getId())).build())
 						                                                                                                      .node(communicationEventType)

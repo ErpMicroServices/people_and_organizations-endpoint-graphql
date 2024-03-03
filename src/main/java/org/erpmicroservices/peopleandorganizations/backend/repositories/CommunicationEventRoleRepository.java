@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.backend.repositories;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventRole;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventRoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -10,6 +10,6 @@ import java.util.UUID;
 
 
 @Repository
-public interface CommunicationEventRoleRepository extends PagingAndSortingRepository<CommunicationEventRole, UUID> {
-	Page<CommunicationEventRole> findByCommunicationEventId(final UUID communicationEventId, final Pageable pageable);
+public interface CommunicationEventRoleRepository extends PagingAndSortingRepository<CommunicationEventRoleEntity, UUID> {
+	Page<CommunicationEventRoleEntity> findByCommunicationEventId(final UUID communicationEventId, final Pageable pageable);
 }

@@ -4,15 +4,15 @@ import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyClassification;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyClassificationEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 
 
 @Data
 @Builder
-public class PartyClassificationEdge implements Edge<PartyClassification> {
+public class PartyClassificationEdge implements Edge<PartyClassificationEntity> {
 
-	private PartyClassification node;
+	private PartyClassificationEntity node;
 
 	private Cursor cursor;
 
@@ -20,7 +20,7 @@ public class PartyClassificationEdge implements Edge<PartyClassification> {
 	 * @return the node of data that this edge represents
 	 */
 	@Override
-	public PartyClassification getNode() {
+	public PartyClassificationEntity getNode() {
 		return node;
 	}
 

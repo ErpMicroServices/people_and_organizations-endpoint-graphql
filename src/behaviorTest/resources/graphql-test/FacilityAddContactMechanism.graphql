@@ -3,7 +3,7 @@ mutation AddFacilityContactMechanism( $newFacilityContactMechanism: NewFacilityC
         id
         fromDate
         thruDate
-        contactMechanism {
+        contactMechanismEntity {
             id
             endPoint
             directions

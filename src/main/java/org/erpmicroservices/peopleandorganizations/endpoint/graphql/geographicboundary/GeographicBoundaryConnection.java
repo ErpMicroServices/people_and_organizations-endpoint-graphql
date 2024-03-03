@@ -3,7 +3,7 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicb
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundary;
+import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundaryEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Connection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 

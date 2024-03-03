@@ -17,7 +17,7 @@ query Facilities ($facilityPageInfo: PageInfoInput!,$rolesPageInfo: PageInfoInpu
                                 id
                                 description
                             }
-                            party {
+                            partyEntity {
                                 id
                             }
                         }
@@ -28,7 +28,7 @@ query Facilities ($facilityPageInfo: PageInfoInput!,$rolesPageInfo: PageInfoInpu
                         node {
                             id
                             fromDate
-                            contactMechanism {
+                            contactMechanismEntity {
                                 id
                                 endPoint
                                 directions

@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.controllers;
 
 import graphql.relay.Edge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityRoleType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityRoleTypeEntity;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.FacilityRoleTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
@@ -30,7 +30,7 @@ public class FacilityRoleTypeController {
 
 	@QueryMapping
 	public FacilityRoleTypeConnection facilityRoleTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<FacilityRoleType>> edges = repository.findFacilityRoleTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<FacilityRoleTypeEntity>> edges = repository.findFacilityRoleTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                           .map(facilityRoleType -> FacilityRoleTypeEdge.builder()
 						                                                                    .node(facilityRoleType)
 						                                                                    .cursor(Cursor.builder().value(valueOf(facilityRoleType.getId().hashCode())).build())
@@ -43,8 +43,8 @@ public class FacilityRoleTypeController {
 	}
 
 	@SchemaMapping
-	public FacilityRoleTypeConnection children(FacilityRoleType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<FacilityRoleType>> edges = repository.findFacilityRoleTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
+	public FacilityRoleTypeConnection children(FacilityRoleTypeEntity parent, @Argument PageInfo pageInfo) {
+		final List<Edge<FacilityRoleTypeEntity>> edges = repository.findFacilityRoleTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                           .map(facilityRoleType -> FacilityRoleTypeEdge.builder()
 						                                                                    .node(facilityRoleType)
 						                                                                    .cursor(Cursor.builder().value(valueOf(facilityRoleType.getId().hashCode())).build())

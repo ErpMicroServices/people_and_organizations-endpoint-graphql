@@ -4,15 +4,15 @@ import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.backend.entities.IdType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.IdTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 
 
 @Data
 @Builder
-public class IdTypeEdge implements Edge<IdType> {
+public class IdTypeEdge implements Edge<IdTypeEntity> {
 
-	private IdType node;
+	private IdTypeEntity node;
 
 	private Cursor cursor;
 
@@ -20,7 +20,7 @@ public class IdTypeEdge implements Edge<IdType> {
 	 * @return the node of data that this edge represents
 	 */
 	@Override
-	public IdType getNode() {
+	public IdTypeEntity getNode() {
 		return node;
 	}
 

@@ -4,7 +4,7 @@ import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventRoleType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventRoleTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 
 

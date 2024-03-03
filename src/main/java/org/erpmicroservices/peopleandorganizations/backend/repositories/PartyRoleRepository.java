@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.backend.repositories;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyRole;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyRoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 
 @Repository
-public interface PartyRoleRepository extends JpaRepository<PartyRole, UUID> {
-	Page<PartyRole> findPartyRolesByPartyId(final UUID partyId, final Pageable pageable);
+public interface PartyRoleRepository extends JpaRepository<PartyRoleEntity, UUID> {
+	Page<PartyRoleEntity> findPartyRolesByPartyId(final UUID partyId, final Pageable pageable);
 
 }

@@ -7,69 +7,69 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public abstract class FacilityGwtTemplate extends AbstractGWT {
-	protected Facility facility;
-	protected FacilityType facilityType;
-	protected FacilityContactMechanism facilityContactMechanism;
-	protected FacilityRoleType facilityRoleType;
-	protected FacilityRole facilityRole;
+	protected FacilityEntity facilityEntity;
+	protected FacilityTypeEntity facilityTypeEntity;
+	protected FacilityContactMechanismEntity facilityContactMechanismEntity;
+	protected FacilityRoleTypeEntity facilityRoleTypeEntity;
+	protected FacilityRoleEntity facilityRoleEntity;
 
-	protected FacilityRole aFacilityRoleExists() {
-		if (facility == null) {
+	protected FacilityRoleEntity aFacilityRoleExists() {
+		if (facilityEntity == null) {
 			aFacilityExists();
 		}
-		if (facilityRoleType == null) {
+		if (facilityRoleTypeEntity == null) {
 			aFacilityRoleTypeExists();
 		}
-		if (party == null) {
+		if (partyEntity == null) {
 			aPartyExists();
 		}
-		facilityRole = facilityRoleRepository.save(FacilityRole.builder()
-				                                           .facilityId(facility.getId())
-				                                           .facilityRoleTypeId(facilityRoleType.getId())
-				                                           .partyId(party.getId())
+		facilityRoleEntity = facilityRoleRepository.save(FacilityRoleEntity.builder()
+				                                           .facilityId(facilityEntity.getId())
+				                                           .facilityRoleTypeId(facilityRoleTypeEntity.getId())
+				                                           .partyId(partyEntity.getId())
 				                                           .fromDate(LocalDate.now())
 				                                           .build());
-		return facilityRole;
+		return facilityRoleEntity;
 	}
 
-	protected FacilityRoleType aFacilityRoleTypeExists() {
-		facilityRoleType = facilityRoleTypeRepository.save(FacilityRoleType.builder()
-				                                                   .description("FacilityRoleType Test Data " + UUID.randomUUID())
+	protected FacilityRoleTypeEntity aFacilityRoleTypeExists() {
+		facilityRoleTypeEntity = facilityRoleTypeRepository.save(FacilityRoleTypeEntity.builder()
+				                                                   .description("FacilityRoleTypeEntity Test Data " + UUID.randomUUID())
 				                                                   .build());
-		return facilityRoleType;
+		return facilityRoleTypeEntity;
 	}
 
-	protected FacilityContactMechanism aFacilityContactMechanismExists() {
-		if (facility == null) {
+	protected FacilityContactMechanismEntity aFacilityContactMechanismExists() {
+		if (facilityEntity == null) {
 			aFacilityExists();
 		}
-		if (contactMechanism == null) {
+		if (contactMechanismEntity == null) {
 			aContactMechanismExists();
 		}
-		facilityContactMechanism = facilityContactMechanismRepository.save(FacilityContactMechanism.builder()
-				                                                                   .contactMechanismId(contactMechanism.getId())
-				                                                                   .facilityId(facility.getId())
+		facilityContactMechanismEntity = facilityContactMechanismRepository.save(FacilityContactMechanismEntity.builder()
+				                                                                   .contactMechanismId(contactMechanismEntity.getId())
+				                                                                   .facilityId(facilityEntity.getId())
 				                                                                   .fromDate(LocalDate.now())
 				                                                                   .build());
-		return facilityContactMechanism;
+		return facilityContactMechanismEntity;
 	}
 
-	protected Facility aFacilityExists() {
-		if (facilityType == null) {
+	protected FacilityEntity aFacilityExists() {
+		if (facilityTypeEntity == null) {
 			aFacilityTypeExists();
 		}
-		facility = facilityRepository.save(Facility.builder()
-				                                   .facilityTypeId(facilityType.getId())
+		facilityEntity = facilityRepository.save(FacilityEntity.builder()
+				                                   .facilityTypeId(facilityTypeEntity.getId())
 				                                   .squareFootage(100L)
-				                                   .description("Facility Test Data " + UUID.randomUUID())
+				                                   .description("FacilityEntity Test Data " + UUID.randomUUID())
 				                                   .build());
-		return facility;
+		return facilityEntity;
 	}
 
-	protected FacilityType aFacilityTypeExists() {
-		facilityType = facilityTypeRepository.save(FacilityType.builder()
-				                                           .description("FacilityType Test Data " + UUID.randomUUID())
+	protected FacilityTypeEntity aFacilityTypeExists() {
+		facilityTypeEntity = facilityTypeRepository.save(FacilityTypeEntity.builder()
+				                                           .description("FacilityTypeEntity Test Data " + UUID.randomUUID())
 				                                           .build());
-		return facilityType;
+		return facilityTypeEntity;
 	}
 }

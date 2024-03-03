@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.backend.repositories;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityRole;
+import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityRoleEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 
 @Repository
-public interface FacilityRoleRepository extends JpaRepository<FacilityRole, UUID> {
+public interface FacilityRoleRepository extends JpaRepository<FacilityRoleEntity, UUID> {
 
-	Page<FacilityRole> findByFacilityId(UUID parentId, Pageable pageable);
+	Page<FacilityRoleEntity> findByFacilityId(UUID parentId, Pageable pageable);
 }

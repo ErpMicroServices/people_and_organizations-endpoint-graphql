@@ -65,18 +65,18 @@ public class CaseController {
     }
 
     @QueryMapping
-    public CaseConnection casesByCaseType(@Argument CaseType caseType, @Argument PageInfo pageInfo) {
-        final Page<Case> casesPage = caseRepository.findByCaseTypeId(caseType.getId(), pageInfoToPageable(pageInfo));
+    public CaseConnection casesByCaseType(@Argument CaseTypeEntity caseTypeEntity, @Argument PageInfo pageInfo) {
+        final Page<CaseEntity> casesPage = caseRepository.findByCaseTypeId(caseTypeEntity.getId(), pageInfoToPageable(pageInfo));
         return getCaseConnection(casesPage);
     }
 
     @QueryMapping
-    public CaseConnection casesByCaseStatusType(@Argument CaseStatusType caseStatusType, @Argument PageInfo pageInfo) {
-        final Page<Case> casesPage = caseRepository.findByCaseStatusTypeId(caseStatusType.getId(), pageInfoToPageable(pageInfo));
+    public CaseConnection casesByCaseStatusType(@Argument CaseStatusTypeEntity caseStatusTypeEntity, @Argument PageInfo pageInfo) {
+        final Page<CaseEntity> casesPage = caseRepository.findByCaseStatusTypeId(caseStatusTypeEntity.getId(), pageInfoToPageable(pageInfo));
         return getCaseConnection(casesPage);
     }
 
-    private CaseConnection getCaseConnection(Page<Case> casesPage) {
+    private CaseConnection getCaseConnection(Page<CaseEntity> casesPage) {
         List<CaseEdge> caseEdges = casesPage.stream()
                 .map(kase -> CaseEdge.builder()
                         .cursor(Cursor.builder().value(String.valueOf(kase.getId().hashCode())).build())
@@ -93,19 +93,19 @@ public class CaseController {
     }
 
     @SchemaMapping
-    public CaseType caseType(@NotNull Case kase) {
+    public CaseTypeEntity caseType(@NotNull CaseEntity kase) {
         return caseTypeRepository.findById(kase.getCaseTypeId()).get();
     }
 
     @SchemaMapping
-    public CaseStatusType caseStatusType(@NotNull Case kase) {
+    public CaseStatusTypeEntity caseStatusType(@NotNull CaseEntity kase) {
         return caseStatusTypeRepository.findById(kase.getCaseStatusTypeId()).get();
     }
 
     @SchemaMapping
-    public CaseRoleConnection roles(@Argument PageInfo pageInfo, Case kase) {
-        final Page<CaseRole> byKase_id = caseRoleRepository.findByCaseId(kase.getId(), pageInfoToPageable(pageInfo));
-        final List<Edge<CaseRole>> caseRoleEdges = byKase_id.get()
+    public CaseRoleConnection roles(@Argument PageInfo pageInfo, CaseEntity kase) {
+        final Page<CaseRoleEntity> byKase_id = caseRoleRepository.findByCaseId(kase.getId(), pageInfoToPageable(pageInfo));
+        final List<Edge<CaseRoleEntity>> caseRoleEdges = byKase_id.get()
                 .map(caseRole -> CaseRoleEdge.builder()
                         .node(caseRole)
                         .cursor(Cursor.builder().value(String.valueOf(caseRole.getId().hashCode())).build())
@@ -118,8 +118,8 @@ public class CaseController {
     }
 
     @MutationMapping
-    public Case createCase(@Argument NewCase newCase) {
-        return caseRepository.save(Case.builder()
+    public CaseEntity createCase(@Argument NewCase newCase) {
+        return caseRepository.save(CaseEntity.builder()
                 .caseStatusTypeId(newCase.getCaseStatusTypeId())
                 .caseTypeId(newCase.getCaseTypeId())
                 .description(newCase.getDescription())
@@ -128,8 +128,8 @@ public class CaseController {
     }
 
     @MutationMapping
-    public Case addCaseRole(@Argument NewCaseRole newCaseRole) {
-        caseRoleRepository.save(CaseRole.builder()
+    public CaseEntity addCaseRole(@Argument NewCaseRole newCaseRole) {
+        caseRoleRepository.save(CaseRoleEntity.builder()
                 .caseId(newCaseRole.getCaseId())
                 .caseRoleTypeId(newCaseRole.getCaseRoleTypeId())
                 .partyId(newCaseRole.getPartyId())
@@ -139,7 +139,7 @@ public class CaseController {
     }
 
     @MutationMapping
-    public CaseRole expireCaseRole(@Argument UUID caseId, @Argument UUID caseRoleId) {
+    public CaseRoleEntity expireCaseRole(@Argument UUID caseId, @Argument UUID caseRoleId) {
         return caseRoleRepository.findById(caseRoleId)
                 .map(kaseRole -> {
                     kaseRole.setThruDate(LocalDate.now());
@@ -148,8 +148,8 @@ public class CaseController {
     }
 
     @MutationMapping
-    public CommunicationEvent addCommunicationEventToCase(@Argument UUID caseId, @Argument NewCommunicationEvent newCommunicationEvent) {
-        return communicationEventRepository.save(CommunicationEvent.builder()
+    public CommunicationEventEntity addCommunicationEventToCase(@Argument UUID caseId, @Argument NewCommunicationEvent newCommunicationEvent) {
+        return communicationEventRepository.save(CommunicationEventEntity.builder()
                 .caseId(caseId)
                 .communicationEventStatusTypeId(newCommunicationEvent.getCommunicationEventStatusTypeId())
                 .communicationEventTypeId(newCommunicationEvent.getCommunicationEventTypeId())

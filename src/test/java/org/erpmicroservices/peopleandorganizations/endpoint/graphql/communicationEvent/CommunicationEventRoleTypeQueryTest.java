@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationEvent;
 
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventRoleTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventRoleTypeEdge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventRoleType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,10 +16,10 @@ import java.util.UUID;
 @AutoConfigureGraphQlTester
 public class CommunicationEventRoleTypeQueryTest extends CommunicationEventGwtTemplateTemplate {
 
-	private final List<CommunicationEventRoleType> children = new ArrayList<>();
-	private CommunicationEventRoleType parent;
+	private final List<CommunicationEventRoleTypeEntity> children = new ArrayList<>();
+	private CommunicationEventRoleTypeEntity parent;
 
-	private CommunicationEventRoleType communicationEventRoleType;
+	private CommunicationEventRoleTypeEntity communicationEventRoleTypeEntity;
 
 	@BeforeEach
 	@Override
@@ -31,7 +31,7 @@ public class CommunicationEventRoleTypeQueryTest extends CommunicationEventGwtTe
 	private void aCommunicationEventRoleTypeWithChildrenExists(final int numberOfChildren) {
 		parent = aCommunicationEventRoleTypeExists();
 		for (int i = 0; i < numberOfChildren; i++) {
-			CommunicationEventRoleType child = aCommunicationEventRoleTypeExists();
+			CommunicationEventRoleTypeEntity child = aCommunicationEventRoleTypeExists();
 			child.setParentId(parent.getId());
 			child = communicationEventRoleTypeRepository.save(child);
 			children.add(child);
@@ -51,13 +51,13 @@ public class CommunicationEventRoleTypeQueryTest extends CommunicationEventGwtTe
 	@Override
 	public void then() {
 		response
-				.path("communicationEventRoleTypes.edges").entityList(CommunicationEventRoleType.class).hasSize(1)
+				.path("communicationEventRoleTypes.edges").entityList(CommunicationEventRoleTypeEntity.class).hasSize(1)
 				.path("communicationEventRoleTypes.edges[0].node.id").entity(UUID.class).isEqualTo(parent.getId())
 				.path("communicationEventRoleTypes.edges[0].node.description").entity(String.class).isEqualTo(parent.getDescription())
 				.path("communicationEventRoleTypes.edges[0].node.parent").valueIsNull()
 				.path("communicationEventRoleTypes.edges[0].node.children.edges").entityList(CommunicationEventRoleTypeEdge.class).hasSize(5)
 				.path("communicationEventRoleTypes.edges[0].node.children.edges").entityList(CommunicationEventRoleTypeEdge.class).contains(children.stream()
-						                                                                                                                            .map(type1 -> CommunicationEventRoleType.builder()
+						                                                                                                                            .map(type1 -> CommunicationEventRoleTypeEntity.builder()
 								                                                                                                                                          .description(type1.getDescription())
 								                                                                                                                                          .id(type1.getId())
 								                                                                                                                                          .build())
@@ -71,11 +71,11 @@ public class CommunicationEventRoleTypeQueryTest extends CommunicationEventGwtTe
 	}
 
 
-	private CommunicationEventRoleType aCommunicationEventRoleTypeExists() {
-		communicationEventRoleType = communicationEventRoleTypeRepository.save(CommunicationEventRoleType.builder()
-				                                                                       .description("communicationEventRoleType description " + UUID.randomUUID())
+	private CommunicationEventRoleTypeEntity aCommunicationEventRoleTypeExists() {
+		communicationEventRoleTypeEntity = communicationEventRoleTypeRepository.save(CommunicationEventRoleTypeEntity.builder()
+				                                                                       .description("communicationEventRoleTypeEntity description " + UUID.randomUUID())
 				                                                                       .build());
-		return communicationEventRoleType;
+		return communicationEventRoleTypeEntity;
 	}
 
 }

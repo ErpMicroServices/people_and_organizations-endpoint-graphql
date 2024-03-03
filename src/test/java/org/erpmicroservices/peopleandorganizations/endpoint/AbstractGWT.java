@@ -69,7 +69,7 @@ abstract public class AbstractGWT {
 	protected FacilityRoleRepository facilityRoleRepository;
 	@Autowired
 	protected FacilityContactMechanismRepository facilityContactMechanismRepository;
-	protected PartyType partyType;
+	protected PartyTypeEntity partyTypeEntity;
 	@Autowired
 	protected ContactMechanismRepository contactMechanismRepository;
 
@@ -97,24 +97,24 @@ abstract public class AbstractGWT {
 	@Autowired
 	protected CommunicationEventRoleTypeRepository communicationEventRoleTypeRepository;
 
-	protected Party party;
+	protected PartyEntity partyEntity;
 
-	protected ContactMechanismType contactMechanismType;
-	protected PartyRole partyRole;
-	protected CommunicationEventStatusType communicationEventStatusType;
-	protected CommunicationEventType communicationEventType;
-	protected CommunicationEvent communicationEvent;
-	protected PartyRoleType partyRoleType;
-	protected PartyRelationship partyRelationship;
-	protected PartyRelationshipType partyRelationshipType;
-	protected PartyRelationshipStatusType partyRelationshipStatusType;
-	protected PriorityType priorityType;
-	protected ContactMechanism contactMechanism;
-	protected GeographicBoundary geographicBoundary;
-	protected GeographicBoundaryType geographicBoundaryType;
-	protected ContactMechanismGeographicBoundary contactMechanismGeographicBoundary;
+	protected ContactMechanismTypeEntity contactMechanismTypeEntity;
+	protected PartyRoleEntity partyRoleEntity;
+	protected CommunicationEventStatusTypeEntity communicationEventStatusTypeEntity;
+	protected CommunicationEventTypeEntity communicationEventTypeEntity;
+	protected CommunicationEventEntity communicationEventEntity;
+	protected PartyRoleTypeEntity partyRoleTypeEntity;
+	protected PartyRelationshipEntity partyRelationshipEntity;
+	protected PartyRelationshipTypeEntity partyRelationshipTypeEntity;
+	protected PartyRelationshipStatusTypeEntity partyRelationshipStatusTypeEntity;
+	protected PriorityTypeEntity priorityTypeEntity;
+	protected ContactMechanismEntity contactMechanismEntity;
+	protected GeographicBoundaryEntity geographicBoundaryEntity;
+	protected GeographicBoundaryTypeEntity geographicBoundaryTypeEntity;
+	protected ContactMechanismGeographicBoundaryEntity contactMechanismGeographicBoundaryEntity;
 
-	protected CommunicationEventPurposeType communicationEventPurposeType;
+	protected CommunicationEventPurposeTypeEntity communicationEventPurposeTypeEntity;
 
 	@BeforeEach
 	public void given() {
@@ -162,7 +162,7 @@ abstract public class AbstractGWT {
 		caseTypeRepository.deleteAll(caseTypeRepository.findCaseTypeByParentIdIsNotNull().stream().toList());
 		caseTypeRepository.deleteAll();
 
-		final List<PartyType> list = partyTypeRepository.findPartyTypesByParentIdIsNotNull().stream().map(partyType1 -> {
+		final List<PartyTypeEntity> list = partyTypeRepository.findPartyTypesByParentIdIsNotNull().stream().map(partyType1 -> {
 			partyType1.setParentId(null);
 			return partyType1;
 		}).toList();
@@ -196,98 +196,98 @@ abstract public class AbstractGWT {
 		communicationEventRoleTypeRepository.deleteAll();
 	}
 
-	private void deleteCommunicationEventStatusTypeChildren(final CommunicationEventStatusType parent) {
+	private void deleteCommunicationEventStatusTypeChildren(final CommunicationEventStatusTypeEntity parent) {
 		communicationEventStatusTypeRepository.findCommunicationEventStatusTypeByParentId(parent.getId(), Pageable.unpaged()).forEach(this::deleteCommunicationEventStatusTypeChildren);
 		communicationEventStatusTypeRepository.delete(parent);
 	}
 
-	private void deletePartyRoleTypeChildren(final PartyRoleType parent) {
+	private void deletePartyRoleTypeChildren(final PartyRoleTypeEntity parent) {
 		partyRoleTypeRepository.findPartyRoleTypesByParentId(parent.getId(), Pageable.unpaged()).forEach(this::deletePartyRoleTypeChildren);
 		partyRoleTypeRepository.delete(parent);
 	}
 
-	protected Party aPartyExists() {
-		if (partyType == null) {
+	protected PartyEntity aPartyExists() {
+		if (partyTypeEntity == null) {
 			aPartyTypeExists();
 		}
-		party = partyRepository.save(completeParty()
-				                             .partyTypeId(partyType.getId())
+		partyEntity = partyRepository.save(completeParty()
+				                             .partyTypeId(partyTypeEntity.getId())
 				                             .build());
-		return party;
+		return partyEntity;
 	}
 
-	protected PartyType aPartyTypeExists() {
-		partyType = partyTypeRepository.save(completePartyType().build());
-		return partyType;
+	protected PartyTypeEntity aPartyTypeExists() {
+		partyTypeEntity = partyTypeRepository.save(completePartyType().build());
+		return partyTypeEntity;
 	}
 
-	protected PartyRole aPartyRoleExists(final Party party) {
-		if (partyRoleType == null) {
+	protected PartyRoleEntity aPartyRoleExists(final PartyEntity partyEntity) {
+		if (partyRoleTypeEntity == null) {
 			aPartyRoleTypeExists();
 		}
-		partyRole = partyRoleRepository.save(completePartyRole()
-				                                     .partyId(party.getId())
-				                                     .partyRoleTypeId(partyRoleType.getId())
+		partyRoleEntity = partyRoleRepository.save(completePartyRole()
+				                                     .partyId(partyEntity.getId())
+				                                     .partyRoleTypeId(partyRoleTypeEntity.getId())
 				                                     .build());
-		return partyRole;
+		return partyRoleEntity;
 	}
 
-	protected PartyRoleType aPartyRoleTypeExists() {
-		partyRoleType = partyRoleTypeRepository.save(completePartyRoleType().build());
-		return partyRoleType;
+	protected PartyRoleTypeEntity aPartyRoleTypeExists() {
+		partyRoleTypeEntity = partyRoleTypeRepository.save(completePartyRoleType().build());
+		return partyRoleTypeEntity;
 	}
 
-	protected ContactMechanismType aContactMechanismTypeExists() {
-		contactMechanismType = contactMechanismTypeRepository.save(completeContactMechanismType().build());
-		return contactMechanismType;
+	protected ContactMechanismTypeEntity aContactMechanismTypeExists() {
+		contactMechanismTypeEntity = contactMechanismTypeRepository.save(completeContactMechanismType().build());
+		return contactMechanismTypeEntity;
 	}
 
-	protected ContactMechanism aContactMechanismExists() {
-		if (contactMechanismType == null) {
+	protected ContactMechanismEntity aContactMechanismExists() {
+		if (contactMechanismTypeEntity == null) {
 			aContactMechanismTypeExists();
 		}
-		contactMechanism = contactMechanismRepository.save(ContactMechanism.builder()
-				                                                   .endPoint("ContactMechanism Test Data endPoint " + UUID.randomUUID())
-				                                                   .directions("ContactMechanism Test Data directions " + UUID.randomUUID())
-				                                                   .contactMechanismTypeId(contactMechanismType.getId())
+		contactMechanismEntity = contactMechanismRepository.save(ContactMechanismEntity.builder()
+				                                                   .endPoint("ContactMechanismEntity Test Data endPoint " + UUID.randomUUID())
+				                                                   .directions("ContactMechanismEntity Test Data directions " + UUID.randomUUID())
+				                                                   .contactMechanismTypeId(contactMechanismTypeEntity.getId())
 				                                                   .build());
-		return contactMechanism;
+		return contactMechanismEntity;
 	}
 
-	protected ContactMechanismGeographicBoundary aGeographicBoundaryThatBelongsToAContactMechanismExists() {
-		if (contactMechanism == null) {
+	protected ContactMechanismGeographicBoundaryEntity aGeographicBoundaryThatBelongsToAContactMechanismExists() {
+		if (contactMechanismEntity == null) {
 			aContactMechanismExists();
 		}
-		if (geographicBoundaryType == null) {
+		if (geographicBoundaryTypeEntity == null) {
 			aGeographicBoundaryTypeExists();
 		}
-		if (geographicBoundary == null) {
+		if (geographicBoundaryEntity == null) {
 			aGeographicBoundaryExists();
 		}
-		contactMechanismGeographicBoundary = contactMechanismGeographicBoundaryRepository.save(ContactMechanismGeographicBoundary.builder()
-				                                                                                       .geographicBoundaryId(geographicBoundary.getId())
-				                                                                                       .contactMechanismId(contactMechanism.getId())
+		contactMechanismGeographicBoundaryEntity = contactMechanismGeographicBoundaryRepository.save(ContactMechanismGeographicBoundaryEntity.builder()
+				                                                                                       .geographicBoundaryId(geographicBoundaryEntity.getId())
+				                                                                                       .contactMechanismId(contactMechanismEntity.getId())
 				                                                                                       .build());
-		return contactMechanismGeographicBoundary;
+		return contactMechanismGeographicBoundaryEntity;
 	}
 
-	protected GeographicBoundary aGeographicBoundaryExists() {
-		if (geographicBoundaryType == null) {
+	protected GeographicBoundaryEntity aGeographicBoundaryExists() {
+		if (geographicBoundaryTypeEntity == null) {
 			aGeographicBoundaryTypeExists();
 		}
-		geographicBoundary = geographicBoundaryRepository.save(GeographicBoundary.builder()
+		geographicBoundaryEntity = geographicBoundaryRepository.save(GeographicBoundaryEntity.builder()
 				                                                       .abbreviation("abbreviation test data " + UUID.randomUUID())
 				                                                       .geoCode("geocode test data " + UUID.randomUUID())
-				                                                       .geographicBoundaryTypeId(geographicBoundaryType.getId())
+				                                                       .geographicBoundaryTypeId(geographicBoundaryTypeEntity.getId())
 				                                                       .name("name test data " + UUID.randomUUID())
 				                                                       .build());
-		return geographicBoundary;
+		return geographicBoundaryEntity;
 	}
 
-	protected GeographicBoundaryType aGeographicBoundaryTypeExists() {
-		geographicBoundaryType = geographicBoundaryTypeRepository.save(GeographicBoundaryType.builder()
-				                                                               .description("geographicBoundaryType test data " + UUID.randomUUID())
+	protected GeographicBoundaryTypeEntity aGeographicBoundaryTypeExists() {
+		geographicBoundaryTypeEntity = geographicBoundaryTypeRepository.save(GeographicBoundaryTypeEntity.builder()
+				                                                               .description("geographicBoundaryTypeEntity test data " + UUID.randomUUID())
 				                                                               .build());
-		return geographicBoundaryType;
+		return geographicBoundaryTypeEntity;
 	}
 }

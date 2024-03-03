@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.backend.repositories;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.Facility;
+import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,9 +10,9 @@ import java.util.UUID;
 
 
 @Repository
-public interface FacilityRepository extends JpaRepository<Facility, UUID> {
+public interface FacilityRepository extends JpaRepository<FacilityEntity, UUID> {
 
-	Page<Facility> findByPartOfIdIsNull(Pageable pageable);
+	Page<FacilityEntity> findByPartOfIdIsNull(Pageable pageable);
 
-	Page<Facility> findFacilitiesByPartOfId(UUID facilityId, Pageable pageable);
+	Page<FacilityEntity> findFacilitiesByPartOfId(UUID facilityId, Pageable pageable);
 }

@@ -4,15 +4,15 @@ import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanism;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanismEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 
 
 @Data
 @Builder
-public class PartyContactMechanismEdge implements Edge<PartyContactMechanism> {
+public class PartyContactMechanismEdge implements Edge<PartyContactMechanismEntity> {
 
-	private PartyContactMechanism node;
+	private PartyContactMechanismEntity node;
 
 	private Cursor cursor;
 
@@ -20,7 +20,7 @@ public class PartyContactMechanismEdge implements Edge<PartyContactMechanism> {
 	 * @return the node of data that this edge represents
 	 */
 	@Override
-	public PartyContactMechanism getNode() {
+	public PartyContactMechanismEntity getNode() {
 		return node;
 	}
 

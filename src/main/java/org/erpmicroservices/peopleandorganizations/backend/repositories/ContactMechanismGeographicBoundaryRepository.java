@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.backend.repositories;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.ContactMechanismGeographicBoundary;
-import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundary;
+import org.erpmicroservices.peopleandorganizations.backend.entities.ContactMechanismGeographicBoundaryEntity;
+import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundaryEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,8 +13,8 @@ import java.util.UUID;
 
 
 @Repository
-public interface ContactMechanismGeographicBoundaryRepository extends JpaRepository<ContactMechanismGeographicBoundary, UUID> {
+public interface ContactMechanismGeographicBoundaryRepository extends JpaRepository<ContactMechanismGeographicBoundaryEntity, UUID> {
 
-	@Query(name = "GeographicBoundary.findByContactMechanismId", nativeQuery = true)
-	Page<GeographicBoundary> findGeographicBoundaryByContactMechanismId(@Param("contactMechanismId") UUID contactMechanismId, Pageable pageable);
+	@Query(name = "GeographicBoundaryEntity.findByContactMechanismId", nativeQuery = true)
+	Page<GeographicBoundaryEntity> findGeographicBoundaryByContactMechanismId(@Param("contactMechanismId") UUID contactMechanismId, Pageable pageable);
 }

@@ -3,24 +3,24 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Connection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusType;
 
 import java.util.List;
 
 @Data
 @Builder
-public class CaseStatusTypeConnection implements Connection<CaseStatusType> {
+public class CaseStatusTypeConnection implements Connection<CaseStatusTypeEntity> {
 
-	private List<Edge<CaseStatusType>> edges;
+	private List<Edge<CaseStatusTypeEntity>> edges;
 	private PageInfo pageInfo;
 
 	/**
 	 * @return a list of {@link Edge}s that are really a node of data and its cursor
 	 */
 	@Override
-	public List<Edge<CaseStatusType>> getEdges() {
+	public List<Edge<CaseStatusTypeEntity>> getEdges() {
 		return edges;
 	}
 

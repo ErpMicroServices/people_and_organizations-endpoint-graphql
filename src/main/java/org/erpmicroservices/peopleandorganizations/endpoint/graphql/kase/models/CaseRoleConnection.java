@@ -5,22 +5,22 @@ import lombok.Builder;
 import lombok.Data;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Connection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRole;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRoleEntity;
 
 import java.util.List;
 
 @Data
 @Builder
-public class CaseRoleConnection implements Connection<CaseRole> {
+public class CaseRoleConnection implements Connection<CaseRoleEntity> {
 
-	private List<Edge<CaseRole>> edges;
+	private List<Edge<CaseRoleEntity>> edges;
 	private PageInfo pageInfo;
 
 	/**
 	 * @return a list of {@link Edge}s that are really a node of data and its cursor
 	 */
 	@Override
-	public List<Edge<CaseRole>> getEdges() {
+	public List<Edge<CaseRoleEntity>> getEdges() {
 		return edges;
 	}
 

@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase;
 
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseTypeEdge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CaseType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseTypeEntity;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +16,8 @@ import java.util.UUID;
 @AutoConfigureGraphQlTester
 public class CaseTypeQueryTest extends KaseGwtTemplate {
 
-	private final List<CaseType> children = new ArrayList<>();
-	private CaseType parent;
+	private final List<CaseTypeEntity> children = new ArrayList<>();
+	private CaseTypeEntity parent;
 
 	@BeforeEach
 	@Override
@@ -39,15 +39,15 @@ public class CaseTypeQueryTest extends KaseGwtTemplate {
 	@Override
 	public void then() {
 		response
-				.path("caseTypes.edges").entityList(CaseType.class).hasSize(1)
+				.path("caseTypes.edges").entityList(CaseTypeEntity.class).hasSize(1)
 				.path("caseTypes.edges[0].node.id").entity(UUID.class).isEqualTo(parent.getId())
 				.path("caseTypes.edges[0].node.description").entity(String.class).isEqualTo(parent.getDescription())
 				.path("caseTypes.edges[0].node.parent").valueIsNull()
 				.path("caseTypes.edges[0].node.children.edges").entityList(CaseTypeEdge.class).hasSize(5)
 				.path("caseTypes.edges[0].node.children.edges").entityList(CaseTypeEdge.class).contains(children.stream()
-						                                                                                        .map(caseType1 -> CaseType.builder()
-								                                                                                                          .description(caseType.getDescription())
-								                                                                                                          .id(caseType.getId())
+						                                                                                        .map(caseType1 -> CaseTypeEntity.builder()
+								                                                                                                          .description(caseTypeEntity.getDescription())
+								                                                                                                          .id(caseTypeEntity.getId())
 								                                                                                                          .build())
 						                                                                                        .sorted((caseType1, caseType2) ->
 								                                                                                                caseType1.getDescription().compareTo(caseType2.getDescription()))
@@ -60,7 +60,7 @@ public class CaseTypeQueryTest extends KaseGwtTemplate {
 	private void aCaseTypeWithChildrenExists(final int numberOfChildren) {
 		parent = aCaseTypeExists();
 		for (int i = 0; i < numberOfChildren; i++) {
-			CaseType child = aCaseTypeExists();
+			CaseTypeEntity child = aCaseTypeExists();
 			child.setParentId(parent.getId());
 			child = caseTypeRepository.save(child);
 			children.add(child);

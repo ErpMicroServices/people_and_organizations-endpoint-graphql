@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.backend.repositories;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanism;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanismEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 
 @Repository
-public interface PartyContactMechanismRepository extends JpaRepository<PartyContactMechanism, UUID> {
+public interface PartyContactMechanismRepository extends JpaRepository<PartyContactMechanismEntity, UUID> {
 
-	Page<PartyContactMechanism> findPartyContactMechanismByPartyId(UUID partyId, Pageable pageable);
+	Page<PartyContactMechanismEntity> findPartyContactMechanismByPartyId(UUID partyId, Pageable pageable);
 }

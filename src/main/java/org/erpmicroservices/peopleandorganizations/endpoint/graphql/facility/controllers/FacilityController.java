@@ -54,8 +54,8 @@ public class FacilityController {
 
 	@QueryMapping
 	public FacilityConnection facilities(@Argument PageInfo pageInfo) {
-		final Page<Facility> facilities = facilityRepository.findByPartOfIdIsNull(pageInfoToPageable(pageInfo));
-		final List<Edge<Facility>> facilityEdges = facilities.get()
+		final Page<FacilityEntity> facilities = facilityRepository.findByPartOfIdIsNull(pageInfoToPageable(pageInfo));
+		final List<Edge<FacilityEntity>> facilityEdges = facilities.get()
 				                                           .map(facility -> FacilityEdge.builder()
 						                                                            .node(facility)
 						                                                            .cursor(Cursor.builder().value(valueOf(facility.getId().hashCode())).build())
@@ -68,14 +68,14 @@ public class FacilityController {
 	}
 
 	@SchemaMapping
-	public FacilityType facilityType(Facility facility) {
-		return facilityTypeRepository.findById(facility.getFacilityTypeId()).get();
+	public FacilityTypeEntity facilityType(FacilityEntity facilityEntity) {
+		return facilityTypeRepository.findById(facilityEntity.getFacilityTypeId()).get();
 	}
 
 	@SchemaMapping
-	public FacilityConnection madeUpOf(@Argument PageInfo pageInfo, Facility parent) {
-		final Page<Facility> page = facilityRepository.findFacilitiesByPartOfId(parent.getPartOfId(), pageInfoToPageable(pageInfo));
-		final List<Edge<Facility>> facilityEdges = page.stream()
+	public FacilityConnection madeUpOf(@Argument PageInfo pageInfo, FacilityEntity parent) {
+		final Page<FacilityEntity> page = facilityRepository.findFacilitiesByPartOfId(parent.getPartOfId(), pageInfoToPageable(pageInfo));
+		final List<Edge<FacilityEntity>> facilityEdges = page.stream()
 				                                           .map(facility -> FacilityEdge.builder()
 						                                                            .node(facility)
 						                                                            .cursor(Cursor.builder().value(valueOf(facility.getId().hashCode())).build()).build())
@@ -86,9 +86,9 @@ public class FacilityController {
 	}
 
 	@SchemaMapping
-	public FacilityContactMechanismConnection contactMechanisms(@Argument PageInfo pageInfo, Facility facility) {
-		final Page<FacilityContactMechanism> page = facilityContactMechanismRepository.findByFacilityId(facility.getId(), pageInfoToPageable(pageInfo));
-		final List<Edge<FacilityContactMechanism>> edges = page.stream()
+	public FacilityContactMechanismConnection contactMechanisms(@Argument PageInfo pageInfo, FacilityEntity facilityEntity) {
+		final Page<FacilityContactMechanismEntity> page = facilityContactMechanismRepository.findByFacilityId(facilityEntity.getId(), pageInfoToPageable(pageInfo));
+		final List<Edge<FacilityContactMechanismEntity>> edges = page.stream()
 				                                                   .map(facilityContactMechanism -> FacilityContactMechanismEdge.builder()
 						                                                                                    .node(facilityContactMechanism)
 						                                                                                    .cursor(Cursor.builder().value(valueOf(facilityContactMechanism.getId().hashCode())).build())
@@ -101,9 +101,9 @@ public class FacilityController {
 	}
 
 	@SchemaMapping
-	public FacilityRoleConnection roles(@Argument PageInfo pageInfo, Facility facility) {
-		final Page<FacilityRole> page = facilityRoleRepository.findByFacilityId(facility.getId(), pageInfoToPageable(pageInfo));
-		final List<Edge<FacilityRole>> edges = page.stream()
+	public FacilityRoleConnection roles(@Argument PageInfo pageInfo, FacilityEntity facilityEntity) {
+		final Page<FacilityRoleEntity> page = facilityRoleRepository.findByFacilityId(facilityEntity.getId(), pageInfoToPageable(pageInfo));
+		final List<Edge<FacilityRoleEntity>> edges = page.stream()
 				                                       .map(facilityRole -> FacilityRoleEdge.builder()
 						                                                            .node(facilityRole)
 						                                                            .cursor(Cursor.builder().value(valueOf(facilityRole.getId().hashCode())).build())
@@ -116,24 +116,24 @@ public class FacilityController {
 	}
 
 	@SchemaMapping
-	public FacilityRoleType facilityRoleType(FacilityRole facilityRole) {
-		return facilityRoleTypeRepository.findById(facilityRole.getFacilityRoleTypeId()).orElseThrow();
+	public FacilityRoleTypeEntity facilityRoleType(FacilityRoleEntity facilityRoleEntity) {
+		return facilityRoleTypeRepository.findById(facilityRoleEntity.getFacilityRoleTypeId()).orElseThrow();
 	}
 
 	@SchemaMapping
-	public Party party(FacilityRole facilityRole) {
-		return partyRepository.findById(facilityRole.getPartyId()).orElseThrow();
+	public PartyEntity party(FacilityRoleEntity facilityRoleEntity) {
+		return partyRepository.findById(facilityRoleEntity.getPartyId()).orElseThrow();
 	}
 
 	@MutationMapping
-	public Facility createFacility(@Argument NewFacility newFacility) {
+	public FacilityEntity createFacility(@Argument NewFacility newFacility) {
 		return facilityTypeRepository.findById(newFacility.getFacilityTypeId())
 				       .map(facilityType -> {
-					       Facility partOf = null;
+					       FacilityEntity partOf = null;
 					       if (newFacility.getPartOfId() != null) {
 						       partOf = facilityRepository.findById(newFacility.getPartOfId()).get();
 					       }
-					       return facilityRepository.save(Facility.builder()
+					       return facilityRepository.save(FacilityEntity.builder()
 							                                      .description(newFacility.getDescription())
 							                                      .squareFootage(newFacility.getSquareFootage())
 							                                      .facilityTypeId(newFacility.getFacilityTypeId())
@@ -142,8 +142,8 @@ public class FacilityController {
 	}
 
 	@MutationMapping
-	public FacilityRole addFacilityRole(@Argument NewFacilityRole newFacilityRole) {
-		return facilityRoleRepository.save(FacilityRole.builder()
+	public FacilityRoleEntity addFacilityRole(@Argument NewFacilityRole newFacilityRole) {
+		return facilityRoleRepository.save(FacilityRoleEntity.builder()
 				                                   .facilityId(newFacilityRole.getFacilityId())
 				                                   .facilityRoleTypeId(newFacilityRole.getFacilityRoleTypeId())
 				                                   .fromDate(newFacilityRole.getFromDate())
@@ -153,20 +153,20 @@ public class FacilityController {
 	}
 
 	@SchemaMapping
-	public Facility facility(FacilityRole facilityRole) {
-		return facilityRepository.findById(facilityRole.getFacilityId()).orElseThrow();
+	public FacilityEntity facility(FacilityRoleEntity facilityRoleEntity) {
+		return facilityRepository.findById(facilityRoleEntity.getFacilityId()).orElseThrow();
 	}
 
 	@SchemaMapping
-	public PartyType partyType(Party party) {
-		return partyTypeRepository.findById(party.getPartyTypeId()).orElseThrow();
+	public PartyTypeEntity partyType(PartyEntity partyEntity) {
+		return partyTypeRepository.findById(partyEntity.getPartyTypeId()).orElseThrow();
 	}
 
 	@MutationMapping
-	public FacilityContactMechanism addFacilityContactMechanism(@Argument NewFacilityContactMechanism newFacilityContactMechanism) {
+	public FacilityContactMechanismEntity addFacilityContactMechanism(@Argument NewFacilityContactMechanism newFacilityContactMechanism) {
 		return facilityRepository.findById(newFacilityContactMechanism.getFacilityId())
 				       .flatMap(facility -> contactMechanismRepository.findById(newFacilityContactMechanism.getContactMechanismId())
-						                            .flatMap(contactMechanism -> Optional.of(facilityContactMechanismRepository.save(FacilityContactMechanism.builder()
+						                            .flatMap(contactMechanism -> Optional.of(facilityContactMechanismRepository.save(FacilityContactMechanismEntity.builder()
 								                                                                                                             .contactMechanismId(newFacilityContactMechanism.getContactMechanismId())
 								                                                                                                             .facilityId(newFacilityContactMechanism.getFacilityId())
 								                                                                                                             .fromDate(newFacilityContactMechanism.getFromDate())
@@ -177,7 +177,7 @@ public class FacilityController {
 	}
 
 	@MutationMapping
-	public FacilityRole expireFacilityRole(@Argument @NotNull UUID facilityRoleId, @Argument @NotNull LocalDate expirationDate) {
+	public FacilityRoleEntity expireFacilityRole(@Argument @NotNull UUID facilityRoleId, @Argument @NotNull LocalDate expirationDate) {
 		return facilityRoleRepository.findById(facilityRoleId)
 				       .flatMap(facilityRole -> {
 					       facilityRole.setThruDate(expirationDate);
@@ -187,7 +187,7 @@ public class FacilityController {
 	}
 
 	@MutationMapping
-	public FacilityContactMechanism expireFacilityContactMechanism(@Argument @NotNull UUID facilityContactMechanismId, @Argument @NotNull LocalDate expirationDate) {
+	public FacilityContactMechanismEntity expireFacilityContactMechanism(@Argument @NotNull UUID facilityContactMechanismId, @Argument @NotNull LocalDate expirationDate) {
 		return facilityContactMechanismRepository.findById(facilityContactMechanismId)
 				       .flatMap(facilityContactMechanism -> {
 					       facilityContactMechanism.setThruDate(expirationDate);

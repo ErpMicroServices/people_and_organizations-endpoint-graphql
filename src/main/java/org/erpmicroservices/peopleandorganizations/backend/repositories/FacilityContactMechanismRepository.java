@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.backend.repositories;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityContactMechanism;
+import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityContactMechanismEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 
 @Repository
-public interface FacilityContactMechanismRepository extends JpaRepository<FacilityContactMechanism, UUID> {
+public interface FacilityContactMechanismRepository extends JpaRepository<FacilityContactMechanismEntity, UUID> {
 
-	Page<FacilityContactMechanism> findByFacilityId(UUID id, Pageable pageable);
+	Page<FacilityContactMechanismEntity> findByFacilityId(UUID id, Pageable pageable);
 }

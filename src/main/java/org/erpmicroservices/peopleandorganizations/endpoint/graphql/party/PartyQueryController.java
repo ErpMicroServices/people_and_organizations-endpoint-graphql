@@ -53,8 +53,8 @@ public class PartyQueryController {
 
 	@QueryMapping
 	public PartyConnection parties(@Argument PageInfo pageInfo) {
-		final List<Edge<Party>> edges = repository.findAll(pageInfoToPageable(pageInfo)).stream()
-				                                .map(node -> PartyEdge.builder()
+		final List<Edge<PartyEntity>> edges = repository.findAll(pageInfoToPageable(pageInfo)).stream()
+				                                .map(node -> PartyEdgeEntity.builder()
 						                                             .node(node)
 						                                             .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
 						                                             .build())
@@ -66,8 +66,8 @@ public class PartyQueryController {
 	}
 
 	@SchemaMapping
-	public PartyClassificationConnection classifications(@Argument PageInfo pageInfo, Party party) {
-		final List<Edge<PartyClassification>> edges = classificationRepository.findPartyClassificationsByPartyId(party.getId(), pageInfoToPageable(pageInfo)).stream()
+	public PartyClassificationConnection classifications(@Argument PageInfo pageInfo, PartyEntity partyEntity) {
+		final List<Edge<PartyClassificationEntity>> edges = classificationRepository.findPartyClassificationsByPartyId(partyEntity.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                              .map(partyClassification -> PartyClassificationEdge.builder()
 						                                                                          .node(partyClassification)
 						                                                                          .cursor(Cursor.builder().value(valueOf(partyClassification.getId().hashCode())).build())
@@ -80,8 +80,8 @@ public class PartyQueryController {
 	}
 
 	@SchemaMapping
-	public PartyContactMechanismConnection contactMechanisms(@Argument PageInfo pageInfo, Party party) {
-		final List<Edge<PartyContactMechanism>> edges = contactMechanismRepository.findPartyContactMechanismByPartyId(party.getId(), pageInfoToPageable(pageInfo)).stream()
+	public PartyContactMechanismConnection contactMechanisms(@Argument PageInfo pageInfo, PartyEntity partyEntity) {
+		final List<Edge<PartyContactMechanismEntity>> edges = contactMechanismRepository.findPartyContactMechanismByPartyId(partyEntity.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                                .map(node -> PartyContactMechanismEdge.builder()
 						                                                             .node(node)
 						                                                             .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -94,8 +94,8 @@ public class PartyQueryController {
 	}
 
 	@SchemaMapping
-	public PartyIdConnection iDs(@Argument PageInfo pageInfo, Party party) {
-		final List<Edge<PartyId>> edges = idRepository.findPartyIdsByPartyId(party.getId(), pageInfoToPageable(pageInfo)).stream()
+	public PartyIdConnection iDs(@Argument PageInfo pageInfo, PartyEntity partyEntity) {
+		final List<Edge<PartyIdEntity>> edges = idRepository.findPartyIdsByPartyId(partyEntity.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                  .map(node -> PartyIdEdge.builder()
 						                                               .node(node)
 						                                               .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -108,8 +108,8 @@ public class PartyQueryController {
 	}
 
 	@SchemaMapping
-	public PartyNameConnection names(@Argument PageInfo pageInfo, Party party) {
-		final List<Edge<PartyName>> edges = partyNameRepository.findPartyNamesByPartyId(party.getId(), pageInfoToPageable(pageInfo)).stream()
+	public PartyNameConnection names(@Argument PageInfo pageInfo, PartyEntity partyEntity) {
+		final List<Edge<PartyNameEntity>> edges = partyNameRepository.findPartyNamesByPartyId(partyEntity.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                    .map(node -> PartyNameEdge.builder()
 						                                                 .node(node)
 						                                                 .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -122,8 +122,8 @@ public class PartyQueryController {
 	}
 
 //	@SchemaMapping
-//	public PartyRelationshipConnection relationships(@Argument PageInfo pageInfo, Party party) {
-//		final List<Edge<PartyRelationship>> edges = relationshipRepository.findPartyRelationshipByFromPartyRole_PartyOrToPartyRole_Party(party, party, pageInfoToPageable(pageInfo)).stream()
+//	public PartyRelationshipConnection relationships(@Argument PageInfo pageInfo, PartyEntity party) {
+//		final List<Edge<PartyRelationshipEntity>> edges = relationshipRepository.findPartyRelationshipByFromPartyRole_PartyOrToPartyRole_Party(party, party, pageInfoToPageable(pageInfo)).stream()
 //				                                            .map(node -> PartyRelationshipEdge.builder()
 //						                                                         .node(node)
 //						                                                         .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -136,8 +136,8 @@ public class PartyQueryController {
 //	}
 
 	@SchemaMapping
-	public PartyRoleConnection roles(@Argument PageInfo pageInfo, Party party) {
-		final List<Edge<PartyRole>> edges = roleRepository.findPartyRolesByPartyId(party.getId(), pageInfoToPageable(pageInfo)).stream()
+	public PartyRoleConnection roles(@Argument PageInfo pageInfo, PartyEntity partyEntity) {
+		final List<Edge<PartyRoleEntity>> edges = roleRepository.findPartyRolesByPartyId(partyEntity.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                    .map(node -> PartyRoleEdge.builder()
 						                                                 .node(node)
 						                                                 .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

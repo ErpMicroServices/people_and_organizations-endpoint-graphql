@@ -1,8 +1,8 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary;
 
 import graphql.relay.Edge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundary;
-import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundaryType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundaryEntity;
+import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundaryTypeEntity;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.GeographicBoundaryRepository;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.GeographicBoundaryTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
@@ -22,33 +22,38 @@ import static org.erpmicroservices.peopleandorganizations.endpoint.graphql.misc.
 @Controller
 public class GeographicBoundaryController {
 
-	private final GeographicBoundaryRepository geographicBoundaryRepository;
+    private final GeographicBoundaryRepository geographicBoundaryRepository;
 
-	private final GeographicBoundaryTypeRepository geographicBoundaryTypeRepository;
+    private final GeographicBoundaryTypeRepository geographicBoundaryTypeRepository;
 
-	public GeographicBoundaryController(final GeographicBoundaryRepository geographicBoundaryRepository, final GeographicBoundaryTypeRepository geographicBoundaryTypeRepository) {
-		this.geographicBoundaryRepository = geographicBoundaryRepository;
-		this.geographicBoundaryTypeRepository = geographicBoundaryTypeRepository;
-	}
+    public GeographicBoundaryController(final GeographicBoundaryRepository geographicBoundaryRepository, final GeographicBoundaryTypeRepository geographicBoundaryTypeRepository) {
+        this.geographicBoundaryRepository = geographicBoundaryRepository;
+        this.geographicBoundaryTypeRepository = geographicBoundaryTypeRepository;
+    }
 
-	@QueryMapping
-	public GeographicBoundaryConnection geographicBoundaries(@Argument PageInfo pageInfo) {
-		final Page<GeographicBoundary> geographicBoundaries = geographicBoundaryRepository.findAll(pageInfoToPageable(pageInfo));
-		final List<Edge<GeographicBoundary>> geographicBoundaryEdges = geographicBoundaries.get()
-				                                                               .map(geographicBoundary -> GeographicBoundaryEdge.builder()
-						                                                                                          .node(geographicBoundary)
-						                                                                                          .cursor(Cursor.builder().value(valueOf(geographicBoundary.getId().hashCode())).build())
-						                                                                                          .build())
-				                                                               .collect(Collectors.toList());
-		return GeographicBoundaryConnection.builder()
-				       .edges(geographicBoundaryEdges)
-				       .pageInfo(pageInfo)
-				       .build();
-	}
+    @QueryMapping
+    public GeographicBoundaryConnection geographicBoundaries(@Argument PageInfo pageInfo) {
+        final Page<GeographicBoundaryEntity> geographicBoundaries = geographicBoundaryRepository.findAll(pageInfoToPageable(pageInfo));
+        final List<Edge<GeographicBoundary>> geographicBoundaryEdges = geographicBoundaries.get()
+                .map(geographicBoundary -> GeographicBoundaryEdge.builder()
+                        .node(GeographicBoundary.builder()
+                                .geoCode(geographicBoundary.getGeoCode())
+                                .id(geographicBoundary.getId())
+                                .name(geographicBoundary.getName())
+                                .abbreviation(geographicBoundary.getAbbreviation())
+                                .build())
+                        .cursor(Cursor.builder().value(valueOf(geographicBoundary.getId().hashCode())).build())
+                        .build())
+                .collect(Collectors.toList());
+        return GeographicBoundaryConnection.builder()
+                .edges(geographicBoundaryEdges)
+                .pageInfo(pageInfo)
+                .build();
+    }
 
-	@SchemaMapping
-	public GeographicBoundaryType geographicBoundaryType(GeographicBoundary geographicBoundary) {
-		return geographicBoundaryTypeRepository.findById(geographicBoundary.getGeographicBoundaryTypeId()).orElseThrow();
-	}
+    @SchemaMapping
+    public GeographicBoundaryTypeEntity geographicBoundaryType(GeographicBoundaryEntity geographicBoundaryEntity) {
+        return geographicBoundaryTypeRepository.findById(geographicBoundaryEntity.getGeographicBoundaryTypeId()).orElseThrow();
+    }
 
 }

@@ -17,133 +17,133 @@ import static org.erpmicroservices.peopleandorganizations.endpoint.builders.Part
 import static org.erpmicroservices.peopleandorganizations.endpoint.builders.PriorityTypeTestDataBuilder.completePriorityType;
 
 public abstract class KaseGwtTemplate extends AbstractGWT {
-	protected Case aCase;
-	protected CaseRoleType caseRoleType;
-	protected CaseRole caseRole;
-	protected CaseType caseType;
-	protected CaseStatusType caseStatusType;
+	protected CaseEntity aCaseEntity;
+	protected CaseRoleTypeEntity caseRoleTypeEntity;
+	protected CaseRoleEntity caseRoleEntity;
+	protected CaseTypeEntity caseTypeEntity;
+	protected CaseStatusTypeEntity caseStatusTypeEntity;
 
-	protected Party party1;
+	protected PartyEntity partyEntity1;
 
-	protected Party party2;
+	protected PartyEntity partyEntity2;
 
-	protected PartyRole partyRole1;
+	protected PartyRoleEntity partyRoleEntity1;
 
-	protected PartyRole partyRole2;
+	protected PartyRoleEntity partyRoleEntity2;
 
-	protected CaseRoleType aCaseRoleTypeExists() {
-		caseRoleType = caseRoleTypeRepository.save(completeCaseRoleType().build());
-		return caseRoleType;
+	protected CaseRoleTypeEntity aCaseRoleTypeExists() {
+		caseRoleTypeEntity = caseRoleTypeRepository.save(completeCaseRoleType().build());
+		return caseRoleTypeEntity;
 	}
 
-	protected Case aCaseExists() {
+	protected CaseEntity aCaseExists() {
 		aCaseTypeExists();
 		aCaseStatusTypeExists();
-		aCase = caseRepository.save(completeCase()
-				                            .caseTypeId(caseType.getId())
-				                            .caseStatusTypeId(caseStatusType.getId())
+		aCaseEntity = caseRepository.save(completeCase()
+				                            .caseTypeId(caseTypeEntity.getId())
+				                            .caseStatusTypeId(caseStatusTypeEntity.getId())
 				                            .build());
-		return aCase;
+		return aCaseEntity;
 	}
 
-	protected CaseType aCaseTypeExists() {
-		caseType = caseTypeRepository.save(completeCaseType().build());
-		return caseType;
+	protected CaseTypeEntity aCaseTypeExists() {
+		caseTypeEntity = caseTypeRepository.save(completeCaseType().build());
+		return caseTypeEntity;
 	}
 
-	protected CaseStatusType aCaseStatusTypeExists() {
-		caseStatusType = caseStatusTypeRepository.save(completeCaseStatusType().build());
-		return caseStatusType;
+	protected CaseStatusTypeEntity aCaseStatusTypeExists() {
+		caseStatusTypeEntity = caseStatusTypeRepository.save(completeCaseStatusType().build());
+		return caseStatusTypeEntity;
 	}
 
-	protected CaseRole aCaseRoleExists() {
-		if (party == null) {
-			party = aPartyExists();
+	protected CaseRoleEntity aCaseRoleExists() {
+		if (partyEntity == null) {
+			partyEntity = aPartyExists();
 		}
-		if (caseRoleType == null) {
+		if (caseRoleTypeEntity == null) {
 			aCaseRoleTypeExists();
 		}
-		caseRole = caseRoleRepository.save(completeCaseRole()
-				                                   .caseId(aCase.getId())
-				                                   .partyId(party.getId())
-				                                   .caseRoleTypeId(caseRoleType.getId())
+		caseRoleEntity = caseRoleRepository.save(completeCaseRole()
+				                                   .caseId(aCaseEntity.getId())
+				                                   .partyId(partyEntity.getId())
+				                                   .caseRoleTypeId(caseRoleTypeEntity.getId())
 				                                   .build());
-		return caseRole;
+		return caseRoleEntity;
 	}
 
-	protected CommunicationEvent aCommunicationEventExists() {
-		if (communicationEventStatusType == null) {
+	protected CommunicationEventEntity aCommunicationEventExists() {
+		if (communicationEventStatusTypeEntity == null) {
 			aCommunicationEventStatusTypeExists();
 		}
-		if (communicationEventType == null) {
+		if (communicationEventTypeEntity == null) {
 			aCommunicationEventTypeExists();
 		}
-		if (contactMechanismType == null) {
+		if (contactMechanismTypeEntity == null) {
 			aContactMechanismTypeExists();
 		}
-		if (partyRelationship == null) {
+		if (partyRelationshipEntity == null) {
 			aPartyRelationshipExists();
 		}
-		communicationEvent = communicationEventRepository.save(completeCommunicationEvent()
-				                                                       .caseId(aCase.getId())
-				                                                       .communicationEventStatusTypeId(communicationEventStatusType.getId())
-				                                                       .communicationEventTypeId(communicationEventType.getId())
-				                                                       .contactMechanismTypeId(contactMechanismType.getId())
-				                                                       .partyRelationshipId(partyRelationship.getId())
+		communicationEventEntity = communicationEventRepository.save(completeCommunicationEvent()
+				                                                       .caseId(aCaseEntity.getId())
+				                                                       .communicationEventStatusTypeId(communicationEventStatusTypeEntity.getId())
+				                                                       .communicationEventTypeId(communicationEventTypeEntity.getId())
+				                                                       .contactMechanismTypeId(contactMechanismTypeEntity.getId())
+				                                                       .partyRelationshipId(partyRelationshipEntity.getId())
 				                                                       .build());
-		return communicationEvent;
+		return communicationEventEntity;
 	}
 
-	protected CommunicationEventType aCommunicationEventTypeExists() {
-		communicationEventType = communicationEventTypeRepository.save(completeCommunicationEventType().build());
-		return communicationEventType;
+	protected CommunicationEventTypeEntity aCommunicationEventTypeExists() {
+		communicationEventTypeEntity = communicationEventTypeRepository.save(completeCommunicationEventType().build());
+		return communicationEventTypeEntity;
 	}
 
-	protected CommunicationEventStatusType aCommunicationEventStatusTypeExists() {
-		communicationEventStatusType = communicationEventStatusTypeRepository.save(completeCommunicationEventStatusType().build());
-		return communicationEventStatusType;
+	protected CommunicationEventStatusTypeEntity aCommunicationEventStatusTypeExists() {
+		communicationEventStatusTypeEntity = communicationEventStatusTypeRepository.save(completeCommunicationEventStatusType().build());
+		return communicationEventStatusTypeEntity;
 	}
 
 	protected void aPartyRelationshipExists() {
-		if (party1 == null) {
-			party1 = aPartyExists();
+		if (partyEntity1 == null) {
+			partyEntity1 = aPartyExists();
 		}
-		if (party2 == null) {
-			party2 = aPartyExists();
+		if (partyEntity2 == null) {
+			partyEntity2 = aPartyExists();
 		}
-		if (partyRole1 == null) {
-			partyRole1 = aPartyRoleExists(party1);
+		if (partyRoleEntity1 == null) {
+			partyRoleEntity1 = aPartyRoleExists(partyEntity1);
 		}
-		if (partyRole2 == null) {
-			partyRole2 = aPartyRoleExists(party2);
+		if (partyRoleEntity2 == null) {
+			partyRoleEntity2 = aPartyRoleExists(partyEntity2);
 		}
-		if (partyRelationshipType == null) {
+		if (partyRelationshipTypeEntity == null) {
 			aPartyRelationshipTypeExists();
 		}
-		if (partyRelationshipStatusType == null) {
+		if (partyRelationshipStatusTypeEntity == null) {
 			aPartyRelationshiopStatusTypeExists();
 		}
-		if (priorityType == null) {
+		if (priorityTypeEntity == null) {
 			aPriorityTypeExists();
 		}
-		partyRelationship = partyRelationshipRepository.save(completePartyRelationship()
-				                                                     .fromPartyRoleId(partyRole1.getId())
-				                                                     .toPartyRoleId(partyRole2.getId())
-				                                                     .partyRelationshipTypeId(partyRelationshipType.getId())
-				                                                     .partyRelationshipStatusTypeId(partyRelationshipStatusType.getId())
-				                                                     .priorityTypeId(priorityType.getId())
+		partyRelationshipEntity = partyRelationshipRepository.save(completePartyRelationship()
+				                                                     .fromPartyRoleId(partyRoleEntity1.getId())
+				                                                     .toPartyRoleId(partyRoleEntity2.getId())
+				                                                     .partyRelationshipTypeId(partyRelationshipTypeEntity.getId())
+				                                                     .partyRelationshipStatusTypeId(partyRelationshipStatusTypeEntity.getId())
+				                                                     .priorityTypeId(priorityTypeEntity.getId())
 				                                                     .build());
 	}
 
 	protected void aPriorityTypeExists() {
-		priorityType = priorityTypeRepository.save(completePriorityType().build());
+		priorityTypeEntity = priorityTypeRepository.save(completePriorityType().build());
 	}
 
 	protected void aPartyRelationshiopStatusTypeExists() {
-		partyRelationshipStatusType = partyRelationshipStatusTypeRepository.save(completePartyRelationshipStatusType().build());
+		partyRelationshipStatusTypeEntity = partyRelationshipStatusTypeRepository.save(completePartyRelationshipStatusType().build());
 	}
 
 	protected void aPartyRelationshipTypeExists() {
-		partyRelationshipType = partyRelationshipTypeRepository.save(completePartyRelationshipType().build());
+		partyRelationshipTypeEntity = partyRelationshipTypeRepository.save(completePartyRelationshipType().build());
 	}
 }

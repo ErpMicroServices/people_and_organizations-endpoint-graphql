@@ -3,7 +3,7 @@ mutation AddFacilityRole($newFacilityRole: NewFacilityRole!) {
         id
         fromDate
         thruDate
-        facility {
+        facilityEntity {
             id
             description
             squareFootage
@@ -16,7 +16,7 @@ mutation AddFacilityRole($newFacilityRole: NewFacilityRole!) {
             id
             description
         }
-        party {
+        partyEntity {
             id
             partyType {
                 id

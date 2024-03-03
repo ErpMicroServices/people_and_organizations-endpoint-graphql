@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEvent;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventEntity;
 
 import java.util.UUID;
 
@@ -8,8 +8,8 @@ import static org.erpmicroservices.peopleandorganizations.endpoint.builders.Date
 
 public class CommunicationEventTestDataBuilder {
 
-	public static CommunicationEvent.CommunicationEventBuilder completeCommunicationEvent() {
-		return CommunicationEvent.builder()
+	public static CommunicationEventEntity.CommunicationEventEntityBuilder completeCommunicationEvent() {
+		return CommunicationEventEntity.builder()
 				       .note("CommunicationEventTestDataBuilder " + UUID.randomUUID())
 				       .started(zonedDateTimeNow());
 	}

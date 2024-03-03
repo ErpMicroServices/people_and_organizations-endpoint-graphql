@@ -11,7 +11,7 @@ mutation AddCaseRole( $newCaseRole: NewCaseRole!, $rolesPageInfo:PageInfoInput!)
                         id
                         description
                     }
-                    party {
+                    partyEntity {
                         id
                     }
                     fromDate

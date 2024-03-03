@@ -5,7 +5,7 @@ import graphql.relay.Edge;
 import graphql.relay.PageInfo;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventPurposeType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventPurposeTypeEntity;
 
 import java.util.List;
 

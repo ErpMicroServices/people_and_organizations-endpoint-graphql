@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship;
 
 import graphql.relay.Edge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.PriorityType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PriorityTypeEntity;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.PriorityTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
@@ -27,7 +27,7 @@ public class PriorityTypeController {
 
 	@QueryMapping
 	public PriorityTypeConnection partyRelationshipPriorityTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<PriorityType>> edges = repository.findPartyRelationshipPriorityTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PriorityTypeEntity>> edges = repository.findPartyRelationshipPriorityTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                       .map(node -> PriorityTypeEdge.builder()
 						                                                    .node(node)
 						                                                    .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

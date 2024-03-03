@@ -45,8 +45,8 @@ public class CommunicationEventController {
 
 
 	@SchemaMapping(typeName = "Case", field = "communicationEvents")
-	public CommunicationEventConnection communicationEvents(@Argument PageInfo pageInfo, Case kase) {
-		final List<Edge<CommunicationEvent>> communicationEventEdges = communicationEventRepository.findByCaseId(kase.getId(), pageInfoToPageable(pageInfo)).stream()
+	public CommunicationEventConnection communicationEvents(@Argument PageInfo pageInfo, CaseEntity kase) {
+		final List<Edge<CommunicationEventEntity>> communicationEventEdges = communicationEventRepository.findByCaseId(kase.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                                               .map(communicationEvent -> CommunicationEventEdge.builder()
 						                                                                                          .node(communicationEvent)
 						                                                                                          .cursor(Cursor.builder().value(String.valueOf(communicationEvent.getId().hashCode())).build())
@@ -59,11 +59,11 @@ public class CommunicationEventController {
 	}
 
 	@SchemaMapping(typeName = "CommunicationEvent", field = "roles")
-	public CommunicationEventRoleConnection rolesForCommunicationEvent(@Argument PageInfo pageInfo, CommunicationEvent communicationEvent) {
-		final List<Edge<CommunicationEventRole>> communicationEventRoleEdges = communicationEventRoleRepository.findByCommunicationEventId(communicationEvent.getId(), pageInfoToPageable(pageInfo)).stream()
-				                                                                       .map(communicationEventRole -> CommunicationEventRoleEdge.builder()
-						                                                                                                      .node(communicationEventRole)
-						                                                                                                      .cursor(Cursor.builder().value(String.valueOf(communicationEventRole.getId().hashCode())).build())
+	public CommunicationEventRoleConnection rolesForCommunicationEvent(@Argument PageInfo pageInfo, CommunicationEventEntity communicationEventEntity) {
+		final List<Edge<CommunicationEventRoleEntity>> communicationEventRoleEdges = communicationEventRoleRepository.findByCommunicationEventId(communicationEventEntity.getId(), pageInfoToPageable(pageInfo)).stream()
+				                                                                       .map(communicationEventRoleEntity -> CommunicationEventRoleEdge.builder()
+						                                                                                                      .node(communicationEventRoleEntity)
+						                                                                                                      .cursor(Cursor.builder().value(String.valueOf(communicationEventRoleEntity.getId().hashCode())).build())
 						                                                                                                      .build())
 				                                                                       .collect(Collectors.toList());
 		return CommunicationEventRoleConnection.builder()
@@ -73,22 +73,22 @@ public class CommunicationEventController {
 	}
 
 	@SchemaMapping
-	public ContactMechanismType contactMechanismType(CommunicationEvent communicationEvent) {
-		return contactMechanismTypeRepository.findById(communicationEvent.getContactMechanismTypeId()).get();
+	public ContactMechanismTypeEntity contactMechanismType(CommunicationEventEntity communicationEventEntity) {
+		return contactMechanismTypeRepository.findById(communicationEventEntity.getContactMechanismTypeId()).get();
 	}
 
 	@SchemaMapping
-	public CommunicationEventStatusType communicationEventStatusType(CommunicationEvent communicationEvent) {
-		return communicationEventStatusTypeRepository.findById(communicationEvent.getCommunicationEventStatusTypeId()).get();
+	public CommunicationEventStatusTypeEntity communicationEventStatusType(CommunicationEventEntity communicationEventEntity) {
+		return communicationEventStatusTypeRepository.findById(communicationEventEntity.getCommunicationEventStatusTypeId()).get();
 	}
 
 	@SchemaMapping
-	public CommunicationEventType communicationEventType(CommunicationEvent communicationEvent) {
-		return communicationEventTypeRepository.findById(communicationEvent.getCommunicationEventTypeId()).get();
+	public CommunicationEventTypeEntity communicationEventType(CommunicationEventEntity communicationEventEntity) {
+		return communicationEventTypeRepository.findById(communicationEventEntity.getCommunicationEventTypeId()).get();
 	}
 
 	@SchemaMapping
-	public PartyRelationship partyRelationship(CommunicationEvent communicationEvent) {
-		return partyRelationshipRepository.findById(communicationEvent.getPartyRelationshipId()).get();
+	public PartyRelationshipEntity partyRelationship(CommunicationEventEntity communicationEventEntity) {
+		return partyRelationshipRepository.findById(communicationEventEntity.getPartyRelationshipId()).get();
 	}
 }

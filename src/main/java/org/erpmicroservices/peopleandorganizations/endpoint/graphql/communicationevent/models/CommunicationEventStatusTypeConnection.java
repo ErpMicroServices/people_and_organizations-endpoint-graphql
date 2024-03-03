@@ -3,7 +3,7 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicati
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventStatusType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventStatusTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Connection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 

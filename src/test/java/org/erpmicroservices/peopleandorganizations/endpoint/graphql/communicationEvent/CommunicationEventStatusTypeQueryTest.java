@@ -1,7 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationEvent;
 
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventStatusTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventStatusTypeEdge;
-import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventStatusType;
 import org.erpmicroservices.peopleandorganizations.backend.entities.AbstractType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,10 +18,10 @@ import java.util.UUID;
 @AutoConfigureGraphQlTester
 public class CommunicationEventStatusTypeQueryTest extends CommunicationEventGwtTemplateTemplate {
 
-	private final List<CommunicationEventStatusType> children = new ArrayList<>();
-	private CommunicationEventStatusType parent;
+	private final List<CommunicationEventStatusTypeEntity> children = new ArrayList<>();
+	private CommunicationEventStatusTypeEntity parent;
 
-	private CommunicationEventStatusType communicationEventStatusType;
+	private CommunicationEventStatusTypeEntity communicationEventStatusTypeEntity;
 
 	@BeforeEach
 	@Override
@@ -43,13 +43,13 @@ public class CommunicationEventStatusTypeQueryTest extends CommunicationEventGwt
 	@Override
 	public void then() {
 		response
-				.path("communicationEventStatusTypes.edges").entityList(CommunicationEventStatusType.class).hasSize(1)
+				.path("communicationEventStatusTypes.edges").entityList(CommunicationEventStatusTypeEntity.class).hasSize(1)
 				.path("communicationEventStatusTypes.edges[0].node.id").entity(UUID.class).isEqualTo(parent.getId())
 				.path("communicationEventStatusTypes.edges[0].node.description").entity(String.class).isEqualTo(parent.getDescription())
 				.path("communicationEventStatusTypes.edges[0].node.parent").valueIsNull()
 				.path("communicationEventStatusTypes.edges[0].node.children.edges").entityList(CommunicationEventStatusTypeEdge.class).hasSize(5)
 				.path("communicationEventStatusTypes.edges[0].node.children.edges").entityList(CommunicationEventStatusTypeEdge.class).contains(children.stream()
-						                                                                                                                                .map(type1 -> CommunicationEventStatusType.builder()
+						                                                                                                                                .map(type1 -> CommunicationEventStatusTypeEntity.builder()
 								                                                                                                                                              .description(type1.getDescription())
 								                                                                                                                                              .id(type1.getId())
 								                                                                                                                                              .build())
@@ -64,17 +64,17 @@ public class CommunicationEventStatusTypeQueryTest extends CommunicationEventGwt
 	private void aCommunicationEventStatusTypeWithChildrenExists(final int numberOfChildren) {
 		parent = aCommunicationEventStatusTypeExists();
 		for (int i = 0; i < numberOfChildren; i++) {
-			CommunicationEventStatusType child = aCommunicationEventStatusTypeExists();
+			CommunicationEventStatusTypeEntity child = aCommunicationEventStatusTypeExists();
 			child.setParentId(parent.getId());
 			child = communicationEventStatusTypeRepository.save(child);
 			children.add(child);
 		}
 	}
 
-	private CommunicationEventStatusType aCommunicationEventStatusTypeExists() {
-		communicationEventStatusType = communicationEventStatusTypeRepository.save(CommunicationEventStatusType.builder()
-				                                                                           .description("CommunicationEventStatusType description " + UUID.randomUUID())
+	private CommunicationEventStatusTypeEntity aCommunicationEventStatusTypeExists() {
+		communicationEventStatusTypeEntity = communicationEventStatusTypeRepository.save(CommunicationEventStatusTypeEntity.builder()
+				                                                                           .description("CommunicationEventStatusTypeEntity description " + UUID.randomUUID())
 				                                                                           .build());
-		return communicationEventStatusType;
+		return communicationEventStatusTypeEntity;
 	}
 }
