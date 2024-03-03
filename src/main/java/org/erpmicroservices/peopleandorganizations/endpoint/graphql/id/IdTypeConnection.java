@@ -11,24 +11,8 @@ import java.util.List;
 
 @Data
 @Builder
-public class IdTypeConnection implements Connection<IdTypeEntity> {
+public class IdTypeConnection implements Connection<IdType> {
 
-	private List<Edge<IdTypeEntity>> edges;
+	private List<Edge<IdType>> edges;
 	private PageInfo pageInfo;
-
-	/**
-	 * @return a list of {@link Edge}s that are really a node of data and its cursor
-	 */
-	@Override
-	public List<Edge<IdTypeEntity>> getEdges() {
-		return edges;
-	}
-
-	/**
-	 * @return {@link PageInfo} pagination data about that list of edges
-	 */
-	@Override
-	public PageInfo getPageInfo() {
-		return pageInfo;
-	}
 }

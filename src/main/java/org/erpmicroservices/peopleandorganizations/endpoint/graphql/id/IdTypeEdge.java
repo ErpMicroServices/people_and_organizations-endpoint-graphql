@@ -10,25 +10,10 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 
 @Data
 @Builder
-public class IdTypeEdge implements Edge<IdTypeEntity> {
+public class IdTypeEdge implements Edge<IdType> {
 
-	private IdTypeEntity node;
+	private IdType node;
 
 	private Cursor cursor;
 
-	/**
-	 * @return the node of data that this edge represents
-	 */
-	@Override
-	public IdTypeEntity getNode() {
-		return node;
-	}
-
-	/**
-	 * @return the cursor for this edge node
-	 */
-	@Override
-	public ConnectionCursor getCursor() {
-		return cursor;
-	}
 }

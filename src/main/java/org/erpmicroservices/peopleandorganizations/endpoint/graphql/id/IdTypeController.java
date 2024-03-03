@@ -20,37 +20,43 @@ import static org.erpmicroservices.peopleandorganizations.endpoint.graphql.misc.
 @Controller
 public class IdTypeController {
 
-	private final IdTypeRepository repository;
+    private final IdTypeRepository repository;
 
-	public IdTypeController(final IdTypeRepository repository) {
-		this.repository = repository;
-	}
+    public IdTypeController(final IdTypeRepository repository) {
+        this.repository = repository;
+    }
 
-	@QueryMapping
-	public IdTypeConnection idTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<IdTypeEntity>> edges = repository.findIdTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
-				                                 .map(node -> IdTypeEdge.builder()
-						                                              .node(node)
-						                                              .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
-						                                              .build())
-				                                 .collect(Collectors.toList());
-		return IdTypeConnection.builder()
-				       .edges(edges)
-				       .pageInfo(pageInfo)
-				       .build();
-	}
+    @QueryMapping
+    public IdTypeConnection idTypes(@Argument PageInfo pageInfo) {
+        final List<Edge<IdType>> edges = repository.findIdTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
+                .map(node -> IdTypeEdge.builder()
+                        .node(IdType.builder()
+                                .id(node.getId())
+                                .description(node.getDescription())
+                                .build())
+                        .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
+                        .build())
+                .collect(Collectors.toList());
+        return IdTypeConnection.builder()
+                .edges(edges)
+                .pageInfo(pageInfo)
+                .build();
+    }
 
-	@SchemaMapping
-	public IdTypeConnection children(IdTypeEntity parent, @Argument PageInfo pageInfo) {
-		final List<Edge<IdTypeEntity>> edges = repository.findIdTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
-				                                 .map(node -> IdTypeEdge.builder()
-						                                              .node(node)
-						                                              .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
-						                                              .build())
-				                                 .collect(Collectors.toList());
-		return IdTypeConnection.builder()
-				       .edges(edges)
-				       .pageInfo(pageInfo)
-				       .build();
-	}
+    @SchemaMapping
+    public IdTypeConnection children(IdType parent, @Argument PageInfo pageInfo) {
+        final List<Edge<IdType>> edges = repository.findIdTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
+                .map(node -> IdTypeEdge.builder()
+                        .node(IdType.builder()
+                                .description(node.getDescription())
+                                .id(node.getId())
+                                .build())
+                        .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
+                        .build())
+                .collect(Collectors.toList());
+        return IdTypeConnection.builder()
+                .edges(edges)
+                .pageInfo(pageInfo)
+                .build();
+    }
 }
