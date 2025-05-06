@@ -1,7 +1,6 @@
 spring:
   application:
     name: People and Organizations Endpoint Graphql Unit Tests
-  graphql:
-    schema:
-      printer:
-        enabled: true
+  profiles:
+    active: local
+

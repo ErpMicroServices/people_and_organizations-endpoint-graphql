@@ -7,7 +7,7 @@ import io.cucumber.java.en.Given;
 import org.erpmicroservices.endpoint.graphql.CucumberSpringBootContext;
 import org.erpmicroservices.peopleandorganizations.backend.entities.*;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.*;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseRepository;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.CaseRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.graphql.test.tester.GraphQlTester;
 

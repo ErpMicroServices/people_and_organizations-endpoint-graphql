@@ -1,23 +1,13 @@
 spring:
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
-  datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:people_and_organizations_cicd}
-    username: ${DB_USERNAME:people_and_organizations}
-    password: ${DB_PASSWORD:people_and_organizations}
+  graphql:
+    schema:
+      printer:
+        enabled: true
 
 logging:
   level:
     ROOT: DEBUG
     org.erpmicroservices: DEBUG
-    org.springframework.data.repository: DEBUG
     org.springframework.graphql: DEBUG
     org.springframework.graphql.data: DEBUG
     org.springframework.web: DEBUG
-    org.hibernate: DEBUG
-    org.hibernate.SQL: DEBUG

@@ -3,7 +3,7 @@ package org.erpmicroservices.endpoint.graphql;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.PeopleAndOrganizationsEndpointGraphqlJavaApplication;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseRepository;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.CaseRepository;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.graphql.test.tester.GraphQlTester;

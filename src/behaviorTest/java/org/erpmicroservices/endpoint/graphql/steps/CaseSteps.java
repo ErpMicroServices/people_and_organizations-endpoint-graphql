@@ -9,12 +9,6 @@ import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusTy
 import org.erpmicroservices.peopleandorganizations.backend.entities.CaseTypeEntity;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.*;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseNodeEdge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseRepository;
-import org.erpmicroservices.peopleandorganizations.backend.repositories.CaseRoleRepository;
-import org.erpmicroservices.peopleandorganizations.backend.repositories.CaseRoleTypeRepository;
-import org.erpmicroservices.peopleandorganizations.backend.repositories.CaseStatusTypeRepository;
-import org.erpmicroservices.peopleandorganizations.backend.repositories.CaseTypeRepository;
-import org.erpmicroservices.peopleandorganizations.backend.repositories.PartyContactMechanismPurposeRepository;
 import org.springframework.graphql.test.tester.GraphQlTester;
 
 import java.time.ZoneId;
