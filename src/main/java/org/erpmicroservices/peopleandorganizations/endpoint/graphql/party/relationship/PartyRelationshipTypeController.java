@@ -1,9 +1,10 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyRelationshipTypeEntity;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.PartyRelationshipTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyRelationshipTypeRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
@@ -27,7 +28,7 @@ public class PartyRelationshipTypeController {
 
 	@QueryMapping
 	public PartyRelationshipTypeConnection partyRelationshipTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<PartyRelationshipType>> edges = repository.findPartyRelationshipTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyRelationshipTypeEntity>> edges = repository.findPartyRelationshipTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                                .map(node -> PartyRelationshipTypeEdge.builder()
 						                                                             .node(node)
 						                                                             .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -40,8 +41,8 @@ public class PartyRelationshipTypeController {
 	}
 
 	@SchemaMapping
-	public PartyRelationshipTypeConnection children(PartyRelationshipType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<PartyRelationshipType>> edges = repository.findPartyRelationshipTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
+	public PartyRelationshipTypeConnection children(PartyRelationshipTypeEntity parent, @Argument PageInfo pageInfo) {
+		final List<Edge<PartyRelationshipTypeEntity>> edges = repository.findPartyRelationshipTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                                .map(node -> PartyRelationshipTypeEdge.builder()
 						                                                             .node(node)
 						                                                             .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

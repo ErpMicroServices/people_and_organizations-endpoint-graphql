@@ -6,7 +6,7 @@ mutation AddPartyContactMechanism($partyContactMechanismNew: PartyContactMechani
         thruDate
         doNotSolicitIndicator
         comment
-        contactMechanism {
+        contactMechanismEntity {
             id
             endPoint
             directions
@@ -43,7 +43,7 @@ mutation AddPartyContactMechanism($partyContactMechanismNew: PartyContactMechani
     #"fromDate": "2022-01-01",
     #"doNotSolicitIndicator": false,
     #"comment": "This is a comment",
-    #"contactMechanism": {
+    #"contactMechanismEntity": {
     #"endPoint": "123-123-1234",
     #"directions": "None",
     #"contactMechanismTypeId": "fad1960e-dd3f-4981-ba2d-264b8c09f64d"

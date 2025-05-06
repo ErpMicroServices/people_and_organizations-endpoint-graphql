@@ -21,15 +21,15 @@ public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 	public void given() {
 		super.given();
 		aCaseExists();
-		party1 = aPartyExists();
-		party2 = aPartyExists();
+		partyEntity1 = aPartyExists();
+		partyEntity2 = aPartyExists();
 		aCaseRoleExists();
 		aContactMechanismTypeExists();
 		aCommunicationEventStatusTypeExists();
 		aCommunicationEventTypeExists();
 		aPartyRoleTypeExists();
-		partyRole1 = aPartyRoleExists(party1);
-		partyRole2 = aPartyRoleExists(party2);
+		partyRoleEntity1 = aPartyRoleExists(partyEntity1);
+		partyRoleEntity2 = aPartyRoleExists(partyEntity2);
 		aPartyRelationshipExists();
 		aCommunicationEventExists();
 
@@ -55,31 +55,31 @@ public class AnEntireCaseCanBeQueriedTest extends KaseGwtTemplate {
 		String caseRolesGraphQlPath = casesGraphQlPath + "roles.edges[0].node.";
 		String communicationEventsGraphQlPath = casesGraphQlPath + "communicationEvents.edges[0].node.";
 		response
-				.path(casesGraphQlPath + "id").entity(UUID.class).isEqualTo(aCase.getId())
-				.path(casesGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
-				.path(casesGraphQlPath + "startedAt").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(aCase.getStartedAt()))
-				.path(casesGraphQlPath + "caseType.id").entity(UUID.class).isEqualTo(caseType.getId())
-				.path(casesGraphQlPath + "caseType.description").entity(String.class).isEqualTo(caseType.getDescription())
-				.path(casesGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
-				.path(casesGraphQlPath + "caseStatusType.id").entity(UUID.class).isEqualTo(caseStatusType.getId())
-				.path(casesGraphQlPath + "caseStatusType.description").entity(String.class).isEqualTo(caseStatusType.getDescription())
-				.path(caseRolesGraphQlPath + "id").entity(UUID.class).isEqualTo(caseRole.getId())
-				.path(caseRolesGraphQlPath + "caseRoleType.id").entity(UUID.class).isEqualTo(caseRoleType.getId())
-				.path(caseRolesGraphQlPath + "caseRoleType.description").entity(String.class).isEqualTo(caseRoleType.getDescription())
-				.path(caseRolesGraphQlPath + "party.id").entity(UUID.class).isEqualTo(party.getId())
-				.path(caseRolesGraphQlPath + "fromDate").entity(LocalDate.class).isEqualTo(caseRole.getFromDate())
+				.path(casesGraphQlPath + "id").entity(UUID.class).isEqualTo(aCaseEntity.getId())
+				.path(casesGraphQlPath + "description").entity(String.class).isEqualTo(aCaseEntity.getDescription())
+				.path(casesGraphQlPath + "startedAt").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(aCaseEntity.getStartedAt()))
+				.path(casesGraphQlPath + "caseTypeEntity.id").entity(UUID.class).isEqualTo(caseTypeEntity.getId())
+				.path(casesGraphQlPath + "caseTypeEntity.description").entity(String.class).isEqualTo(caseTypeEntity.getDescription())
+				.path(casesGraphQlPath + "description").entity(String.class).isEqualTo(aCaseEntity.getDescription())
+				.path(casesGraphQlPath + "caseStatusTypeEntity.id").entity(UUID.class).isEqualTo(caseStatusTypeEntity.getId())
+				.path(casesGraphQlPath + "caseStatusTypeEntity.description").entity(String.class).isEqualTo(caseStatusTypeEntity.getDescription())
+				.path(caseRolesGraphQlPath + "id").entity(UUID.class).isEqualTo(caseRoleEntity.getId())
+				.path(caseRolesGraphQlPath + "caseRoleTypeEntity.id").entity(UUID.class).isEqualTo(caseRoleTypeEntity.getId())
+				.path(caseRolesGraphQlPath + "caseRoleTypeEntity.description").entity(String.class).isEqualTo(caseRoleTypeEntity.getDescription())
+				.path(caseRolesGraphQlPath + "partyEntity.id").entity(UUID.class).isEqualTo(partyEntity.getId())
+				.path(caseRolesGraphQlPath + "fromDate").entity(LocalDate.class).isEqualTo(caseRoleEntity.getFromDate())
 				.path(caseRolesGraphQlPath + "thruDate").valueIsNull()
-				.path(communicationEventsGraphQlPath + "id").entity(UUID.class).isEqualTo(communicationEvent.getId())
-				.path(communicationEventsGraphQlPath + "started").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(communicationEvent.getStarted()))
+				.path(communicationEventsGraphQlPath + "id").entity(UUID.class).isEqualTo(communicationEventEntity.getId())
+				.path(communicationEventsGraphQlPath + "started").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(communicationEventEntity.getStarted()))
 				.path(communicationEventsGraphQlPath + "ended").valueIsNull()
-				.path(communicationEventsGraphQlPath + "note").entity(String.class).isEqualTo(communicationEvent.getNote())
-				.path(communicationEventsGraphQlPath + "contactMechanismType.id").entity(UUID.class).isEqualTo(contactMechanismType.getId())
-				.path(communicationEventsGraphQlPath + "contactMechanismType.description").entity(String.class).isEqualTo(contactMechanismType.getDescription())
-				.path(communicationEventsGraphQlPath + "communicationEventStatusType.id").entity(UUID.class).isEqualTo(communicationEventStatusType.getId())
-				.path(communicationEventsGraphQlPath + "communicationEventStatusType.description").entity(String.class).isEqualTo(communicationEventStatusType.getDescription())
-				.path(communicationEventsGraphQlPath + "communicationEventType.id").entity(UUID.class).isEqualTo(communicationEventType.getId())
-				.path(communicationEventsGraphQlPath + "communicationEventType.description").entity(String.class).isEqualTo(communicationEventType.getDescription())
-				.path(communicationEventsGraphQlPath + "partyRelationship.id").entity(UUID.class).isEqualTo(partyRelationship.getId());
+				.path(communicationEventsGraphQlPath + "note").entity(String.class).isEqualTo(communicationEventEntity.getNote())
+				.path(communicationEventsGraphQlPath + "contactMechanismTypeEntity.id").entity(UUID.class).isEqualTo(contactMechanismTypeEntity.getId())
+				.path(communicationEventsGraphQlPath + "contactMechanismTypeEntity.description").entity(String.class).isEqualTo(contactMechanismTypeEntity.getDescription())
+				.path(communicationEventsGraphQlPath + "communicationEventStatusTypeEntity.id").entity(UUID.class).isEqualTo(communicationEventStatusTypeEntity.getId())
+				.path(communicationEventsGraphQlPath + "communicationEventStatusTypeEntity.description").entity(String.class).isEqualTo(communicationEventStatusTypeEntity.getDescription())
+				.path(communicationEventsGraphQlPath + "communicationEventTypeEntity.id").entity(UUID.class).isEqualTo(communicationEventTypeEntity.getId())
+				.path(communicationEventsGraphQlPath + "communicationEventTypeEntity.description").entity(String.class).isEqualTo(communicationEventTypeEntity.getDescription())
+				.path(communicationEventsGraphQlPath + "partyRelationshipEntity.id").entity(UUID.class).isEqualTo(partyRelationshipEntity.getId());
 	}
 
 }

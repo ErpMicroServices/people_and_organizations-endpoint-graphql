@@ -1,10 +1,10 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.controllers;
 
 import graphql.relay.Edge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.graphql.CommunicationEventStatusTypeConnection;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.graphql.CommunicationEventStatusTypeEdge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEventStatusType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.repositories.CommunicationEventStatusTypeRepository;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventStatusTypeEntity;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventStatusTypeConnection;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventStatusTypeEdge;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.CommunicationEventStatusTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.springframework.data.domain.Page;
@@ -30,8 +30,8 @@ public class CommunicationEventStatusTypeController {
 
 	@QueryMapping
 	public CommunicationEventStatusTypeConnection communicationEventStatusTypes(@Argument PageInfo pageInfo) {
-		final Page<CommunicationEventStatusType> communicationEventStatusTypes = communicationEventStatusTypeRepository.findCommunicationEventStatusTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
-		final List<Edge<CommunicationEventStatusType>> communicationEventStatusTypeEdges = communicationEventStatusTypes.stream().map(communicationEventStatusType -> CommunicationEventStatusTypeEdge.builder()
+		final Page<CommunicationEventStatusTypeEntity> communicationEventStatusTypes = communicationEventStatusTypeRepository.findCommunicationEventStatusTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
+		final List<Edge<CommunicationEventStatusTypeEntity>> communicationEventStatusTypeEdges = communicationEventStatusTypes.stream().map(communicationEventStatusType -> CommunicationEventStatusTypeEdge.builder()
 				                                                                                                                                                              .node(communicationEventStatusType)
 				                                                                                                                                                              .cursor(Cursor.builder().value(valueOf(communicationEventStatusType.getId().hashCode())).build())
 				                                                                                                                                                              .build())
@@ -43,9 +43,9 @@ public class CommunicationEventStatusTypeController {
 	}
 
 	@SchemaMapping
-	public CommunicationEventStatusTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventStatusType parent) {
-		final Page<CommunicationEventStatusType> children = communicationEventStatusTypeRepository.findCommunicationEventStatusTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
-		final List<Edge<CommunicationEventStatusType>> childrenEdges = children.stream()
+	public CommunicationEventStatusTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventStatusTypeEntity parent) {
+		final Page<CommunicationEventStatusTypeEntity> children = communicationEventStatusTypeRepository.findCommunicationEventStatusTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
+		final List<Edge<CommunicationEventStatusTypeEntity>> childrenEdges = children.stream()
 				                                                               .map(child -> CommunicationEventStatusTypeEdge.builder()
 						                                                                             .cursor(Cursor.builder().value(valueOf(child.getId())).build())
 						                                                                             .node(child)

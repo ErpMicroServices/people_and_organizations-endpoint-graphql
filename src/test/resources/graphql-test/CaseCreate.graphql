@@ -3,11 +3,11 @@ mutation CreateCase ($newCase: NewCase!){
         id
         description
         startedAt
-        caseStatusType {
+        caseStatusTypeEntity {
             id
             description
         }
-        caseType {
+        caseTypeEntity {
             id
             description
         }

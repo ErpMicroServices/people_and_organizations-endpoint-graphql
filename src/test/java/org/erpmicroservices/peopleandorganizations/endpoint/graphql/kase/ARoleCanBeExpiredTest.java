@@ -27,18 +27,18 @@ public class ARoleCanBeExpiredTest extends KaseGwtTemplate {
 	public void when() {
 		response = this.graphQlTester.documentName("CaseCaseRoleExpire")
 				           .operationName("ExpireCaseRole")
-				           .variable("caseId", aCase.getId())
-				           .variable("caseRoleId", caseRole.getId())
+				           .variable("caseId", aCaseEntity.getId())
+				           .variable("caseRoleId", caseRoleEntity.getId())
 				           .execute();
 	}
 
 	@AfterEach
 	@Override
 	public void then() {
-		response.path("expireCaseRole.id").entity(UUID.class).isEqualTo(caseRole.getId())
-				.path("expireCaseRole.fromDate").entity(LocalDate.class).isEqualTo(caseRole.getFromDate())
+		response.path("expireCaseRole.id").entity(UUID.class).isEqualTo(caseRoleEntity.getId())
+				.path("expireCaseRole.fromDate").entity(LocalDate.class).isEqualTo(caseRoleEntity.getFromDate())
 				.path("expireCaseRole.thruDate").hasValue()
-				.path("expireCaseRole.party.id").entity(UUID.class).isEqualTo(party.getId())
-				.path("expireCaseRole.caseRoleType.id").entity(UUID.class).isEqualTo(caseRoleType.getId());
+				.path("expireCaseRole.partyEntity.id").entity(UUID.class).isEqualTo(partyEntity.getId())
+				.path("expireCaseRole.caseRoleTypeEntity.id").entity(UUID.class).isEqualTo(caseRoleTypeEntity.getId());
 	}
 }

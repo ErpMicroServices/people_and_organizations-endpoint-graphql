@@ -1,22 +1,22 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.facilty;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.Facility;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.FacilityType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityEntity;
+import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityTypeEntity;
 
 import java.util.Map;
 
 public class CreateFacilityTest extends FacilityGwtTemplate {
 
-	private Facility facility;
+	private FacilityEntity facilityEntity;
 
 	@Override
 	public void given() {
 		super.given();
 		aFacilityTypeExists();
-		facility = Facility.builder()
-				           .description("facility for testing ")
+		facilityEntity = FacilityEntity.builder()
+				           .description("facilityEntity for testing ")
 				           .squareFootage(100L)
-				           .facilityTypeId(facilityType.getId())
+				           .facilityTypeId(facilityTypeEntity.getId())
 				           .build();
 	}
 
@@ -25,9 +25,9 @@ public class CreateFacilityTest extends FacilityGwtTemplate {
 		response = graphQlTester.documentName("CreateFacility")
 				           .operationName("CreateFacility")
 				           .variable("newFacility", Map.of(
-						           "facilityTypeId", facility.getFacilityTypeId(),
-						           "description", facility.getDescription(),
-						           "squareFootage", facility.getSquareFootage()
+						           "facilityTypeId", facilityEntity.getFacilityTypeId(),
+						           "description", facilityEntity.getDescription(),
+						           "squareFootage", facilityEntity.getSquareFootage()
 				           ))
 				           .execute();
 	}
@@ -36,7 +36,7 @@ public class CreateFacilityTest extends FacilityGwtTemplate {
 	public void then() {
 		response
 				.path("createFacility.id").hasValue()
-				.path("createFacility.description").entity(String.class).isEqualTo(facility.getDescription())
-				.path("createFacility.facilityType").entity(FacilityType.class).isEqualTo(facilityType);
+				.path("createFacility.description").entity(String.class).isEqualTo(facilityEntity.getDescription())
+				.path("createFacility.facilityTypeEntity").entity(FacilityTypeEntity.class).isEqualTo(facilityTypeEntity);
 	}
 }

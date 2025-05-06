@@ -1,12 +1,12 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.controllers;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.graphql.CaseStatusTypeConnection;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.graphql.CaseStatusTypeEdge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseStatusType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.repositories.CaseStatusTypeRepository;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseStatusTypeConnection;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseStatusTypeEdge;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.CaseStatusTypeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -30,8 +30,8 @@ public class CaseStatusTypeController {
 
     @QueryMapping
     public CaseStatusTypeConnection caseStatusTypes(@Argument PageInfo pageInfo) {
-        final Page<CaseStatusType> caseStatusTypePage = caseStatusTypeRepository.findCaseStatusTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
-        final List<Edge<CaseStatusType>> caseStatusTypeEdges = caseStatusTypePage.stream()
+        final Page<CaseStatusTypeEntity> caseStatusTypePage = caseStatusTypeRepository.findCaseStatusTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
+        final List<Edge<CaseStatusTypeEntity>> caseStatusTypeEdges = caseStatusTypePage.stream()
                 .map(caseStatusType -> CaseStatusTypeEdge.builder()
                         .node(caseStatusType)
                         .cursor(Cursor.builder().value(valueOf(caseStatusType.getId().hashCode())).build())
@@ -44,9 +44,9 @@ public class CaseStatusTypeController {
     }
 
     @SchemaMapping
-    public CaseStatusTypeConnection children(@Argument PageInfo pageInfo, CaseStatusType parent) {
-        final Page<CaseStatusType> caseStatusTypeByChildren = caseStatusTypeRepository.findCaseStatusTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
-        final List<Edge<CaseStatusType>> caseStatusTypeEdges = caseStatusTypeByChildren.stream()
+    public CaseStatusTypeConnection children(@Argument PageInfo pageInfo, CaseStatusTypeEntity parent) {
+        final Page<CaseStatusTypeEntity> caseStatusTypeByChildren = caseStatusTypeRepository.findCaseStatusTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
+        final List<Edge<CaseStatusTypeEntity>> caseStatusTypeEdges = caseStatusTypeByChildren.stream()
                 .map(caseStatusType -> CaseStatusTypeEdge.builder()
                         .cursor(Cursor.builder().value(valueOf(caseStatusType.getId())).build())
                         .node(caseStatusType)

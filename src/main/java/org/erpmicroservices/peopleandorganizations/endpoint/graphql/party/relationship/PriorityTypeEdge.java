@@ -4,14 +4,15 @@ import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PriorityTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 
 
 @Data
 @Builder
-public class PriorityTypeEdge implements Edge<PriorityType> {
+public class PriorityTypeEdge implements Edge<PriorityTypeEntity> {
 
-	private PriorityType node;
+	private PriorityTypeEntity node;
 
 	private Cursor cursor;
 
@@ -19,7 +20,7 @@ public class PriorityTypeEdge implements Edge<PriorityType> {
 	 * @return the node of data that this edge represents
 	 */
 	@Override
-	public PriorityType getNode() {
+	public PriorityTypeEntity getNode() {
 		return node;
 	}
 

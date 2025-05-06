@@ -27,11 +27,11 @@ public class ARoleCanBeAddedToACaseTest extends KaseGwtTemplate {
 		aCaseExists();
 		aCaseRoleTypeExists();
 		aPartyTypeExists();
-		party1 = aPartyExists();
-		caseRole = completeCaseRole()
-				           .caseId(aCase.getId())
-				           .caseRoleTypeId(caseRoleType.getId())
-				           .partyId(party1.getId())
+		partyEntity1 = aPartyExists();
+		caseRoleEntity = completeCaseRole()
+				           .caseId(aCaseEntity.getId())
+				           .caseRoleTypeId(caseRoleTypeEntity.getId())
+				           .partyId(partyEntity1.getId())
 				           .build();
 	}
 
@@ -41,10 +41,10 @@ public class ARoleCanBeAddedToACaseTest extends KaseGwtTemplate {
 		response = this.graphQlTester.documentName("CaseAddRole")
 				           .operationName("AddCaseRole")
 				           .variable("newCaseRole", Map.of(
-						           "caseId", caseRole.getCaseId(),
-						           "caseRoleTypeId", caseRole.getCaseRoleTypeId(),
-						           "partyId", caseRole.getPartyId(),
-						           "fromDate", caseRole.getFromDate().format(DateTimeFormatter.ISO_LOCAL_DATE)
+						           "caseId", caseRoleEntity.getCaseId(),
+						           "caseRoleTypeId", caseRoleEntity.getCaseRoleTypeId(),
+						           "partyId", caseRoleEntity.getPartyId(),
+						           "fromDate", caseRoleEntity.getFromDate().format(DateTimeFormatter.ISO_LOCAL_DATE)
 				           ))
 				           .variable("rolesPageInfo", pageInfoSortingOn("fromDate"))
 				           .execute();
@@ -54,13 +54,13 @@ public class ARoleCanBeAddedToACaseTest extends KaseGwtTemplate {
 	@Override
 	public void then() {
 		response.path(addCaseRoleGraphQlPath + "id").hasValue()
-				.path(addCaseRoleGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
-				.path(addCaseRoleGraphQlPath + "startedAt").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(aCase.getStartedAt()))
+				.path(addCaseRoleGraphQlPath + "description").entity(String.class).isEqualTo(aCaseEntity.getDescription())
+				.path(addCaseRoleGraphQlPath + "startedAt").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(aCaseEntity.getStartedAt()))
 				.path(rolesGraphQlPath + "id").hasValue()
-				.path(rolesGraphQlPath + "fromDate").entity(LocalDate.class).isEqualTo(caseRole.getFromDate())
-				.path(rolesGraphQlPath + "caseRoleType.id").entity(UUID.class).isEqualTo(caseRoleType.getId())
-				.path(rolesGraphQlPath + "caseRoleType.description").entity(String.class).isEqualTo(caseRoleType.getDescription())
-				.path(rolesGraphQlPath + "party.id").entity(UUID.class).isEqualTo(caseRole.getPartyId());
+				.path(rolesGraphQlPath + "fromDate").entity(LocalDate.class).isEqualTo(caseRoleEntity.getFromDate())
+				.path(rolesGraphQlPath + "caseRoleTypeEntity.id").entity(UUID.class).isEqualTo(caseRoleTypeEntity.getId())
+				.path(rolesGraphQlPath + "caseRoleTypeEntity.description").entity(String.class).isEqualTo(caseRoleTypeEntity.getDescription())
+				.path(rolesGraphQlPath + "partyEntity.id").entity(UUID.class).isEqualTo(caseRoleEntity.getPartyId());
 
 	}
 }

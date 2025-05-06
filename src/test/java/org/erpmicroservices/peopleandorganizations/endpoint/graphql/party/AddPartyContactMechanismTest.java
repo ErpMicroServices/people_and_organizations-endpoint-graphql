@@ -1,8 +1,8 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanism;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurpose;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismPurposeType;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanismEntity;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanismPurposeEntity;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanismPurposeTypeEntity;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,11 +17,11 @@ import java.util.UUID;
 @AutoConfigureGraphQlTester
 public class AddPartyContactMechanismTest extends PartyGwtTemplate {
 
-	private PartyContactMechanism partyContactMechanism;
+	private PartyContactMechanismEntity partyContactMechanismEntity;
 
-	private PartyContactMechanismPurpose partyContactMechanismPurpose;
+	private PartyContactMechanismPurposeEntity partyContactMechanismPurposeEntity;
 
-	private PartyContactMechanismPurposeType partyContactMechanismPurposeType;
+	private PartyContactMechanismPurposeTypeEntity partyContactMechanismPurposeTypeEntity;
 
 	@BeforeEach
 	@Override
@@ -30,13 +30,13 @@ public class AddPartyContactMechanismTest extends PartyGwtTemplate {
 		aPartyExists();
 		aGeographicBoundaryThatBelongsToAContactMechanismExists();
 		aPartyContactMechanismPurposeExists();
-		partyContactMechanism = PartyContactMechanism.builder()
+		partyContactMechanismEntity = PartyContactMechanismEntity.builder()
 				                        .comment("This is a comment")
-				                        .contactMechanismId(contactMechanism.getId())
+				                        .contactMechanismId(contactMechanismEntity.getId())
 				                        .doNotSolicitIndicator(true)
 				                        .fromDate(LocalDate.now())
-				                        .partyContactMechanismPurposeId(partyContactMechanismPurpose.getId())
-				                        .partyId(party.getId())
+				                        .partyContactMechanismPurposeId(partyContactMechanismPurposeEntity.getId())
+				                        .partyId(partyEntity.getId())
 				                        .build();
 	}
 
@@ -46,12 +46,12 @@ public class AddPartyContactMechanismTest extends PartyGwtTemplate {
 		response = this.graphQlTester.documentName("PartyAddPartyContactMechanism")
 				           .operationName("AddPartyContactMechanism")
 				           .variable("partyContactMechanismNew", Map.of(
-						           "partyId", partyContactMechanism.getPartyId(),
-						           "fromDate", partyContactMechanism.getFromDate(),
-						           "doNotSolicitIndicator", partyContactMechanism.isDoNotSolicitIndicator(),
-						           "comment", partyContactMechanism.getComment(),
-						           "contactMechanismId", partyContactMechanism.getContactMechanismId(),
-						           "purposeId", partyContactMechanism.getPartyContactMechanismPurposeId()
+						           "partyId", partyContactMechanismEntity.getPartyId(),
+						           "fromDate", partyContactMechanismEntity.getFromDate(),
+						           "doNotSolicitIndicator", partyContactMechanismEntity.isDoNotSolicitIndicator(),
+						           "comment", partyContactMechanismEntity.getComment(),
+						           "contactMechanismId", partyContactMechanismEntity.getContactMechanismId(),
+						           "purposeId", partyContactMechanismEntity.getPartyContactMechanismPurposeId()
 				           ))
 				           .variable("geographicBoundariesPageInfo", Map.of(
 						           "pageNumber", 0,
@@ -66,30 +66,30 @@ public class AddPartyContactMechanismTest extends PartyGwtTemplate {
 	@Override
 	public void then() {
 		response.path("partyContactMechanismAdd.id").hasValue()
-				.path("partyContactMechanismAdd.fromDate").entity(LocalDate.class).isEqualTo(partyContactMechanism.getFromDate())
-				.path("partyContactMechanismAdd.doNotSolicitIndicator").entity(Boolean.class).isEqualTo(partyContactMechanism.isDoNotSolicitIndicator())
-				.path("partyContactMechanismAdd.comment").entity(String.class).isEqualTo(partyContactMechanism.getComment())
-				.path("partyContactMechanismAdd.contactMechanism.id").entity(UUID.class).isEqualTo(contactMechanism.getId())
-				.path("partyContactMechanismAdd.contactMechanism.endPoint").entity(String.class).isEqualTo(contactMechanism.getEndPoint())
-				.path("partyContactMechanismAdd.contactMechanism.directions").entity(String.class).isEqualTo(contactMechanism.getDirections())
-				.path("partyContactMechanismAdd.contactMechanism.contactMechanismType.id").entity(UUID.class).isEqualTo(contactMechanismType.getId())
-				.path("partyContactMechanismAdd.contactMechanism.contactMechanismType.description").entity(String.class).isEqualTo(contactMechanismType.getDescription());
+				.path("partyContactMechanismAdd.fromDate").entity(LocalDate.class).isEqualTo(partyContactMechanismEntity.getFromDate())
+				.path("partyContactMechanismAdd.doNotSolicitIndicator").entity(Boolean.class).isEqualTo(partyContactMechanismEntity.isDoNotSolicitIndicator())
+				.path("partyContactMechanismAdd.comment").entity(String.class).isEqualTo(partyContactMechanismEntity.getComment())
+				.path("partyContactMechanismAdd.contactMechanismEntity.id").entity(UUID.class).isEqualTo(contactMechanismEntity.getId())
+				.path("partyContactMechanismAdd.contactMechanismEntity.endPoint").entity(String.class).isEqualTo(contactMechanismEntity.getEndPoint())
+				.path("partyContactMechanismAdd.contactMechanismEntity.directions").entity(String.class).isEqualTo(contactMechanismEntity.getDirections())
+				.path("partyContactMechanismAdd.contactMechanismEntity.contactMechanismTypeEntity.id").entity(UUID.class).isEqualTo(contactMechanismTypeEntity.getId())
+				.path("partyContactMechanismAdd.contactMechanismEntity.contactMechanismTypeEntity.description").entity(String.class).isEqualTo(contactMechanismTypeEntity.getDescription());
 	}
 
 
 	private void aPartyContactMechanismPurposeExists() {
-		if (partyContactMechanismPurposeType == null) {
+		if (partyContactMechanismPurposeTypeEntity == null) {
 			aPartyContactMechanismPurposeTypeExists();
 		}
-		partyContactMechanismPurpose = partyContactMechanismPurposeRepository.save(PartyContactMechanismPurpose.builder()
-				                                                                           .contactMechanismPurposeTypeId(partyContactMechanismPurposeType.getId())
+		partyContactMechanismPurposeEntity = partyContactMechanismPurposeRepository.save(PartyContactMechanismPurposeEntity.builder()
+				                                                                           .contactMechanismPurposeTypeId(partyContactMechanismPurposeTypeEntity.getId())
 				                                                                           .fromDate(LocalDate.now())
 				                                                                           .build());
 	}
 
 	private void aPartyContactMechanismPurposeTypeExists() {
-		partyContactMechanismPurposeType = partyContactMechanismPurposeTypeRepository.save(PartyContactMechanismPurposeType.builder()
-				                                                                                   .description("Party Contact Mechanism Purpose Type")
+		partyContactMechanismPurposeTypeEntity = partyContactMechanismPurposeTypeRepository.save(PartyContactMechanismPurposeTypeEntity.builder()
+				                                                                                   .description("PartyEntity Contact Mechanism Purpose Type")
 				                                                                                   .build());
 	}
 

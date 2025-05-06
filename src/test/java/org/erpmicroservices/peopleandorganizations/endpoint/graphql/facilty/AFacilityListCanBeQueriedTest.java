@@ -14,9 +14,9 @@ import java.util.UUID;
 public class AFacilityListCanBeQueriedTest extends FacilityGwtTemplate {
 
 	public static final String facilitiesNodeRoot = "facilities.edges[0].node.";
-	public static final String facilityTypeRoot = facilitiesNodeRoot + "facilityType.";
+	public static final String facilityTypeRoot = facilitiesNodeRoot + "facilityTypeEntity.";
 	public static final String facilityContactMechanismsRoot = facilitiesNodeRoot + "contactMechanisms.edges[0].node.";
-	public static final String contactMechanismRoot = facilityContactMechanismsRoot + "contactMechanism.";
+	public static final String contactMechanismRoot = facilityContactMechanismsRoot + "contactMechanismEntity.";
 
 	public static final String geographicBoundariesRoot = contactMechanismRoot + "geographicBoundaries.edges[0].node.";
 
@@ -46,23 +46,23 @@ public class AFacilityListCanBeQueriedTest extends FacilityGwtTemplate {
 	@AfterEach
 	@Override
 	public void then() {
-		response.path(facilitiesNodeRoot + "id").entity(UUID.class).isEqualTo(facility.getId())
-				.path(facilitiesNodeRoot + "description").entity(String.class).isEqualTo(facility.getDescription())
-				.path(facilityTypeRoot + "id").entity(UUID.class).isEqualTo(facilityType.getId())
-				.path(facilityTypeRoot + "description").entity(String.class).isEqualTo(facilityType.getDescription())
-				.path(facilityContactMechanismsRoot + "id").entity(UUID.class).isEqualTo(facilityContactMechanism.getId())
-				.path(facilityContactMechanismsRoot + "fromDate").entity(LocalDate.class).isEqualTo(facilityContactMechanism.getFromDate())
-				.path(facilityContactMechanismsRoot + "fromDate").entity(LocalDate.class).isEqualTo(facilityContactMechanism.getFromDate())
-				.path(contactMechanismRoot + "id").entity(UUID.class).isEqualTo(contactMechanism.getId())
-				.path(contactMechanismRoot + "endPoint").entity(String.class).isEqualTo(contactMechanism.getEndPoint())
-				.path(contactMechanismRoot + "contactMechanismType.id").entity(UUID.class).isEqualTo(contactMechanismType.getId())
-				.path(contactMechanismRoot + "contactMechanismType.description").entity(String.class).isEqualTo(contactMechanismType.getDescription())
-				.path(geographicBoundariesRoot + "id").entity(UUID.class).isEqualTo(geographicBoundary.getId())
-				.path(geographicBoundariesRoot + "abbreviation").entity(String.class).isEqualTo(geographicBoundary.getAbbreviation())
-				.path(geographicBoundariesRoot + "geoCode").entity(String.class).isEqualTo(geographicBoundary.getGeoCode())
-				.path(geographicBoundariesRoot + "name").entity(String.class).isEqualTo(geographicBoundary.getName())
-				.path(geographicBoundariesRoot + "geographicBoundaryType.id").entity(UUID.class).isEqualTo(geographicBoundaryType.getId())
-				.path(geographicBoundariesRoot + "geographicBoundaryType.description").entity(String.class).isEqualTo(geographicBoundaryType.getDescription());
+		response.path(facilitiesNodeRoot + "id").entity(UUID.class).isEqualTo(facilityEntity.getId())
+				.path(facilitiesNodeRoot + "description").entity(String.class).isEqualTo(facilityEntity.getDescription())
+				.path(facilityTypeRoot + "id").entity(UUID.class).isEqualTo(facilityTypeEntity.getId())
+				.path(facilityTypeRoot + "description").entity(String.class).isEqualTo(facilityTypeEntity.getDescription())
+				.path(facilityContactMechanismsRoot + "id").entity(UUID.class).isEqualTo(facilityContactMechanismEntity.getId())
+				.path(facilityContactMechanismsRoot + "fromDate").entity(LocalDate.class).isEqualTo(facilityContactMechanismEntity.getFromDate())
+				.path(facilityContactMechanismsRoot + "fromDate").entity(LocalDate.class).isEqualTo(facilityContactMechanismEntity.getFromDate())
+				.path(contactMechanismRoot + "id").entity(UUID.class).isEqualTo(contactMechanismEntity.getId())
+				.path(contactMechanismRoot + "endPoint").entity(String.class).isEqualTo(contactMechanismEntity.getEndPoint())
+				.path(contactMechanismRoot + "contactMechanismTypeEntity.id").entity(UUID.class).isEqualTo(contactMechanismTypeEntity.getId())
+				.path(contactMechanismRoot + "contactMechanismTypeEntity.description").entity(String.class).isEqualTo(contactMechanismTypeEntity.getDescription())
+				.path(geographicBoundariesRoot + "id").entity(UUID.class).isEqualTo(geographicBoundaryEntity.getId())
+				.path(geographicBoundariesRoot + "abbreviation").entity(String.class).isEqualTo(geographicBoundaryEntity.getAbbreviation())
+				.path(geographicBoundariesRoot + "geoCode").entity(String.class).isEqualTo(geographicBoundaryEntity.getGeoCode())
+				.path(geographicBoundariesRoot + "name").entity(String.class).isEqualTo(geographicBoundaryEntity.getName())
+				.path(geographicBoundariesRoot + "geographicBoundaryTypeEntity.id").entity(UUID.class).isEqualTo(geographicBoundaryTypeEntity.getId())
+				.path(geographicBoundariesRoot + "geographicBoundaryTypeEntity.description").entity(String.class).isEqualTo(geographicBoundaryTypeEntity.getDescription());
 
 	}
 }

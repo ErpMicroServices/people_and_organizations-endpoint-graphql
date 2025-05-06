@@ -1,9 +1,10 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.type;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyTypeEntity;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.PartyTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyTypeRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
@@ -26,7 +27,7 @@ public class PartyTypeController {
 
 	@QueryMapping
 	public PartyTypeConnection partyTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<PartyType>> edges = partyTypeRepository.findPartyTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyTypeEntity>> edges = partyTypeRepository.findPartyTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                    .map(partyType -> PartyTypeEdge.builder()
 						                                                      .node(partyType)
 						                                                      .cursor(Cursor.builder().value(valueOf(partyType.getId().hashCode())).build())
@@ -39,8 +40,8 @@ public class PartyTypeController {
 	}
 
 	@SchemaMapping
-	public PartyTypeConnection children(PartyType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<PartyType>> edges = partyTypeRepository.findPartyTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
+	public PartyTypeConnection children(PartyTypeEntity parent, @Argument PageInfo pageInfo) {
+		final List<Edge<PartyTypeEntity>> edges = partyTypeRepository.findPartyTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                    .map(partyType -> PartyTypeEdge.builder()
 						                                                      .node(partyType)
 						                                                      .cursor(Cursor.builder().value(valueOf(partyType.getId().hashCode())).build())

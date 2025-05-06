@@ -1,13 +1,13 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.CaseRole;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseRoleEntity;
 
 import java.time.LocalDate;
 
 public class CaseRoleTestDataBuilder {
 
-	public static CaseRole.CaseRoleBuilder completeCaseRole() {
-		return CaseRole.builder()
+	public static CaseRoleEntity.CaseRoleBuilder completeCaseRole() {
+		return CaseRoleEntity.builder()
 				       .fromDate(LocalDate.now());
 	}
 }

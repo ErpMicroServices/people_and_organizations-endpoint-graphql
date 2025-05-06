@@ -3,6 +3,7 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.conta
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanismEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Connection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 
@@ -10,16 +11,16 @@ import java.util.List;
 
 @Data
 @Builder
-public class PartyContactMechanismConnection implements Connection<PartyContactMechanism> {
+public class PartyContactMechanismConnection implements Connection<PartyContactMechanismEntity> {
 
-	private List<Edge<PartyContactMechanism>> edges;
+	private List<Edge<PartyContactMechanismEntity>> edges;
 	private PageInfo pageInfo;
 
 	/**
 	 * @return a list of {@link Edge}s that are really a node of data and its cursor
 	 */
 	@Override
-	public List<Edge<PartyContactMechanism>> getEdges() {
+	public List<Edge<PartyContactMechanismEntity>> getEdges() {
 		return edges;
 	}
 

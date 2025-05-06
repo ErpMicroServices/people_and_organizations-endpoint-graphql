@@ -1,9 +1,10 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyRoleTypeEntity;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.PartyRoleTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyRoleTypeRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
@@ -27,7 +28,7 @@ public class PartyRoleTypeController {
 
 	@QueryMapping
 	public PartyRoleTypeConnection partyRoleTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<PartyRoleType>> edges = repository.findPartyRoleTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyRoleTypeEntity>> edges = repository.findPartyRoleTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                        .map(node -> PartyRoleTypeEdge.builder()
 						                                                     .node(node)
 						                                                     .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -40,8 +41,8 @@ public class PartyRoleTypeController {
 	}
 
 	@SchemaMapping
-	public PartyRoleTypeConnection children(PartyRoleType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<PartyRoleType>> edges = repository.findPartyRoleTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
+	public PartyRoleTypeConnection children(PartyRoleTypeEntity parent, @Argument PageInfo pageInfo) {
+		final List<Edge<PartyRoleTypeEntity>> edges = repository.findPartyRoleTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                        .map(node -> PartyRoleTypeEdge.builder()
 						                                                     .node(node)
 						                                                     .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())

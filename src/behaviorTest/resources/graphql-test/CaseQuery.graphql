@@ -5,11 +5,11 @@ query caseQuery($casePageInfo: PageInfoInput!, $rolesPageInfo: PageInfoInput!, $
                 id
                 description
                 startedAt
-                caseType {
+                caseTypeEntity {
                     id
                     description
                 }
-                caseStatusType {
+                caseStatusTypeEntity {
                     id
                     description
                 }
@@ -21,7 +21,7 @@ query caseQuery($casePageInfo: PageInfoInput!, $rolesPageInfo: PageInfoInput!, $
                                 id
                                 description
                             }
-                            party {
+                            partyEntity {
                                 id
                             }
                             fromDate

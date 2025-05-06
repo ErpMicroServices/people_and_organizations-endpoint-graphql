@@ -1,10 +1,10 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.controllers;
 
 import graphql.relay.Edge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.graphql.CommunicationEventPurposeTypeConnection;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.graphql.CommunicationEventPurposeTypeEdge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEventPurposeType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.repositories.CommunicationEventPurposeTypeRepository;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventPurposeTypeEntity;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventPurposeTypeConnection;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventPurposeTypeEdge;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.CommunicationEventPurposeTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.springframework.data.domain.Page;
@@ -30,18 +30,18 @@ public class CommunicationEventPurposeTypeController {
 
 	@QueryMapping
 	public CommunicationEventPurposeTypeConnection communicationEventPurposeTypes(@Argument PageInfo pageInfo) {
-		final Page<CommunicationEventPurposeType> communicationEventPurposeTypePage = communicationEventPurposeTypeRepository.findCommunicationEventPurposeTypeByParentIdIsNull(Pageable.unpaged());//pageInfoToPageable(pageInfo));
+		final Page<CommunicationEventPurposeTypeEntity> communicationEventPurposeTypePage = communicationEventPurposeTypeRepository.findCommunicationEventPurposeTypeByParentIdIsNull(Pageable.unpaged());//pageInfoToPageable(pageInfo));
 		return getCommunicationEventPurposeTypeConnection(pageInfo, communicationEventPurposeTypePage);
 	}
 
 	@SchemaMapping
-	public CommunicationEventPurposeTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventPurposeType parent) {
-		final Page<CommunicationEventPurposeType> communicationEventPurposeTypePage = communicationEventPurposeTypeRepository.findCommunicationEventPurposeTypeByParentId(parent.getId(), Pageable.unpaged());//pageInfoToPageable(pageInfo));
+	public CommunicationEventPurposeTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventPurposeTypeEntity parent) {
+		final Page<CommunicationEventPurposeTypeEntity> communicationEventPurposeTypePage = communicationEventPurposeTypeRepository.findCommunicationEventPurposeTypeByParentId(parent.getId(), Pageable.unpaged());//pageInfoToPageable(pageInfo));
 		return getCommunicationEventPurposeTypeConnection(pageInfo, communicationEventPurposeTypePage);
 	}
 
-	private CommunicationEventPurposeTypeConnection getCommunicationEventPurposeTypeConnection(@Argument final PageInfo pageInfo, final Page<CommunicationEventPurposeType> communicationEventPurposeTypePage) {
-		final List<Edge<CommunicationEventPurposeType>> communicationEventPurposeTypeEdges = communicationEventPurposeTypePage.stream()
+	private CommunicationEventPurposeTypeConnection getCommunicationEventPurposeTypeConnection(@Argument final PageInfo pageInfo, final Page<CommunicationEventPurposeTypeEntity> communicationEventPurposeTypePage) {
+		final List<Edge<CommunicationEventPurposeTypeEntity>> communicationEventPurposeTypeEdges = communicationEventPurposeTypePage.stream()
 				                                                                                     .map(communicationEventPurposeType -> CommunicationEventPurposeTypeEdge.builder()
 						                                                                                                                           .cursor(Cursor.builder().value(valueOf(communicationEventPurposeType.getId().hashCode())).build())
 						                                                                                                                           .node(communicationEventPurposeType)

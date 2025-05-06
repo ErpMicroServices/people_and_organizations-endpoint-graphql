@@ -1,6 +1,6 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.builders;
 
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.kase.models.Case;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CaseEntity;
 
 import java.util.UUID;
 
@@ -8,8 +8,8 @@ import static org.erpmicroservices.peopleandorganizations.endpoint.builders.Date
 
 public class CaseTestDataBuilder {
 
-	public static Case.CaseBuilder completeCase() {
-		return Case.builder()
+	public static CaseEntity.CaseEntityBuilder completeCase() {
+		return CaseEntity.builder()
 				       .description("Complete case " + UUID.randomUUID())
 				       .startedAt(zonedDateTimeNow());
 	}

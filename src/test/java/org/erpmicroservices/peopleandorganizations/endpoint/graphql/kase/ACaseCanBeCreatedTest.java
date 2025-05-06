@@ -25,9 +25,9 @@ public class ACaseCanBeCreatedTest extends KaseGwtTemplate {
 		super.given();
 		aCaseTypeExists();
 		aCaseStatusTypeExists();
-		aCase = completeCase()
-				        .caseTypeId(caseType.getId())
-				        .caseTypeId(caseStatusType.getId())
+		aCaseEntity = completeCase()
+				        .caseTypeId(caseTypeEntity.getId())
+				        .caseTypeId(caseStatusTypeEntity.getId())
 				        .build();
 	}
 
@@ -37,10 +37,10 @@ public class ACaseCanBeCreatedTest extends KaseGwtTemplate {
 		response = this.graphQlTester.documentName("caseCreate")
 				           .operationName("CreateCase")
 				           .variable("newCase", Map.of(
-						           "description", aCase.getDescription(),
-						           "startedAt", aCase.getStartedAt().format(DateTimeFormatter.ISO_DATE_TIME),
-						           "caseTypeId", caseType.getId(),
-						           "caseStatusTypeId", caseStatusType.getId()
+						           "description", aCaseEntity.getDescription(),
+						           "startedAt", aCaseEntity.getStartedAt().format(DateTimeFormatter.ISO_DATE_TIME),
+						           "caseTypeId", caseTypeEntity.getId(),
+						           "caseStatusTypeId", caseStatusTypeEntity.getId()
 				           ))
 				           .execute();
 	}
@@ -49,11 +49,11 @@ public class ACaseCanBeCreatedTest extends KaseGwtTemplate {
 	@Override
 	public void then() {
 		response.path(caseCreateGraphQlPath + "id").hasValue()
-				.path(caseCreateGraphQlPath + "description").entity(String.class).isEqualTo(aCase.getDescription())
-				.path(caseCreateGraphQlPath + "startedAt").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(aCase.getStartedAt()))
-				.path(caseCreateGraphQlPath + "caseType.id").entity(UUID.class).isEqualTo(caseType.getId())
-				.path(caseCreateGraphQlPath + "caseType.description").entity(String.class).isEqualTo(caseType.getDescription())
-				.path(caseCreateGraphQlPath + "caseStatusType.id").entity(UUID.class).isEqualTo(caseStatusType.getId())
-				.path(caseCreateGraphQlPath + "caseStatusType.description").entity(String.class).isEqualTo(caseStatusType.getDescription());
+				.path(caseCreateGraphQlPath + "description").entity(String.class).isEqualTo(aCaseEntity.getDescription())
+				.path(caseCreateGraphQlPath + "startedAt").entity(ZonedDateTime.class).matches((ZonedDateTime s) -> s.isEqual(aCaseEntity.getStartedAt()))
+				.path(caseCreateGraphQlPath + "caseTypeEntity.id").entity(UUID.class).isEqualTo(caseTypeEntity.getId())
+				.path(caseCreateGraphQlPath + "caseTypeEntity.description").entity(String.class).isEqualTo(caseTypeEntity.getDescription())
+				.path(caseCreateGraphQlPath + "caseStatusTypeEntity.id").entity(UUID.class).isEqualTo(caseStatusTypeEntity.getId())
+				.path(caseCreateGraphQlPath + "caseStatusTypeEntity.description").entity(String.class).isEqualTo(caseStatusTypeEntity.getDescription());
 	}
 }

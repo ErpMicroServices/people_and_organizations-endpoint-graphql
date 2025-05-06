@@ -31,8 +31,8 @@ public class AContactMechanismCanBeAddedToAFacilityTest extends FacilityGwtTempl
 		response = graphQlTester.documentName("FacilityAddContactMechanism")
 				           .operationName("AddFacilityContactMechanism")
 				           .variable("newFacilityContactMechanism", Map.of(
-						           "contactMechanismId", contactMechanism.getId(),
-						           "facilityId", facility.getId(),
+						           "contactMechanismId", contactMechanismEntity.getId(),
+						           "facilityId", facilityEntity.getId(),
 						           "fromDate", localDate
 				           ))
 				           .execute();
@@ -44,10 +44,10 @@ public class AContactMechanismCanBeAddedToAFacilityTest extends FacilityGwtTempl
 		response
 				.path("addFacilityContactMechanism.id").hasValue()
 				.path("addFacilityContactMechanism.fromDate").entity(LocalDate.class).isEqualTo(localDate)
-				.path("addFacilityContactMechanism.contactMechanism.id").entity(UUID.class).isEqualTo(contactMechanism.getId())
-				.path("addFacilityContactMechanism.contactMechanism.endPoint").entity(String.class).isEqualTo(contactMechanism.getEndPoint())
-				.path("addFacilityContactMechanism.contactMechanism.directions").entity(String.class).isEqualTo(contactMechanism.getDirections())
-				.path("addFacilityContactMechanism.contactMechanism.contactMechanismType.id").entity(UUID.class).isEqualTo(contactMechanismType.getId())
-				.path("addFacilityContactMechanism.contactMechanism.contactMechanismType.description").entity(String.class).isEqualTo(contactMechanismType.getDescription());
+				.path("addFacilityContactMechanism.contactMechanismEntity.id").entity(UUID.class).isEqualTo(contactMechanismEntity.getId())
+				.path("addFacilityContactMechanism.contactMechanismEntity.endPoint").entity(String.class).isEqualTo(contactMechanismEntity.getEndPoint())
+				.path("addFacilityContactMechanism.contactMechanismEntity.directions").entity(String.class).isEqualTo(contactMechanismEntity.getDirections())
+				.path("addFacilityContactMechanism.contactMechanismEntity.contactMechanismTypeEntity.id").entity(UUID.class).isEqualTo(contactMechanismTypeEntity.getId())
+				.path("addFacilityContactMechanism.contactMechanismEntity.contactMechanismTypeEntity.description").entity(String.class).isEqualTo(contactMechanismTypeEntity.getDescription());
 	}
 }

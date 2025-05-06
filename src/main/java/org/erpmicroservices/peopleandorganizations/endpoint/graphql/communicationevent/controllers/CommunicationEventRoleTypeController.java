@@ -1,10 +1,10 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.controllers;
 
 import graphql.relay.Edge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.graphql.CommunicationEventRoleTypeConnection;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.graphql.CommunicationEventRoleTypeEdge;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.model.CommunicationEventRoleType;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.repositories.CommunicationEventRoleTypeRepository;
+import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventRoleTypeEntity;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventRoleTypeConnection;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventRoleTypeEdge;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.CommunicationEventRoleTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
 import org.springframework.data.domain.Page;
@@ -30,8 +30,8 @@ public class CommunicationEventRoleTypeController {
 
 	@QueryMapping
 	public CommunicationEventRoleTypeConnection communicationEventRoleTypes(@Argument PageInfo pageInfo) {
-		final Page<CommunicationEventRoleType> communicationEventRoleTypePage = communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
-		final List<Edge<CommunicationEventRoleType>> communicationEventRoleTypeEdges = communicationEventRoleTypePage.stream()
+		final Page<CommunicationEventRoleTypeEntity> communicationEventRoleTypePage = communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
+		final List<Edge<CommunicationEventRoleTypeEntity>> communicationEventRoleTypeEdges = communicationEventRoleTypePage.stream()
 				                                                                               .map(communicationEventRoleType -> CommunicationEventRoleTypeEdge.builder()
 						                                                                                                                  .node(communicationEventRoleType)
 						                                                                                                                  .cursor(Cursor.builder().value(valueOf(communicationEventRoleType.getId().hashCode())).build())
@@ -44,9 +44,9 @@ public class CommunicationEventRoleTypeController {
 	}
 
 	@SchemaMapping
-	public CommunicationEventRoleTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventRoleType parent) {
-		final Page<CommunicationEventRoleType> communicationEventRoleTypeByChildren = communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
-		final List<Edge<CommunicationEventRoleType>> communicationEventRoleTypeEdges = communicationEventRoleTypeByChildren.stream()
+	public CommunicationEventRoleTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventRoleTypeEntity parent) {
+		final Page<CommunicationEventRoleTypeEntity> communicationEventRoleTypeByChildren = communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
+		final List<Edge<CommunicationEventRoleTypeEntity>> communicationEventRoleTypeEdges = communicationEventRoleTypeByChildren.stream()
 				                                                                               .map(communicationEventRoleType -> CommunicationEventRoleTypeEdge.builder()
 						                                                                                                                  .cursor(Cursor.builder().value(valueOf(communicationEventRoleType.getId())).build())
 						                                                                                                                  .node(communicationEventRoleType)

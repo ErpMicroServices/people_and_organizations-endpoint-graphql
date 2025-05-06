@@ -1,9 +1,10 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.PartyContactMechanismPurposeTypeEntity;
+import org.erpmicroservices.peopleandorganizations.backend.repositories.PartyContactMechanismPurposeTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
-import org.erpmicroservices.peopleandorganizations.endpoint.graphql.repositories.PartyContactMechanismPurposeTypeRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
@@ -27,7 +28,7 @@ public class PartyContactMechanismPurposeTypeController {
 
 	@QueryMapping
 	public PartyContactMechanismPurposeTypeConnection partyContactMechanismPurposeTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<PartyContactMechanismPurposeType>> edges = repository.findPartyContactMechanismPurposeTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
+		final List<Edge<PartyContactMechanismPurposeTypeEntity>> edges = repository.findPartyContactMechanismPurposeTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
 				                                                           .map(node -> PartyContactMechanismPurposeTypeEdge.builder()
 						                                                                        .node(node)
 						                                                                        .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
@@ -40,8 +41,8 @@ public class PartyContactMechanismPurposeTypeController {
 	}
 
 	@SchemaMapping
-	public PartyContactMechanismPurposeTypeConnection children(PartyContactMechanismPurposeType parent, @Argument PageInfo pageInfo) {
-		final List<Edge<PartyContactMechanismPurposeType>> edges = repository.findPartyContactMechanismPurposeTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
+	public PartyContactMechanismPurposeTypeConnection children(PartyContactMechanismPurposeTypeEntity parent, @Argument PageInfo pageInfo) {
+		final List<Edge<PartyContactMechanismPurposeTypeEntity>> edges = repository.findPartyContactMechanismPurposeTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
 				                                                           .map(node -> PartyContactMechanismPurposeTypeEdge.builder()
 						                                                                        .node(node)
 						                                                                        .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
