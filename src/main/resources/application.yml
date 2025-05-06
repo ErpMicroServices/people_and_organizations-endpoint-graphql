@@ -5,28 +5,10 @@ spring:
     schema:
       printer:
         enabled: true
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
-  datasource:
-    url: jdbc:postgresql://localhost:5432/people_and_organizations
-    username: people_and_organizations
-    password: people_and_organizations
 
+# Common configuration shared between all profiles
 management:
   endpoints:
     web:
       exposure:
         include: health,metrics,info
-
-logging:
-  level:
-    ROOT: INFO
-    org.springframework.graphql: INFO
-    org.springframework.data.repository: INFO
-    org.springframework.graphql.data: INFO
-    org.hibernate: INFO

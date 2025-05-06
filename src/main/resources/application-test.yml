@@ -1,0 +1,22 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/people_and_organizations_test
+    username: people_and_organizations
+    password: people_and_organizations
+
+logging:
+  level:
+    ROOT: INFO
+    org.erpmicroservices: DEBUG
+    org.springframework.graphql: DEBUG
+    org.springframework.data.repository: DEBUG
+    org.springframework.graphql.data: DEBUG
+    org.hibernate: INFO
+    org.hibernate.SQL: DEBUG

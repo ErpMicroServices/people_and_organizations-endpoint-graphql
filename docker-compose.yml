@@ -1,4 +1,3 @@
-version: '3'
 services:
   database:
     image: erpmicroservices/people_and_organizations-database:latest

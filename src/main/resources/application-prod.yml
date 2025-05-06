@@ -1,0 +1,21 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:people_and_organizations}
+    username: ${DB_USERNAME:people_and_organizations}
+    password: ${DB_PASSWORD:people_and_organizations}
+
+logging:
+  level:
+    ROOT: INFO
+    org.erpmicroservices: INFO
+    org.springframework.graphql: INFO
+    org.springframework.data.repository: INFO
+    org.springframework.graphql.data: INFO
+    org.hibernate: INFO
