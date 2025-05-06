@@ -55,7 +55,7 @@ public class CommunicationEventPurposeTypeQueryTest extends CommunicationEventGw
 				.path("communicationEventPurposeTypes.edges[0].node.parent").valueIsNull()
 				.path("communicationEventPurposeTypes.edges[0].node.children.edges").entityList(CommunicationEventPurposeTypeEdge.class).hasSize(5)
 				.path("communicationEventPurposeTypes.edges[0].node.children.edges").entityList(CommunicationEventPurposeTypeEdge.class).contains(children.stream()
-						                                                                                                                                  .map(type1 -> CommunicationEventPurposeTypeEntity.builder()
+						                                                                                                                                  .map(type1 -> org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventPurposeType.builder()
 								                                                                                                                                                .description(type1.getDescription())
 								                                                                                                                                                .id(type1.getId())
 								                                                                                                                                                .build())

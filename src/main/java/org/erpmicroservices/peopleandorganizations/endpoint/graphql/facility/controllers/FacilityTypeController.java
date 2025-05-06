@@ -5,6 +5,7 @@ import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityType
 import org.erpmicroservices.peopleandorganizations.backend.repositories.FacilityTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.models.FacilityType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.models.FacilityTypeEdge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.models.FacilityTypeConnection;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -30,11 +31,17 @@ public class FacilityTypeController {
 
 	@QueryMapping
 	public FacilityTypeConnection facilityTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<FacilityTypeEntity>> edges = repository.findFacilityTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
-				                                       .map(facilityType -> FacilityTypeEdge.builder()
-						                                                            .node(facilityType)
-						                                                            .cursor(Cursor.builder().value(valueOf(facilityType.getId().hashCode())).build())
-						                                                            .build())
+		final List<Edge<FacilityType>> edges = repository.findFacilityTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
+				                                       .map(entity -> {
+				                                           FacilityType model = FacilityType.builder()
+				                                                   .id(entity.getId())
+				                                                   .description(entity.getDescription())
+				                                                   .build();
+				                                           return FacilityTypeEdge.builder()
+						                                                            .node(model)
+						                                                            .cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+						                                                            .build();
+				                                       })
 				                                       .collect(Collectors.toList());
 		return FacilityTypeConnection.builder()
 				       .edges(edges)
@@ -44,11 +51,17 @@ public class FacilityTypeController {
 
 	@SchemaMapping
 	public FacilityTypeConnection children(FacilityTypeEntity parent, @Argument PageInfo pageInfo) {
-		final List<Edge<FacilityTypeEntity>> edges = repository.findFacilityTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
-				                                       .map(facilityType -> FacilityTypeEdge.builder()
-						                                                            .node(facilityType)
-						                                                            .cursor(Cursor.builder().value(valueOf(facilityType.getId().hashCode())).build())
-						                                                            .build())
+		final List<Edge<FacilityType>> edges = repository.findFacilityTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
+				                                       .map(entity -> {
+				                                           FacilityType model = FacilityType.builder()
+				                                                   .id(entity.getId())
+				                                                   .description(entity.getDescription())
+				                                                   .build();
+				                                           return FacilityTypeEdge.builder()
+						                                                            .node(model)
+						                                                            .cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+						                                                            .build();
+				                                       })
 				                                       .collect(Collectors.toList());
 		return FacilityTypeConnection.builder()
 				       .edges(edges)

@@ -57,7 +57,7 @@ public class CommunicationEventRoleTypeQueryTest extends CommunicationEventGwtTe
 				.path("communicationEventRoleTypes.edges[0].node.parent").valueIsNull()
 				.path("communicationEventRoleTypes.edges[0].node.children.edges").entityList(CommunicationEventRoleTypeEdge.class).hasSize(5)
 				.path("communicationEventRoleTypes.edges[0].node.children.edges").entityList(CommunicationEventRoleTypeEdge.class).contains(children.stream()
-						                                                                                                                            .map(type1 -> CommunicationEventRoleTypeEntity.builder()
+						                                                                                                                            .map(type1 -> org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventRoleType.builder()
 								                                                                                                                                          .description(type1.getDescription())
 								                                                                                                                                          .id(type1.getId())
 								                                                                                                                                          .build())

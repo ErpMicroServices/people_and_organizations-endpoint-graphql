@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class PartyTypeTestDataBuilder {
 
-	public static PartyTypeEntity.PartyTypeBuilder completePartyType() {
+	public static PartyTypeEntity.PartyTypeEntityBuilder completePartyType() {
 		return PartyTypeEntity
 				       .builder()
 				       .description("PartyTypeTestDataBuilder " + UUID.randomUUID());

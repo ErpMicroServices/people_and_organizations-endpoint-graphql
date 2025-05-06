@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class CommunicationEventTypeDataBuilder {
 
-	public static CommunicationEventTypeEntity.CommunicationEventTypeBuilder completeCommunicationEventType() {
+	public static CommunicationEventTypeEntity.CommunicationEventTypeEntityBuilder completeCommunicationEventType() {
 		return CommunicationEventTypeEntity.builder()
 				       .description("CommunicationEventTypeDataBuilder " + UUID.randomUUID());
 	}

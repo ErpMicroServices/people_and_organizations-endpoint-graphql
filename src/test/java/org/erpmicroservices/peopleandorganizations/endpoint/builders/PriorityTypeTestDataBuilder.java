@@ -5,7 +5,7 @@ import org.erpmicroservices.peopleandorganizations.backend.entities.PriorityType
 import java.util.UUID;
 
 public class PriorityTypeTestDataBuilder {
-	public static PriorityTypeEntity.PriorityTypeBuilder completePriorityType() {
+	public static PriorityTypeEntity.PriorityTypeEntityBuilder completePriorityType() {
 		return PriorityTypeEntity.builder()
 				       .description("PriorityTypeTestDataBuilder " + UUID.randomUUID());
 	}

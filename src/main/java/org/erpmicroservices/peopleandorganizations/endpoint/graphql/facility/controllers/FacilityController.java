@@ -55,11 +55,16 @@ public class FacilityController {
 	@QueryMapping
 	public FacilityConnection facilities(@Argument PageInfo pageInfo) {
 		final Page<FacilityEntity> facilities = facilityRepository.findByPartOfIdIsNull(pageInfoToPageable(pageInfo));
-		final List<Edge<FacilityEntity>> facilityEdges = facilities.get()
-				                                           .map(facility -> FacilityEdge.builder()
-						                                                            .node(facility)
-						                                                            .cursor(Cursor.builder().value(valueOf(facility.getId().hashCode())).build())
-						                                                            .build())
+		final List<Edge<Facility>> facilityEdges = facilities.get()
+				                                           .map(entity -> {
+				                                               Facility model = new Facility();
+				                                               model.setDescription(entity.getDescription());
+				                                               model.setSquareFootage(entity.getSquareFootage());
+				                                               return FacilityEdge.builder()
+						                                                            .node(model)
+						                                                            .cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+						                                                            .build();
+				                                           })
 				                                           .collect(Collectors.toList());
 		return FacilityConnection.builder()
 				       .edges(facilityEdges)
@@ -75,10 +80,16 @@ public class FacilityController {
 	@SchemaMapping
 	public FacilityConnection madeUpOf(@Argument PageInfo pageInfo, FacilityEntity parent) {
 		final Page<FacilityEntity> page = facilityRepository.findFacilitiesByPartOfId(parent.getPartOfId(), pageInfoToPageable(pageInfo));
-		final List<Edge<FacilityEntity>> facilityEdges = page.stream()
-				                                           .map(facility -> FacilityEdge.builder()
-						                                                            .node(facility)
-						                                                            .cursor(Cursor.builder().value(valueOf(facility.getId().hashCode())).build()).build())
+		final List<Edge<Facility>> facilityEdges = page.stream()
+				                                           .map(entity -> {
+				                                               Facility model = new Facility();
+				                                               model.setDescription(entity.getDescription());
+				                                               model.setSquareFootage(entity.getSquareFootage());
+				                                               return FacilityEdge.builder()
+						                                                            .node(model)
+						                                                            .cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+						                                                            .build();
+				                                           })
 				                                           .collect(Collectors.toList());
 		return FacilityConnection.builder()
 				       .edges(facilityEdges)
@@ -88,11 +99,18 @@ public class FacilityController {
 	@SchemaMapping
 	public FacilityContactMechanismConnection contactMechanisms(@Argument PageInfo pageInfo, FacilityEntity facilityEntity) {
 		final Page<FacilityContactMechanismEntity> page = facilityContactMechanismRepository.findByFacilityId(facilityEntity.getId(), pageInfoToPageable(pageInfo));
-		final List<Edge<FacilityContactMechanismEntity>> edges = page.stream()
-				                                                   .map(facilityContactMechanism -> FacilityContactMechanismEdge.builder()
-						                                                                                    .node(facilityContactMechanism)
-						                                                                                    .cursor(Cursor.builder().value(valueOf(facilityContactMechanism.getId().hashCode())).build())
-						                                                                                    .build())
+		final List<Edge<FacilityContactMechanism>> edges = page.stream()
+				                                                   .map(entity -> {
+				                                                       FacilityContactMechanism model = FacilityContactMechanism.builder()
+				                                                               .id(entity.getId())
+				                                                               .fromDate(entity.getFromDate())
+				                                                               .thruData(entity.getThruDate())
+				                                                               .build();
+				                                                       return FacilityContactMechanismEdge.builder()
+						                                                                                    .node(model)
+						                                                                                    .cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+						                                                                                    .build();
+				                                                   })
 				                                                   .collect(Collectors.toList());
 		return FacilityContactMechanismConnection.builder()
 				       .edges(edges)
@@ -103,11 +121,18 @@ public class FacilityController {
 	@SchemaMapping
 	public FacilityRoleConnection roles(@Argument PageInfo pageInfo, FacilityEntity facilityEntity) {
 		final Page<FacilityRoleEntity> page = facilityRoleRepository.findByFacilityId(facilityEntity.getId(), pageInfoToPageable(pageInfo));
-		final List<Edge<FacilityRoleEntity>> edges = page.stream()
-				                                       .map(facilityRole -> FacilityRoleEdge.builder()
-						                                                            .node(facilityRole)
-						                                                            .cursor(Cursor.builder().value(valueOf(facilityRole.getId().hashCode())).build())
-						                                                            .build())
+		final List<Edge<FacilityRole>> edges = page.stream()
+				                                       .map(entity -> {
+				                                           FacilityRole model = FacilityRole.builder()
+				                                                   .id(entity.getId())
+				                                                   .from(entity.getFromDate())
+				                                                   .thru(entity.getThruDate())
+				                                                   .build();
+				                                           return FacilityRoleEdge.builder()
+						                                                            .node(model)
+						                                                            .cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+						                                                            .build();
+				                                       })
 				                                       .collect(Collectors.toList());
 		return FacilityRoleConnection.builder()
 				       .pageInfo(pageInfo)

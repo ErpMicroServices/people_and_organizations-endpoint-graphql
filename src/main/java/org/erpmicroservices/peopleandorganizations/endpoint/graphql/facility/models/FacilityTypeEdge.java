@@ -4,14 +4,23 @@ import graphql.relay.ConnectionCursor;
 import graphql.relay.Edge;
 import lombok.Builder;
 import lombok.Data;
-import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityTypeEntity;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 
 @Data
 @Builder
-public class FacilityTypeEdge implements Edge<FacilityTypeEntity> {
+public class FacilityTypeEdge implements Edge<FacilityType> {
 
-	private FacilityTypeEntity node;
+	private FacilityType node;
 
 	private Cursor cursor;
+
+	@Override
+	public FacilityType getNode() {
+		return node;
+	}
+
+	@Override
+	public ConnectionCursor getCursor() {
+		return cursor;
+	}
 }

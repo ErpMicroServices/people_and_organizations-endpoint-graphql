@@ -7,9 +7,8 @@ import java.util.UUID;
 
 public class PartyRelationshipTestDataBuilder {
 
-	public static PartyRelationshipEntity.PartyRelationshipBuilder completePartyRelationship() {
+	public static PartyRelationshipEntity.PartyRelationshipEntityBuilder completePartyRelationship() {
 		return PartyRelationshipEntity.builder()
-				       .comment("PartyRelationshipTestDataBuilder " + UUID.randomUUID())
 				       .fromDate(LocalDate.now());
 	}
 }

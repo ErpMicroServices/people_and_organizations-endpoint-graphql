@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class PartyRoleTypeDataBuilder {
 
-	public static PartyRoleTypeEntity.PartyRoleTypeBuilder completePartyRoleType() {
+	public static PartyRoleTypeEntity.PartyRoleTypeEntityBuilder completePartyRoleType() {
 		return PartyRoleTypeEntity.builder()
 				       .description("PartyRoleTypeDataBuilder " + UUID.randomUUID());
 	}

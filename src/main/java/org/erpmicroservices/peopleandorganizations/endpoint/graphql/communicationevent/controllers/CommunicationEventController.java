@@ -3,8 +3,10 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicati
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.*;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.*;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEvent;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventEdge;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventRole;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventRoleConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventRoleEdge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
@@ -46,11 +48,19 @@ public class CommunicationEventController {
 
 	@SchemaMapping(typeName = "Case", field = "communicationEvents")
 	public CommunicationEventConnection communicationEvents(@Argument PageInfo pageInfo, CaseEntity kase) {
-		final List<Edge<CommunicationEventEntity>> communicationEventEdges = communicationEventRepository.findByCaseId(kase.getId(), pageInfoToPageable(pageInfo)).stream()
-				                                                               .map(communicationEvent -> CommunicationEventEdge.builder()
-						                                                                                          .node(communicationEvent)
-						                                                                                          .cursor(Cursor.builder().value(String.valueOf(communicationEvent.getId().hashCode())).build())
-						                                                                                          .build())
+		final List<Edge<CommunicationEvent>> communicationEventEdges = communicationEventRepository.findByCaseId(kase.getId(), pageInfoToPageable(pageInfo)).stream()
+				                                                               .map(entity -> {
+				                                                                   CommunicationEvent model = CommunicationEvent.builder()
+				                                                                           .id(entity.getId())
+				                                                                           .started(entity.getStarted())
+				                                                                           .ended(entity.getEnded())
+				                                                                           .note(entity.getNote())
+				                                                                           .build();
+				                                                                   return CommunicationEventEdge.builder()
+						                                                                                          .node(model)
+						                                                                                          .cursor(Cursor.builder().value(String.valueOf(entity.getId().hashCode())).build())
+						                                                                                          .build();
+				                                                               })
 				                                                               .collect(Collectors.toList());
 		return CommunicationEventConnection.builder()
 				       .edges(communicationEventEdges)
@@ -60,11 +70,16 @@ public class CommunicationEventController {
 
 	@SchemaMapping(typeName = "CommunicationEvent", field = "roles")
 	public CommunicationEventRoleConnection rolesForCommunicationEvent(@Argument PageInfo pageInfo, CommunicationEventEntity communicationEventEntity) {
-		final List<Edge<CommunicationEventRoleEntity>> communicationEventRoleEdges = communicationEventRoleRepository.findByCommunicationEventId(communicationEventEntity.getId(), pageInfoToPageable(pageInfo)).stream()
-				                                                                       .map(communicationEventRoleEntity -> CommunicationEventRoleEdge.builder()
-						                                                                                                      .node(communicationEventRoleEntity)
-						                                                                                                      .cursor(Cursor.builder().value(String.valueOf(communicationEventRoleEntity.getId().hashCode())).build())
-						                                                                                                      .build())
+		final List<Edge<CommunicationEventRole>> communicationEventRoleEdges = communicationEventRoleRepository.findByCommunicationEventId(communicationEventEntity.getId(), pageInfoToPageable(pageInfo)).stream()
+				                                                                       .map(entity -> {
+				                                                                           CommunicationEventRole model = CommunicationEventRole.builder()
+				                                                                                   .id(entity.getId())
+				                                                                                   .build();
+				                                                                           return CommunicationEventRoleEdge.builder()
+						                                                                                                      .node(model)
+						                                                                                                      .cursor(Cursor.builder().value(String.valueOf(entity.getId().hashCode())).build())
+						                                                                                                      .build();
+				                                                                       })
 				                                                                       .collect(Collectors.toList());
 		return CommunicationEventRoleConnection.builder()
 				       .edges(communicationEventRoleEdges)

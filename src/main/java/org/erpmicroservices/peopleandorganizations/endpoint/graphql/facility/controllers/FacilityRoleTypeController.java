@@ -5,6 +5,7 @@ import org.erpmicroservices.peopleandorganizations.backend.entities.FacilityRole
 import org.erpmicroservices.peopleandorganizations.backend.repositories.FacilityRoleTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.models.FacilityRoleType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.models.FacilityRoleTypeEdge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.models.FacilityRoleTypeConnection;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -30,11 +31,17 @@ public class FacilityRoleTypeController {
 
 	@QueryMapping
 	public FacilityRoleTypeConnection facilityRoleTypes(@Argument PageInfo pageInfo) {
-		final List<Edge<FacilityRoleTypeEntity>> edges = repository.findFacilityRoleTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
-				                                           .map(facilityRoleType -> FacilityRoleTypeEdge.builder()
-						                                                                    .node(facilityRoleType)
-						                                                                    .cursor(Cursor.builder().value(valueOf(facilityRoleType.getId().hashCode())).build())
-						                                                                    .build())
+		final List<Edge<FacilityRoleType>> edges = repository.findFacilityRoleTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
+				                                           .map(entity -> {
+				                                               FacilityRoleType model = FacilityRoleType.builder()
+				                                                       .id(entity.getId())
+				                                                       .description(entity.getDescription())
+				                                                       .build();
+				                                               return FacilityRoleTypeEdge.builder()
+						                                                                    .node(model)
+						                                                                    .cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+						                                                                    .build();
+				                                           })
 				                                           .collect(Collectors.toList());
 		return FacilityRoleTypeConnection.builder()
 				       .edges(edges)
@@ -44,11 +51,17 @@ public class FacilityRoleTypeController {
 
 	@SchemaMapping
 	public FacilityRoleTypeConnection children(FacilityRoleTypeEntity parent, @Argument PageInfo pageInfo) {
-		final List<Edge<FacilityRoleTypeEntity>> edges = repository.findFacilityRoleTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
-				                                           .map(facilityRoleType -> FacilityRoleTypeEdge.builder()
-						                                                                    .node(facilityRoleType)
-						                                                                    .cursor(Cursor.builder().value(valueOf(facilityRoleType.getId().hashCode())).build())
-						                                                                    .build())
+		final List<Edge<FacilityRoleType>> edges = repository.findFacilityRoleTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
+				                                           .map(entity -> {
+				                                               FacilityRoleType model = FacilityRoleType.builder()
+				                                                       .id(entity.getId())
+				                                                       .description(entity.getDescription())
+				                                                       .build();
+				                                               return FacilityRoleTypeEdge.builder()
+						                                                                    .node(model)
+						                                                                    .cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+						                                                                    .build();
+				                                           })
 				                                           .collect(Collectors.toList());
 		return FacilityRoleTypeConnection.builder()
 				       .edges(edges)

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class CaseRoleTestDataBuilder {
 
-	public static CaseRoleEntity.CaseRoleBuilder completeCaseRole() {
+	public static CaseRoleEntity.CaseRoleEntityBuilder completeCaseRole() {
 		return CaseRoleEntity.builder()
 				       .fromDate(LocalDate.now());
 	}

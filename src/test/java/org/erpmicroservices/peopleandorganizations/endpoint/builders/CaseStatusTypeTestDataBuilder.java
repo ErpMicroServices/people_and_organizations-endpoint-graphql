@@ -5,7 +5,7 @@ import org.erpmicroservices.peopleandorganizations.backend.entities.CaseStatusTy
 import java.util.UUID;
 
 public class CaseStatusTypeTestDataBuilder {
-	public static CaseStatusTypeEntity.CaseStatusTypeBuilder completeCaseStatusType() {
+	public static CaseStatusTypeEntity.CaseStatusTypeEntityBuilder completeCaseStatusType() {
 		return CaseStatusTypeEntity.builder()
 				       .description("CaseStatusTypeTestDataBuilder " + UUID.randomUUID());
 	}

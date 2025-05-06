@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class PartyRoleTestDataBuilder {
 
-	public static PartyRoleEntity.PartyRoleBuilder completePartyRole() {
+	public static PartyRoleEntity.PartyRoleEntityBuilder completePartyRole() {
 		return PartyRoleEntity.builder()
 				       .fromDate(LocalDate.now());
 	}

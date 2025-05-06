@@ -2,6 +2,7 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicati
 
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventPurposeTypeEntity;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventPurposeType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventPurposeTypeConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventPurposeTypeEdge;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.CommunicationEventPurposeTypeRepository;
@@ -41,11 +42,17 @@ public class CommunicationEventPurposeTypeController {
 	}
 
 	private CommunicationEventPurposeTypeConnection getCommunicationEventPurposeTypeConnection(@Argument final PageInfo pageInfo, final Page<CommunicationEventPurposeTypeEntity> communicationEventPurposeTypePage) {
-		final List<Edge<CommunicationEventPurposeTypeEntity>> communicationEventPurposeTypeEdges = communicationEventPurposeTypePage.stream()
-				                                                                                     .map(communicationEventPurposeType -> CommunicationEventPurposeTypeEdge.builder()
-						                                                                                                                           .cursor(Cursor.builder().value(valueOf(communicationEventPurposeType.getId().hashCode())).build())
-						                                                                                                                           .node(communicationEventPurposeType)
-						                                                                                                                           .build())
+		final List<Edge<CommunicationEventPurposeType>> communicationEventPurposeTypeEdges = communicationEventPurposeTypePage.stream()
+				                                                                                     .map(entity -> {
+				                                                                                         CommunicationEventPurposeType model = CommunicationEventPurposeType.builder()
+				                                                                                                 .id(entity.getId())
+				                                                                                                 .description(entity.getDescription())
+				                                                                                                 .build();
+				                                                                                         return CommunicationEventPurposeTypeEdge.builder()
+						                                                                                                                           .cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+						                                                                                                                           .node(model)
+						                                                                                                                           .build();
+				                                                                                     })
 				                                                                                     .collect(Collectors.toList());
 		return CommunicationEventPurposeTypeConnection.builder()
 				       .edges(communicationEventPurposeTypeEdges)
