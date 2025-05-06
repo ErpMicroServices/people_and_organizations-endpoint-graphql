@@ -21,7 +21,10 @@ ext {
 sourceSets {
     behaviorTest {
         java {
-            srcDirs("src/behaviorTest")
+            srcDirs("src/behaviorTest/java")
+        }
+        resources {
+            srcDirs("src/behaviorTest/resources")
         }
         compileClasspath += sourceSets.main.output
         runtimeClasspath += sourceSets.main.output
@@ -78,7 +81,18 @@ tasks.register('cucumberCli') {
         javaexec {
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.behaviorTest.output
-
+            args = [
+                '--glue', 'org.erpmicroservices.endpoint.graphql.steps',
+                '--plugin', 'pretty',
+                '--plugin', 'html:build/reports/cucumber/report.html',
+                'src/behaviorTest/resources'
+            ]
         }
     }
+}
+
+tasks.register('behaviorTest') {
+    dependsOn cucumberCli
+    group = 'verification'
+    description = 'Runs the BDD tests with Cucumber'
 }

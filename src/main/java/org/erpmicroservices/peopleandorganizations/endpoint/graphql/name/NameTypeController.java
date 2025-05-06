@@ -1,6 +1,7 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.name;
 
 import graphql.relay.Edge;
+import org.erpmicroservices.peopleandorganizations.backend.entities.NameTypeEntity;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.NameTypeRepository;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
@@ -28,28 +29,44 @@ public class NameTypeController {
 	@QueryMapping
 	public NameTypeConnection nameTypes(@Argument PageInfo pageInfo) {
 		final List<Edge<NameType>> edges = repository.findNameTypesByParentIdIsNull(pageInfoToPageable(pageInfo)).stream()
-				                                   .map(node -> NameTypeEdge.builder()
-						                                                .node(node)
-						                                                .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
-						                                                .build())
-				                                   .collect(Collectors.toList());
+				.map(entity -> {
+					// Convert entity to model
+					NameType model = new NameType();
+					model.setId(entity.getId());
+					model.setDescription(entity.getDescription());
+					model.setParentId(entity.getParentId());
+
+					return NameTypeEdge.builder()
+							.node(model)
+							.cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+							.build();
+				})
+				.collect(Collectors.toList());
 		return NameTypeConnection.builder()
-				       .edges(edges)
-				       .pageInfo(pageInfo)
-				       .build();
+				.edges(edges)
+				.pageInfo(pageInfo)
+				.build();
 	}
 
 	@SchemaMapping
 	public NameTypeConnection children(NameType parent, @Argument PageInfo pageInfo) {
 		final List<Edge<NameType>> edges = repository.findNameTypesByParentId(parent.getId(), pageInfoToPageable(pageInfo)).stream()
-				                                   .map(node -> NameTypeEdge.builder()
-						                                                .node(node)
-						                                                .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
-						                                                .build())
-				                                   .collect(Collectors.toList());
+				.map(entity -> {
+					// Convert entity to model
+					NameType model = new NameType();
+					model.setId(entity.getId());
+					model.setDescription(entity.getDescription());
+					model.setParentId(entity.getParentId());
+
+					return NameTypeEdge.builder()
+							.node(model)
+							.cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+							.build();
+				})
+				.collect(Collectors.toList());
 		return NameTypeConnection.builder()
-				       .edges(edges)
-				       .pageInfo(pageInfo)
-				       .build();
+				.edges(edges)
+				.pageInfo(pageInfo)
+				.build();
 	}
 }

@@ -27,7 +27,7 @@ public class ACaseCanBeCreatedTest extends KaseGwtTemplate {
 		aCaseStatusTypeExists();
 		aCaseEntity = completeCase()
 				        .caseTypeId(caseTypeEntity.getId())
-				        .caseTypeId(caseStatusTypeEntity.getId())
+				        .caseStatusTypeId(caseStatusTypeEntity.getId())
 				        .build();
 	}
 

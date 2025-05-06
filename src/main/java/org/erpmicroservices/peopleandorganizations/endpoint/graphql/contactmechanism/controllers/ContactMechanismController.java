@@ -2,7 +2,6 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmech
 
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.ContactMechanismEntity;
-import org.erpmicroservices.peopleandorganizations.backend.entities.ContactMechanismTypeEntity;
 import org.erpmicroservices.peopleandorganizations.backend.entities.GeographicBoundaryEntity;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.ContactMechanismGeographicBoundaryRepository;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.ContactMechanismRepository;
@@ -11,10 +10,13 @@ import org.erpmicroservices.peopleandorganizations.backend.repositories.Geograph
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.models.ContactMechanism;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.models.ContactMechanismConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.models.ContactMechanismEdge;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.contactmechanism.models.ContactMechanismType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.Cursor;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.PageInfo;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundary;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundaryConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundaryEdge;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.geographicboundary.GeographicBoundaryType;
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -52,6 +54,15 @@ public class ContactMechanismController {
 		List<Edge<ContactMechanism>> edges = page.stream()
 				                                     .map(contactMechanism -> ContactMechanismEdge.builder()
 						                                                              .node(ContactMechanism.builder()
+																							  .id(contactMechanism.getId())
+																							  .endPoint(contactMechanism.getEndPoint())
+																							  .directions(contactMechanism.getDirections())
+																							  .contactMechanismType(contactMechanismTypeRepository.findById(contactMechanism.getContactMechanismTypeId())
+																									  .map(type -> ContactMechanismType.builder()
+																											  .id(type.getId())
+																											  .description(type.getDescription())
+																											  .build())
+																									  .orElse(null))
 																							  .build())
 						                                                              .cursor(Cursor.builder().value(valueOf(contactMechanism.getId().hashCode())).build())
 						                                                              .build())
@@ -62,20 +73,42 @@ public class ContactMechanismController {
 				       .build();
 	}
 
-	@SchemaMapping(typeName = "FacilityContactMechanism", field = "contactMechanism")
-	public ContactMechanism facilityContactMechanism(FacilityContactMechanism facilityContactMechanism) {
-		return contactMechanismRepository.findById(facilityContactMechanism.getContactMechanismId()).orElseThrow();
+	@SchemaMapping(typeName = "FacilityContactMechanism", field = "contactMechanismEntity")
+	public ContactMechanism facilityContactMechanism(
+			org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.models.FacilityContactMechanism facilityContactMechanism) {
+		return contactMechanismRepository.findById(facilityContactMechanism.getContactMechanism().getId())
+				.map(entity -> ContactMechanism.builder()
+						.id(entity.getId())
+						.endPoint(entity.getEndPoint())
+						.directions(entity.getDirections())
+						.contactMechanismType(contactMechanismTypeRepository.findById(entity.getContactMechanismTypeId())
+								.map(type -> ContactMechanismType.builder()
+										.id(type.getId())
+										.description(type.getDescription())
+										.build())
+								.orElse(null))
+						.build())
+				.orElse(null);
 	}
 
 	@SchemaMapping(typeName = "ContactMechanism", field = "geographicBoundaries")
-	public GeographicBoundaryConnection geographicBoundaries(@Argument PageInfo pageInfo, ContactMechanism ContactMechanism) {
-		final List<Edge<GeographicBoundaryEntity>> edges = contactMechanismGeographicBoundaryRepository
-				                                             .findGeographicBoundaryByContactMechanismId(ContactMechanism.getId(), pageInfoToPageable(pageInfo))
+	public GeographicBoundaryConnection geographicBoundaries(@Argument PageInfo pageInfo, ContactMechanism contactMechanism) {
+		final List<Edge<GeographicBoundary>> edges = contactMechanismGeographicBoundaryRepository
+				                                             .findGeographicBoundaryByContactMechanismId(contactMechanism.getId(), pageInfoToPageable(pageInfo))
 				                                             .stream()
-				                                             .map(geographicBoundary -> GeographicBoundaryEdge.builder()
-						                                                                        .node(geographicBoundary)
-						                                                                        .cursor(Cursor.builder().value(valueOf(geographicBoundary.getId().hashCode())).build())
-						                                                                        .build())
+				                                             .map(geographicBoundaryEntity -> {
+					                                             GeographicBoundary geographicBoundary = GeographicBoundary.builder()
+							                                             .id(geographicBoundaryEntity.getId())
+							                                             .name(geographicBoundaryEntity.getName())
+							                                             .geoCode(geographicBoundaryEntity.getGeoCode())
+							                                             .abbreviation(geographicBoundaryEntity.getAbbreviation())
+							                                             .build();
+
+					                                             return GeographicBoundaryEdge.builder()
+							                                             .node(geographicBoundary)
+							                                             .cursor(Cursor.builder().value(valueOf(geographicBoundaryEntity.getId().hashCode())).build())
+							                                             .build();
+				                                             })
 				                                             .collect(Collectors.toList());
 
 		return GeographicBoundaryConnection.builder()
@@ -85,7 +118,12 @@ public class ContactMechanismController {
 	}
 
 	@SchemaMapping
-	public ContactMechanismTypeEntity contactMechanismType(ContactMechanism ContactMechanism) {
-		return contactMechanismTypeRepository.findById(ContactMechanism.getContactMechanismTypeId()).get();
+	public ContactMechanismType contactMechanismType(ContactMechanism contactMechanism) {
+		return contactMechanismTypeRepository.findById(contactMechanism.getContactMechanismType().getId())
+				.map(entity -> ContactMechanismType.builder()
+						.id(entity.getId())
+						.description(entity.getDescription())
+						.build())
+				.orElse(null);
 	}
 }

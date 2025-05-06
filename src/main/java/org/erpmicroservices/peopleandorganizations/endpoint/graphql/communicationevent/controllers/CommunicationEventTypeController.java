@@ -2,6 +2,7 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicati
 
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventTypeEntity;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventTypeConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventTypeEdge;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.CommunicationEventTypeRepository;
@@ -31,29 +32,46 @@ public class CommunicationEventTypeController {
 	@QueryMapping
 	public CommunicationEventTypeConnection communicationEventTypes(@Argument PageInfo pageInfo) {
 		final Page<CommunicationEventTypeEntity> communicationEventTypePage = communicationEventTypeRepository.findCommunicationEventTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
-		final List<Edge<CommunicationEventTypeEntity>> communicationEventTypeEdges = communicationEventTypePage.stream()
-				                                                                       .map(communicationEventType -> CommunicationEventTypeEdge.builder()
-						                                                                                                      .node(communicationEventType)
-						                                                                                                      .cursor(Cursor.builder().value(valueOf(communicationEventType.getId().hashCode())).build())
-						                                                                                                      .build())
-				                                                                       .collect(Collectors.toList());
+		final List<Edge<CommunicationEventType>> communicationEventTypeEdges = communicationEventTypePage.stream()
+				.map(entity -> {
+					// Convert entity to model
+					CommunicationEventType model = CommunicationEventType.builder()
+							.id(entity.getId())
+							.description(entity.getDescription())
+							.build();
+
+					return CommunicationEventTypeEdge.builder()
+							.node(model)
+							.cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+							.build();
+				})
+				.collect(Collectors.toList());
 		return CommunicationEventTypeConnection.builder()
-				       .edges(communicationEventTypeEdges)
-				       .pageInfo(pageInfo)
-				       .build();
+				.edges(communicationEventTypeEdges)
+				.pageInfo(pageInfo)
+				.build();
 	}
 
 	@SchemaMapping
 	public CommunicationEventTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventTypeEntity parent) {
 		final Page<CommunicationEventTypeEntity> communicationEventTypeByChildren = communicationEventTypeRepository.findCommunicationEventTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
-		final List<Edge<CommunicationEventTypeEntity>> communicationEventTypeEdges = communicationEventTypeByChildren.stream()
-				                                                                       .map(communicationEventType -> CommunicationEventTypeEdge.builder()
-						                                                                                                      .cursor(Cursor.builder().value(valueOf(communicationEventType.getId())).build())
-						                                                                                                      .node(communicationEventType)
-						                                                                                                      .build())
-				                                                                       .collect(Collectors.toList());
+		final List<Edge<CommunicationEventType>> communicationEventTypeEdges = communicationEventTypeByChildren.stream()
+				.map(entity -> {
+					// Convert entity to model
+					CommunicationEventType model = CommunicationEventType.builder()
+							.id(entity.getId())
+							.description(entity.getDescription())
+							.build();
+
+					return CommunicationEventTypeEdge.builder()
+							.cursor(Cursor.builder().value(valueOf(entity.getId())).build())
+							.node(model)
+							.build();
+				})
+				.collect(Collectors.toList());
 		return CommunicationEventTypeConnection.builder()
-				       .edges(communicationEventTypeEdges)
-				       .pageInfo(pageInfo).build();
+				.edges(communicationEventTypeEdges)
+				.pageInfo(pageInfo)
+				.build();
 	}
 }

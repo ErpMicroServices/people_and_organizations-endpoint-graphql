@@ -2,6 +2,7 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicati
 
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventStatusTypeEntity;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventStatusType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventStatusTypeConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventStatusTypeEdge;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.CommunicationEventStatusTypeRepository;
@@ -31,29 +32,47 @@ public class CommunicationEventStatusTypeController {
 	@QueryMapping
 	public CommunicationEventStatusTypeConnection communicationEventStatusTypes(@Argument PageInfo pageInfo) {
 		final Page<CommunicationEventStatusTypeEntity> communicationEventStatusTypes = communicationEventStatusTypeRepository.findCommunicationEventStatusTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
-		final List<Edge<CommunicationEventStatusTypeEntity>> communicationEventStatusTypeEdges = communicationEventStatusTypes.stream().map(communicationEventStatusType -> CommunicationEventStatusTypeEdge.builder()
-				                                                                                                                                                              .node(communicationEventStatusType)
-				                                                                                                                                                              .cursor(Cursor.builder().value(valueOf(communicationEventStatusType.getId().hashCode())).build())
-				                                                                                                                                                              .build())
-				                                                                                   .collect(Collectors.toList());
+		final List<Edge<CommunicationEventStatusType>> communicationEventStatusTypeEdges = communicationEventStatusTypes.stream()
+				.map(entity -> {
+					// Convert entity to model
+					CommunicationEventStatusType model = CommunicationEventStatusType.builder()
+							.id(entity.getId())
+							.description(entity.getDescription())
+							.build();
+
+					return CommunicationEventStatusTypeEdge.builder()
+							.node(model)
+							.cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+							.build();
+				})
+				.collect(Collectors.toList());
 		return CommunicationEventStatusTypeConnection.builder()
-				       .edges(communicationEventStatusTypeEdges)
-				       .pageInfo(pageInfo)
-				       .build();
+				.edges(communicationEventStatusTypeEdges)
+				.pageInfo(pageInfo)
+				.build();
 	}
 
 	@SchemaMapping
 	public CommunicationEventStatusTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventStatusTypeEntity parent) {
 		final Page<CommunicationEventStatusTypeEntity> children = communicationEventStatusTypeRepository.findCommunicationEventStatusTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
-		final List<Edge<CommunicationEventStatusTypeEntity>> childrenEdges = children.stream()
-				                                                               .map(child -> CommunicationEventStatusTypeEdge.builder()
-						                                                                             .cursor(Cursor.builder().value(valueOf(child.getId())).build())
-						                                                                             .node(child)
-						                                                                             .build())
-				                                                               .collect(Collectors.toList());
+		final List<Edge<CommunicationEventStatusType>> childrenEdges = children.stream()
+				.map(entity -> {
+					// Convert entity to model
+					CommunicationEventStatusType model = CommunicationEventStatusType.builder()
+							.id(entity.getId())
+							.description(entity.getDescription())
+							.build();
+
+					return CommunicationEventStatusTypeEdge.builder()
+							.cursor(Cursor.builder().value(valueOf(entity.getId())).build())
+							.node(model)
+							.build();
+				})
+				.collect(Collectors.toList());
 		return CommunicationEventStatusTypeConnection.builder()
-				       .edges(childrenEdges)
-				       .pageInfo(pageInfo).build();
+				.edges(childrenEdges)
+				.pageInfo(pageInfo)
+				.build();
 	}
 
 }

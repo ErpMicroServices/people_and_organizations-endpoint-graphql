@@ -2,6 +2,7 @@ package org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicati
 
 import graphql.relay.Edge;
 import org.erpmicroservices.peopleandorganizations.backend.entities.CommunicationEventRoleTypeEntity;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventRoleType;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventRoleTypeConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.communicationevent.models.CommunicationEventRoleTypeEdge;
 import org.erpmicroservices.peopleandorganizations.backend.repositories.CommunicationEventRoleTypeRepository;
@@ -31,11 +32,19 @@ public class CommunicationEventRoleTypeController {
 	@QueryMapping
 	public CommunicationEventRoleTypeConnection communicationEventRoleTypes(@Argument PageInfo pageInfo) {
 		final Page<CommunicationEventRoleTypeEntity> communicationEventRoleTypePage = communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentIdIsNull(pageInfoToPageable(pageInfo));
-		final List<Edge<CommunicationEventRoleTypeEntity>> communicationEventRoleTypeEdges = communicationEventRoleTypePage.stream()
-				                                                                               .map(communicationEventRoleType -> CommunicationEventRoleTypeEdge.builder()
-						                                                                                                                  .node(communicationEventRoleType)
-						                                                                                                                  .cursor(Cursor.builder().value(valueOf(communicationEventRoleType.getId().hashCode())).build())
-						                                                                                                                  .build())
+		final List<Edge<CommunicationEventRoleType>> communicationEventRoleTypeEdges = communicationEventRoleTypePage.stream()
+				                                                                               .map(entity -> {
+																									   // Convert entity to model
+																									   CommunicationEventRoleType model = CommunicationEventRoleType.builder()
+																											   .id(entity.getId())
+																											   .description(entity.getDescription())
+																											   .build();
+
+																									   return CommunicationEventRoleTypeEdge.builder()
+																											   .node(model)
+																											   .cursor(Cursor.builder().value(valueOf(entity.getId().hashCode())).build())
+																											   .build();
+																								   })
 				                                                                               .collect(Collectors.toList());
 		return CommunicationEventRoleTypeConnection.builder()
 				       .edges(communicationEventRoleTypeEdges)
@@ -46,15 +55,22 @@ public class CommunicationEventRoleTypeController {
 	@SchemaMapping
 	public CommunicationEventRoleTypeConnection children(@Argument PageInfo pageInfo, CommunicationEventRoleTypeEntity parent) {
 		final Page<CommunicationEventRoleTypeEntity> communicationEventRoleTypeByChildren = communicationEventRoleTypeRepository.findCommunicationEventRoleTypeByParentId(parent.getId(), pageInfoToPageable(pageInfo));
-		final List<Edge<CommunicationEventRoleTypeEntity>> communicationEventRoleTypeEdges = communicationEventRoleTypeByChildren.stream()
-				                                                                               .map(communicationEventRoleType -> CommunicationEventRoleTypeEdge.builder()
-						                                                                                                                  .cursor(Cursor.builder().value(valueOf(communicationEventRoleType.getId())).build())
-						                                                                                                                  .node(communicationEventRoleType)
-						                                                                                                                  .build())
+		final List<Edge<CommunicationEventRoleType>> communicationEventRoleTypeEdges = communicationEventRoleTypeByChildren.stream()
+				                                                                               .map(entity -> {
+																									   // Convert entity to model
+																									   CommunicationEventRoleType model = CommunicationEventRoleType.builder()
+																											   .id(entity.getId())
+																											   .description(entity.getDescription())
+																											   .build();
+
+																									   return CommunicationEventRoleTypeEdge.builder()
+																											   .cursor(Cursor.builder().value(valueOf(entity.getId())).build())
+																											   .node(model)
+																											   .build();
+																								   })
 				                                                                               .collect(Collectors.toList());
 		return CommunicationEventRoleTypeConnection.builder()
 				       .edges(communicationEventRoleTypeEdges)
 				       .pageInfo(pageInfo).build();
 	}
 }
-

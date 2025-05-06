@@ -11,6 +11,8 @@ import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contac
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.contactmechanism.PartyContactMechanismEdge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.name.PartyNameConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.name.PartyNameEdge;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationshipConnection;
+import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.relationship.PartyRelationshipEdge;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRoleConnection;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.party.role.PartyRoleEdge;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -121,19 +123,30 @@ public class PartyQueryController {
 				       .build();
 	}
 
-//	@SchemaMapping
-//	public PartyRelationshipConnection relationships(@Argument PageInfo pageInfo, PartyEntity party) {
-//		final List<Edge<PartyRelationshipEntity>> edges = relationshipRepository.findPartyRelationshipByFromPartyRole_PartyOrToPartyRole_Party(party, party, pageInfoToPageable(pageInfo)).stream()
-//				                                            .map(node -> PartyRelationshipEdge.builder()
-//						                                                         .node(node)
-//						                                                         .cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
-//						                                                         .build())
-//				                                            .collect(Collectors.toList());
-//		return PartyRelationshipConnection.builder()
-//				       .edges(edges)
-//				       .pageInfo(pageInfo)
-//				       .build();
-//	}
+	@SchemaMapping
+	public PartyRelationshipConnection relationships(@Argument PageInfo pageInfo, PartyEntity partyEntity) {
+		// Get all party roles for the given party
+		List<PartyRoleEntity> partyRoles = roleRepository.findPartyRolesByPartyId(partyEntity.getId(), pageInfoToPageable(pageInfo)).getContent();
+
+		// For each party role, get all party relationships where the party role is either the "from" party role or the "to" party role
+		List<Edge<PartyRelationshipEntity>> edges = partyRoles.stream()
+				.flatMap(partyRole -> {
+					// Get relationships where this party role is either the "from" or "to" party role
+					return relationshipRepository.findPartyRelationshipByFromPartyRoleIdOrToPartyRoleId(
+							partyRole.getId(), partyRole.getId(), pageInfoToPageable(pageInfo)).stream();
+				})
+				.distinct() // Remove duplicates
+				.map(node -> PartyRelationshipEdge.builder()
+						.node(node)
+						.cursor(Cursor.builder().value(valueOf(node.getId().hashCode())).build())
+						.build())
+				.collect(Collectors.toList());
+
+		return PartyRelationshipConnection.builder()
+				.edges(edges)
+				.pageInfo(pageInfo)
+				.build();
+	}
 
 	@SchemaMapping
 	public PartyRoleConnection roles(@Argument PageInfo pageInfo, PartyEntity partyEntity) {

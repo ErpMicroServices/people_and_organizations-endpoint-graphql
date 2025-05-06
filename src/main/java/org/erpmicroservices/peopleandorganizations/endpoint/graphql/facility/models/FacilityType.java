@@ -1,15 +1,13 @@
 package org.erpmicroservices.peopleandorganizations.endpoint.graphql.facility.models;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 import org.erpmicroservices.peopleandorganizations.endpoint.graphql.dto.EntityType;
 
-import java.util.List;
-import java.util.UUID;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
+@SuperBuilder
 public class FacilityType extends EntityType<FacilityType> {
 
 }
