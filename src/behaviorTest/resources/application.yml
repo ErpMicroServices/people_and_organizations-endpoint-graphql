@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: People and Organizations Endpoint Graphql Behavior Test
-  graphql:
-    schema:
-      printer:
-        enabled: true

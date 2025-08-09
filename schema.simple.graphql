@@ -1,0 +1,68 @@
+# Simple GraphQL Schema to get started
+
+directive @goModel(
+	model: String
+	models: [String!]
+) on OBJECT | INPUT_OBJECT | SCALAR | ENUM | INTERFACE | UNION
+
+directive @goField(
+	forceResolver: Boolean
+	name: String
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+
+interface Node {
+    id: ID!
+}
+
+type Party implements Node {
+    id: ID!
+    partyType: PartyType!
+    comment: String
+}
+
+type PartyType {
+    id: ID!
+    description: String!
+}
+
+type PartyConnection {
+    edges: [PartyEdge]
+    pageInfo: PageInfo!
+}
+
+type PartyEdge {
+    cursor: String!
+    node: Party!
+}
+
+type PageInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+    endCursor: String
+}
+
+input PageInfoInput {
+    pageNumber: Int = 0
+    pageSize: Int = 100
+    sortDirection: SortDirection = ASC
+}
+
+enum SortDirection {
+    ASC
+    DESC
+}
+
+input NewParty {
+    partyTypeId: ID!
+    comment: String
+}
+
+type Query {
+    parties(pageInfo: PageInfoInput!): PartyConnection!
+    party(id: ID!): Party
+}
+
+type Mutation {
+    partyCreate(newParty: NewParty!): Party!
+}
