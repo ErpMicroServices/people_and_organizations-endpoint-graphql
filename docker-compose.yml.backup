@@ -1,0 +1,10 @@
+services:
+  database:
+    image: erpmicroservices/people_and_organizations-database:latest
+    ports:
+    - "5432:5432"
+    volumes:
+    - "dbdata:/var/lib/postgresql/data"
+
+volumes:
+  dbdata:

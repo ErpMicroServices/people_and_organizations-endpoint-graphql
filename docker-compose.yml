@@ -1,11 +1,76 @@
-version: '3'
+version: '3.8'
+
 services:
+  # People and Organizations GraphQL API
+  people-organizations-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BUILD_TIME: ${BUILD_TIME:-2024-01-01T00:00:00Z}
+        VERSION: ${VERSION:-v0.0.1-SNAPSHOT}
+        COMMIT: ${COMMIT:-unknown}
+    image: erpmicroservices/people-organizations-endpoint-graphql:latest
+    container_name: people-organizations-api
+    ports:
+      - "8080:8080"
+    environment:
+      # Database configuration
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_NAME: people_and_organizations_db
+      DB_USER: people_and_organizations_user
+      DB_PASSWORD: people_and_organizations_password
+      DB_SSLMODE: disable
+      
+      # Server configuration
+      SERVER_HOST: 0.0.0.0
+      SERVER_PORT: 8080
+      
+      # Logging
+      LOG_LEVEL: info
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - people-organizations-network
+
+  # PostgreSQL Database
   database:
     image: erpmicroservices/people_and_organizations-database:latest
+    container_name: people-organizations-db
     ports:
-    - "5432:5432"
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: people_and_organizations_db
+      POSTGRES_USER: people_and_organizations_user
+      POSTGRES_PASSWORD: people_and_organizations_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
     volumes:
-    - "dbdata:/var/lib/postgresql/data"
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U people_and_organizations_user -d people_and_organizations_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - people-organizations-network
 
 volumes:
-  dbdata:
+  postgres_data:
+    driver: local
+
+networks:
+  people-organizations-network:
+    driver: bridge
+    name: people-organizations-net

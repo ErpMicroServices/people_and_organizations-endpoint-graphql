@@ -1,0 +1,136 @@
+# Configuration for golangci-lint
+# More info at https://golangci-lint.run/usage/configuration/
+
+run:
+  timeout: 5m
+  tests: true
+  skip-dirs:
+    - vendor
+    - build
+    - graph/generated.go
+  skip-files:
+    - ".*\\.pb\\.go$"
+    - ".*_gen\\.go$"
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+  uniq-by-line: true
+
+linters:
+  enable:
+    - asciicheck      # Check for non-ASCII characters
+    - bodyclose       # Check for unclosed HTTP response bodies
+    - deadcode        # Find unused code
+    - dogsled         # Check assignments with too many blank identifiers
+    - dupl            # Code clone detection
+    - errcheck        # Check for unchecked errors
+    - exportloopref   # Check for pointers to enclosing loop variables
+    - exhaustive      # Check exhaustiveness of enum switch statements
+    - gochecknoinits  # Check that no init functions are present
+    - gochecknoglobals # Check that no global variables exist
+    - gocognit        # Compute and check cognitive complexity of functions
+    - goconst         # Find repeated strings that could be replaced by constants
+    - gocritic        # Meta-linter with lots of checks
+    - gocyclo         # Compute cyclomatic complexity
+    - godot           # Check if comments end with periods
+    - gofmt           # Check if the code is gofmt-ed
+    - goheader        # Check if file header matches to pattern
+    - goimports       # Check imports order and format
+    - golint          # Golint differs from gofmt
+    - goprintffuncname # Check format string with function name
+    - gosec           # Inspect source code for security problems
+    - gosimple        # Suggest simplifications
+    - govet           # Vet examines Go source code
+    - ineffassign     # Detect ineffectual assignments
+    - interfacer      # Suggest interface types
+    - lll             # Report long lines
+    - maligned        # Detect structs that would use less memory if reordered
+    - misspell        # Find misspelled English words
+    - nakedret        # Find naked returns in large functions
+    - nolintlint      # Report ill-formed or insufficient nolint directives
+    - prealloc        # Find slice declarations with non-zero initial length
+    - rowserrcheck    # Check for sql.Rows.Err
+    - staticcheck     # Advanced Go linter
+    - structcheck     # Find unused struct fields
+    - stylecheck      # Stylecheck is a replacement for golint
+    - typecheck       # Type-check Go code
+    - unconvert       # Remove unnecessary type conversions
+    - unparam         # Report unused function parameters
+    - unused          # Check for unused constants, variables, functions and types
+    - varcheck        # Find unused global variables and constants
+    - whitespace      # Check for trailing whitespace
+
+linters-settings:
+  gocognit:
+    min-complexity: 15
+  
+  gocyclo:
+    min-complexity: 15
+  
+  golint:
+    min-confidence: 0
+  
+  govet:
+    check-shadowing: true
+  
+  lll:
+    line-length: 120
+  
+  maligned:
+    suggest-new: true
+  
+  misspell:
+    locale: US
+  
+  nolintlint:
+    allow-leading-space: true
+    allow-unused: false
+    require-explanation: false
+    require-specific: false
+  
+  gosec:
+    # Rule identifiers to exclude
+    excludes:
+      - G404  # Weak random number generation (we'll use crypto/rand where needed)
+  
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+    disabled-checks:
+      - whyNoLint
+      - unnamedResult
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  
+  exclude-rules:
+    # Exclude specific linters for generated files
+    - path: internal/model/models_gen.go
+      linters:
+        - golint
+        - gocritic
+        - gochecknoglobals
+        - gochecknoinits
+    
+    - path: graph/generated.go
+      linters:
+        - golint
+        - gocritic
+        - gochecknoglobals
+        - gochecknoinits
+    
+    # Exclude specific linters for test files
+    - path: _test\.go
+      linters:
+        - gochecknoglobals
+        - gochecknoinits
+        - funlen
+        - dupl
+
+severity:
+  default-severity: error
